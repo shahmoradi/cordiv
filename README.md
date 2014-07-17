@@ -1,4 +1,0 @@
-cordiv
-======
-
-correlation_diversity
