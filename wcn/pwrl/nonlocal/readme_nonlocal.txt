@@ -1,0 +1,5 @@
+In this set of codes, I tried to investigate the importance of non-local contacts (sequence-wise) in improving the correlation between sequence entropy and contact number. To do so, the definition of WCN for each residue was modified from the original form (\Sum (1/r_ij)^2) to (\Sum L_ij^alpha/r_ij^2), where L_ij is a measure of nonlocality measure defined as the distance of residue i from residue j in sequence.
+
+RESULTS: The resulting median exponent alpha turns out to be ~0.1 very close to zero, meaning that nonlocality has overall a nonzero but very weak influence in improving the observed correlation of WCN and seqent. Or more optimistically, this specific definition of nonlocality and WCN does not improve the correlations.
+
+Amir Shahmoradi, Friday 6:26 PM, July 11 2014, iCMB, UT Austin

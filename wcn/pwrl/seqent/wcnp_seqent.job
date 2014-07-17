@@ -1,0 +1,1 @@
+for file in ../../structures/* ; do wcn_seqent.o $file exp_wcn_seqent.out sum_wcn_seqent.out ; echo $file; done >& wcn_seqent_cor.bash_screen &
