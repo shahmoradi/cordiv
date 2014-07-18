@@ -1,0 +1,1 @@
+for file in ../../../../structures/* ; do wcne_seqent.o $file ../../../../elj_pdb_entropies.in ../exp_wcne_seqent.out ../sum_wcne_seqent.out ; echo $file; done >& wcne_seqent.bash_screen &

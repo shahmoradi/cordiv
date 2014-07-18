@@ -1,0 +1,1 @@
+for file in ../../../../structures/* ; do wcnd_bfac.o $file ../exp_wcnd_bfac.out ../sum_wcnd_bfac.out ; echo $file; done >& wcnd_bfac.bash_screen &
