@@ -1,1 +1,0 @@
-for file in $WORK/github/cordiv/structures/* ; do wcne_bfac.o $file exp_wcne_bfac.out sum_wcne_bfac.out ; echo $file; done >& wcne_bfac.bash_screen &

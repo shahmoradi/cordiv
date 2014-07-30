@@ -1,1 +1,0 @@
-for file in $WORK/github/cordiv/structures/* ; do wcng_seqent.o $file elj_pdb_entropies.in exp_wcng_seqent.out sum_wcng_seqent.out ; echo $file; done >& wcng_seqent.bash_screen &
