@@ -50,7 +50,7 @@ residue_max_acc = {'A': 129.0, 'R': 274.0, 'N': 195.0, 'D': 193.0, \
 #                     ('vrsa'        , 'NA'), \
 #                     ('mwcn'        , 'NA'), \
 #                     ('vwcn'        , 'NA')
-                                            ])
+#                                            ])
 # Definition of variables:
   # name        : pdb name
   # nres        : Number of RESidues in pdb
@@ -136,14 +136,14 @@ Usage:'''
         dssp_in = sys.argv[1]  # path for the output dssp file to be read
         sum_out = sys.argv[2]   # summary file containing all residue DSSP-property data
 
-    pdb = get_res_props(pdb_path,dssp_in)
+    #pdb = get_res_props(pdb_path,dssp_in)
 
     # Now check if the output summary file alreadu exists. If so, then append data for the new pdb to the data already in the file.
     if os.path.isfile(sum_out):
        sum_out_file = open(sum_out,'a')
     else:
        sum_out_file = open(sum_out,'w')
-       sum_out_file.write('resnam' + '\t' + 'resnum' + '\t' + 'asa' + '\t' + 'rsa' + '\t' + 'wcn_ca' + '\t' + 'hbe_mean' + '\t' + 'rss' + '\n')
+       sum_out_file.write('pdb' + '\t' + 'chain' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'asa' + '\t' + 'rsa' + '\t' + 'wcn_ca' + '\t' + 'hbe_mean' + '\t' + 'rss' + '\n')
        #sum_out_file.write('\n')
     
     ######################################################################################################################################
@@ -151,6 +151,8 @@ Usage:'''
     
     input = open(dssp_in, 'r')
     fileContents = input.readlines()   # This is a list containing each line of the input file as an element.
+    pdb_name = dssp_in[-14:-10]
+    pdb_chain = dssp_in[-9:-8]
     
     resnam = []     # A list containing all Residue Names
     resnum = []     # A list containing all Residue Numbers
@@ -178,7 +180,10 @@ Usage:'''
             hbe3 = float(record[61:73].split(',')[1])
             hbe4 = float(record[72:84].split(',')[1])
             hbe.append(numpy.mean([hbe1,hbe2,hbe3,hbe4]))  # This is the average of the four possible hydrogen bonds of a single residue. If a residue has no hydrogen bond, then all four are zero, so the mean is also zero.
-            rss.append(record[16:17])
+            if record[16:17] == ' ' :
+                rss.append('L')
+            else :
+                rss.append(record[16:17])
 
     # Now calculate residue wcn :
     wcn = []   # A list containing all CA-atom WCN in the pdb file
@@ -192,7 +197,7 @@ Usage:'''
     
     # Now write out (or append to) the ouput file
     for (i,j) in enumerate(rsa):
-        sum_out_file.write(resnam[i] + '\t' + resnum[i] + '\t' + asa[i] + '\t' + rsa[i] + '\t' + wcn[i] + '\t' + hbe[i] + '\t' + rss[i] + '\n')
+        sum_out_file.write(pdb_name + '\t' + pdb_chain + '\t' + resnam[i] + '\t' + resnum[i] + '\t' + asa[i] + '\t' + str(rsa[i]) + '\t' + str(wcn[i]) + '\t' + str(hbe[i]) + '\t' + rss[i] + '\n')
     #sum_out_file.write('\n')
     
     return

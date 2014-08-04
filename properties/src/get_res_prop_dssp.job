@@ -1,1 +1,1 @@
-for file in ../dssp_out/* ; do ./get_res_prop_dssp.py $file exp_wcn_seqent.out res_prop_dssp.out ; echo $file; done >& res_prop_dssp.stdout &
+for file in ../dssp_out/* ; do python get_res_prop_dssp.py $file ../res_prop_dssp.out ; echo $file; done >& res_prop_dssp.stdout &
