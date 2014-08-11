@@ -1,0 +1,1 @@
+for file in ../structures/* ; do python get_pdb_properties.py $file ./dssp_out/${file:(-10)}.dssp pdb_prop_dssp.out ; echo $file; done >& get_pdb_properties.stdout &
