@@ -113,6 +113,12 @@ for(pdb in levels(res_prop_elj$pdb))
   r.rsa_wcnCB = x$estimate
   p.rsa_wcnCB = x$p.value
   
+  # Now some other correlations
+  
+  x = cor.test( pdb_dssp$rsa, pdb_wcn$wcnCB, method='spearman', na.action="na.omit" )
+  r.seqent_sizeSC = x$estimate
+  p.seqent_sizeSC = x$p.value
+  
   
   srow = data.frame( pdb=pdb,
 
@@ -140,6 +146,7 @@ for(pdb in levels(res_prop_elj$pdb))
                      r.rsa_wcnO  = r.rsa_wcnO,
                      r.rsa_wcnCB = r.rsa_wcnCB
                      
+                     r.seqent_sizeSC = r.seqent_sizeSC,
                      )
                      
   pdb_prop_seqent_wcn_scor = rbind(pdb_prop_seqent_wcn_scor,srow)
