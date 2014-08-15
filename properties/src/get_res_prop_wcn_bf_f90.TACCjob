@@ -1,0 +1,34 @@
+#!/bin/bash
+#$ -V
+#$ -cwd
+#$ -N  get_res_prop_wcn_bf_f90
+#$ -j  y
+#$ -o  get_res_prop_wcn_bf_f90.stdout
+#$ -pe 1way 12
+#$ -q  normal
+#$ -A  A-bio7
+#$ -l  h_rt=2:00:00 
+#$ 
+#$ 
+
+
+START=$(date +%s)
+STARTDATE=`date`
+echo ""
+echo "Amir: Fortran2Python setup by Amir Shahmoradi, Wilke Lab., ICMB, UT Austin"
+echo "Amir: Email: amir@physics.utexas.edu"
+echo "Amir: Calculation started on" $STARTDATE
+echo ""
+echo ""
+echo ""
+
+for file in ../../structures/* ; do python get_res_prop_wcn_bf_f90.py $file ../res_prop_wcn_bf.out ; echo $file; done
+
+echo ""
+echo ""
+echo ""
+END=$(date +%s)
+DIFF=$(( $END - $START ))
+ENDDATE=`date`
+echo "Amir: Calculation ended on" $ENDDATE
+echo "Amir: Total runtime = $DIFF seconds! Amazing fast! Compare it to pure Python version, how cool is that!"

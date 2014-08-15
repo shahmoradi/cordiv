@@ -11,6 +11,7 @@ from Bio.PDB import *
 from collections import OrderedDict
 import math
 import numpy
+import get_wcn_invsq
 
 # This code reads in a given input PDB file and outputs, in a given output file, the coordinates of backbone atoms: C, CA, O, N and the CB atom and the Center-Of-Mass (COM) of the side chains and the COM of the BackBone of each residue.
 # Also on the output is the Bfactors for each of the corresponding atoms and the average Bfactor for the case Side-Chain (SC) COM and the entire Amino Acid (AA) COM (including backbone atoms).
@@ -37,13 +38,13 @@ Usage:'''
     else:
        sum_out_file = open(sum_out,'w')
        sum_out_file.write('pdb' + '\t' + 'chain' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'sizeSC' + '\t' + 'sizeAA' + '\t'  \
-                          'wcnSC' + '\t' + 'SC_bf'  + '\t' + \
-                          'wcnAA' + '\t' + 'AA_bf'  + '\t' + \
-                          'wcnN'  + '\t' + 'N_bf'   + '\t' + \
-                          'wcnCA' + '\t' + 'CA_bf'  + '\t' + \
-                          'wcnC'  + '\t' + 'C_bf'   + '\t' + \
-                          'wcnO'  + '\t' + 'O_bf'   + '\t' + \
-                          'wcnCB' + '\t' + 'CB_bf'  + '\n' )
+                          'wcnSC' + '\t' + 'bfSC'  + '\t' + \
+                          'wcnAA' + '\t' + 'bfAA'  + '\t' + \
+                          'wcnN'  + '\t' + 'bfN'   + '\t' + \
+                          'wcnCA' + '\t' + 'bfCA'  + '\t' + \
+                          'wcnC'  + '\t' + 'bfC'   + '\t' + \
+                          'wcnO'  + '\t' + 'bfO'   + '\t' + \
+                          'wcnCB' + '\t' + 'bfCB'  + '\n' )
                           #'bfc' + '\t' + 'bfca' + '\t' + 'bfo' + '\t' + 'bfn' + '\t' + 'bfcb' + '\t' + 'bfaa' + '\t' + 'bfsc' + '\n')
                           #'N.x' + '\t' + 'N.y' + '\t' + 'N.z' + '\t' + \
                           #'CA.x' + '\t' + 'CA.y' + '\t' + 'CA.z' + '\t' + \
@@ -54,7 +55,7 @@ Usage:'''
                           #'AA.x' + '\t' + 'AA.y' + '\t' + 'AA.z' + '\t' + \
                           #'bfc' + '\t' + 'bfca' + '\t' + 'bfo' + '\t' + 'bfn' + '\t' + 'bfcb' + '\t' + 'bfaa' + '\t' + 'bfsc' + '\n')
                           
-       #sum_out_file.write('pdb' + '\t' + 'chain' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'wcnc' + '\t' + 'wcnca' + '\t' + 'wcno' + '\t' + 'wcnn' + '\t' + 'wcncb' + '\t' + 'wcnaa' + '\t' + 'wcnsc' + '\t' + 'bfc' + '\t' + 'bfca' + '\t' + 'bfo' + '\t' + 'bfn' + '\t' + 'bfcb' + '\t' + 'bfaa' + '\t' + 'bfsc' + '\t' + 'sc_size' + '\n')
+       #sum_out_file.write('pdb' + '\t' + 'chain' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'wcnc' + '\t' + 'wcnca' + '\t' + 'wcno' + '\t' + 'wcnn' + '\t' + 'wcncb' + '\t' + 'wcnaa' + '\t' + 'wcnsc' + '\t' + 'bfc' + '\t' + 'bfca' + '\t' + 'bfo' + '\t' + 'bfn' + '\t' + 'bfcb' + '\t' + 'bfaa' + '\t' + 'bfsc' + '\t' + 'sizeSC' + '\n')
 
     p = PDBParser()
     pdb_name = pdb_in[-10:-6]
@@ -64,22 +65,22 @@ Usage:'''
     resnam   = []     # A list containing all Residue Names
     resnum   = []     # A list containing all Residue Numbers
     reschain = []     # A list containing the chain name in which the residues lie
-    N_crd    = []
-    CA_crd   = []
-    C_crd    = []
-    O_crd    = []
-    CB_crd   = []
-    AA_crd   = []
-    SC_crd   = []
-    N_bf     = []
-    CA_bf    = []
-    C_bf     = []
-    O_bf     = []
-    CB_bf    = []
-    AA_bf    = []
-    SC_bf    = []
-    SC_size  = []   # A list containing the total number of atoms in each residue Side Chain (SC).
-    AA_size  = []   # A list containing the total number of atoms in each Amino Acid (AA).
+    crdN    = []
+    crdCA   = []
+    crdC    = []
+    crdO    = []
+    crdCB   = []
+    crdAA   = []
+    crdSC   = []
+    bfN     = []
+    bfCA    = []
+    bfC     = []
+    bfO     = []
+    bfCB    = []
+    bfAA    = []
+    bfSC    = []
+    sizeSC  = []   # A list containing the total number of atoms in each residue Side Chain (SC).
+    sizeAA  = []   # A list containing the total number of atoms in each Amino Acid (AA).
     
     #Ncounter  = 0
     #CAcounter = 0
@@ -106,26 +107,26 @@ Usage:'''
             # atom.name is equivalent to atom.get_id()
             if atom.parent.id == residue.id and atom.name == 'N':
                 noN = False
-                N_crd.append(atom.get_coord())
-                N_bf.append(atom.get_bfactor())
+                crdN.append(atom.get_coord())
+                bfN.append(atom.get_bfactor())
             elif atom.parent.id == residue.id and atom.name == 'CA':
                 noCA = False
-                CA_crd.append(atom.get_coord())
-                CA_bf.append(atom.get_bfactor())
+                crdCA.append(atom.get_coord())
+                bfCA.append(atom.get_bfactor())
             elif atom.parent.id == residue.id and atom.name == 'C':
                 noC = False
                 #Ccounter += 1
                 #print Ccounter
-                C_crd.append(atom.get_coord())
-                C_bf.append(atom.get_bfactor())
+                crdC.append(atom.get_coord())
+                bfC.append(atom.get_bfactor())
             elif atom.parent.id == residue.id and atom.name == 'O':
                 noO = False
-                O_crd.append(atom.get_coord())
-                O_bf.append(atom.get_bfactor())
+                crdO.append(atom.get_coord())
+                bfO.append(atom.get_bfactor())
             elif atom.parent.id == residue.id and atom.name == 'CB':
                 noCB = False
-                CB_crd.append(atom.get_coord())
-                CB_bf.append(atom.get_bfactor())
+                crdCB.append(atom.get_coord())
+                bfCB.append(atom.get_bfactor())
             
             if atom.parent.id == residue.id and atom.name not in ['C','CA','O','N']:
                 noSC = False
@@ -138,127 +139,127 @@ Usage:'''
 
         if noN:
             print 'missing N backbone atom in residue: ', resnum[-1], resnam[-1], 'in PDB:',pdb_in[-10:-4]
-            N_crd.append(CA_crd[-1])
-            N_bf.append(CA_bf[-1])
+            crdN.append(crdCA[-1])
+            bfN.append(bfCA[-1])
         if noCA:
             print 'FATAL: missing CA backbone atom in residue: ', resnum[-1], resnam[-1], 'in PDB:',pdb_in[-10:-4]
-            CA_crd.append(['NA','NA','NA'])
-            CA_bf.append('NA')
+            crdCA.append(['NA','NA','NA'])
+            bfCA.append('NA')
             sys.exit()
         if noC:
             print 'missing C backbone atom in residue: ', resnum[-1], resnam[-1], 'in PDB:',pdb_in[-10:-4]
-            C_crd.append(CA_crd[-1])
-            C_bf.append(CA_bf[-1])
+            crdC.append(crdCA[-1])
+            bfC.append(bfCA[-1])
         if noO:
             print 'missing O backbone atom in residue: ', resnum[-1], resnam[-1], 'in PDB:',pdb_in[-10:-4]
-            O_crd.append(CA_crd[-1])
-            O_bf.append(CA_bf[-1])
+            crdO.append(crdCA[-1])
+            bfO.append(bfCA[-1])
         if noCB:
             #print 'missing CB backbone atom in residue: ', resnum[-1], resnam[-1], 'in PDB:',pdb_in[-10:-4]
             if resnam[-1] == 'GLY':
-                CB_crd.append(CA_crd[-1])
-                CB_bf.append(CA_bf[-1])
+                crdCB.append(crdCA[-1])
+                bfCB.append(bfCA[-1])
             else:
                 print 'FATAL: missing CB atom detected while the residue is NOT GLYCINE amino acid.'
                 sys.exit()
         if noSC:
             print 'missing side chain in residue: ', resnum[-1], resnam[-1], 'in PDB:',pdb_in[-10:-4]
             if resnam[-1] == 'GLY':
-                SC_crd.append(CA_crd[-1])
-                SC_bf.append(CA_bf[-1])
-                SC_size.append(0)
+                crdSC.append(crdCA[-1])
+                bfSC.append(bfCA[-1])
+                sizeSC.append(0)
             else:
                 print 'FATAL: missing no side chain detected while the residue is NOT GLYCINE amino acid.'
                 sys.exit()
         else:
             # Calculate side chain properties:
-            SC_size.append(len(rescrd_SC))
-            SC_crd.append(sum(rescrd_SC)/float(SC_size[-1]))
-            SC_bf.append(sum(resbf_SC)/float(SC_size[-1]))
-            if SC_size[-1] != len(resbf_SC):
-                print 'something is terribly wrong with the code!: SC_size[-1] != len(resbf_SC)', SC_size[-1], len(resbf_SC)
+            sizeSC.append(len(rescrd_SC))
+            crdSC.append(sum(rescrd_SC)/float(sizeSC[-1]))
+            bfSC.append(sum(resbf_SC)/float(sizeSC[-1]))
+            if sizeSC[-1] != len(resbf_SC):
+                print 'something is terribly wrong with the code!: sizeSC[-1] != len(resbf_SC)', sizeSC[-1], len(resbf_SC)
                 sys.exit()
         
         # Now calculate the Amino Acid properties:
-        AA_size.append(len(rescrd_AA))
-        AA_crd.append(sum(rescrd_AA)/float(AA_size[-1]))
-        AA_bf.append(sum(resbf_AA)/float(AA_size[-1]))
-        if AA_size[-1] != len(resbf_AA):
-            print 'something is terribly wrong with the code!: SC_size[-1] != len(resbf_SC)', SC_size[-1], len(resbf_SC)
+        sizeAA.append(len(rescrd_AA))
+        crdAA.append(sum(rescrd_AA)/float(sizeAA[-1]))
+        bfAA.append(sum(resbf_AA)/float(sizeAA[-1]))
+        if sizeAA[-1] != len(resbf_AA):
+            print 'something is terribly wrong with the code!: sizeSC[-1] != len(resbf_SC)', sizeSC[-1], len(resbf_SC)
             sys.exit()
 
     # Now calcualte the Contact numbers for differnt sets of coordinates and output the results :
     
-    wcnN     = []
-    wcnCA    = []
-    wcnC     = []
-    wcnO     = []
-    wcnCB    = []
-    wcnSC    = []
-    wcnAA    = []
+    wcnN     = get_wcn_invsq.get_wcn_invsq(crdN)
+    wcnCA    = get_wcn_invsq.get_wcn_invsq(crdCA)
+    wcnC     = get_wcn_invsq.get_wcn_invsq(crdC)
+    wcnO     = get_wcn_invsq.get_wcn_invsq(crdO)
+    wcnCB    = get_wcn_invsq.get_wcn_invsq(crdCB)
+    wcnSC    = get_wcn_invsq.get_wcn_invsq(crdSC)
+    wcnAA    = get_wcn_invsq.get_wcn_invsq(crdAA)
     
     for i in range(len(resnam)):
         
-        wcnNi = 0.      # WCN for atom N of the ith residue in the PDB file.
-        for j in range(len(N_crd)) :
-            if i != j :
-                wcnNi += 1./( (N_crd[i][0]-N_crd[j][0])**2 + (N_crd[i][1]-N_crd[j][1])**2 + (N_crd[i][2]-N_crd[j][2])**2 )
-        wcnN.append(wcnNi)
-        
-        wcnCAi = 0.      # WCN for atom CA of the ith residue in the PDB file.
-        for j in range(len(CA_crd)) :
-            if i != j :
-                wcnCAi += 1./( (CA_crd[i][0]-CA_crd[j][0])**2 + (CA_crd[i][1]-CA_crd[j][1])**2 + (CA_crd[i][2]-CA_crd[j][2])**2 )
-        wcnCA.append(wcnCAi)
-        
-        wcnCi = 0.      # WCN for atom C of the ith residue in the PDB file.
-        for j in range(len(C_crd)) :
-            if i != j :
-                wcnCi += 1./( (C_crd[i][0]-C_crd[j][0])**2 + (C_crd[i][1]-C_crd[j][1])**2 + (C_crd[i][2]-C_crd[j][2])**2 )
-        wcnC.append(wcnCi)
-        
-        wcnOi = 0.      # WCN for atom O of the ith residue in the PDB file.
-        for j in range(len(O_crd)) :
-            if i != j :
-                wcnOi += 1./( (O_crd[i][0]-O_crd[j][0])**2 + (O_crd[i][1]-O_crd[j][1])**2 + (O_crd[i][2]-O_crd[j][2])**2 )
-        wcnO.append(wcnOi)
-        
-        wcnCBi = 0.      # WCN for atom CB of the ith residue in the PDB file.
-        for j in range(len(CB_crd)) :
-            if i != j :
-                wcnCBi += 1./( (CB_crd[i][0]-CB_crd[j][0])**2 + (CB_crd[i][1]-CB_crd[j][1])**2 + (CB_crd[i][2]-CB_crd[j][2])**2 )
-        wcnCB.append(wcnCBi)
-        
-        wcnSCi = 0.      # WCN for atom SC of the ith residue in the PDB file.
-        for j in range(len(SC_crd)) :
-            if i != j :
-                wcnSCi += 1./( (SC_crd[i][0]-SC_crd[j][0])**2 + (SC_crd[i][1]-SC_crd[j][1])**2 + (SC_crd[i][2]-SC_crd[j][2])**2 )
-        wcnSC.append(wcnSCi)
-        
-        wcnAAi = 0.      # WCN for atom N of the ith residue in the PDB file.
-        for j in range(len(AA_crd)) :
-            if i != j :
-                wcnAAi += 1./( (AA_crd[i][0]-AA_crd[j][0])**2 + (AA_crd[i][1]-AA_crd[j][1])**2 + (AA_crd[i][2]-AA_crd[j][2])**2 )
-        wcnAA.append(wcnAAi)
+        #wcnNi = 0.      # WCN for atom N of the ith residue in the PDB file.
+        #for j in range(len(crdN)) :
+        #    if i != j :
+        #        wcnNi += 1./( (crdN[i][0]-crdN[j][0])**2 + (crdN[i][1]-crdN[j][1])**2 + (crdN[i][2]-crdN[j][2])**2 )
+        #wcnN.append(wcnNi)
+        #
+        #wcnCAi = 0.      # WCN for atom CA of the ith residue in the PDB file.
+        #for j in range(len(crdCA)) :
+        #    if i != j :
+        #        wcnCAi += 1./( (crdCA[i][0]-crdCA[j][0])**2 + (crdCA[i][1]-crdCA[j][1])**2 + (crdCA[i][2]-crdCA[j][2])**2 )
+        #wcnCA.append(wcnCAi)
+        #
+        #wcnCi = 0.      # WCN for atom C of the ith residue in the PDB file.
+        #for j in range(len(crdC)) :
+        #    if i != j :
+        #        wcnCi += 1./( (crdC[i][0]-crdC[j][0])**2 + (crdC[i][1]-crdC[j][1])**2 + (crdC[i][2]-crdC[j][2])**2 )
+        #wcnC.append(wcnCi)
+        #
+        #wcnOi = 0.      # WCN for atom O of the ith residue in the PDB file.
+        #for j in range(len(crdO)) :
+        #    if i != j :
+        #        wcnOi += 1./( (crdO[i][0]-crdO[j][0])**2 + (crdO[i][1]-crdO[j][1])**2 + (crdO[i][2]-crdO[j][2])**2 )
+        #wcnO.append(wcnOi)
+        #
+        #wcnCBi = 0.      # WCN for atom CB of the ith residue in the PDB file.
+        #for j in range(len(crdCB)) :
+        #    if i != j :
+        #        wcnCBi += 1./( (crdCB[i][0]-crdCB[j][0])**2 + (crdCB[i][1]-crdCB[j][1])**2 + (crdCB[i][2]-crdCB[j][2])**2 )
+        #wcnCB.append(wcnCBi)
+        #
+        #wcnSCi = 0.      # WCN for atom SC of the ith residue in the PDB file.
+        #for j in range(len(crdSC)) :
+        #    if i != j :
+        #        wcnSCi += 1./( (crdSC[i][0]-crdSC[j][0])**2 + (crdSC[i][1]-crdSC[j][1])**2 + (crdSC[i][2]-crdSC[j][2])**2 )
+        #wcnSC.append(wcnSCi)
+        #
+        #wcnAAi = 0.      # WCN for atom N of the ith residue in the PDB file.
+        #for j in range(len(crdAA)) :
+        #    if i != j :
+        #        wcnAAi += 1./( (crdAA[i][0]-crdAA[j][0])**2 + (crdAA[i][1]-crdAA[j][1])**2 + (crdAA[i][2]-crdAA[j][2])**2 )
+        #wcnAA.append(wcnAAi)
         
         # Now write out (or append to) the ouput file
         if pdb_chain != reschain[i]:
             print 'FATAL: residue chain is not A!'
-        sum_out_file.write(pdb_name + '\t' + pdb_chain + '\t' + resnam[i] + '\t' + str(resnum[i]) + '\t' + str(SC_size[i]) + '\t' + str(AA_size[i]) + '\t' + \
-                           str(wcnSC[i])  + '\t' + str(SC_bf[i])  + '\t' + \
-                           str(wcnAA[i])  + '\t' + str(AA_bf[i])  + '\t' + \
-                           str( wcnN[i])  + '\t' + str( N_bf[i])  + '\t' + \
-                           str(wcnCA[i])  + '\t' + str(CA_bf[i])  + '\t' + \
-                           str( wcnC[i])  + '\t' + str( C_bf[i])  + '\t' + \
-                           str( wcnO[i])  + '\t' + str( O_bf[i])  + '\t' + \
-                           str(wcnCB[i])  + '\t' + str(CB_bf[i])  + '\n' )
-                           #str(N_crd[i])  + '\t' + str(N_bf[i])  + '\t' + \
-                           #str(CA_crd[i]) + '\t' + str(CA_bf[i]) + '\t' + \
-                           #str(C_crd[i])  + '\t' + str(C_bf[i])  + '\t' + \
-                           #str(O_crd[i])  + '\t' + str(O_bf[i])  + '\t' + \
-                           #str(CB_crd[i]) + '\t' + str(CB_bf[i]) + '\t' + \
-                           #str(SC_crd[i]) + '\t' + str(SC_bf[i]) + '\t' + \
-                           #str(AA_crd[i]) + '\t' + str(AA_bf[i]) + '\t' + '\n')
+        sum_out_file.write(pdb_name + '\t' + pdb_chain + '\t' + resnam[i] + '\t' + str(resnum[i]) + '\t' + str(sizeSC[i]) + '\t' + str(sizeAA[i]) + '\t' + \
+                           str(wcnSC[i])  + '\t' + str(bfSC[i])  + '\t' + \
+                           str(wcnAA[i])  + '\t' + str(bfAA[i])  + '\t' + \
+                           str( wcnN[i])  + '\t' + str( bfN[i])  + '\t' + \
+                           str(wcnCA[i])  + '\t' + str(bfCA[i])  + '\t' + \
+                           str( wcnC[i])  + '\t' + str( bfC[i])  + '\t' + \
+                           str( wcnO[i])  + '\t' + str( bfO[i])  + '\t' + \
+                           str(wcnCB[i])  + '\t' + str(bfCB[i])  + '\n' )
+                           #str(crdN[i])  + '\t' + str(bfN[i])  + '\t' + \
+                           #str(crdCA[i]) + '\t' + str(bfCA[i]) + '\t' + \
+                           #str(crdC[i])  + '\t' + str(bfC[i])  + '\t' + \
+                           #str(crdO[i])  + '\t' + str(bfO[i])  + '\t' + \
+                           #str(crdCB[i]) + '\t' + str(bfCB[i]) + '\t' + \
+                           #str(crdSC[i]) + '\t' + str(bfSC[i]) + '\t' + \
+                           #str(crdAA[i]) + '\t' + str(bfAA[i]) + '\t' + '\n')
     
 if __name__ == "__main__":
    main()
