@@ -2,6 +2,8 @@
 
 # Amir Shahmoradi, Thusday 4:20 PM, Aug 14 2014, Wilke Lab, ICMB, UT Austin
 
+setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
+
 res_prop_elj       = read.table('../../elj_pdb_entropies.in', header=T)
 res_prop_elj$pdb   = factor(res_prop_elj$pdb)
 
@@ -23,8 +25,8 @@ for(pdb in levels(res_prop_elj$pdb))
   pdb_wcn  = res_prop_wcn_bf[res_prop_wcn_bf$pdb==pdb,]
   pdb_dssp = res_prop_dssp[res_prop_dssp$pdb==pdb,]
   
-  # correlations with seqent
-  
+  # correlations with seqent with WCN
+
   x = cor.test( pdb_elj$entropy_from_alignments, pdb_wcn$wcnSC, method='spearman', na.action="na.omit" )
   r.seqent_wcnSC = x$estimate
   p.seqent_wcnSC = x$p.value
@@ -52,6 +54,37 @@ for(pdb in levels(res_prop_elj$pdb))
   x = cor.test( pdb_elj$entropy_from_alignments, pdb_wcn$wcnCB, method='spearman', na.action="na.omit" )
   r.seqent_wcnCB = x$estimate
   p.seqent_wcnCB = x$p.value
+  
+  # Now correlations of seqent with Bfactors
+    
+  x = cor.test( pdb_elj$entropy_from_alignments, pdb_wcn$bfSC, method='spearman', na.action="na.omit" )
+  r.seqent_bfSC = x$estimate
+  p.seqent_bfSC = x$p.value
+
+  x = cor.test( pdb_elj$entropy_from_alignments, pdb_wcn$bfAA, method='spearman', na.action="na.omit" )
+  r.seqent_bfAA = x$estimate
+  p.seqent_bfAA = x$p.value
+  
+  x = cor.test( pdb_elj$entropy_from_alignments, pdb_wcn$bfN, method='spearman', na.action="na.omit" )
+  r.seqent_bfN = x$estimate
+  p.seqent_bfN = x$p.value
+  
+  x = cor.test( pdb_elj$entropy_from_alignments, pdb_wcn$bfCA, method='spearman', na.action="na.omit" )
+  r.seqent_bfCA = x$estimate
+  p.seqent_bfCA = x$p.value
+  
+  x = cor.test( pdb_elj$entropy_from_alignments, pdb_wcn$bfC, method='spearman', na.action="na.omit" )
+  r.seqent_bfC = x$estimate
+  p.seqent_bfC = x$p.value
+  
+  x = cor.test( pdb_elj$entropy_from_alignments, pdb_wcn$bfO, method='spearman', na.action="na.omit" )
+  r.seqent_bfO = x$estimate
+  p.seqent_bfO = x$p.value
+  
+  x = cor.test( pdb_elj$entropy_from_alignments, pdb_wcn$bfCB, method='spearman', na.action="na.omit" )
+  r.seqent_bfCB = x$estimate
+  p.seqent_bfCB = x$p.value
+  
   
   # correlations with ddgent
   
@@ -113,12 +146,6 @@ for(pdb in levels(res_prop_elj$pdb))
   r.rsa_wcnCB = x$estimate
   p.rsa_wcnCB = x$p.value
   
-  # Now some other correlations
-  
-  x = cor.test( pdb_dssp$rsa, pdb_wcn$wcnCB, method='spearman', na.action="na.omit" )
-  r.seqent_sizeSC = x$estimate
-  p.seqent_sizeSC = x$p.value
-  
   
   srow = data.frame( pdb=pdb,
 
@@ -129,6 +156,14 @@ for(pdb in levels(res_prop_elj$pdb))
                      r.seqent_wcnC  = r.seqent_wcnC,
                      r.seqent_wcnO  = r.seqent_wcnO,
                      r.seqent_wcnCB = r.seqent_wcnCB,
+
+                     r.seqent_bfSC = r.seqent_bfSC,
+                     r.seqent_bfAA = r.seqent_bfAA,
+                     r.seqent_bfN  = r.seqent_bfN,
+                     r.seqent_bfCA = r.seqent_bfCA,
+                     r.seqent_bfC  = r.seqent_bfC,
+                     r.seqent_bfO  = r.seqent_bfO,
+                     r.seqent_bfCB = r.seqent_bfCB,
 
                      r.ddgent_wcnSC = r.ddgent_wcnSC,
                      r.ddgent_wcnAA = r.ddgent_wcnAA,
@@ -146,7 +181,6 @@ for(pdb in levels(res_prop_elj$pdb))
                      r.rsa_wcnO  = r.rsa_wcnO,
                      r.rsa_wcnCB = r.rsa_wcnCB
                      
-                     r.seqent_sizeSC = r.seqent_sizeSC,
                      )
                      
   pdb_prop_seqent_wcn_scor = rbind(pdb_prop_seqent_wcn_scor,srow)
