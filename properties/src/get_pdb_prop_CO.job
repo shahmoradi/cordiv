@@ -1,0 +1,1 @@
+for file in ../../structures/* ; do get_pdb_prop_CO.exe $file ../pdb_prop_CO.out ; echo $file; done >& get_pdb_prop_CO.stdout &
