@@ -37,7 +37,7 @@ Usage:'''
        sum_out_file = open(sum_out,'a')
     else:
        sum_out_file = open(sum_out,'w')
-       sum_out_file.write('pdb' + '\t' + 'chain' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'sizeSC' + '\t' + 'sizeAA' + '\t'  \
+       sum_out_file.write('pdb'   + '\t' + 'resnam'+ '\t' + 'resnum' + '\t' + 'sizeSC' + '\t' + 'sizeAA' + '\t'  \
                           'wcnSC' + '\t' + 'bfSC'  + '\t' + \
                           'wcnAA' + '\t' + 'bfAA'  + '\t' + \
                           'wcnN'  + '\t' + 'bfN'   + '\t' + \
@@ -58,7 +58,7 @@ Usage:'''
        #sum_out_file.write('pdb' + '\t' + 'chain' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'wcnc' + '\t' + 'wcnca' + '\t' + 'wcno' + '\t' + 'wcnn' + '\t' + 'wcncb' + '\t' + 'wcnaa' + '\t' + 'wcnsc' + '\t' + 'bfc' + '\t' + 'bfca' + '\t' + 'bfo' + '\t' + 'bfn' + '\t' + 'bfcb' + '\t' + 'bfaa' + '\t' + 'bfsc' + '\t' + 'sizeSC' + '\n')
 
     p = PDBParser()
-    pdb_name = pdb_in[-10:-6]
+    pdb_name = pdb_in[-10:-4]
     pdb_chain = pdb_in[-5:-4]
     structure = p.get_structure(pdb_name,pdb_in)
     
@@ -245,7 +245,7 @@ Usage:'''
         # Now write out (or append to) the ouput file
         if pdb_chain != reschain[i]:
             print 'FATAL: residue chain is not A!'
-        sum_out_file.write(pdb_name + '\t' + pdb_chain + '\t' + resnam[i] + '\t' + str(resnum[i]) + '\t' + str(sizeSC[i]) + '\t' + str(sizeAA[i]) + '\t' + \
+        sum_out_file.write(pdb_name + '\t' + resnam[i] + '\t' + str(resnum[i]) + '\t' + str(sizeSC[i]) + '\t' + str(sizeAA[i]) + '\t' + \
                            str(wcnSC[i])  + '\t' + str(bfSC[i])  + '\t' + \
                            str(wcnAA[i])  + '\t' + str(bfAA[i])  + '\t' + \
                            str( wcnN[i])  + '\t' + str( bfN[i])  + '\t' + \
