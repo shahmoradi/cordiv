@@ -30,17 +30,17 @@ residue_max_acc = {'A': 129.0, 'R': 274.0, 'N': 195.0, 'D': 193.0, \
                    'T': 172.0, 'W': 285.0, 'Y': 263.0, 'V': 174.0}
 
 pdb = OrderedDict([('name'        , 'NA'), \
-                   ('pdb.asa'     , 'NA'), \
+                   ('asa_pdb'     , 'NA'), \
                    ('nres'        , 'NA'), \
                    ('nchain'     , 'NA'), \
-                   ('sum.nssb'    , 'NA'), \
-                   ('mean.nssb'   , 'NA'), \
-                   ('sum.nhbon'   , 'NA'), \
-                   ('mean.nhbon'  , 'NA'), \
-                   ('sum.nhbps'   , 'NA'), \
-                   ('mean.nhbps'  , 'NA'), \
-                   ('sum.nhbas'   , 'NA'), \
-                   ('mean.nhbas'  , 'NA')  \
+                   ('sum_nssb'    , 'NA'), \
+                   ('mean_nssb'   , 'NA'), \
+                   ('sum_nhbon'   , 'NA'), \
+                   ('mean_nhbon'  , 'NA'), \
+                   ('sum_nhbps'   , 'NA'), \
+                   ('mean_nhbps'  , 'NA'), \
+                   ('sum_nhbas'   , 'NA'), \
+                   ('mean_nhbas'  , 'NA')  \
 ###                ('mhbe'        , 'NA'), \
 ###                ('vhbe'        , 'NA'), \
                   #('nah'         , 'NA'), \
@@ -76,7 +76,7 @@ def get_pdb_props(pdb_path,dssp_out):
     process = subprocess.Popen(commandline, shell = True, stdout = subprocess.PIPE)
     process.wait() # Wait until dssp is done processing the file and calculating the Solvent Acessiblility  values
     input = open(dssp_out, 'r')    
-    pdb['name'] = pdb_path.split('/')[-1][0:-4] # split element 4 of the filecontent list (space-delimited). the 0th element is number of residues in pdb
+    pdb['name'] = pdb_path.split('/')[-1][10:-4] # split element 4 of the filecontent list (space-delimited). the 0th element is number of residues in pdb
     fileContents = input.readlines()   # This is a list containing each line of the input file as an element.
     pdb['nres'] = fileContents[3].split()[0] # split element 4 of the filecontent list (space-delimited). the 0th element is number of residues in pdb
     pdb['nchain'] = fileContents[3].split()[1]
@@ -87,15 +87,15 @@ def get_pdb_props(pdb_path,dssp_out):
         print " number of chains: ", pdb['nchain']
         print ""
         #raw_input('Press <Enter> to continue ...')
-    pdb['nssb']        = fileContents[3].split()[2]                         
+    pdb['sum_nssb']        = fileContents[3].split()[2]                         
     pdb['mean_nssb']   = float(fileContents[3].split()[2])/float(pdb['nres'])
     pdb['asa_pdb']     = fileContents[4].split()[0]
     #pdb['asa_normed'] = str(round(float(pdb['asa'])/float(pdb['nres']),4)) 
-    pdb['nhbon']       = fileContents[5].split()[0]
+    pdb['sum_nhbon']   = fileContents[5].split()[0]
     pdb['mean_nhbon']  = float(fileContents[5].split()[0])/float(pdb['nres'])
-    pdb['nhbps']       = fileContents[6].split()[0]
+    pdb['sum_nhbps']   = fileContents[6].split()[0]
     pdb['mean_nhbps']  = float(fileContents[6].split()[0])/float(pdb['nres'])
-    pdb['nhbas']       = fileContents[7].split()[0]
+    pdb['sum_nhbas']   = fileContents[7].split()[0]
     pdb['mean_nhbas']  = float(fileContents[7].split()[0])/float(pdb['nres'])
     # Now calculate the mean and average of all hydrogen bonds energies, residue RSAs, and WCN based on CA coordinates:
 ### hbe = []   # A list containing all hydrogen bonds energies in the pdb file
@@ -174,7 +174,7 @@ Usage:'''
                          + 'sum.nhbps' + '\t' + 'mean.nhbps' + '\t' + 'sum.nhbas' + '\t' + 'mean.nhbas' + '\n' )
 
     for key in pdb:
-        sum_out_file.write(pdb[key] + '\t')
+        sum_out_file.write(str(pdb[key]) + '\t')
     sum_out_file.write('\n')
     #sum_out_file.write(pdb.name + '\t' + pdb.nres + '\t' + pdb.nchain + '\t' + pdb.nssb + '\n')
 	#for i, aa in enumerate(AA_List):
