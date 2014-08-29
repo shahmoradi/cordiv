@@ -31,27 +31,30 @@ residue_max_acc = {'A': 129.0, 'R': 274.0, 'N': 195.0, 'D': 193.0, \
 
 pdb = OrderedDict([('name'        , 'NA'), \
                    ('nres'        , 'NA'), \
-                   ('nchains'     , 'NA'), \
-                   ('nssb'        , 'NA'), \
-                   ('asa'         , 'NA'), \
-                   ('nhbon'       , 'NA'), \
-                   ('nhbps'       , 'NA'), \
-                   ('nhbas'       , 'NA'), \
-                   #('tnhb'        , 'NA'), \
+                   ('nchain'     , 'NA'), \
+                   ('sum.nssb'    , 'NA'), \
+                   ('mean.nssb'   , 'NA'), \
+                   ('sum.nhbon'   , 'NA'), \
+                   ('mean.nhbon'  , 'NA'), \
+                   ('sum.nhbps'   , 'NA'), \
+                   ('mean.nhbps'  , 'NA'), \
+                   ('sum.nhbas'   , 'NA'), \
+                   ('mean.nhbas'  , 'NA'), \
+                   ('pdb.asa'     , 'NA'), \
                    ('mhbe'        , 'NA'), \
                    ('vhbe'        , 'NA'), \
                    #('nah'         , 'NA'), \
                    #('nresah'      , 'NA'), \
                    #('nbs'         , 'NA'), \
-                   ('mrsa'        , 'NA'), \
-                   ('vrsa'        , 'NA'), \
-                   ('mwcn'        , 'NA'), \
-                   ('vwcn'        , 'NA')
+                   #('mrsa'        , 'NA'), \
+                   #('vrsa'        , 'NA'), \
+                   #('mwcn'        , 'NA'), \
+                   #('vwcn'        , 'NA')
                   ])
 # Definition of variables:
   # name        : pdb name
   # nres        : Number of RESidues in pdb
-  # nchains     : Number of CHAINS in pdb. Default is assumed to be 1 for the expected data set of mine.
+  # nchain     : Number of CHAINS in pdb. Default is assumed to be 1 for the expected data set of mine.
   # nssb        : Number of SS Bridges in the pdb structure
   # asa         : total Accessible Surface Area of the protein
   # nhbon       : total Number of Hydrogen Bonds of the form O --> H-N(j), j = -5,5
@@ -76,64 +79,68 @@ def get_pdb_props(pdb_path,dssp_out):
     pdb['name'] = pdb_path.split('/')[-1][0:-4] # split element 4 of the filecontent list (space-delimited). the 0th element is number of residues in pdb
     fileContents = input.readlines()   # This is a list containing each line of the input file as an element.
     pdb['nres'] = fileContents[3].split()[0] # split element 4 of the filecontent list (space-delimited). the 0th element is number of residues in pdb
-    pdb['nchains'] = fileContents[3].split()[1]
-    if int(pdb['nchains']) != 1:
+    pdb['nchain'] = fileContents[3].split()[1]
+    if int(pdb['nchain']) != 1:
         print ""
         print " WARNING: There are more than ONE chain in the input pdb file! "
         print " input pdb file:   ", pdb_path
-        print " number of chains: ", pdb['nchains']
+        print " number of chains: ", pdb['nchain']
         print ""
         #raw_input('Press <Enter> to continue ...')
     pdb['nssb']        = fileContents[3].split()[2]                         
-    pdb['asa']         = fileContents[4].split()[0]                         
+    pdb['mean_nssb']   = float(fileContents[3].split()[2])/float(pdb['nres'])
     #pdb['asa_normed'] = str(round(float(pdb['asa'])/float(pdb['nres']),4)) 
-    pdb['nhbon']       = fileContents[5].split()[0]                         
-    pdb['nhbps']       = fileContents[6].split()[0]                         
+    pdb['nhbon']       = fileContents[5].split()[0]
+    pdb['mean_nhbon']  = float(fileContents[5].split()[0])/float(pdb['nres'])
+    pdb['nhbps']       = fileContents[6].split()[0]
+    pdb['mean_nhbps']  = float(fileContents[6].split()[0])/float(pdb['nres'])
     pdb['nhbas']       = fileContents[7].split()[0]
+    pdb['mean_nhbas']  = float(fileContents[7].split()[0])/float(pdb['nres'])
+    pdb['asa_pdb']     = fileContents[4].split()[0]
     # Now calculate the mean and average of all hydrogen bonds energies, residue RSAs, and WCN based on CA coordinates:
-    hbe = []   # A list containing all hydrogen bonds energies in the pdb file
-    rsa = []   # A list containing all normalized residue ASA values in the pdb file
-    crd = []   # A list containing all CA-atom WCN in the pdb file
-    counter = 0
-    for record in fileContents[25:len(fileContents)]:
-        AA = record[13]
-        if AA != ('!' or '*'):
-            counter += 1
-            if AA == ('X'):
-                print 'potential Histidine variant HID, HIE or HIP found in pdb file ', pdb['name'], 'residue number ', counter
-                AA = 'H'    # correct Histidine variants code to the standard code
-                #raw_input('Press <Enter> to continue ...')
-            hbe1 = float(record[38:51].split(',')[1])
-            hbe2 = float(record[50:62].split(',')[1])
-            hbe3 = float(record[61:73].split(',')[1])
-            hbe4 = float(record[72:84].split(',')[1])
-            hbe.append(numpy.mean([hbe1,hbe2,hbe3,hbe4]))  # This is the average of the four possible hydrogen bonds of a single residue. If a residue has no hydrogen bond, then all four are zero, so the mean is also zero.
-            #print record[13],counter,hbe1,hbe2,hbe3,hbe4,hbe[-1]
-            rsa.append(float(record[35:39])/residue_max_acc[AA])
-            #print AA,rsa[-1]        
-            #crd = numpy.array( [ float(record.split()[-3]) , float(record.split()[-2]) , float(record.split()[-1]) ] )
-            crd.append( numpy.array( [ float(record.split()[-3]) , float(record.split()[-2]) , float(record.split()[-1]) ] ) ) # stores CA atom triplet coordinates as individual elements of the list crd.
-            #if counter > 1 : print crd[-1], crd[-1] + crd[-2]
-    if int(pdb['nres']) != (counter or len(hbe) or len(rsa) or len(wcn)) :
-        print 'Something is fishy about DSSP output'
-        print 'The calculated number of residues in the pdb file do not via two different methods!'
-        print ( 'counter = %4d , nres = %4d , len(hbe) = , len(rsa) = , len(wcn) = ' %( counter, int(pdb['nres']), len(hbe) , len(rsa), len(wcn) ) )
-        sys.exit('Program stopped. Check PDB file and DSSP output file for inconsistencies')
-    pdb['mhbe'] = str(numpy.mean(hbe))
-    pdb['vhbe'] = str(numpy.var(hbe))
-    pdb['mrsa'] = str(numpy.mean(rsa))
-    pdb['vrsa'] = str(numpy.var(rsa))
-    # Now calculate residue wcn :
-    wcn = []   # A list containing all CA-atom WCN in the pdb file
-    for i in range(len(crd)) :
-        sum_terms = 0.
-        for j in range(len(crd)) :
-            if i != j :
-                sum_terms += 1./( (crd[i][0]-crd[j][0])**2 + (crd[i][1]-crd[j][1])**2 + (crd[i][2]-crd[j][2])**2 )
-        wcn.append(sum_terms)
-        #print i,j,crd[i], wcn[-1]
-    pdb['mwcn'] = str(numpy.mean(wcn))
-    pdb['vwcn'] = str(numpy.var(wcn))
+### hbe = []   # A list containing all hydrogen bonds energies in the pdb file
+### rsa = []   # A list containing all normalized residue ASA values in the pdb file
+### crd = []   # A list containing all CA-atom WCN in the pdb file
+### counter = 0
+### for record in fileContents[25:len(fileContents)]:
+###     AA = record[13]
+###     if AA != ('!' or '*'):
+###         counter += 1
+###         if AA == ('X'):
+###             print 'potential Histidine variant HID, HIE or HIP found in pdb file ', pdb['name'], 'residue number ', counter
+###             AA = 'H'    # correct Histidine variants code to the standard code
+###             #raw_input('Press <Enter> to continue ...')
+###         hbe1 = float(record[38:51].split(',')[1])
+###         hbe2 = float(record[50:62].split(',')[1])
+###         hbe3 = float(record[61:73].split(',')[1])
+###         hbe4 = float(record[72:84].split(',')[1])
+###         hbe.append(numpy.mean([hbe1,hbe2,hbe3,hbe4]))  # This is the average of the four possible hydrogen bonds of a single residue. If a residue has no hydrogen bond, then all four are zero, so the mean is also zero.
+###         #print record[13],counter,hbe1,hbe2,hbe3,hbe4,hbe[-1]
+###         rsa.append(float(record[35:39])/residue_max_acc[AA])
+###         #print AA,rsa[-1]        
+###         #crd = numpy.array( [ float(record.split()[-3]) , float(record.split()[-2]) , float(record.split()[-1]) ] )
+###         crd.append( numpy.array( [ float(record.split()[-3]) , float(record.split()[-2]) , float(record.split()[-1]) ] ) ) # stores CA atom triplet coordinates as individual elements of the list crd.
+###         #if counter > 1 : print crd[-1], crd[-1] + crd[-2]
+### if int(pdb['nres']) != (counter or len(hbe) or len(rsa) or len(wcn)) :
+###     print 'Something is fishy about DSSP output'
+###     print 'The calculated number of residues in the pdb file do not via two different methods!'
+###     print ( 'counter = %4d , nres = %4d , len(hbe) = , len(rsa) = , len(wcn) = ' %( counter, int(pdb['nres']), len(hbe) , len(rsa), len(wcn) ) )
+###     sys.exit('Program stopped. Check PDB file and DSSP output file for inconsistencies')
+###     pdb['mhbe'] = str(numpy.mean(hbe))
+###     pdb['vhbe'] = str(numpy.var(hbe))
+###     pdb['mrsa'] = str(numpy.mean(rsa))
+###     pdb['vrsa'] = str(numpy.var(rsa))
+###     # Now calculate residue wcn :
+###     wcn = []   # A list containing all CA-atom WCN in the pdb file
+###     for i in range(len(crd)) :
+###         sum_terms = 0.
+###         for j in range(len(crd)) :
+###             if i != j :
+###                 sum_terms += 1./( (crd[i][0]-crd[j][0])**2 + (crd[i][1]-crd[j][1])**2 + (crd[i][2]-crd[j][2])**2 )
+###         wcn.append(sum_terms)
+###         #print i,j,crd[i], wcn[-1]
+###     pdb['mwcn'] = str(numpy.mean(wcn))
+###     pdb['vwcn'] = str(numpy.var(wcn))
     #print len(rsa),len(hbe), len(wcn)
     input.close() #Close the file with the dssp output file
     #os.remove('pdbOutput.txt') #Deletes the dssp output file 
@@ -158,16 +165,16 @@ Usage:'''
        sum_out_file = open(sum_out,'a')
     else:
        sum_out_file = open(sum_out,'w')
-       #sum_out_file.write('name' + 'nres' + '\t' + 'nchains' + '\t' + 'nssb' + '\t' + 'asa' + '\t' + 'nhb' + '\t' + 'nhbp' + '\t' + 'nhba' + '\t' + 'nah' + '\t' + 'nresah' + '\t' + 'nbs' + '\t' + '\t' + '\n')
-       for key in pdb:
-           sum_out_file.write(key + '\t')
-       sum_out_file.write('\n')
-       
+       #sum_out_file.write('name' + 'nres' + '\t' + 'nchain' + '\t' + 'nssb' + '\t' + 'asa' + '\t' + 'nhb' + '\t' + 'nhbp' + '\t' + 'nhba' + '\t' + 'nah' + '\t' + 'nresah' + '\t' + 'nbs' + '\t' + '\t' + '\n')
+###    for key in pdb:
+###        sum_out_file.write(key + '\t')
+###    sum_out_file.write('\n')
+       sum_out_file.write( 'pdb' + '\t' + 'nres' + '\t' + 'nchain' + '\t' + 'nssb' + '\t' + 'mean.nssb' + '\t' + 'nhbon' + '\t' + 'mean.nhbon' + '\t' + 'nhbps' + '\t' + 'mean.nhbps' + '\t' + 'nhbas' + '\t' + 'mean.nhbas' + '\n' )
 
     for key in pdb:
         sum_out_file.write(pdb[key] + '\t')
     sum_out_file.write('\n')
-    #sum_out_file.write(pdb.name + '\t' + pdb.nres + '\t' + pdb.nchains + '\t' + pdb.nssb + '\n')
+    #sum_out_file.write(pdb.name + '\t' + pdb.nres + '\t' + pdb.nchain + '\t' + pdb.nssb + '\n')
 	#for i, aa in enumerate(AA_List):
 	#	rsa_outputfile.write(str(i+1) + '\t' + str(aa) + '\t' + str(RSA[i]) + '\n')
     

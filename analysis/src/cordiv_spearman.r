@@ -15,6 +15,9 @@ res_prop_elj$pdb   = factor(res_prop_elj$pdb)
 res_prop_dssp      = read.table('../../properties/res_prop_dssp.out', header=T)
 res_prop_dssp$pdb  = factor(res_prop_dssp$pdb)
 
+res_prop_hps      = read.table('../../properties/res_prop_HPS.out', header=T)
+res_prop_hps$pdb  = factor(res_prop_hps$pdb)
+
 pdb_prop_dssp = read.table('../../properties/pdb_prop_dssp.out', header=T)
 
 pdb_prop_elj   = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
@@ -25,6 +28,7 @@ counter = 0
 for(pdb in levels(res_prop_elj$pdb))
 {
   counter = counter + 1
+  cat( str(counter), pdb )
   
   pdb_elj  = res_prop_elj[res_prop_elj$pdb==pdb,]
   pdb_dssp = res_prop_dssp[res_prop_dssp$pdb==pdb,]
@@ -41,9 +45,9 @@ for(pdb in levels(res_prop_elj$pdb))
   r.seqent_rsa = x$estimate
   p.seqent_rsa = x$p.value
   
-  x = cor.test( pdb_elj$entropy_from_alignments, pdb_dssp$wcn_ca, method='spearman', na.action="na.omit" )
-  r.seqent_wcnca = x$estimate
-  p.seqent_wcnca = x$p.value
+  #x = cor.test( pdb_elj$entropy_from_alignments, pdb_dssp$wcn_ca, method='spearman', na.action="na.omit" )
+  #r.seqent_wcnca = x$estimate
+  #p.seqent_wcnca = x$p.value
   
   x = cor.test( pdb_elj$entropy_from_alignments, pdb_dssp$hbe_mean, method='spearman', na.action="na.omit" )
   r.seqent_hbe = x$estimate
@@ -57,9 +61,9 @@ for(pdb in levels(res_prop_elj$pdb))
   r.ddgent_rsa = x$estimate
   p.ddgent_rsa = x$p.value
   
-  x = cor.test( pdb_elj$entropy_from_ddGs, pdb_dssp$wcn_ca, method='spearman', na.action="na.omit" )
-  r.ddgent_wcnca = x$estimate
-  p.ddgent_wcnca = x$p.value
+  #x = cor.test( pdb_elj$entropy_from_ddGs, pdb_dssp$wcn_ca, method='spearman', na.action="na.omit" )
+  #r.ddgent_wcnca = x$estimate
+  #p.ddgent_wcnca = x$p.value
   
   x = cor.test( pdb_elj$entropy_from_ddGs, pdb_dssp$hbe_mean, method='spearman', na.action="na.omit" )
   r.ddgent_hbe = x$estimate
@@ -69,59 +73,59 @@ for(pdb in levels(res_prop_elj$pdb))
   r.asa_rsa = x$estimate
   p.asa_rsa = x$p.value
   
-  x = cor.test( pdb_dssp$asa, pdb_dssp$wcn_ca, method='spearman', na.action="na.omit" )
-  r.asa_wcnca = x$estimate
-  p.asa_wcnca = x$p.value
+  #x = cor.test( pdb_dssp$asa, pdb_dssp$wcn_ca, method='spearman', na.action="na.omit" )
+  #r.asa_wcnca = x$estimate
+  #p.asa_wcnca = x$p.value
   
   x = cor.test( pdb_dssp$asa, pdb_dssp$hbe_mean, method='spearman', na.action="na.omit" )
   r.asa_hbe = x$estimate
   p.asa_hbe = x$p.value
   
-  x = cor.test( pdb_dssp$rsa, pdb_dssp$wcn_ca, method='spearman', na.action="na.omit" )
-  r.rsa_wcnca = x$estimate
-  p.rsa_wcnca = x$p.value
+  #x = cor.test( pdb_dssp$rsa, pdb_dssp$wcn_ca, method='spearman', na.action="na.omit" )
+  #r.rsa_wcnca = x$estimate
+  #p.rsa_wcnca = x$p.value
   
   x = cor.test( pdb_dssp$rsa, pdb_dssp$hbe_mean, method='spearman', na.action="na.omit" )
   r.rsa_hbe = x$estimate
   p.rsa_hbe = x$p.value
   
-  x = cor.test( pdb_dssp$wcn_ca, pdb_dssp$hbe_mean, method='spearman', na.action="na.omit" )
-  r.wcnca_hbe = x$estimate
-  p.wcnca_hbe = x$p.value
+  #x = cor.test( pdb_dssp$wcn_ca, pdb_dssp$hbe_mean, method='spearman', na.action="na.omit" )
+  #r.wcnca_hbe = x$estimate
+  #p.wcnca_hbe = x$p.value
   
   srow = data.frame( pdb=pdb,
                      r.seqent_ddgent = r.seqent_ddgent,
                      r.seqent_asa    = r.seqent_asa,
                      r.seqent_rsa    = r.seqent_rsa,    
-                     r.seqent_wcnca  = r.seqent_wcnca,
+                     #r.seqent_wcnca  = r.seqent_wcnca,
                      r.seqent_hbe    = r.seqent_hbe,    
                      r.ddgent_asa    = r.ddgent_asa,    
                      r.ddgent_rsa    = r.ddgent_rsa,    
-                     r.ddgent_wcnca  = r.ddgent_wcnca,
+                     #r.ddgent_wcnca  = r.ddgent_wcnca,
                      r.ddgent_hbe    = r.ddgent_hbe,    
                      r.asa_rsa       = r.asa_rsa,       
-                     r.asa_wcnca     = r.asa_wcnca,
+                     #r.asa_wcnca     = r.asa_wcnca,
                      r.asa_hbe       = r.asa_hbe,       
-                     r.rsa_wcnca     = r.rsa_wcnca,
-                     r.rsa_hbe       = r.rsa_hbe,       
-                     r.wcnca_hbe     = r.wcnca_hbe  )
+                     #r.rsa_wcnca     = r.rsa_wcnca,
+                     r.rsa_hbe       = r.rsa_hbe ) #,       
+                     #r.wcnca_hbe     = r.wcnca_hbe  )
 
   prow = data.frame( pdb=pdb,
                      p.seqent_ddgent = p.seqent_ddgent,
                      p.seqent_asa    = p.seqent_asa,    
                      p.seqent_rsa    = p.seqent_rsa,    
-                     p.seqent_wcnca  = p.seqent_wcnca,  
+                     #p.seqent_wcnca  = p.seqent_wcnca,  
                      p.seqent_hbe    = p.seqent_hbe,    
                      p.ddgent_asa    = p.ddgent_asa,    
                      p.ddgent_rsa    = p.ddgent_rsa,    
-                     p.ddgent_wcnca  = p.ddgent_wcnca,  
+                     #p.ddgent_wcnca  = p.ddgent_wcnca,  
                      p.ddgent_hbe    = p.ddgent_hbe,    
                      p.asa_rsa       = p.asa_rsa,       
-                     p.asa_wcnca     = p.asa_wcnca,
+                     #p.asa_wcnca     = p.asa_wcnca,
                      p.asa_hbe       = p.asa_hbe,       
-                     p.rsa_wcnca     = p.rsa_wcnca,
-                     p.rsa_hbe       = p.rsa_hbe,       
-                     p.wcnca_hbe     = p.wcnca_hbe  )
+                     #p.rsa_wcnca     = p.rsa_wcnca,
+                     p.rsa_hbe       = p.rsa_hbe ) #,       
+                     #p.wcnca_hbe     = p.wcnca_hbe  )
   
   erow = data.frame( pdb=pdb,
                      sum.seqent    = sum(pdb_elj$entropy_from_alignments),
@@ -137,7 +141,7 @@ for(pdb in levels(res_prop_elj$pdb))
   pdb_prop_scorp = rbind(pdb_prop_scorp,prow)
   pdb_prop_elj   = rbind(pdb_prop_elj,erow)
   
-  cat( str(counter), pdb )
+  #cat( str(counter), pdb )
   
 }
 
