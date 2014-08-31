@@ -1,4 +1,4 @@
-pdb	psb_asa	nres	nchain	sum.nssb	mean.nssb	sum.nhbon	mean.nhbon	sum.nhbps	mean.nhbps	sum.nhbas	mean.nhbas
+pdb	pdb_asa	nres	nchain	sum.nssb	mean.nssb	sum.nhbon	mean.nhbon	sum.nhbps	mean.nhbps	sum.nhbas	mean.nhbas
 132L_A	6938.2	124	5	0	0.0	77	0.620967741935	2	0.0161290322581	9	0.0725806451613	
 13PK_A	17186.1	415	1	0	0.0	306	0.73734939759	51	0.122891566265	11	0.0265060240964	
 1A26_A	17447.0	351	1	0	0.0	241	0.68660968661	11	0.031339031339	55	0.156695156695	

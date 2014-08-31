@@ -169,7 +169,7 @@ Usage:'''
 ###    for key in pdb:
 ###        sum_out_file.write(key + '\t')
 ###    sum_out_file.write('\n')
-       sum_out_file.write( 'pdb' + '\t' + 'psb_asa' + '\t' + 'nres' + '\t' + 'nchain' + '\t' \
+       sum_out_file.write( 'pdb' + '\t' + 'pdb_asa' + '\t' + 'nres' + '\t' + 'nchain' + '\t' \
                          + 'sum.nssb' + '\t' + 'mean.nssb' + '\t' + 'sum.nhbon' + '\t' + 'mean.nhbon' + '\t' \
                          + 'sum.nhbps' + '\t' + 'mean.nhbps' + '\t' + 'sum.nhbas' + '\t' + 'mean.nhbas' + '\n' )
 

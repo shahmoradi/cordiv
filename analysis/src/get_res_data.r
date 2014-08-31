@@ -26,7 +26,7 @@ res_prop_dssp$pdb    = factor(res_prop_dssp$pdb)
 res_prop_wcn_bf      = read.table('../../properties/res_prop_wcn_bf.out', header=T)
 res_prop_wcn_bf$pdb  = factor(res_prop_wcn_bf$pdb)
 
-pdb_prop_long = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
+pdb_prop_from_residue_prop = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
 counter = 0
 
 for(pdb in levels(res_prop_elj$pdb))
@@ -54,10 +54,10 @@ for(pdb in levels(res_prop_elj$pdb))
     var1 = pdb_long[pdb_long$variable == variable1,]
     
     # Claculate potentially important statistical moments of the factored variable:
-      row = data.frame(pdb, variable = paste0('sum.',variable1), value = sum(var1$value))       ; pdb_prop_long = rbind(pdb_prop_long,row)
-      row = data.frame(pdb, variable = paste0('mean.',variable1), value = mean(var1$value))     ; pdb_prop_long = rbind(pdb_prop_long,row)
-      row = data.frame(pdb, variable = paste0('median.',variable1), value = median(var1$value)) ; pdb_prop_long = rbind(pdb_prop_long,row)
-      row = data.frame(pdb, variable = paste0('sd.',variable1), value = sd(var1$value))         ; pdb_prop_long = rbind(pdb_prop_long,row)
+      row = data.frame(pdb, variable = paste0('sum.',variable1), value = sum(var1$value))       ; pdb_prop_from_residue_prop = rbind(pdb_prop_from_residue_prop,row)
+      row = data.frame(pdb, variable = paste0('mean.',variable1), value = mean(var1$value))     ; pdb_prop_from_residue_prop = rbind(pdb_prop_from_residue_prop,row)
+      row = data.frame(pdb, variable = paste0('median.',variable1), value = median(var1$value)) ; pdb_prop_from_residue_prop = rbind(pdb_prop_from_residue_prop,row)
+      row = data.frame(pdb, variable = paste0('sd.',variable1), value = sd(var1$value))         ; pdb_prop_from_residue_prop = rbind(pdb_prop_from_residue_prop,row)
       
     # Now calculate the Spearman correlations between pairs of variables:
       for (variable2 in levels(pdb_long$variable))
@@ -70,7 +70,7 @@ for(pdb in levels(res_prop_elj$pdb))
           p = x$p.value
           
           row = data.frame(pdb, variable = paste0('r.',variable1,'.',variable2), value = r)
-          pdb_prop_long = rbind(pdb_prop_long,row)
+          pdb_prop_from_residue_prop = rbind(pdb_prop_from_residue_prop,row)
         }
       }
   }
@@ -78,146 +78,113 @@ for(pdb in levels(res_prop_elj$pdb))
 }
 
 
-  x = cor.test( pdb_elj$entropy_from_alignments, pdb_dssp$asa, method='spearman', na.action="na.omit" )
-  r.seqent_asa = x$estimate
-  p.seqent_asa = x$p.value
-  
-  x = cor.test( pdb_elj$entropy_from_alignments, pdb_dssp$rsa, method='spearman', na.action="na.omit" )
-  r.seqent_rsa = x$estimate
-  p.seqent_rsa = x$p.value
-  
-  x = cor.test( pdb_elj$entropy_from_alignments, pdb_dssp$wcn_ca, method='spearman', na.action="na.omit" )
-  r.seqent_wcnca = x$estimate
-  p.seqent_wcnca = x$p.value
-  
-  x = cor.test( pdb_elj$entropy_from_alignments, pdb_dssp$hbe_mean, method='spearman', na.action="na.omit" )
-  r.seqent_hbe = x$estimate
-  p.seqent_hbe = x$p.value
-  
-  x = cor.test( pdb_elj$entropy_from_ddGs, pdb_dssp$asa, method='spearman', na.action="na.omit" )
-  r.ddgent_asa = x$estimate
-  p.ddgent_asa = x$p.value
-  
-  x = cor.test( pdb_elj$entropy_from_ddGs, pdb_dssp$rsa, method='spearman', na.action="na.omit" )
-  r.ddgent_rsa = x$estimate
-  p.ddgent_rsa = x$p.value
-  
-  x = cor.test( pdb_elj$entropy_from_ddGs, pdb_dssp$wcn_ca, method='spearman', na.action="na.omit" )
-  r.ddgent_wcnca = x$estimate
-  p.ddgent_wcnca = x$p.value
-  
-  x = cor.test( pdb_elj$entropy_from_ddGs, pdb_dssp$hbe_mean, method='spearman', na.action="na.omit" )
-  r.ddgent_hbe = x$estimate
-  p.ddgent_hbe = x$p.value
-  
-  x = cor.test( pdb_dssp$asa, pdb_dssp$rsa, method='spearman', na.action="na.omit" )
-  r.asa_rsa = x$estimate
-  p.asa_rsa = x$p.value
-  
-  x = cor.test( pdb_dssp$asa, pdb_dssp$wcn_ca, method='spearman', na.action="na.omit" )
-  r.asa_wcnca = x$estimate
-  p.asa_wcnca = x$p.value
-  
-  x = cor.test( pdb_dssp$asa, pdb_dssp$hbe_mean, method='spearman', na.action="na.omit" )
-  r.asa_hbe = x$estimate
-  p.asa_hbe = x$p.value
-  
-  x = cor.test( pdb_dssp$rsa, pdb_dssp$wcn_ca, method='spearman', na.action="na.omit" )
-  r.rsa_wcnca = x$estimate
-  p.rsa_wcnca = x$p.value
-  
-  x = cor.test( pdb_dssp$rsa, pdb_dssp$hbe_mean, method='spearman', na.action="na.omit" )
-  r.rsa_hbe = x$estimate
-  p.rsa_hbe = x$p.value
-  
-  x = cor.test( pdb_dssp$wcn_ca, pdb_dssp$hbe_mean, method='spearman', na.action="na.omit" )
-  r.wcnca_hbe = x$estimate
-  p.wcnca_hbe = x$p.value
-  
-  srow = data.frame( pdb=pdb,
-                     r.seqent_ddgent = r.seqent_ddgent,
-                     r.seqent_asa    = r.seqent_asa,
-                     r.seqent_rsa    = r.seqent_rsa,    
-                     r.seqent_wcnca  = r.seqent_wcnca,
-                     r.seqent_hbe    = r.seqent_hbe,    
-                     r.ddgent_asa    = r.ddgent_asa,    
-                     r.ddgent_rsa    = r.ddgent_rsa,    
-                     r.ddgent_wcnca  = r.ddgent_wcnca,
-                     r.ddgent_hbe    = r.ddgent_hbe,    
-                     r.asa_rsa       = r.asa_rsa,       
-                     r.asa_wcnca     = r.asa_wcnca,
-                     r.asa_hbe       = r.asa_hbe,       
-                     r.rsa_wcnca     = r.rsa_wcnca,
-                     r.rsa_hbe       = r.rsa_hbe,       
-                     r.wcnca_hbe     = r.wcnca_hbe  )
+# Now get Secondary Structure residue data:
+pdb_prop_ss = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
+counter = 0
 
-  prow = data.frame( pdb=pdb,
-                     p.seqent_ddgent = p.seqent_ddgent,
-                     p.seqent_asa    = p.seqent_asa,    
-                     p.seqent_rsa    = p.seqent_rsa,    
-                     p.seqent_wcnca  = p.seqent_wcnca,  
-                     p.seqent_hbe    = p.seqent_hbe,    
-                     p.ddgent_asa    = p.ddgent_asa,    
-                     p.ddgent_rsa    = p.ddgent_rsa,    
-                     p.ddgent_wcnca  = p.ddgent_wcnca,  
-                     p.ddgent_hbe    = p.ddgent_hbe,    
-                     p.asa_rsa       = p.asa_rsa,       
-                     p.asa_wcnca     = p.asa_wcnca,
-                     p.asa_hbe       = p.asa_hbe,       
-                     p.rsa_wcnca     = p.rsa_wcnca,
-                     p.rsa_hbe       = p.rsa_hbe,       
-                     p.wcnca_hbe     = p.wcnca_hbe  )
-  
-  erow = data.frame( pdb=pdb,
-                     sum.seqent    = sum(pdb_elj$entropy_from_alignments),
-                     mean.seqent   = mean(pdb_elj$entropy_from_alignments),
-                     median.seqent = median(pdb_elj$entropy_from_alignments),
-                     sd.seqent     = sd(pdb_elj$entropy_from_alignments),
-                     sum.ddgent    = sum(pdb_elj$entropy_from_ddGs),
-                     mean.ddgent   = mean(pdb_elj$entropy_from_ddGs),
-                     median.ddgent = median(pdb_elj$entropy_from_ddGs),
-                     sd.ddgent     = sd(pdb_elj$entropy_from_ddGs)   )
-  
-  pdb_prop_scor  = rbind(pdb_prop_scor,srow)
-  pdb_prop_scorp = rbind(pdb_prop_scorp,prow)
-  pdb_prop_elj   = rbind(pdb_prop_elj,erow)
-
-}
-
-row.names(pdb_prop_scor)  = c()
-row.names(pdb_prop_scorp) = c()
-row.names(pdb_prop_elj) = c()
-
-write.csv( pdb_prop_scor, "../tables/pdb_prop_scor.csv", row.names=F )
-write.csv( pdb_prop_scorp, "../tables/pdb_prop_scorp.csv", row.names=F )
-
-all_pdb_prop = cbind(pdb_prop_dssp,subset(pdb_prop_scor, select = -c(pdb)),subset(pdb_prop_elj, select = -c(pdb)))
-
-all_pdb_prop_subset = subset(all_pdb_prop, select = -c(name,nssb))
-cormat = cor(all_pdb_prop_subset, method = 'spearman')
-#corrplot.mixed(cormat)
-corrplot(cormat, method='circle')
-
-# Now do some statistics on the calculated correlations. First melt the correlation data.frame to make a long format data set.
-pdb_prop_scor           = melt(pdb_prop_scor)
-pdb_prop_scor$variable  = factor(pdb_prop_scor$variable)
-
-scor_stat = data.frame()
-
-for (variable in levels(pdb_prop_scor$variable))
+for(pdb in levels(res_prop_dssp$pdb))
 {
-  temp = pdb_prop_scor[pdb_prop_scor$variable==variable,]
-  mean.scor   = mean(temp$value)
-  median.scor = median(temp$value)
-  sd.scor     = sd(temp$value)
+  counter = counter + 1
+  cat( paste(str(counter),pdb) )
   
-  row = data.frame(variable = variable,
-                   mean     = mean.scor,
-                   median   = median.scor,
-                   sd       = sd.scor
-                   )
-  scor_stat = rbind(scor_stat,row)
+  pdb_dssp   = res_prop_dssp[res_prop_dssp$pdb==pdb,] # c('asa','rsa','hbe_mean','rss')] )
+
+  sum.GSS    = length(which(pdb_dssp$rss == 'G'))
+  sum.HSS    = length(which(pdb_dssp$rss == 'H'))
+  sum.ISS    = length(which(pdb_dssp$rss == 'I'))
+  sum.TSS    = length(which(pdb_dssp$rss == 'T'))
+  sum.ESS    = length(which(pdb_dssp$rss == 'E'))
+  sum.BSS    = length(which(pdb_dssp$rss == 'B'))
+  sum.SSS    = length(which(pdb_dssp$rss == 'S'))
+  sum.LSS    = length(which(pdb_dssp$rss == 'L'))
+             + length(which(pdb_dssp$rss == 'C'))
+             + length(which(pdb_dssp$rss == '_'))
+  sum.helix  = sum.GSS + sum.HSS + sum.ISS
+  sum.betas  = sum.ESS + sum.BSS
+  sum.hbdif  = sum.helix + sum.betas
+
+  pdb.nres   = length(pdb_dssp$pdb)
+  
+  mean.GSS   = sum.GSS/pdb.nres
+  mean.HSS   = sum.HSS/pdb.nres
+  mean.ISS   = sum.ISS/pdb.nres
+  mean.TSS   = sum.TSS/pdb.nres
+  mean.ESS   = sum.ESS/pdb.nres
+  mean.BSS   = sum.BSS/pdb.nres
+  mean.SSS   = sum.SSS/pdb.nres
+  mean.LSS   = sum.LSS/pdb.nres
+  mean.helix = sum.helix/pdb.nres
+  mean.betas = sum.betas/pdb.nres
+  mean.hbdif = sum.hbdif/pdb.nres
+
+  row = data.frame(pdb, variable = 'sum.GSS'   , value = sum.GSS   ) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  row = data.frame(pdb, variable = 'sum.HSS'   , value = sum.HSS   ) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  row = data.frame(pdb, variable = 'sum.ISS'   , value = sum.ISS   ) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  row = data.frame(pdb, variable = 'sum.TSS'   , value = sum.TSS   ) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  row = data.frame(pdb, variable = 'sum.ESS'   , value = sum.ESS   ) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  row = data.frame(pdb, variable = 'sum.BSS'   , value = sum.BSS   ) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  row = data.frame(pdb, variable = 'sum.SSS'   , value = sum.SSS   ) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  row = data.frame(pdb, variable = 'sum.LSS'   , value = sum.LSS   ) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  row = data.frame(pdb, variable = 'sum.helix' , value = sum.helix ) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  row = data.frame(pdb, variable = 'sum.betas' , value = sum.betas ) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  row = data.frame(pdb, variable = 'sum.hbdif' , value = sum.hbdif ) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  row = data.frame(pdb, variable = 'mean.GSS'  , value = mean.GSS  ) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  row = data.frame(pdb, variable = 'mean.HSS'  , value = mean.HSS  ) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  row = data.frame(pdb, variable = 'mean.ISS'  , value = mean.ISS  ) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  row = data.frame(pdb, variable = 'mean.TSS'  , value = mean.TSS  ) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  row = data.frame(pdb, variable = 'mean.ESS'  , value = mean.ESS  ) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  row = data.frame(pdb, variable = 'mean.BSS'  , value = mean.BSS  ) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  row = data.frame(pdb, variable = 'mean.SSS'  , value = mean.SSS  ) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  row = data.frame(pdb, variable = 'mean.LSS'  , value = mean.LSS  ) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  row = data.frame(pdb, variable = 'mean.helix', value = mean.helix) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  row = data.frame(pdb, variable = 'mean.betas', value = mean.betas) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  row = data.frame(pdb, variable = 'mean.hbdif', value = mean.hbdif) ; pdb_prop_ss = rbind(pdb_prop_ss,row)
+  
 }
 
-row.names(scor_stat) = c()
-write.csv( scor_stat, "../tables/scor_stat.csv", row.names=F )
+pdb_prop_from_residue_prop = rbind(pdb_prop_from_residue_prop,pdb_prop_ss)
+
+write.csv( pdb_prop_from_residue_prop, "../tables/pdb_prop_from_residue_prop.csv", row.names=F )
+
+
+
+
+
+###  row.names(pdb_prop_scor)  = c()
+###  row.names(pdb_prop_scorp) = c()
+###  row.names(pdb_prop_elj) = c()
+###  
+###  write.csv( pdb_prop_scor, "../tables/pdb_prop_scor.csv", row.names=F )
+###  write.csv( pdb_prop_scorp, "../tables/pdb_prop_scorp.csv", row.names=F )
+###  
+###  all_pdb_prop = cbind(pdb_prop_dssp,subset(pdb_prop_scor, select = -c(pdb)),subset(pdb_prop_elj, select = -c(pdb)))
+###  
+###  all_pdb_prop_subset = subset(all_pdb_prop, select = -c(name,nssb))
+###  cormat = cor(all_pdb_prop_subset, method = 'spearman')
+###  #corrplot.mixed(cormat)
+###  corrplot(cormat, method='circle')
+###  
+###  # Now do some statistics on the calculated correlations. First melt the correlation data.frame to make a long format data set.
+###  pdb_prop_scor           = melt(pdb_prop_scor)
+###  pdb_prop_scor$variable  = factor(pdb_prop_scor$variable)
+###  
+###  scor_stat = data.frame()
+###  
+###  for (variable in levels(pdb_prop_scor$variable))
+###  {
+###    temp = pdb_prop_scor[pdb_prop_scor$variable==variable,]
+###    mean.scor   = mean(temp$value)
+###    median.scor = median(temp$value)
+###    sd.scor     = sd(temp$value)
+###    
+###    row = data.frame(variable = variable,
+###                     mean     = mean.scor,
+###                     median   = median.scor,
+###                     sd       = sd.scor
+###                     )
+###    scor_stat = rbind(scor_stat,row)
+###  }
+###  
+###  row.names(scor_stat) = c()
+###  write.csv( scor_stat, "../tables/scor_stat.csv", row.names=F )
+###  
