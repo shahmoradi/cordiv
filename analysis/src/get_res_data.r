@@ -48,8 +48,11 @@ for(pdb in levels(res_prop_elj$pdb))
   pdb_long = reshape(pdb_temp, ids = rownames(pdb_temp), varying = colnames(pdb_temp), v.names = 'value', timevar = 'variable', times = colnames(pdb_temp), direction = 'long')
   pdb_long$variable = factor(pdb_long$variable)
   
+  counter1 = 0
+  
   for (variable1 in levels(pdb_long$variable))
   {
+    counter1 = counter1 + 1
     #cat (variable1, '\n')
     var1 = pdb_long[pdb_long$variable == variable1,]
     
@@ -60,9 +63,11 @@ for(pdb in levels(res_prop_elj$pdb))
       row = data.frame(pdb, variable = paste0('sd.',variable1), value = sd(var1$value))         ; pdb_prop_from_residue_prop = rbind(pdb_prop_from_residue_prop,row)
       
     # Now calculate the Spearman correlations between pairs of variables:
+      counter2 = 0
       for (variable2 in levels(pdb_long$variable))
       {
-        if ( variable1 != variable2)
+        counter2 = counter2 + 1
+        if ( variable1 != variable2 & counter1 < counter2)
         {
           var2 = pdb_long[pdb_long$variable == variable2,]
           x = cor.test( var1$value, var2$value, method='spearman', na.action="na.omit" )
