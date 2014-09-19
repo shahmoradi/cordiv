@@ -26,6 +26,19 @@ res_prop_dssp$pdb    = factor(res_prop_dssp$pdb)
 res_prop_wcn_bf      = read.table('../../properties/res_prop_wcn_bf.out', header=T)
 res_prop_wcn_bf$pdb  = factor(res_prop_wcn_bf$pdb)
 
+#res_prop_voroAA      = read.table('../../properties/res_prop_voronoiAA.out', header=T)
+#res_prop_voroAA$pdb  = factor(res_prop_voroAA$pdb)
+
+#res_prop_voroCA      = read.table('../../properties/res_prop_voronoiCA.out', header=T)
+#res_prop_voroCA$pdb  = factor(res_prop_voroCA$pdb)
+
+res_prop_voroSC      = read.table('../../properties/res_prop_voronoiSC.out', header=T)
+res_prop_voroSC$pdb  = factor(res_prop_voroSC$pdb)
+res_prop_voroSC      = cbind(res_prop_voroSC, modified_volume = res_prop_voroSC$volume)
+maxval = max(res_prop_voroSC$volume)
+res_prop_voroSC$modified_volume[res_prop_voroSC$volume_change != 0] = maxval
+res_prop_voroSC$modified_volume = res_prop_voroSC$modified_volume + res_prop_voroSC$volume_change
+
 pdb_prop_from_residue_prop = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
 counter = 0
 
