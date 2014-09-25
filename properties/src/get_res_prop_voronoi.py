@@ -25,7 +25,20 @@ import numpy
 # INPUT:  pdb files in ../structures/*  and the name of the output file.
 # OUTPUT: Two files that will contain the output of Voro++ for the COM of Side Chain atoms of Amino Acids in the pdb file
 # Amir Shahmoradi, 3:57 PM, Tuesday Aug 16 2014, Wilke Lab, iCMB, The University of Texas at Austin.
-    
+
+# This is a dictionary of residue volumes taken from the book "Protein Structure" Darby & Creighton. 
+resvol_dict = { 'ALA':  67.0, 'ARG': 148.0, 'ASN':  96.0, 'ASP':  91.0, 'CYS':  86.0, \
+                'GLN': 114.0, 'GLU': 109.0, 'GLY':  48.0, 'HIS': 118.0, 'ILE': 124.0, \
+                'LEU': 124.0, 'LYS': 135.0, 'MET': 124.0, 'PHE': 135.0, 'PRO':  90.0, \
+                'SER':  73.0, 'THR':  93.0, 'TRP': 163.0, 'TYR': 141.0, 'VAL': 105.0  }
+
+#This is a dictionary that relates the three letter amino acid abbreviation with its one letter abbreviation
+res_dict = { 'ALA': 'A', 'CYS': 'C', 'ASP': 'D', 'GLU': 'E', 'PHE': 'F', \
+             'GLY': 'G', 'HIS': 'H', 'ILE': 'I', 'LYS': 'K', 'LEU': 'L', \
+             'MET': 'M', 'ASN': 'N', 'PRO': 'P', 'GLN': 'Q', 'ARG': 'R', \
+             'SER': 'S', 'THR': 'T', 'VAL': 'V', 'TRP': 'W', 'TYR': 'Y' }
+
+
 def main():
     if len( sys.argv ) != 5:
         print '''
@@ -223,20 +236,24 @@ Usage:'''
     
             else:
                  for k,record in enumerate(filecontent):
-                    residue_extended_volume = float(record.split()[-4])
-                    volume_change = residue_extended_volume - float(pdb_voro_data[k][-2])
-                    pdb_voro_data[k].append(str(volume_change))
+                     residue_extended_volume = float(record.split()[-4])
+                     free_volume = residue_extended_volume - resvol_dict[resnam[k]]
+                     if free_volume < 0.0:
+                         print 'Negative Voronoi free volume detected!', pdb_name, resnam[k], str(resnum[k]), str(free_volume)
+                     pdb_voro_data[k].append(str(free_volume))
+                     volume_change = residue_extended_volume - float(pdb_voro_data[k][-3])
+                     pdb_voro_data[k].append(str(volume_change))
 
         # Now write out data in the output files. First check if the output file currently exists. If not, then create the output and add the file header.
         if os.path.isfile(summary_file[i]):
            output_file = open( summary_file[i] , 'a' )
         else:
            output_file = open( summary_file[i] , 'w' )
-           output_file.write( 'pdb' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'sizeSC' + '\t' + 'sizeAA' + '\t' \
-                            + 'nvertices' + '\t' + 'nedges' + '\t' + 'edge_length_total' + '\t' + 'nfaces' + '\t' + 'area' + '\t' + 'volume' + '\t' + 'eccentricity' + '\t' + 'volume_change' + '\n' )
+           output_file.write( 'pdb' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'sizeSC' + '\t' + 'sizeAA' + '\t' + 'resvol' + '\t' \
+                            + 'vnvertices' + '\t' + 'vnedges' + '\t' + 'vedge_length_total' + '\t' + 'vnfaces' + '\t' + 'varea' + '\t' + 'vvolume' + '\t' + 'veccentricity' + '\t' + 'vfree_volume' + '\t' + 'vvolume_change' + '\n' )
         
         for j,data in enumerate(pdb_voro_data):
-            output_file.write( pdb_name + '\t' + resnam[j] + '\t' + str(resnum[j]) + '\t' + str(sizeSC[j]) + '\t' + str(sizeAA[j]) + '\t' \
+            output_file.write( pdb_name + '\t' + resnam[j] + '\t' + str(resnum[j]) + '\t' + str(sizeSC[j]) + '\t' + str(sizeAA[j]) + '\t' + str(resvol_dict[resnam[j]]) + '\t' \
                              + '\t'.join(data) + '\n' )
             #print sizeSC[j], sizeAA[j]
         
