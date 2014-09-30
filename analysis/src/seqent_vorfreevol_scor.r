@@ -1,6 +1,6 @@
-# Calculates the spearman correlation between Sequence Entropy (seqent) and the Voronoi edge_length of the cell of the Amino Acid.
+# Calculates the spearman correlation between Sequence Entropy (seqent) and the Voronoi volumes of the Amino Acid.
 
-# Amir Shahmoradi, Friday 1:53 PM, Sep 19 2014, Wilke Lab, ICMB, UT Austin
+# Amir Shahmoradi, Friday 1:05 PM, Sep 19 2014, Wilke Lab, ICMB, UT Austin
 
 setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 
@@ -21,7 +21,7 @@ res_prop_voroAA      = read.table('../../properties/res_prop_voronoiAA.out', hea
 res_prop_voroAA$pdb  = factor(res_prop_voroAA$pdb)
 
 pdb_prop_elj   = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
-seqent_voredgelength_scor  = data.frame()
+seqent_vorfreevol_scor  = data.frame()
 
 counter = 0
 
@@ -33,25 +33,29 @@ for(pdb in levels(res_prop_elj$pdb))
   pdb_elj  = res_prop_elj[res_prop_elj$pdb==pdb,]
   
   pdb_voro = res_prop_voroCA[res_prop_voroCA$pdb==pdb,]
-  x = cor.test( pdb_elj$seqent, pdb_voro$vedge_length_total, method='spearman', na.action="na.omit" )
-  r.seqent_voredgelengthCA = x$estimate
-  p.seqent_voredgelengthCA = x$p.value
+  # cat (length(pdb_voro), length(pdb_elj), '\n' )
+  x = cor.test( pdb_elj$seqent, pdb_voro$vfree_volume, method='spearman', na.action="na.omit" )
+  r.seqent_vfree_volumeCA = x$estimate
+  p.seqent_vfree_volumeCA = x$p.value
   
   pdb_voro = res_prop_voroSC[res_prop_voroSC$pdb==pdb,]
-  x = cor.test( pdb_elj$seqent, pdb_voro$vedge_length_total, method='spearman', na.action="na.omit" )
-  r.seqent_voredgelengthSC = x$estimate
-  p.seqent_voredgelengthSC = x$p.value
+  x = cor.test( pdb_elj$seqent, pdb_voro$vfree_volume, method='spearman', na.action="na.omit" )
+  r.seqent_vfree_volumeSC = x$estimate
+  p.seqent_vfree_volumeSC = x$p.value
   
   pdb_voro = res_prop_voroAA[res_prop_voroAA$pdb==pdb,]
-  x = cor.test( pdb_elj$seqent, pdb_voro$vedge_length_total, method='spearman', na.action="na.omit" )
-  r.seqent_voredgelengthAA = x$estimate
-  p.seqent_voredgelengthAA = x$p.value
+  x = cor.test( pdb_elj$seqent, pdb_voro$vfree_volume, method='spearman', na.action="na.omit" )
+  r.seqent_vfree_volumeAA = x$estimate
+  p.seqent_vfree_volumeAA = x$p.value
   
   srow = data.frame( pdb=pdb,
-                     r.seqent_voredgelengthCA,
-                     r.seqent_voredgelengthSC,
-                     r.seqent_voredgelengthAA
+                     r.seqent_vfree_volumeCA,
+                     r.seqent_vfree_volumeSC,
+                     r.seqent_vfree_volumeAA
                     )
 
-  seqent_voredgelength_scor = rbind(seqent_voredgelength_scor,srow)
+  seqent_vorfreevol_scor = rbind(seqent_vorfreevol_scor,srow)
 }
+
+mean(seqent_vorfreevol_scor$r.seqent_vfree_volumeSC)
+median(seqent_vorfreevol_scor$r.seqent_vfree_volumeSC)

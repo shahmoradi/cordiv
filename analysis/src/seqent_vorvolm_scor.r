@@ -19,11 +19,11 @@ res_prop_elj$pdb   = factor(res_prop_elj$pdb)
 
 res_prop_voroSC      = read.table('../../properties/res_prop_voronoiSC.out', header=T)
 res_prop_voroSC$pdb  = factor(res_prop_voroSC$pdb)
-res_prop_voroSC      = cbind(res_prop_voroSC, modified_volume = res_prop_voroSC$volume)
-maxval = max(res_prop_voroSC$volume)
-res_prop_voroSC$modified_volume[res_prop_voroSC$volume_change != 0] = maxval
-res_prop_voroSC$modified_volume = res_prop_voroSC$modified_volume + res_prop_voroSC$volume_change
-res_prop_voroSC      = cbind(res_prop_voroSC, modified_volume_normed_sizeSC = res_prop_voroSC$modified_volume/res_prop_voroSC$sizeSC)
+res_prop_voroSC      = cbind(res_prop_voroSC, vmodified_volume = res_prop_voroSC$vvolume)
+maxval = max(res_prop_voroSC$vvolume)
+res_prop_voroSC$vmodified_volume[res_prop_voroSC$vvolume_change != 0] = maxval
+res_prop_voroSC$vmodified_volume = res_prop_voroSC$vmodified_volume + res_prop_voroSC$vvolume_change
+res_prop_voroSC      = cbind(res_prop_voroSC, vmodified_volume_normed_sizeSC = res_prop_voroSC$vmodified_volume/res_prop_voroSC$sizeSC)
 
 pdb_prop_elj   = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
 seqent_vorvolm_scor  = data.frame()
@@ -38,11 +38,11 @@ for(pdb in levels(res_prop_elj$pdb))
   pdb_elj  = res_prop_elj[res_prop_elj$pdb==pdb,]
   pdb_voro = res_prop_voroSC[res_prop_voroSC$pdb==pdb,]
 
-  x = cor.test( pdb_elj$seqent, pdb_voro$modified_volume, method='spearman', na.action="na.omit" )
+  x = cor.test( pdb_elj$seqent, pdb_voro$vmodified_volume, method='spearman', na.action="na.omit" )
   r.seqent_vorvolmSC = x$estimate
   p.seqent_vorvolmSC = x$p.value
   
-  x = cor.test( pdb_elj$seqent, pdb_voro$modified_volume_normed_sizeSC, method='spearman', na.action="na.omit" )
+  x = cor.test( pdb_elj$seqent, pdb_voro$vmodified_volume_normed_sizeSC, method='spearman', na.action="na.omit" )
   r.seqent_vorvolmnSC = x$estimate
   p.seqent_vorvolmnSC = x$p.value
   
