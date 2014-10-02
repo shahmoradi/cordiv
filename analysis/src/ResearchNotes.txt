@@ -1,6 +1,0 @@
-Research Notes:
-
-- I have compared the three definitions of hydrophobicity scales (HPS) that I considered in this work. It seems that HPS_HH is likely the best HPS scale in term of correlation strength with other variables, compared to the two other scales: HPS_KD & HPS_WW. So, I am going to use this variable as a proxy for hydrophobicity and drop the two other in the analysis, in order to reduce redundancy.
-
-- 
-
