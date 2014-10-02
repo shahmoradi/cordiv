@@ -246,12 +246,19 @@ Usage:'''
 
         # Now write out data in the output files. First check if the output file currently exists. If not, then create the output and add the file header.
         if os.path.isfile(summary_file[i]):
-           output_file = open( summary_file[i] , 'a' )
+            output_file = open( summary_file[i] , 'a' )
         else:
-           output_file = open( summary_file[i] , 'w' )
-           output_file.write( 'pdb' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'sizeSC' + '\t' + 'sizeAA' + '\t' + 'resvol' + '\t' \
-                            + 'vnvertices' + '\t' + 'vnedges' + '\t' + 'vedge_length_total' + '\t' + 'vnfaces' + '\t' + 'varea' + '\t' + 'vvolume' + '\t' + 'veccentricity' + '\t' + 'vfree_volume' + '\t' + 'vvolume_change' + '\n' )
-        
+            output_file = open( summary_file[i] , 'w' )
+            if filename[i] == filenameCA.name:
+                output_file.write( 'pdb' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'sizeSC' + '\t' + 'sizeAA' + '\t' + 'resvol' + '\t' \
+                                   + 'VCAnvertices' + '\t' + 'VCAnedges' + '\t' + 'VCAedge_length_total' + '\t' + 'VCAnfaces' + '\t' + 'VCAarea' + '\t' + 'VCAvolume' + '\t' + 'VCAeccentricity' + '\t' + 'VCAfree_volume' + '\t' + 'VCAvolume_change' + '\n' )
+            elif filename[i] == filenameSC.name:
+              output_file.write( 'pdb' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'sizeSC' + '\t' + 'sizeAA' + '\t' + 'resvol' + '\t' \
+                                 + 'VSCnvertices' + '\t' + 'VSCnedges' + '\t' + 'VSCedge_length_total' + '\t' + 'VSCnfaces' + '\t' + 'VSCarea' + '\t' + 'VSCvolume' + '\t' + 'VSCeccentricity' + '\t' + 'VSCfree_volume' + '\t' + 'VSCvolume_change' + '\n' )
+            elif filename[i] == filenameAA.name:
+              output_file.write( 'pdb' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'sizeSC' + '\t' + 'sizeAA' + '\t' + 'resvol' + '\t' \
+                                 + 'VAAnvertices' + '\t' + 'VAAnedges' + '\t' + 'VAAedge_length_total' + '\t' + 'VAAnfaces' + '\t' + 'VAAarea' + '\t' + 'VAAvolume' + '\t' + 'VAAeccentricity' + '\t' + 'VAAfree_volume' + '\t' + 'VAAvolume_change' + '\n' )
+
         for j,data in enumerate(pdb_voro_data):
             output_file.write( pdb_name + '\t' + resnam[j] + '\t' + str(resnum[j]) + '\t' + str(sizeSC[j]) + '\t' + str(sizeAA[j]) + '\t' + str(resvol_dict[resnam[j]]) + '\t' \
                              + '\t'.join(data) + '\n' )
