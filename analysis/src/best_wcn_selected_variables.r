@@ -1,7 +1,7 @@
-# This code is aimed at finding which definition of B factor can best represent a residue. This is done by comparing the correlations of different atomic B factors or defenitions of B factor (SC and AA) with other residue variables.
-# "selected_variables" in the name of this code refers to the fact that I am comparing the performance of different B factors to only a select number of important residue properties, such as ASA, RSA, seqent, ddGent, and I am ignoring the rest which are generally definition dependent, such as different definitions of WCN and voronoi Volumes and areas based on the set of atom coordinates used.
+# This code is aimed at finding which definition of WCN can best represent a residue. This is done by comparing the correlations of different atomic WCNs or definitions of WCN (SC and AA) with other residue variables.
+# "selected_variables" in the name of this code refers to the fact that I am comparing the performance of different WCN to only a select number of important residue properties, such as ASA, RSA, seqent, ddGent, and I am ignoring the rest which are generally definition dependent, such as different definitions of B factors and voronoi Volumes and areas based on the set of atom coordinates used.
 
-# Last updated by Amir Shahmoradi, Wednesday 5:06 PM, October 1 2014, Wilke Lab, ICMB, UT Austin
+# Last updated by Amir Shahmoradi, Thursday 9:27 PM, October 2 2014, Wilke Lab, ICMB, UT Austin
 
 # Input data:
 #               ../../elj_pdb_entropies.in
@@ -11,8 +11,6 @@
 #               ../../properties/res_prop_voronoiAA.out
 #               ../../properties/res_prop_voronoiCA.out
 #               ../../properties/res_prop_voronoiSC.out
-
-# Last updated by Amir Shahmoradi, Tuesday 7:41 PM, Sep 30 2014, Wilke Lab, ICMB, UT Austin
 
 #install.packages("reshape2")
 #library("reshape2")
@@ -53,8 +51,8 @@ maxval = max(res_prop_voroSC$VSCvolume)
 res_prop_voroSC$VSCmodified_volume[res_prop_voroSC$VSCvolume_change != 0] = maxval
 res_prop_voroSC$VSCmodified_volume = res_prop_voroSC$VSCmodified_volume + res_prop_voroSC$VSCvolume_change
 
-bf_scors_all_pdbs = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
-bf_list = c('bfSC','bfAA','bfN','bfCA','bfC','bfO','bfCB')
+wcn_scors_all_pdbs = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
+wcn_list = c('wcnSC','wcnAA','wcnN','wcnCA','wcnC','wcnO','wcnCB')
 counter = 0
 
 for(pdb in levels(res_prop_elj$pdb))
@@ -65,8 +63,8 @@ for(pdb in levels(res_prop_elj$pdb))
   pdb_elj    = res_prop_elj[res_prop_elj$pdb==pdb,] # c('seqent','ddgent')]
   pdb_hps    = res_prop_hps[res_prop_hps$pdb==pdb,]  # c('hpskd','hpsww','hpshh')]
   pdb_dssp   = res_prop_dssp[res_prop_dssp$pdb==pdb,] # c('asa','rsa','hbe_mean','rss')] )
-  pdb_bf     = res_prop_wcn_bf[res_prop_wcn_bf$pdb==pdb, bf_list]
-  #pdb_wcn    = res_prop_wcn_bf[res_prop_wcn_bf$pdb==pdb,]
+  #pdb_bf     = res_prop_wcn_bf[res_prop_wcn_bf$pdb==pdb]
+  pdb_wcn    = res_prop_wcn_bf[res_prop_wcn_bf$pdb==pdb, wcn_list]
   pdb_voroAA = res_prop_voroAA[res_prop_voroAA$pdb==pdb, ]
   #pdb_voroCA = res_prop_voroCA[res_prop_voroCA$pdb==pdb, ]
   #pdb_voroSC = res_prop_voroSC[res_prop_voroSC$pdb==pdb, ]
@@ -81,46 +79,46 @@ for(pdb in levels(res_prop_elj$pdb))
                     #subset(pdb_voroSC, select = -c(pdb,resnam,resnum,sizeSC,sizeAA,resvol,VSCnvertices,VSCnedges,VSCvolume_change))
                    )
   
-  pdb_bf_long = reshape(pdb_bf, ids = rownames(pdb_bf), varying = colnames(pdb_bf), v.names = 'value', timevar = 'variable', times = colnames(pdb_bf), direction = 'long')
-  pdb_bf_long$variable = factor(pdb_bf_long$variable)
+  pdb_wcn_long = reshape(pdb_wcn, ids = rownames(pdb_wcn), varying = colnames(pdb_wcn), v.names = 'value', timevar = 'variable', times = colnames(pdb_wcn), direction = 'long')
+  pdb_wcn_long$variable = factor(pdb_wcn_long$variable)
   pdb_long = reshape(pdb_temp, ids = rownames(pdb_temp), varying = colnames(pdb_temp), v.names = 'value', timevar = 'variable', times = colnames(pdb_temp), direction = 'long')
   pdb_long$variable = factor(pdb_long$variable)
   
-  for (bf in levels(pdb_bf_long$variable))
+  for (wcn in levels(pdb_wcn_long$variable))
   {
-    bf_data = pdb_bf_long[pdb_bf_long$variable == bf,]
+    wcn_data = pdb_wcn_long[pdb_wcn_long$variable == wcn,]
     for (variable in levels(pdb_long$variable))
     {
       variable_data = pdb_long[pdb_long$variable == variable,]
-      x = cor.test( bf_data$value, variable_data$value, method='spearman', na.action="na.omit" )
+      x = cor.test( wcn_data$value, variable_data$value, method='spearman', na.action="na.omit" )
       r = x$estimate
       p = x$p.value
       
-      row = data.frame(pdb = pdb, bf = bf, variable = variable, value = r)
-      bf_scors_all_pdbs = rbind(bf_scors_all_pdbs,row)
+      row = data.frame(pdb = pdb, wcn = wcn, variable = variable, value = r)
+      wcn_scors_all_pdbs = rbind(wcn_scors_all_pdbs,row)
     }
   }
 }
-write.csv( bf_scors_all_pdbs, "../tables/best_bf/selected_variables/bf_scors_all_pdbs.csv", row.names=F )
+write.csv( wcn_scors_all_pdbs, "../tables/best_wcn/selected_variables/wcn_scors_all_pdbs.csv", row.names=F )
 
 
 
 # Now summarize all Spearman correlations over the entire dataset
 
-bf_scors_all_pdbs = read.csv( "../tables/best_bf/selected_variables/bf_scors_all_pdbs.csv", header = TRUE )
-bf_scors_all_pdbs$variable = factor(bf_scors_all_pdbs$variable)
-bf_scors_all_pdbs$bf = factor(bf_scors_all_pdbs$bf)
+wcn_scors_all_pdbs = read.csv( "../tables/best_wcn/selected_variables/wcn_scors_all_pdbs.csv", header = TRUE )
+wcn_scors_all_pdbs$variable = factor(wcn_scors_all_pdbs$variable)
+wcn_scors_all_pdbs$wcn = factor(wcn_scors_all_pdbs$wcn)
 
 
-for (bf in levels(bf_scors_all_pdbs$bf))
+for (wcn in levels(wcn_scors_all_pdbs$wcn))
 {
-  temp_data_bf = bf_scors_all_pdbs[bf_scors_all_pdbs$bf == bf,]
-  temp_data_bf$variable = factor(temp_data_bf$variable)
+  temp_data_wcn = wcn_scors_all_pdbs[wcn_scors_all_pdbs$wcn == wcn,]
+  temp_data_wcn$variable = factor(temp_data_wcn$variable)
   
-  bf_scors_summary = data.frame()
-  for (variable in levels(temp_data_bf$variable))
+  wcn_scors_summary = data.frame()
+  for (variable in levels(temp_data_wcn$variable))
   {
-    temp_data = temp_data_bf[temp_data_bf$variable == variable,]
+    temp_data = temp_data_wcn[temp_data_wcn$variable == variable,]
     if (length(temp_data$pdb) != 213)
     {
       stop ( 'something is fishy here!' )
@@ -136,71 +134,71 @@ for (bf in levels(bf_scors_all_pdbs$bf))
                      q3       = x[4],
                      max      = x[5]
                     )
-    bf_scors_summary = rbind(bf_scors_summary,row)
+    wcn_scors_summary = rbind(wcn_scors_summary,row)
   }
-  row.names(bf_scors_summary) = c()
-  filename = paste0("../tables/best_bf/selected_variables/",bf,'_scors_summary.csv')
-  write.csv(bf_scors_summary, filename, row.names=F )
-  cat (bf, filename, '\n')
+  row.names(wcn_scors_summary) = c()
+  filename = paste0("../tables/best_wcn/selected_variables/",wcn,'_scors_summary.csv')
+  write.csv(wcn_scors_summary, filename, row.names=F )
+  cat (wcn, filename, '\n')
 }
 
-# Now compare the three bf scors with each other:
+# Now compare the three wcn scors with each other:
 
-for (i in 1:(length(bf_list)-1))
+for (i in 1:(length(wcn_list)-1))
 {
-  filename = paste0("../tables/best_bf/selected_variables/",bf_list[[i]][1],'_scors_summary.csv')
-  bf_scors_summary1 = read.csv( filename, header = T )
-  for (j in (i+1):length(bf_list))
+  filename = paste0("../tables/best_wcn/selected_variables/",wcn_list[[i]][1],'_scors_summary.csv')
+  wcn_scors_summary1 = read.csv( filename, header = T )
+  for (j in (i+1):length(wcn_list))
   {
-    filename = paste0("../tables/best_bf/selected_variables/",bf_list[[j]][1],'_scors_summary.csv')
-    bf_scors_summary2 = read.csv( filename, header = T )
-    difference = data.frame(variable      = bf_scors_summary1$variable,
-                            mean_diff     = abs(bf_scors_summary1$mean)   - abs(bf_scors_summary2$mean),
-                            median_diff   = abs(bf_scors_summary1$median) - abs(bf_scors_summary2$median),
-                            sd_diff       = abs(bf_scors_summary1$sd)     - abs(bf_scors_summary2$sd),
-                            min_diff      = abs(bf_scors_summary1$min)    - abs(bf_scors_summary2$min),
-                            q1_diff       = abs(bf_scors_summary1$q1)     - abs(bf_scors_summary2$q1),
-                            q3_diff       = abs(bf_scors_summary1$q3)     - abs(bf_scors_summary2$q3),
-                            max_diff      = abs(bf_scors_summary1$max)    - abs(bf_scors_summary2$max)
+    filename = paste0("../tables/best_wcn/selected_variables/",wcn_list[[j]][1],'_scors_summary.csv')
+    wcn_scors_summary2 = read.csv( filename, header = T )
+    difference = data.frame(variable      = wcn_scors_summary1$variable,
+                            mean_diff     = abs(wcn_scors_summary1$mean)   - abs(wcn_scors_summary2$mean),
+                            median_diff   = abs(wcn_scors_summary1$median) - abs(wcn_scors_summary2$median),
+                            sd_diff       = abs(wcn_scors_summary1$sd)     - abs(wcn_scors_summary2$sd),
+                            min_diff      = abs(wcn_scors_summary1$min)    - abs(wcn_scors_summary2$min),
+                            q1_diff       = abs(wcn_scors_summary1$q1)     - abs(wcn_scors_summary2$q1),
+                            q3_diff       = abs(wcn_scors_summary1$q3)     - abs(wcn_scors_summary2$q3),
+                            max_diff      = abs(wcn_scors_summary1$max)    - abs(wcn_scors_summary2$max)
                             )
     row.names(difference) = c()
-    filename = paste0('../tables/best_bf/selected_variables/diff_',bf_list[[i]][1],'_',bf_list[[j]][1],'.csv')
+    filename = paste0('../tables/best_wcn/selected_variables/diff_',wcn_list[[i]][1],'_',wcn_list[[j]][1],'.csv')
     cat (filename, '\n')
     write.csv( difference, filename, row.names=F )
   }
 }
 
-# Make plots of ABS(bf) vs. ABS(bf) for comparison:
+# Make plots of ABS(wcn) vs. ABS(wcn) for comparison:
 
-x = -1:1
+x = -2:2
 colors = c('red', 'blue', 'green', 'purple', 'orange3', 'darkgreen', 'black', 'gray', 'cyan2') #, 'darkred', 'darkgreen', 'bisque2')
 labels = c('ASA', 'ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
 
-for (i in 1:(length(bf_list)-1))
+for (i in 1:(length(wcn_list)-1))
 {
-  filename = paste0("../tables/best_bf/selected_variables/",bf_list[[i]][1],'_scors_summary.csv')
-  bf_scors_summary1 = read.csv( filename, header = T )
-  for (j in (i+1):length(bf_list))
+  filename = paste0("../tables/best_wcn/selected_variables/",wcn_list[[i]][1],'_scors_summary.csv')
+  wcn_scors_summary1 = read.csv( filename, header = T )
+  for (j in (i+1):length(wcn_list))
   {
-    filename = paste0("../tables/best_bf/selected_variables/",bf_list[[j]][1],'_scors_summary.csv')
-    bf_scors_summary2 = read.csv( filename, header = T )
-    filename = paste0('../figures/best_bf/selected_variables/abs(',bf_list[[i]][1],'_',bf_list[[j]][1],').pdf')
+    filename = paste0("../tables/best_wcn/selected_variables/",wcn_list[[j]][1],'_scors_summary.csv')
+    wcn_scors_summary2 = read.csv( filename, header = T )
+    filename = paste0('../figures/best_wcn/selected_variables/abs(',wcn_list[[i]][1],'_',wcn_list[[j]][1],').pdf')
     cat (filename, '\n')
     pdf( filename, width=4.5, height=4, useDingbats=FALSE )
     par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
     plot(-999,
          #xaxt='n',yaxt='n',bty='n',pch='',
-    #plot(abs(bf_scors_summary1$median),
-    #     abs(bf_scors_summary2$median),
-         xlab = paste0( 'absolute median correlation with ',bf_list[[i]][1] ),
-         ylab = paste0( 'absolute median correlation with ',bf_list[[j]][1] ),
-         xlim = c(0,0.8),
-         ylim = c(0,0.8)
+    #plot(abs(wcn_scors_summary1$median),
+    #     abs(wcn_scors_summary2$median),
+         xlab = paste0( 'absolute median correlation with ',wcn_list[[i]][1] ),
+         ylab = paste0( 'absolute median correlation with ',wcn_list[[j]][1] ),
+         xlim = c(0,1.0),
+         ylim = c(0,1.0)
          )
-    points( abs(bf_scors_summary1$median),
-            abs(bf_scors_summary2$median), pch=19, col=colors[1:length(bf_scors_summary2$median)])
+    points( abs(wcn_scors_summary1$median),
+            abs(wcn_scors_summary2$median), pch=19, col=colors[1:length(wcn_scors_summary2$median)])
     lines( x, x, col='red' )
-    legend( -0.02, 0.85, labels[1:7], pch=19, col=colors[1:7], bty='n', cex=0.9)
+    legend( -0.02, 1.05, labels[1:7], pch=19, col=colors[1:7], bty='n', cex=0.9)
     #legend( 0.7, 0.1, labels[4:6], pch=19, col=colors[4:6], bty='n', cex=0.9)
     graphics.off()
   }
