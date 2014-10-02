@@ -65,18 +65,19 @@ for(pdb in levels(res_prop_elj$pdb))
   pdb_hps    = res_prop_hps[res_prop_hps$pdb==pdb,]  # c('hpskd','hpsww','hpshh')]
   pdb_dssp   = res_prop_dssp[res_prop_dssp$pdb==pdb,] # c('asa','rsa','hbe_mean','rss')] )
   pdb_bf     = res_prop_wcn_bf[res_prop_wcn_bf$pdb==pdb, bf_list]
-  pdb_wcn    = res_prop_wcn_bf[res_prop_wcn_bf$pdb==pdb,]
+  #pdb_wcn    = res_prop_wcn_bf[res_prop_wcn_bf$pdb==pdb,]
   pdb_voroAA = res_prop_voroAA[res_prop_voroAA$pdb==pdb, ]
-  pdb_voroCA = res_prop_voroCA[res_prop_voroCA$pdb==pdb, ]
-  pdb_voroSC = res_prop_voroSC[res_prop_voroSC$pdb==pdb, ]
+  #pdb_voroCA = res_prop_voroCA[res_prop_voroCA$pdb==pdb, ]
+  #pdb_voroSC = res_prop_voroSC[res_prop_voroSC$pdb==pdb, ]
   
-  pdb_temp = cbind( subset(pdb_elj, select = c(seqent,ddgent)),
-                    subset(pdb_hps, select = c(hpshh)),
+  pdb_temp = cbind( subset(pdb_elj, select  = c(seqent,ddgent)),
+                    subset(pdb_hps, select  = c(hpshh)),
                     subset(pdb_dssp, select = c(asa,rsa,hbe_mean)),
-                    subset(pdb_wcn, select = -c(pdb,resnam,resnum,bfSC,bfAA,bfN,bfCA,bfC,bfO,bfCB)),
-                    subset(pdb_voroAA, select = -c(pdb,resnam,resnum,sizeSC,sizeAA,VAAnvertices,VAAnedges,VAAvolume_change)),
-                    subset(pdb_voroCA, select = -c(pdb,resnam,resnum,sizeSC,sizeAA,resvol,VCAnvertices,VCAnedges,VCAvolume_change)),
-                    subset(pdb_voroSC, select = -c(pdb,resnam,resnum,sizeSC,sizeAA,resvol,VSCnvertices,VSCnedges,VSCvolume_change))
+                    subset(pdb_voroAA, select = c(resvol))
+                    #subset(pdb_wcn, select = -c(pdb,resnam,resnum,bfSC,bfAA,bfN,bfCA,bfC,bfO,bfCB)),
+                    #subset(pdb_voroAA, select = -c(pdb,resnam,resnum,sizeSC,sizeAA,VAAnvertices,VAAnedges,VAAvolume_change)),
+                    #subset(pdb_voroCA, select = -c(pdb,resnam,resnum,sizeSC,sizeAA,resvol,VCAnvertices,VCAnedges,VCAvolume_change)),
+                    #subset(pdb_voroSC, select = -c(pdb,resnam,resnum,sizeSC,sizeAA,resvol,VSCnvertices,VSCnedges,VSCvolume_change))
                    )
   
   pdb_bf_long = reshape(pdb_bf, ids = rownames(pdb_bf), varying = colnames(pdb_bf), v.names = 'value', timevar = 'variable', times = colnames(pdb_bf), direction = 'long')
@@ -99,13 +100,13 @@ for(pdb in levels(res_prop_elj$pdb))
     }
   }
 }
-write.csv( bf_scors_all_pdbs, "../tables/best_bf/bf_scors_all_pdbs.csv", row.names=F )
+write.csv( bf_scors_all_pdbs, "../tables/best_bf/selected_variabes/bf_scors_all_pdbs.csv", row.names=F )
 
 
 
 # Now summarize all Spearman correlations over the entire dataset
 
-bf_scors_all_pdbs = read.csv( "../tables/best_bf/bf_scors_all_pdbs.csv", header = TRUE )
+bf_scors_all_pdbs = read.csv( "../tables/best_bf/selected_variabes/bf_scors_all_pdbs.csv", header = TRUE )
 bf_scors_all_pdbs$variable = factor(bf_scors_all_pdbs$variable)
 bf_scors_all_pdbs$bf = factor(bf_scors_all_pdbs$bf)
 
@@ -137,7 +138,7 @@ for (bf in levels(bf_scors_all_pdbs$bf))
     bf_scors_summary = rbind(bf_scors_summary,row)
   }
   row.names(bf_scors_summary) = c()
-  filename = paste0("../tables/best_bf/",bf,'_scors_summary.csv')
+  filename = paste0("../tables/best_bf/selected_variabes/",bf,'_scors_summary.csv')
   write.csv(bf_scors_summary, filename, row.names=F )
   cat (bf, filename, '\n')
 }
@@ -146,11 +147,11 @@ for (bf in levels(bf_scors_all_pdbs$bf))
 
 for (i in 1:(length(bf_list)-1))
 {
-  filename = paste0("../tables/best_bf/",bf_list[[i]][1],'_scors_summary.csv')
+  filename = paste0("../tables/best_bf/selected_variabes/",bf_list[[i]][1],'_scors_summary.csv')
   bf_scors_summary1 = read.csv( filename, header = T )
   for (j in (i+1):length(bf_list))
   {
-    filename = paste0("../tables/best_bf/",bf_list[[j]][1],'_scors_summary.csv')
+    filename = paste0("../tables/best_bf/selected_variabes/",bf_list[[j]][1],'_scors_summary.csv')
     bf_scors_summary2 = read.csv( filename, header = T )
     difference = data.frame(variable      = bf_scors_summary1$variable,
                             mean_diff     = abs(bf_scors_summary1$mean)   - abs(bf_scors_summary2$mean),
@@ -162,7 +163,7 @@ for (i in 1:(length(bf_list)-1))
                             max_diff      = abs(bf_scors_summary1$max)    - abs(bf_scors_summary2$max)
                             )
     row.names(difference) = c()
-    filename = paste0('../tables/best_bf/diff_',bf_list[[i]][1],'_',bf_list[[j]][1],'.csv')
+    filename = paste0('../tables/best_bf/selected_variabes/diff_',bf_list[[i]][1],'_',bf_list[[j]][1],'.csv')
     cat (filename, '\n')
     write.csv( difference, filename, row.names=F )
   }
@@ -170,26 +171,37 @@ for (i in 1:(length(bf_list)-1))
 
 # Make plots of ABS(bf) vs. ABS(bf) for comparison:
 
-x = 0:1
+x = -1:1
+colors = c('red', 'blue', 'green', 'purple', 'orange3', 'darkgreen', 'black', 'gray', 'cyan2') #, 'darkred', 'darkgreen', 'bisque2')
+labels = c('ASA', 'ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
 
 for (i in 1:(length(bf_list)-1))
 {
-  filename = paste0("../tables/best_bf/",bf_list[[i]][1],'_scors_summary.csv')
+  filename = paste0("../tables/best_bf/selected_variabes/",bf_list[[i]][1],'_scors_summary.csv')
   bf_scors_summary1 = read.csv( filename, header = T )
   for (j in (i+1):length(bf_list))
   {
-    filename = paste0("../tables/best_bf/",bf_list[[j]][1],'_scors_summary.csv')
+    filename = paste0("../tables/best_bf/selected_variabes/",bf_list[[j]][1],'_scors_summary.csv')
     bf_scors_summary2 = read.csv( filename, header = T )
-    filename = paste0('../figures/best_bf/abs(',bf_list[[i]][1],'_',bf_list[[j]][1],').pdf')
+    filename = paste0('../figures/best_bf/selected_variabes/abs(',bf_list[[i]][1],'_',bf_list[[j]][1],').pdf')
     cat (filename, '\n')
     pdf( filename, width=4.5, height=4, useDingbats=FALSE )
     par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
-    plot(abs(bf_scors_summary1$median),
-         abs(bf_scors_summary2$median),
-         xlab= paste0( 'Absolute Median Spearman r with ',bf_list[[i]][1]),
-         ylab= paste0( 'Absolute Median Spearman r with ',bf_list[[j]][1])
+    plot(-999,
+         #xaxt='n',yaxt='n',bty='n',pch='',
+    #plot(abs(bf_scors_summary1$median),
+    #     abs(bf_scors_summary2$median),
+         xlab = paste0( 'absolute median correlation with ',bf_list[[i]][1] ),
+         ylab = paste0( 'absolute median correlation with ',bf_list[[j]][1] ),
+         xlim = c(0,0.8),
+         ylim = c(0,0.8)
          )
+    points( abs(bf_scors_summary1$median),
+            abs(bf_scors_summary2$median), pch=19, col=colors[1:length(bf_scors_summary2$median)])
     lines( x, x, col='red' )
+    legend( -0.02, 0.85, labels[1:7], pch=19, col=colors[1:7], bty='n', cex=0.9)
+    #legend( 0.7, 0.1, labels[4:6], pch=19, col=colors[4:6], bty='n', cex=0.9)
     graphics.off()
   }
 }
+
