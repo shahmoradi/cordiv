@@ -52,7 +52,7 @@ res_prop_voroSC$VSCmodified_volume[res_prop_voroSC$VSCvolume_change != 0] = maxv
 res_prop_voroSC$VSCmodified_volume = res_prop_voroSC$VSCmodified_volume + res_prop_voroSC$VSCvolume_change
 
 wcn_scors_all_pdbs = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
-wcn_list = c('wcnSC','wcnAA','wcnN','wcnCA','wcnC','wcnO','wcnCB')
+wcn_list = c('wcnSC','wcnAA','wcnCB','wcnCA','wcnN','wcnC','wcnO')
 counter = 0
 
 for(pdb in levels(res_prop_elj$pdb))
@@ -204,3 +204,28 @@ for (i in 1:(length(wcn_list)-1))
   }
 }
 
+# Now create box plots
+
+wcn_scors_all_pdbs = read.csv( "../tables/best_wcn/selected_variables/wcn_scors_all_pdbs.csv", header = TRUE )
+wcn_scors_all_pdbs$variable = factor(wcn_scors_all_pdbs$variable)
+wcn_scors_all_pdbs$wcn = factor(wcn_scors_all_pdbs$wcn)
+
+variable_list = c('ASA', 'ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
+counter = 0
+for (variable in levels(wcn_scors_all_pdbs$variable))
+{ 
+  counter = counter + 1
+  temp_data_variable_long = wcn_scors_all_pdbs[wcn_scors_all_pdbs$variable == variable,c('pdb','wcn','value')]
+  temp_data_variable = reshape(temp_data_variable_long, timevar = 'wcn', idvar = 'pdb', direction = 'wide')
+  temp_data_variable = subset (temp_data_variable, select = -c(pdb))
+  colnames(temp_data_variable) = levels(wcn_scors_all_pdbs$wcn)
+  temp_data_variable = temp_data_variable[wcn_list]
+  filename = paste0('../figures/best_wcn/selected_variables/boxplot_',variable,'.pdf')
+  pdf( filename, width=6, height=4, useDingbats=FALSE )
+  par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+  boxplot(temp_data_variable,
+          xlab = 'representative Weighted Contact Number (wcn)',
+          ylab = paste0('Spearman correlation with ',variable_list[[counter]][1])
+  )
+  graphics.off()
+}
