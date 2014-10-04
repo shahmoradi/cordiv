@@ -241,8 +241,10 @@ Usage:'''
                      if free_volume < 0.0:
                          print 'Negative Voronoi free volume detected!', pdb_name, resnam[k], str(resnum[k]), str(free_volume)
                      pdb_voro_data[k].append(str(free_volume))
-                     volume_change = residue_extended_volume - float(pdb_voro_data[k][-3])
-                     pdb_voro_data[k].append(str(volume_change))
+                     volume_change_diff  = residue_extended_volume - float(pdb_voro_data[k][-3])
+                     volume_change_ratio = residue_extended_volume / float(pdb_voro_data[k][-3])
+                     pdb_voro_data[k].append(str(volume_change_diff))
+                     pdb_voro_data[k].append(str(volume_change_ratio))
 
         # Now write out data in the output files. First check if the output file currently exists. If not, then create the output and add the file header.
         if os.path.isfile(summary_file[i]):
@@ -251,13 +253,13 @@ Usage:'''
             output_file = open( summary_file[i] , 'w' )
             if filename[i] == filenameCA.name:
                 output_file.write( 'pdb' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'sizeSC' + '\t' + 'sizeAA' + '\t' + 'resvol' + '\t' \
-                                   + 'VCAnvertices' + '\t' + 'VCAnedges' + '\t' + 'VCAedge_length_total' + '\t' + 'VCAnfaces' + '\t' + 'VCAarea' + '\t' + 'VCAvolume' + '\t' + 'VCAeccentricity' + '\t' + 'VCAfree_volume' + '\t' + 'VCAvolume_change' + '\n' )
+                                   + 'VCAnvertices' + '\t' + 'VCAnedges' + '\t' + 'VCAedge_length_total' + '\t' + 'VCAnfaces' + '\t' + 'VCAarea' + '\t' + 'VCAvolume' + '\t' + 'VCAeccentricity' + '\t' + 'VCAfree_volume' + '\t' + 'VCAvolume_change_diff' + '\t' + 'VCAvolume_change_ratio' + '\n' )
             elif filename[i] == filenameSC.name:
               output_file.write( 'pdb' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'sizeSC' + '\t' + 'sizeAA' + '\t' + 'resvol' + '\t' \
-                                 + 'VSCnvertices' + '\t' + 'VSCnedges' + '\t' + 'VSCedge_length_total' + '\t' + 'VSCnfaces' + '\t' + 'VSCarea' + '\t' + 'VSCvolume' + '\t' + 'VSCeccentricity' + '\t' + 'VSCfree_volume' + '\t' + 'VSCvolume_change' + '\n' )
+                                 + 'VSCnvertices' + '\t' + 'VSCnedges' + '\t' + 'VSCedge_length_total' + '\t' + 'VSCnfaces' + '\t' + 'VSCarea' + '\t' + 'VSCvolume' + '\t' + 'VSCeccentricity' + '\t' + 'VSCfree_volume' + '\t' + 'VSCvolume_change_diff' + '\t' + 'VSCvolume_change_ratio' + '\n' )
             elif filename[i] == filenameAA.name:
               output_file.write( 'pdb' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'sizeSC' + '\t' + 'sizeAA' + '\t' + 'resvol' + '\t' \
-                                 + 'VAAnvertices' + '\t' + 'VAAnedges' + '\t' + 'VAAedge_length_total' + '\t' + 'VAAnfaces' + '\t' + 'VAAarea' + '\t' + 'VAAvolume' + '\t' + 'VAAeccentricity' + '\t' + 'VAAfree_volume' + '\t' + 'VAAvolume_change' + '\n' )
+                                 + 'VAAnvertices' + '\t' + 'VAAnedges' + '\t' + 'VAAedge_length_total' + '\t' + 'VAAnfaces' + '\t' + 'VAAarea' + '\t' + 'VAAvolume' + '\t' + 'VAAeccentricity' + '\t' + 'VAAfree_volume' + '\t' + 'VAAvolume_change_diff' + '\t' + 'VAAvolume_change_ratio' + '\n' )
 
         for j,data in enumerate(pdb_voro_data):
             output_file.write( pdb_name + '\t' + resnam[j] + '\t' + str(resnum[j]) + '\t' + str(sizeSC[j]) + '\t' + str(sizeAA[j]) + '\t' + str(resvol_dict[resnam[j]]) + '\t' \
