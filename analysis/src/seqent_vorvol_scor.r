@@ -34,17 +34,17 @@ for(pdb in levels(res_prop_elj$pdb))
   
   pdb_voro = res_prop_voroCA[res_prop_voroCA$pdb==pdb,]
   # cat (length(pdb_voro), length(pdb_elj), '\n' )
-  x = cor.test( pdb_elj$seqent, pdb_voro$volume, method='spearman', na.action="na.omit" )
+  x = cor.test( pdb_elj$seqent, pdb_voro$VCAvolume, method='spearman', na.action="na.omit" )
   r.seqent_vorvolCA = x$estimate
   p.seqent_vorvolCA = x$p.value
   
   pdb_voro = res_prop_voroSC[res_prop_voroSC$pdb==pdb,]
-  x = cor.test( pdb_elj$seqent, pdb_voro$volume, method='spearman', na.action="na.omit" )
+  x = cor.test( pdb_elj$seqent, pdb_voro$VSCvolume, method='spearman', na.action="na.omit" )
   r.seqent_vorvolSC = x$estimate
   p.seqent_vorvolSC = x$p.value
   
   pdb_voro = res_prop_voroAA[res_prop_voroAA$pdb==pdb,]
-  x = cor.test( pdb_elj$seqent, pdb_voro$volume, method='spearman', na.action="na.omit" )
+  x = cor.test( pdb_elj$seqent, pdb_voro$VAAvolume, method='spearman', na.action="na.omit" )
   r.seqent_vorvolAA = x$estimate
   p.seqent_vorvolAA = x$p.value
   

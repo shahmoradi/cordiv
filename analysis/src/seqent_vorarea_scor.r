@@ -34,17 +34,17 @@ for(pdb in levels(res_prop_elj$pdb))
   
   pdb_voro = res_prop_voroCA[res_prop_voroCA$pdb==pdb,]
   # cat (length(pdb_voro), length(pdb_elj), '\n' )
-  x = cor.test( pdb_elj$seqent, pdb_voro$varea, method='spearman', na.action="na.omit" )
+  x = cor.test( pdb_elj$seqent, pdb_voro$VCAarea, method='spearman', na.action="na.omit" )
   r.seqent_vorareaCA = x$estimate
   p.seqent_vorareaCA = x$p.value
   
   pdb_voro = res_prop_voroSC[res_prop_voroSC$pdb==pdb,]
-  x = cor.test( pdb_elj$seqent, pdb_voro$varea, method='spearman', na.action="na.omit" )
+  x = cor.test( pdb_elj$seqent, pdb_voro$VSCarea, method='spearman', na.action="na.omit" )
   r.seqent_vorareaSC = x$estimate
   p.seqent_vorareaSC = x$p.value
   
   pdb_voro = res_prop_voroAA[res_prop_voroAA$pdb==pdb,]
-  x = cor.test( pdb_elj$seqent, pdb_voro$varea, method='spearman', na.action="na.omit" )
+  x = cor.test( pdb_elj$seqent, pdb_voro$VAAarea, method='spearman', na.action="na.omit" )
   r.seqent_vorareaAA = x$estimate
   p.seqent_vorareaAA = x$p.value
   
@@ -56,3 +56,12 @@ for(pdb in levels(res_prop_elj$pdb))
 
   seqent_vorarea_scor = rbind(seqent_vorarea_scor,srow)
 }
+
+mean(seqent_vorarea_scor$r.seqent_vorareaSC)
+median(seqent_vorarea_scor$r.seqent_vorareaSC)
+
+mean(seqent_vorarea_scor$r.seqent_vorareaAA)
+median(seqent_vorarea_scor$r.seqent_vorareaAA)
+
+mean(seqent_vorarea_scor$r.seqent_vorareaCA)
+median(seqent_vorarea_scor$r.seqent_vorareaCA)
