@@ -34,8 +34,12 @@ res_prop_concise = data.frame(seqent        = res_prop_elj$seqent,
                               varea         = log10(res_prop_voroSC$VSCarea),
                               vvolume       = log10(res_prop_voroSC$VSCvolume),
                               veccentricity = res_prop_voroSC$VSCeccentricity,
-                              vsphericity   = res_prop_voroSC$VSCsphericity
+                              vsphericity   = res_prop_voroSC$VSCsphericity,
+                              mvsphericity  = res_prop_voroSC$VSCsphericity
                               )
+# Now use the negative value of sphericity for those voronoi cells that are open.
+res_prop_concise$mvsphericity[res_prop_voroSC$VSCvolume_change_diff != 0] = -res_prop_concise$vsphericity[res_prop_voroSC$VSCvolume_change_diff != 0]
+
 cormat = cor(res_prop_concise, method='spearman')
 write.csv( cormat, "../tables/res_prop_cormat.csv", row.names=T )
 
@@ -52,6 +56,12 @@ write.csv( cormat_open, "../tables/res_prop_cormat_open_Vcells.csv", row.names=T
 # Now write out the difference of the two cormats for all cells and only closed cells.
 cormat_diff = abs(cormat_open) - abs(cormat_closed)
 write.csv( cormat_diff, "../tables/res_prop_cormat_open_closed_diff.csv", row.names=T )
+
+# Now remove the modified sphericity variable from data, in order to generate plots.
+res_prop_concise = subset( res_prop_concise, select = -c(mvsphericity) )
+res_prop_concise_closed = subset( res_prop_concise_closed, select = -c(mvsphericity) )
+res_prop_concise_open = subset( res_prop_concise_open, select = -c(mvsphericity) )
+
 
 # The following is an ordered list, in agreement with the column names of the above data frame.
 varnames_long = c('Sequence Entropy (seqent)' , 'ddG Entropy (ddGent)' , 'Relative Solvent Accessibility (RSA)' , 'Hydrogen Bond Energy (HBE)' ,
@@ -143,19 +153,6 @@ for (i in 1:length(varnames_short))
     }
   }
 }
-
-# test whether sphericity correlation with wcnSC and other variables could be improved by replacing it with volume_change for open voronoi cells.
-cor.test(res_prop_voroSC$VSCvolume_change_diff,
-         res_prop_voroSC$VSCsphericity,
-         method='sp')
-cor.test(res_prop_voroSC$VSCvolume_change_diff[res_prop_voroSC$VSCvolume_change_diff != 0],
-         res_prop_voroSC$VSCsphericity[res_prop_voroSC$VSCvolume_change_diff != 0],
-         method='sp')
-
-res_prop_voro_ordered = res_prop_voroSC[with(res_prop_voroSC, order(res_prop_voroSC[[varnames_short[[i]][1]]])),]
-temp_open = rollapply(res_prop_ordered_open, width = 3000, FUN = mean)
-temp_open = data.frame(temp_open)
-temp_open = 
 
 #temp_quantile = rollapply(cbind(res_prop_all_ordered$wcnSC,res_prop_all_ordered$volume, res_prop_all_ordered$rsa), width = 1000, FUN = quantile)
 #temp = data.frame(temp_quantile)
