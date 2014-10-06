@@ -18,6 +18,7 @@ setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 #                      )
 
 # The following is short version of the most useful residue properties that I have found so far.
+# Now since the three Voronoi quantities vnvortices, vnedges and vnfaces happen to be exactly the same as seen in the cormat calculated above, I am going to remove them from the data set, in addition to resvol which is not as informative.
 res_prop_concise = data.frame(seqent        = res_prop_elj$seqent,
                               ddgent        = res_prop_elj$ddgent,
                               rsa           = res_prop_dssp$rsa,
@@ -29,105 +30,148 @@ res_prop_concise = data.frame(seqent        = res_prop_elj$seqent,
                               #vnvertices    = res_prop_voroSC$VSCnvertices,
                               #vnedges       = res_prop_voroSC$VSCnedges,
                               vnfaces       = res_prop_voroSC$VSCnfaces,
-                              vedge         = res_prop_voroSC$VSCedge_length_total,
-                              varea         = res_prop_voroSC$VSCarea,
-                              vvolume       = res_prop_voroSC$VSCvolume,
+                              vedge         = log10(res_prop_voroSC$VSCedge_length_total),
+                              varea         = log10(res_prop_voroSC$VSCarea),
+                              vvolume       = log10(res_prop_voroSC$VSCvolume),
                               veccentricity = res_prop_voroSC$VSCeccentricity,
                               vsphericity   = res_prop_voroSC$VSCsphericity
                               )
-
 cormat = cor(res_prop_concise, method='spearman')
 write.csv( cormat, "../tables/res_prop_cormat.csv", row.names=T )
 
-# Now since the three Voronoi quantities vnvortices, vnedges and vnfaces happen to be exactly the same as seen in the cormat calculated above, I am going to remove them from the data set, in addition to resvol which is not as informative.
-# res_prop_concise = subset(res_prop_concise, select = -c(vnvertices,vnedges,resvol))
 res_prop_concise_closed = res_prop_concise[res_prop_voroSC$VSCvolume_change_diff == 0,]
+cormat_closed = cor(res_prop_concise_closed, method='spearman')
+write.csv( cormat_closed, "../tables/res_prop_cormat_closed_Vcells.csv", row.names=T )
+# Now write out the difference of the two cormats for all cells and only closed cells.
+cormat_diff = abs(cormat) - abs(cormat_closed)
+write.csv( cormat_diff, "../tables/res_prop_cormat_all_closed_diff.csv", row.names=T )
+
 res_prop_concise_open = res_prop_concise[res_prop_voroSC$VSCvolume_change_diff != 0,]
+cormat_open = cor(res_prop_concise_open, method='spearman')
+write.csv( cormat_open, "../tables/res_prop_cormat_open_Vcells.csv", row.names=T )
+# Now write out the difference of the two cormats for all cells and only closed cells.
+cormat_diff = abs(cormat_open) - abs(cormat_closed)
+write.csv( cormat_diff, "../tables/res_prop_cormat_open_closed_diff.csv", row.names=T )
+
 # The following is an ordered list, in agreement with the column names of the above data frame.
-varnames_long = c('Sequence Entropy' , 'ddG Entropy' , 'Relative Solvent Accessibility' , 'Hydrogen Bond Energy' ,
-                  'Hydrophobicity Scale (HH)' , 'Side-Chain Contact Number' ,
-                  'Average Side-Chain B-factor' , 'Voronoi Cell Faces' , 'Voronoi Cell Edge length' , 'Voronoi Cell Surface Area' ,
-                  'Voronoi Cell Volume' , 'Voronoi Cell Eccentricity' , 'Voronoi cell Sphericity')
+varnames_long = c('Sequence Entropy (seqent)' , 'ddG Entropy (ddGent)' , 'Relative Solvent Accessibility (RSA)' , 'Hydrogen Bond Energy (HBE)' ,
+                  'Hydrophobicity Scale (HPS)' , 'Side-Chain Contact Number (wcnSC)' ,
+                  'Average Side-Chain Bfactor (bfSC)' , 'Voronoi Cell Faces' , 'log10 ( Voronoi Cell Edge length )' , 'log10 ( Voronoi Cell Surface Area )' ,
+                  'log10 ( Voronoi Cell Volume )' , 'Voronoi Cell Eccentricity' , 'Voronoi Cell Sphericity')
 
 varnames_short = colnames(res_prop_concise)
+
+voronoi_colnames = c( 'vnfaces' , 'vedge' , 'varea' , 'vvolume' , 'veccentricity' , 'vsphericity')
 
 for (i in 1:length(varnames_short))
 {
   cat(i, varnames_short[i], '\n')
-  
   res_prop_ordered = res_prop_concise[with(res_prop_concise, order(res_prop_concise[[varnames_short[[i]][1]]])),]
-  test = rollapply(res_prop_ordered, width = 2000, FUN = mean)
-  test = data.frame(test)
-  for (j in 1:length(varnames_short))
-  {
-    if (j != i)
-    {
-      filename = paste0('../figures/adjacent_averaging/',varnames_short[i],'_',varnames_short[j],'_all_cells.pdf')
-      pdf( filename, width=4.5, height=4, useDingbats=FALSE )
-      par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
-      plot(test[[varnames_short[[i]][1]]],
-           test[[varnames_short[[j]][1]]],
-           xlab = varnames_long[i],
-           ylab = varnames_long[j],
-           type='l')
-      graphics.off()
-    }
-  }
+  temp = rollapply(res_prop_ordered, width = 3000, FUN = mean)
+  temp = data.frame(temp)
   
   res_prop_ordered_closed = res_prop_concise_closed[with(res_prop_concise_closed, order(res_prop_concise_closed[[varnames_short[[i]][1]]])),]
-  test = rollapply(res_prop_ordered_closed, width = 2000, FUN = mean)
-  test = data.frame(test)
-  for (j in 1:length(varnames_short))
-  {
-    if (j != i)
-    {
-      filename = paste0('../figures/adjacent_averaging/',varnames_short[i],'_',varnames_short[j],'_closed_cells.pdf')
-      pdf( filename, width=4.5, height=4, useDingbats=FALSE )
-      par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
-      plot(test[[varnames_short[[i]][1]]],
-           test[[varnames_short[[j]][1]]],
-           xlab = varnames_long[i],
-           ylab = varnames_long[j],
-           type='l')
-      graphics.off()
-    }
-  }
+  temp_closed = rollapply(res_prop_ordered_closed, width = 3000, FUN = mean)
+  temp_closed = data.frame(temp_closed)
   
   res_prop_ordered_open = res_prop_concise_open[with(res_prop_concise_open, order(res_prop_concise_open[[varnames_short[[i]][1]]])),]
-  test = rollapply(res_prop_ordered_open, width = 2000, FUN = mean)
-  test = data.frame(test)
+  temp_open = rollapply(res_prop_ordered_open, width = 3000, FUN = mean)
+  temp_open = data.frame(temp_open)
+  
   for (j in 1:length(varnames_short))
   {
     if (j != i)
     {
-      filename = paste0('../figures/adjacent_averaging/',varnames_short[i],'_',varnames_short[j],'_open_cells.pdf')
-      pdf( filename, width=4.5, height=4, useDingbats=FALSE )
+
+      filename = paste0('../figures/adjacent_averaging/',varnames_short[i],'_',varnames_short[j],'_all_cells.pdf')
+      pdf( filename, width=5.625, height=5, useDingbats=FALSE )
       par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
-      plot(test[[varnames_short[[i]][1]]],
-           test[[varnames_short[[j]][1]]],
+      plot(temp[[varnames_short[[i]][1]]],
+           temp[[varnames_short[[j]][1]]],
            xlab = varnames_long[i],
            ylab = varnames_long[j],
            type='l')
       graphics.off()
+      
+      if ((varnames_short[[i]][1] %in% voronoi_colnames) | (varnames_short[[j]][1] %in% voronoi_colnames))
+      {
+        filename = paste0('../figures/adjacent_averaging/',varnames_short[i],'_',varnames_short[j],'_closed_cells.pdf')
+        pdf( filename, width=5.625, height=5, useDingbats=FALSE )
+        par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+        plot(temp_closed[[varnames_short[[i]][1]]],
+             temp_closed[[varnames_short[[j]][1]]],
+             xlab = varnames_long[i],
+             ylab = varnames_long[j],
+             type='l')
+        graphics.off()
+        
+        filename = paste0('../figures/adjacent_averaging/',varnames_short[i],'_',varnames_short[j],'_open_cells.pdf')
+        pdf( filename, width=5.625, height=5, useDingbats=FALSE )
+        par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+        plot(temp_open[[varnames_short[[i]][1]]],
+             temp_open[[varnames_short[[j]][1]]],
+             xlab = varnames_long[i],
+             ylab = varnames_long[j],
+             type='l')
+        graphics.off()
+        
+        # Now plot all three in one.
+        filename = paste0('../figures/adjacent_averaging/',varnames_short[i],'_',varnames_short[j],'_all_in_one.pdf')
+        x_range = range( min(temp[[varnames_short[[i]][1]]], temp_closed[[varnames_short[[i]][1]]], temp_open[[varnames_short[[i]][1]]]),
+                         max(temp[[varnames_short[[i]][1]]], temp_closed[[varnames_short[[i]][1]]], temp_open[[varnames_short[[i]][1]]]) )
+        y_range = range( min(temp[[varnames_short[[j]][1]]], temp_closed[[varnames_short[[j]][1]]], temp_open[[varnames_short[[j]][1]]]),
+                         max(temp[[varnames_short[[j]][1]]], temp_closed[[varnames_short[[j]][1]]], temp_open[[varnames_short[[j]][1]]]) )
+        pdf( filename, width=5.625, height=5, useDingbats=FALSE )
+        par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+        plot(temp[[varnames_short[[i]][1]]],
+             temp[[varnames_short[[j]][1]]],
+             xlab = varnames_long[i],
+             ylab = varnames_long[j],
+             xlim = x_range,
+             ylim = y_range,
+             col = 'black',
+             type='l'
+             )
+        lines(temp_closed[[varnames_short[[i]][1]]],
+              temp_closed[[varnames_short[[j]][1]]],
+              col = 'red')
+        lines(temp_open[[varnames_short[[i]][1]]],
+              temp_open[[varnames_short[[j]][1]]],
+              col = 'blue')
+        graphics.off()
+      }
     }
   }
 }
 
-#test_quantile = rollapply(cbind(res_prop_all_ordered$wcnSC,res_prop_all_ordered$volume, res_prop_all_ordered$rsa), width = 1000, FUN = quantile)
-#test = data.frame(test_quantile)
-#View(test)
+# test whether sphericity correlation with wcnSC and other variables could be improved by replacing it with volume_change for open voronoi cells.
+cor.test(res_prop_voroSC$VSCvolume_change_diff,
+         res_prop_voroSC$VSCsphericity,
+         method='sp')
+cor.test(res_prop_voroSC$VSCvolume_change_diff[res_prop_voroSC$VSCvolume_change_diff != 0],
+         res_prop_voroSC$VSCsphericity[res_prop_voroSC$VSCvolume_change_diff != 0],
+         method='sp')
+
+res_prop_voro_ordered = res_prop_voroSC[with(res_prop_voroSC, order(res_prop_voroSC[[varnames_short[[i]][1]]])),]
+temp_open = rollapply(res_prop_ordered_open, width = 3000, FUN = mean)
+temp_open = data.frame(temp_open)
+temp_open = 
+
+#temp_quantile = rollapply(cbind(res_prop_all_ordered$wcnSC,res_prop_all_ordered$volume, res_prop_all_ordered$rsa), width = 1000, FUN = quantile)
+#temp = data.frame(temp_quantile)
+#View(temp)
 
 
-plot(test$vsphericity,test$seqent, type='l')
-plot(test$vsphericity,test$ddgent, type='l')
-plot(test$vsphericity,test$vvolume, type='l')
-plot(test$vsphericity,test$vedge, type='l')
-plot(test$vsphericity,test$wcnSC, type='l')
-plot(test$vsphericity,test$rsa, type='l')
-plot(test$vsphericity,test$bfSC, type='l')
-plot(test$vsphericity,test$hbe, type='l')
-plot(test$vsphericity,test$hpshh, type='l')
-plot(test$vsphericity,test$veccentricity, type='l')
+# plot(temp$vsphericity,temp$seqent, type='l')
+# plot(temp$vsphericity,temp$ddgent, type='l')
+# plot(temp$vsphericity,temp$vvolume, type='l')
+# plot(temp$vsphericity,temp$vedge, type='l')
+# plot(temp$vsphericity,temp$wcnSC, type='l')
+# plot(temp$vsphericity,temp$rsa, type='l')
+# plot(temp$vsphericity,temp$bfSC, type='l')
+# plot(temp$vsphericity,temp$hbe, type='l')
+# plot(temp$vsphericity,temp$hpshh, type='l')
+# plot(temp$vsphericity,temp$veccentricity, type='l')
   
-length(res_prop_all_ordered$wcnSC)
-length(vol_mean$vol_mean)
+# length(res_prop_all_ordered$wcnSC)
+# length(vol_mean$vol_mean)
