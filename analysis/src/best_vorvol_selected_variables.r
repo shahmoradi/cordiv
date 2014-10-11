@@ -34,22 +34,22 @@ res_prop_voroAA      = read.table('../../properties/res_prop_voronoiAA.out', hea
 res_prop_voroAA$pdb  = factor(res_prop_voroAA$pdb)
 res_prop_voroAA      = cbind(res_prop_voroAA, VAAmodified_volume = res_prop_voroAA$VAAvolume)
 maxval = max(res_prop_voroAA$VAAvolume)
-res_prop_voroAA$VAAmodified_volume[res_prop_voroAA$VAAvolume_change != 0] = maxval
-res_prop_voroAA$VAAmodified_volume = res_prop_voroAA$VAAmodified_volume + res_prop_voroAA$VAAvolume_change
+res_prop_voroAA$VAAmodified_volume[res_prop_voroAA$VAAvolume_change_ratio != 1] = maxval
+res_prop_voroAA$VAAmodified_volume = res_prop_voroAA$VAAmodified_volume + res_prop_voroAA$VAAvolume_change_ratio
 
 res_prop_voroCA      = read.table('../../properties/res_prop_voronoiCA.out', header=T)
 res_prop_voroCA$pdb  = factor(res_prop_voroCA$pdb)
 res_prop_voroCA      = cbind(res_prop_voroCA, VCAmodified_volume = res_prop_voroCA$VCAvolume)
 maxval = max(res_prop_voroCA$VCAvolume)
-res_prop_voroCA$VCAmodified_volume[res_prop_voroCA$VCAvolume_change != 0] = maxval
-res_prop_voroCA$VCAmodified_volume = res_prop_voroCA$VCAmodified_volume + res_prop_voroCA$VCAvolume_change
+res_prop_voroCA$VCAmodified_volume[res_prop_voroCA$VCAvolume_change_ratio != 1] = maxval
+res_prop_voroCA$VCAmodified_volume = res_prop_voroCA$VCAmodified_volume + res_prop_voroCA$VCAvolume_change_ratio
 
 res_prop_voroSC      = read.table('../../properties/res_prop_voronoiSC.out', header=T)
 res_prop_voroSC$pdb  = factor(res_prop_voroSC$pdb)
 res_prop_voroSC      = cbind(res_prop_voroSC, VSCmodified_volume = res_prop_voroSC$VSCvolume)
 maxval = max(res_prop_voroSC$VSCvolume)
-res_prop_voroSC$VSCmodified_volume[res_prop_voroSC$VSCvolume_change != 0] = maxval
-res_prop_voroSC$VSCmodified_volume = res_prop_voroSC$VSCmodified_volume + res_prop_voroSC$VSCvolume_change
+res_prop_voroSC$VSCmodified_volume[res_prop_voroSC$VSCvolume_change_ratio != 1] = maxval
+res_prop_voroSC$VSCmodified_volume = res_prop_voroSC$VSCmodified_volume + res_prop_voroSC$VSCvolume_change_ratio
 
 vorvol_scors_all_pdbs = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
 vorvol_list = c('vSC','vAA','vCA','mvSC','mvAA','mvCA','fvSC','fvAA','fvCA')
@@ -77,7 +77,8 @@ for(pdb in levels(res_prop_elj$pdb))
   
   pdb_temp = cbind( subset(pdb_elj, select  = c(seqent,ddgent)),
                     subset(pdb_hps, select  = c(hpshh)),
-                    subset(pdb_dssp, select = c(asa,rsa,hbe_mean))
+                    subset(pdb_dssp, select = c(asa,rsa,hbe_mean)),
+                    data.frame( resvol = res_prop_voroAA[res_prop_voroAA$pdb==pdb, c('resvol')] )
                     #subset(pdb_wcn, select = -c(pdb,resnam,resnum,bfSC,bfAA,bfN,bfCA,bfC,bfO,bfCB)),
                     #subset(pdb_voroAA, select = c(VAAvolume,VAAmodified_volume,VAAfree_volume)),
                     #subset(pdb_voroCA, select = -c(pdb,resnam,resnum,sizeSC,sizeAA,resvol,VCAnvertices,VCAnedges,VCAvolume_change)),
@@ -216,6 +217,7 @@ vorvol_scors_all_pdbs$variable = factor(vorvol_scors_all_pdbs$variable)
 vorvol_scors_all_pdbs$vorvol = factor(vorvol_scors_all_pdbs$vorvol)
 
 variable_list = c('ASA', 'ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
+vorvol_list = c('vSC','vAA','vCA','mvSC','mvAA','mvCA','fvSC','fvAA','fvCA')
 counter = 0
 for (variable in levels(vorvol_scors_all_pdbs$variable))
 { 
@@ -226,7 +228,7 @@ for (variable in levels(vorvol_scors_all_pdbs$variable))
   colnames(temp_data_variable) = levels(vorvol_scors_all_pdbs$vorvol)
   temp_data_variable = temp_data_variable[vorvol_list]
   filename = paste0('../figures/best_vorvol/selected_variables/boxplot_',variable,'.pdf')
-  pdf( filename, width=6, height=4, useDingbats=FALSE )
+  pdf( filename, width=8, height=4, useDingbats=FALSE )
   par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
   boxplot(temp_data_variable,
           xlab = 'representative Voronoi cell volume (vorvol)',
@@ -235,3 +237,32 @@ for (variable in levels(vorvol_scors_all_pdbs$variable))
   graphics.off()
 }
 
+# Now create box plots all-in-one
+
+vorvol_scors_all_pdbs = read.csv( "../tables/best_vorvol/selected_variables/vorvol_scors_all_pdbs.csv", header = TRUE )
+vorvol_scors_all_pdbs$variable = factor(vorvol_scors_all_pdbs$variable)
+vorvol_scors_all_pdbs$vorvol = factor(vorvol_scors_all_pdbs$vorvol)
+
+variable_list = c('Sequence Entropy','ddG Entropy','RSA','Hydrophobicity','H-bond Energy','Residue Volume')
+variable_names = c('seqent','ddgent','rsa','hpshh','hbe_mean','resvol')
+vorvol_list = c('vSC','vAA','vCA','mvSC','mvAA','mvCA','fvSC','fvAA','fvCA')
+filename = paste0('../figures/best_vorvol/selected_variables/boxplot_vorvol_all_in_one.pdf')
+pdf( filename, width=15, height=12, useDingbats=FALSE )
+split.screen(c(3,2))
+counter = 0
+for (variable in variable_names)
+{ 
+  counter = counter + 1
+  screen(counter)
+  temp_data_variable_long = vorvol_scors_all_pdbs[vorvol_scors_all_pdbs$variable == variable,c('pdb','vorvol','value')]
+  temp_data_variable = reshape(temp_data_variable_long, timevar = 'vorvol', idvar = 'pdb', direction = 'wide')
+  temp_data_variable = subset (temp_data_variable, select = -c(pdb))
+  colnames(temp_data_variable) = levels(vorvol_scors_all_pdbs$vorvol)
+  temp_data_variable = temp_data_variable[vorvol_list]
+  par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+  boxplot(temp_data_variable,
+          xlab = 'representative Voronoi cell volume (vorvol)',
+          ylab = paste0('Spearman cor. with ',variable_list[[counter]][1])
+          )
+}
+graphics.off()
