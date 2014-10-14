@@ -9,8 +9,11 @@ setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 
 # source('get_res_data.r') ATTN: don't do this! It will take a few hours to get the data summarized at the pdb level. It has been already sourced and the summary exists in the following file.
 
+excluded_pdbs = c('1BBS_A','1BS0_A','1DIN_A','1HPL_A')   # These are the 4 PDBs that did not have complete r4s evolutionary rates and are omitted from the dataset to avoid NA values.
+
 pdb_CO = read.table('../../properties/pdb_prop_CO.out',header=T)
 pdb_CO$pdb = factor(pdb_CO$pdb)
+pdb_CO = pdb_CO[!(pdb_CO$pdb %in% excluded_pdbs),]
 
 pdb_prop_dssp = read.table('../../properties/pdb_prop_dssp.out',header=T)
 pdb_prop_dssp = cbind( pdb_prop_dssp,
@@ -18,8 +21,10 @@ pdb_prop_dssp = cbind( pdb_prop_dssp,
                        data.frame(mean.nhbpa.dif = pdb_prop_dssp$mean.nhbps - pdb_prop_dssp$mean.nhbas)
                        )
 pdb_prop_dssp$pdb = factor(pdb_prop_dssp$pdb)
+pdb_prop_dssp = pdb_prop_dssp[!(pdb_prop_dssp$pdb %in% excluded_pdbs),]
 
-pdb_temp = cbind( subset(pdb_CO, select = c(pdb,natoms,contact_order,contact_orderSC,contact_orderAA)),
+pdb_temp = cbind( #subset(pdb_CO, select = c(pdb,natoms,contact_order,contact_orderSC,contact_orderAA)),
+                  subset(pdb_CO, select = c(pdb,natoms,contact_orderSC)),
                   subset(pdb_prop_dssp, select = -c(pdb,pdb_asa))
                   )
 

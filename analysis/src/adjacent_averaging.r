@@ -5,21 +5,12 @@ library('zoo')
 
 setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 
-#volume_smooth = filter(res_prop_all_ordered$volume, ma1000)
-#plot(res_prop_all_ordered$wcnSC,volume_smooth, type='l')
-
-#smoothed = data.frame(vol_mean = rollmean(res_prop_all_ordered$volume, k=2000, no.pad = FALSE),
-#                      wcnSC_mean = rollmean(res_prop_all_ordered$wcnSC, k=2000, no.pad = FALSE)
-#                      )
-#plot(smoothed$wcnSC_mean,smoothed$vol_mean, type='l')
-
-#smoothed = data.frame(vol_mean = rollmean(res_prop_all_ordered$volume, k=2000, no.pad = FALSE),
-#                      wcnSC_mean = rollmean(res_prop_all_ordered$wcnSC, k=2000, no.pad = FALSE)
-#                      )
+source('get_res_data.r')
 
 # The following is short version of the most useful residue properties that I have found so far.
 # Now since the three Voronoi quantities vnvortices, vnedges and vnfaces happen to be exactly the same as seen in the cormat calculated above, I am going to remove them from the data set, in addition to resvol which is not as informative.
-res_prop_concise = data.frame(seqent        = res_prop_elj$seqent,
+res_prop_concise = data.frame(zr4s_JC       = res_prop_jec$zr4s_JC,
+                              seqent        = res_prop_elj$seqent,
                               ddgent        = res_prop_elj$ddgent,
                               rsa           = res_prop_dssp$rsa,
                               hbe           = res_prop_dssp$hbe_mean,
@@ -30,7 +21,7 @@ res_prop_concise = data.frame(seqent        = res_prop_elj$seqent,
                               #vnvertices    = res_prop_voroSC$VSCnvertices,
                               #vnedges       = res_prop_voroSC$VSCnedges,
                               vnfaces       = res_prop_voroSC$VSCnfaces,
-                              vedge         = log10(res_prop_voroSC$VSCedge_length_total),
+                              #vedge         = log10(res_prop_voroSC$VSCedge_length_total),
                               varea         = log10(res_prop_voroSC$VSCarea),
                               vvolume       = log10(res_prop_voroSC$VSCvolume),
                               veccentricity = res_prop_voroSC$VSCeccentricity,
@@ -64,14 +55,14 @@ res_prop_concise_open = subset( res_prop_concise_open, select = -c(mvsphericity)
 
 
 # The following is an ordered list, in agreement with the column names of the above data frame.
-varnames_long = c('Sequence Entropy (seqent)' , 'ddG Entropy (ddGent)' , 'Relative Solvent Accessibility (RSA)' , 'Hydrogen Bond Energy (HBE)' ,
+varnames_long = c('Evolutionary Rates (r4sJC)' , 'Sequence Entropy (seqent)' , 'ddG Entropy (ddGent)' , 'Relative Solvent Accessibility (RSA)' , 'Hydrogen Bond Energy (HBE)' ,
                   'Hydrophobicity Scale (HPS)' , 'Side-Chain Contact Number (wcnSC)' ,
-                  'Average Side-Chain Bfactor (bfSC)' , 'Voronoi Cell Faces' , 'log10 ( Voronoi Cell Edge length )' , 'log10 ( Voronoi Cell Surface Area )' ,
+                  'Average Side-Chain Bfactor (bfSC)' , 'Voronoi Cell Faces' , 'log10 ( Voronoi Cell Surface Area )' ,
                   'log10 ( Voronoi Cell Volume )' , 'Voronoi Cell Eccentricity' , 'Voronoi Cell Sphericity')
 
 varnames_short = colnames(res_prop_concise)
 
-voronoi_colnames = c( 'vnfaces' , 'vedge' , 'varea' , 'vvolume' , 'veccentricity' , 'vsphericity')
+voronoi_colnames = c( 'vnfaces' , 'varea' , 'vvolume' , 'veccentricity' , 'vsphericity')
 
 for (i in 1:length(varnames_short))
 {
@@ -172,3 +163,15 @@ for (i in 1:length(varnames_short))
   
 # length(res_prop_all_ordered$wcnSC)
 # length(vol_mean$vol_mean)
+
+#volume_smooth = filter(res_prop_all_ordered$volume, ma1000)
+#plot(res_prop_all_ordered$wcnSC,volume_smooth, type='l')
+
+#smoothed = data.frame(vol_mean = rollmean(res_prop_all_ordered$volume, k=2000, no.pad = FALSE),
+#                      wcnSC_mean = rollmean(res_prop_all_ordered$wcnSC, k=2000, no.pad = FALSE)
+#                      )
+#plot(smoothed$wcnSC_mean,smoothed$vol_mean, type='l')
+
+#smoothed = data.frame(vol_mean = rollmean(res_prop_all_ordered$volume, k=2000, no.pad = FALSE),
+#                      wcnSC_mean = rollmean(res_prop_all_ordered$wcnSC, k=2000, no.pad = FALSE)
+#                      )
