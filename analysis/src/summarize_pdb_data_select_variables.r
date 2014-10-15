@@ -7,8 +7,6 @@ library("reshape2")
 
 setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 
-# source('get_res_data.r') ATTN: don't do this! It will take a few hours to get the data summarized at the pdb level. It has been already sourced and the summary exists in the following file.
-
 excluded_pdbs = c('1BBS_A','1BS0_A','1DIN_A','1HPL_A')   # These are the 4 PDBs that did not have complete r4s evolutionary rates and are omitted from the dataset to avoid NA values.
 
 pdb_CO = read.table('../../properties/pdb_prop_CO.out',header=T)
@@ -46,17 +44,25 @@ all_pdb_prop_select = rbind(pdb_prop_from_residue_prop_select,pdb_prop_dssp_CO_l
 write.csv(all_pdb_prop_select, "../tables/all_pdb_prop_select.csv", row.names=F )
 
 all_pdb_prop_select_wide = dcast(all_pdb_prop_select, pdb ~ variable, value.var = 'value', mean)
+# The following lines arrange data in the chronological order of the column names.
+colnames_all_pdb_prop_select_wide = data.frame( colnames = colnames( subset(all_pdb_prop_select_wide, select = -c(pdb)) ) )
+colnames_all_pdb_prop_select_wide$colnames = colnames_all_pdb_prop_select_wide[with(colnames_all_pdb_prop_select_wide, order(colnames)),]
+pdbs = data.frame(pdb = all_pdb_prop_select_wide$pdb)
+all_pdb_prop_select_wide = cbind(pdbs, all_pdb_prop_select_wide[,as.vector(colnames_all_pdb_prop_select_wide$colnames)])
 write.csv(all_pdb_prop_select_wide, "../tables/all_pdb_prop_select_wide.csv", row.names=F )
 
 all_pdb_prop_subset = subset(all_pdb_prop_select_wide, select = -c(pdb,sum.nssb,mean.nssb))
 all_pdb_prop_cormat = as.data.frame(cor(all_pdb_prop_subset, method='spearman'))
 write.csv(all_pdb_prop_cormat, "../tables/all_pdb_prop_cormat.csv", row.names=T )
 write.csv(abs(all_pdb_prop_cormat), "../tables/all_pdb_prop_cormat_abs_values.csv", row.names=T )
-cor(all_pdb_prop_cormat$r.rsa.seqent,all_pdb_prop_cormat$sd.mvsphericity, method='sp')
-cor(all_pdb_prop_cormat$r.seqent.wcnSC,all_pdb_prop_cormat$r.mvsphericity.seqent, method='sp')
+cor(all_pdb_prop_cormat$r.rsa.seqent,all_pdb_prop_cormat$sd.vsphericitym, method='sp')
+cor(all_pdb_prop_cormat$r.seqent.wcnSC,all_pdb_prop_cormat$r.seqent.vsphericitym, method='sp')
 cormat_all_pdb_prop_cormat = as.data.frame(cor(all_pdb_prop_cormat, method='spearman'))
 write.csv( cormat_all_pdb_prop_cormat, "../tables/cormat_all_pdb_prop_cormat.csv", row.names=T )
 write.csv( abs(cormat_all_pdb_prop_cormat), "../tables/cormat_all_pdb_prop_cormat_abs_values.csv", row.names=T )
+
+
+
 
 # all_pdb_prop_select$variable = factor(all_pdb_prop_select$variable)
 # variable_counter = 0

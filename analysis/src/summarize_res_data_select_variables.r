@@ -68,7 +68,8 @@ for(pdb in levels(res_prop_elj$pdb))
     
     pdb_temp = data.frame( seqent   = pdb_elj$seqent,
                            ddgent   = pdb_elj$ddgent,
-                           zr4s_JC  = pdb_jec$zr4s_JC,
+                           r4sJC    = pdb_jec$r4s_JC,
+                           #r4sJCz   = pdb_jec$zr4s_JC,
                            hpshh    = pdb_hps$hpshh,
                            rsa      = pdb_dssp$rsa,
                            hbe      = pdb_dssp$hbe_mean,
@@ -80,7 +81,7 @@ for(pdb in levels(res_prop_elj$pdb))
                            vvolume       = log10(pdb_voroSC$VSCvolume),
                            veccentricity = pdb_voroSC$VSCeccentricity,
                            vsphericity   = pdb_voroSC$VSCsphericity,
-                           mvsphericity  = pdb_voroSC$VSCmodified_sphericity
+                           vsphericitym  = pdb_voroSC$VSCmodified_sphericity
     )
     
     pdb_long = reshape(pdb_temp, ids = rownames(pdb_temp), varying = colnames(pdb_temp), v.names = 'value', timevar = 'variable', times = colnames(pdb_temp), direction = 'long')
@@ -95,11 +96,13 @@ for(pdb in levels(res_prop_elj$pdb))
       var1 = pdb_long[pdb_long$variable == variable1,]
       
       # Calculate potentially important statistical moments of the factored variable:
-      row = data.frame(pdb, variable = paste0('sum.',variable1), value = sum(var1$value))       ; pdb_prop_from_residue_prop_select = rbind(pdb_prop_from_residue_prop_select,row)
-      row = data.frame(pdb, variable = paste0('mean.',variable1), value = mean(var1$value))     ; pdb_prop_from_residue_prop_select = rbind(pdb_prop_from_residue_prop_select,row)
-      row = data.frame(pdb, variable = paste0('median.',variable1), value = median(var1$value)) ; pdb_prop_from_residue_prop_select = rbind(pdb_prop_from_residue_prop_select,row)
-      row = data.frame(pdb, variable = paste0('sd.',variable1), value = sd(var1$value))         ; pdb_prop_from_residue_prop_select = rbind(pdb_prop_from_residue_prop_select,row)
-      
+      if(variable1 != 'r4sJCz')     # There is no information in the moments of the standardized values r4sJCz.
+      {
+        row = data.frame(pdb, variable = paste0('sum.',variable1), value = sum(var1$value))       ; pdb_prop_from_residue_prop_select = rbind(pdb_prop_from_residue_prop_select,row)
+        row = data.frame(pdb, variable = paste0('mean.',variable1), value = mean(var1$value))     ; pdb_prop_from_residue_prop_select = rbind(pdb_prop_from_residue_prop_select,row)
+        row = data.frame(pdb, variable = paste0('median.',variable1), value = median(var1$value)) ; pdb_prop_from_residue_prop_select = rbind(pdb_prop_from_residue_prop_select,row)
+        row = data.frame(pdb, variable = paste0('sd.',variable1), value = sd(var1$value))         ; pdb_prop_from_residue_prop_select = rbind(pdb_prop_from_residue_prop_select,row)
+      }
       # Now calculate the Spearman correlations between pairs of variables:
       counter2 = 0
       for (variable2 in levels(pdb_long$variable))
@@ -203,15 +206,15 @@ for(pdb in levels(res_prop_voroSC$pdb))
     # Now select only those residues that belong to protein pdb and have closed voronoi cells.
     pdb_voroSC = res_prop_voroSC[(res_prop_voroSC$pdb==pdb & res_prop_voroSC$VSCvolume_change_diff==0),]
     # Calculate potentially important statistical moments of the VSCsphericity:
-    row = data.frame(pdb, variable = 'sum.vccsphericity', value = sum(pdb_voroSC$VSCsphericity))       ; pdb_prop_closed_cells = rbind(pdb_prop_closed_cells,row)
-    row = data.frame(pdb, variable = 'mean.vccsphericity', value = mean(pdb_voroSC$VSCsphericity))     ; pdb_prop_closed_cells = rbind(pdb_prop_closed_cells,row)
-    row = data.frame(pdb, variable = 'median.vccsphericity', value = median(pdb_voroSC$VSCsphericity)) ; pdb_prop_closed_cells = rbind(pdb_prop_closed_cells,row)
-    row = data.frame(pdb, variable = 'sd.vccsphericity', value = sd(pdb_voroSC$VSCsphericity))         ; pdb_prop_closed_cells = rbind(pdb_prop_closed_cells,row)
+    row = data.frame(pdb, variable = 'sum.vsphericitycc', value = sum(pdb_voroSC$VSCsphericity))       ; pdb_prop_closed_cells = rbind(pdb_prop_closed_cells,row)
+    row = data.frame(pdb, variable = 'mean.vsphericitycc', value = mean(pdb_voroSC$VSCsphericity))     ; pdb_prop_closed_cells = rbind(pdb_prop_closed_cells,row)
+    row = data.frame(pdb, variable = 'median.vsphericitycc', value = median(pdb_voroSC$VSCsphericity)) ; pdb_prop_closed_cells = rbind(pdb_prop_closed_cells,row)
+    row = data.frame(pdb, variable = 'sd.vsphericitycc', value = sd(pdb_voroSC$VSCsphericity))         ; pdb_prop_closed_cells = rbind(pdb_prop_closed_cells,row)
     # Calculate potentially important statistical moments of the VSCnfaces:
-    row = data.frame(pdb, variable = 'sum.vccnfaces', value = sum(pdb_voroSC$VSCnfaces))       ; pdb_prop_closed_cells = rbind(pdb_prop_closed_cells,row)
-    row = data.frame(pdb, variable = 'mean.vccnfaces', value = mean(pdb_voroSC$VSCnfaces))     ; pdb_prop_closed_cells = rbind(pdb_prop_closed_cells,row)
-    row = data.frame(pdb, variable = 'median.vccnfaces', value = median(pdb_voroSC$VSCnfaces)) ; pdb_prop_closed_cells = rbind(pdb_prop_closed_cells,row)
-    row = data.frame(pdb, variable = 'sd.vccnfaces', value = sd(pdb_voroSC$VSCnfaces))         ; pdb_prop_closed_cells = rbind(pdb_prop_closed_cells,row)
+    row = data.frame(pdb, variable = 'sum.vnfacescc', value = sum(pdb_voroSC$VSCnfaces))       ; pdb_prop_closed_cells = rbind(pdb_prop_closed_cells,row)
+    row = data.frame(pdb, variable = 'mean.vnfacescc', value = mean(pdb_voroSC$VSCnfaces))     ; pdb_prop_closed_cells = rbind(pdb_prop_closed_cells,row)
+    row = data.frame(pdb, variable = 'median.vnfacescc', value = median(pdb_voroSC$VSCnfaces)) ; pdb_prop_closed_cells = rbind(pdb_prop_closed_cells,row)
+    row = data.frame(pdb, variable = 'sd.vnfacescc', value = sd(pdb_voroSC$VSCnfaces))         ; pdb_prop_closed_cells = rbind(pdb_prop_closed_cells,row)
   }
 }
 pdb_prop_from_residue_prop_select = rbind(pdb_prop_from_residue_prop_select,pdb_prop_closed_cells)

@@ -1,5 +1,7 @@
 # Amir Shahmoradi, Monday 7:48 PM, Oct 13 2014, Wilke Lab, ICMB, UT Austin
 
+# reads all residue properties data from different files into R dataframes.
+
 setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 
 excluded_pdbs = c('1BBS_A','1BS0_A','1DIN_A','1HPL_A')   # These are the 4 PDBs that did not have complete r4s evolutionary rates and are omitted from the dataset to avoid NA values.
