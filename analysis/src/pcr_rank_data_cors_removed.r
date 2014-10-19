@@ -1,20 +1,23 @@
-# This R code performs PCR analysis on the set of PDB variables in all_pdb_prop_select_wide.csv.
-# Last updated by Amir Shahmoradi, Tuesday 4:12 PM, Aug 28 2014, Wilke Lab, ICMB, UT Austin
+# This R code performs PCR analysis on the set of PDB variables in all_pdb_prop_select_wide_rank.csv.
+# Last updated by Amir Shahmoradi, Sunday 3:51 PM, Oct 19 2014, Wilke Lab, ICMB, UT Austin
 
 #install.packages('pls')
 library('pls')
 
 setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 
-all_pdb_prop_select_wide = read.csv("../tables/all_pdb_prop_select_wide.csv",header=T)
-all_pdb_prop_subset = subset(all_pdb_prop_select_wide, select = -c(pdb,sum.nssb,mean.nssb))  # These two columns are all zero for all proteins and do not carry any valuable infromation.
+all_pdb_prop_select_wide_rank = read.csv("../tables/all_pdb_prop_select_wide_rank.csv",header=T)
+all_pdb_prop_subset = subset(all_pdb_prop_select_wide_rank, select = -c(pdb))  # sum.nssb,mean.nssb have been already deleted from Rank converted data
+seqent_scors = grep('^r.+seqent',colnames(all_pdb_prop_subset),value = TRUE)  # Select column names that correspond to seqent-variable correlations
+r4sJC_scors = grep('^r.+r4sJC',colnames(all_pdb_prop_subset),value = TRUE)  # Select column names that correspond to seqent-variable correlations
+not_in_pcr = c(seqent_scors,r4sJC_scors)
 
 counter = 0
-for (column in colnames(all_pdb_prop_subset))
+for (column in not_in_pcr)
 {
   counter = counter + 1
   cat ('processing column # ', counter[[1]], ' : ', column, '\n')
-  pcr_out = pcr(all_pdb_prop_subset[[column]] ~ . , data = all_pdb_prop_subset[,-c(counter[[1]])], y = T)
+  pcr_out = pcr(all_pdb_prop_subset[[column]] ~ . , data = all_pdb_prop_subset[,-which(names(all_pdb_prop_subset) %in% not_in_pcr)], y = T)
   
   p = pcr_out$projection       # The projection matrix
   
@@ -33,7 +36,6 @@ for (column in colnames(all_pdb_prop_subset))
   row.names(p) = row.names(pcr_out$projection)
   
   # The first line of the output is the proportion (fraction) of the explained variance of the regressand. The following lines (rows) in the output each represent loading
-  # PEV in variable names stands for Proportion of Explained Variance
   PEV_projection = as.data.frame(rbind(PEV,round(pcr_out$projection,6)))
   PEV_projection_ordered = PEV_projection[, c(order(PEV, decreasing = T))]
   
@@ -65,7 +67,7 @@ for (column in colnames(all_pdb_prop_subset))
   pmat_ordered = rbind(PEV_row,pmat_ordered)
   pmat_ordered = pmat_ordered[,-1]
   
-  filename = paste0('../tables/pcr/',column,'_PEV_projection_ordered.csv')
+  filename = paste0('../tables/pcr_rank/cors_removed/',column,'_PEV_projection_ordered.csv')
   write.csv( pmat_ordered , filename, row.names=F )
 
 }

@@ -13,7 +13,7 @@ seqent_cors = c('r.ddgent.seqent','r.rsa.seqent','r.seqent.wcnSC','r.seqent.vedg
 r4sJC_cors = c('r.ddgent.r4sJC','r.r4sJC.rsa','r.r4sJC.wcnSC','r.r4sJC.vedge','r.r4sJC.varea','r.r4sJC.vvolume','r.bfSC.r4sJC','r.r4sJC.veccentricity','r.r4sJC.vsphericitym','r.r4sJC.vnfaces','r.hbe.r4sJC','r.hpshh.r4sJC')
 variables = c('ddgent','rsa','wcnSC','vedge','varea','vvolume','bfSC','veccentricity','vsphericitym','vnfaces','hbe','hpshh')
 x = -1:2.
-pdf( '../figures/seqent_vs_zr4sJC.pdf', width=13.5, height=16, useDingbats=FALSE )  
+pdf( '../figures/seqent_vs_r4sJC.pdf', width=13.5, height=16, useDingbats=FALSE )  
 split.screen(c(4,3))
 
 scor_stat = data.frame()
