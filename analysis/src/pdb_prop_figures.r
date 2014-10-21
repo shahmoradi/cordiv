@@ -12,34 +12,92 @@ ASAP_pdb_data = read.csv("../tables/ASAP_pdb_prop.csv", header = T)
 all_pdb_prop_select_wide = read.csv("../tables/all_pdb_prop_select_wide.csv", header = T)
 #View(all_pdb_prop_select_wide)
 
+n.screen.rows = 2   # number of rows in the screen plots
+n.screen.cols = 2   # number of columns in the screen plots
+
 # First generate a screen plot of the correlation of seqent-wcnSC vs.seqent-other
-counter = 0
-filename = paste0('../figures/seqent_structure_cors.pdf')
-pdf( filename, width=9, height=8, useDingbats=FALSE )
-column_list = c('r.rsa.seqent','r.ddgent.seqent','r.bfSC.seqent','r.seqent.varea')
-name_list = c('rho ( Seq. Entropy - RSA )','rho ( Seq. Entropy - ddG Entropy )','rho ( Seq. Entropy - Bfactor )', 'rho ( Seq. Entropy - Voronoi Cell Volume )')
-split.screen(c(2,2))
+
+filename = paste0('../figures/cordiv_similarities_seqent.pdf')
+pdf( filename, width=4.5*n.screen.cols, height=4*n.screen.rows, useDingbats=FALSE )
+column_list = c('r.rsa.seqent'
+                ,'r.ddgent.seqent'
+                ,'r.bfSC.seqent'
+                ,'r.seqent.varea'
+                ,'r.seqent.vsphericity'
+                ,'r.seqent.veccentricity'
+                )
+name_list = c('( Seq. Entropy - RSA )'
+              ,'( Seq. Entropy - ddG Entropy )'
+              ,'( Seq. Entropy - Mean Residue Bfactor )'
+              ,'( Seq. Entropy - Voronoi Cell Surface Area )'
+              ,'( Seq. Entropy - Voronoi Cell Compactness )'
+              ,'( Seq. Entropy - Voronoi Cell Symmetry )'
+              )
+split.screen(c(n.screen.rows,n.screen.cols))
 x = -1:1
-for (column in column_list)
+for (counter in seq(1,n.screen.rows*n.screen.cols))
 {
-  counter = counter + 1
   screen(counter)
   par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
-  plot(all_pdb_prop_select_wide[[column_list[counter]]],
+  plot(abs(all_pdb_prop_select_wide[[column_list[counter]]]),
        abs(all_pdb_prop_select_wide$r.seqent.wcnSC),
-       xlab = name_list[counter],
-       ylab = 'absolute rho ( Seq. Entropy - wcnSC )',
-       xlim = c(-0.1,0.9),
-       ylim = c(-0.1,0.9)
+       xlab = bquote('abs.' ~ rho ~ .(name_list[counter])),
+       ylab = expression(paste('abs. ', rho,' ( Seq. Entropy - Side Chain WCN )')),
+       xlim = c(0.,0.9),
+       ylim = c(0.,0.9),
+       #cex.axis = 1.4,
+       #cex.lab = 1.4,
+       pch = 16
        )
   lines(x,x,col='red')
 }
 dev.off()
 #graphics.off()
 
+# Now generate a similar screen plot of the correlation of r4sJC-wcnSC vs. r4sJC-other
+filename = paste0('../figures/cordiv_similarities_r4sJC.pdf')
+pdf( filename, width=4.5*n.screen.cols, height=4*n.screen.rows, useDingbats=FALSE )
+column_list = c('r.r4sJC.rsa'
+                ,'r.ddgent.r4sJC'
+                ,'r.bfSC.r4sJC'
+                ,'r.r4sJC.varea'
+                ,'r.r4sJC.vsphericity'
+                ,'r.r4sJC.veccentricity'
+                )
+name_list = c('( Evol. Rates - RSA )'
+              ,'( Evol. Rates - ddG Entropy )'
+              ,'( Evol. Rates - Mean Residue Bfactor )'
+              ,'( Evol. Rates - Voronoi Cell Surface Area )'
+              ,'( Evol. Rates - Voronoi Cell Compactness )'
+              ,'( Evol. Rates - Voronoi Cell Symmetry )'
+              )
+split.screen(c(n.screen.rows,n.screen.cols))
+x = -1:1
+for (counter in seq(1,n.screen.rows*n.screen.cols))
+{
+  screen(counter)
+  par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+  plot(abs(all_pdb_prop_select_wide[[column_list[counter]]]),
+       abs(all_pdb_prop_select_wide$r.r4sJC.wcnSC),
+       xlab = bquote('abs.' ~ rho ~ .(name_list[counter])),
+       ylab = expression(paste('abs. ', rho,' ( Seq. Entropy - Side Chain WCN )')),
+       xlim = c(0.,0.9),
+       ylim = c(0.,0.9),
+       #cex.axis = 1.4,
+       #cex.lab = 1.4,
+       pch = 16
+       )
+  lines(x,x,col='red')
+}
+dev.off()
+#graphics.off()
+
+
+
+
 # Then generate a screen plot of the correlation of sd.seqent with seqent-variable correlations
 counter = 0
-filename = paste0('../figures/seqent_structure_cors.pdf')
+filename = paste0('../figures/sd.seqent_cors.pdf')
 pdf( filename, width=9, height=8, useDingbats=FALSE )
 column_list = c('r.rsa.seqent','r.ddgent.seqent','r.bfSC.seqent','r.seqent.varea')
 name_list = c('rho ( Seq. Entropy - RSA )','rho ( Seq. Entropy - ddG Entropy )','rho ( Seq. Entropy - Bfactor )', 'rho ( Seq. Entropy - Voronoi Cell Volume )')
@@ -63,6 +121,12 @@ dev.off()
 #graphics.off()
 
 
+plot (abs(all_pdb_prop_select_wide$r.seqent.wcnSC), abs(all_pdb_prop_select_wide$r.seqent.vsphericitym))
+lines(x,x)
+plot (abs(all_pdb_prop_select_wide$r.seqent.wcnSC), abs(all_pdb_prop_select_wide$r.seqent.vsphericitym))
+lines(x,x)
+plot (abs(all_pdb_prop_select_wide$r.seqent.wcnSC), abs(all_pdb_prop_select_wide$r.rsa.seqent))
+lines(x,x)
 plot (all_pdb_prop_select_wide$sd.seqent, all_pdb_prop_select_wide$r.seqent.varea)
 plot (all_pdb_prop_select_wide$sd.seqent, all_pdb_prop_select_wide$r.seqent.veccentricity)
 plot (all_pdb_prop_select_wide$sd.mvsphericity, all_pdb_prop_select_wide$r.ddgent.seqent)
