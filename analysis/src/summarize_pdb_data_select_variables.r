@@ -9,8 +9,15 @@ setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 
 excluded_pdbs = c('1BBS_A','1BS0_A','1DIN_A','1HPL_A')   # These are the 4 PDBs that did not have complete r4s evolutionary rates and are omitted from the dataset to avoid NA values.
 
+pdb_general = read.csv('../../properties/pdb_prop_general.csv',header=T)
+pdb_general = data.frame(pdb  = paste0(pdb_general$Protein,'_',pdb_general$chain),
+                         sres = pdb_general$Resolution,    # structure resolution
+                         nseq = pdb_general$Number.of.Sequences   # number of sequences in the alignment
+                         )
+pdb_general = pdb_general[!(pdb_general$pdb %in% excluded_pdbs),]
+pdb_general$pdb = factor(pdb_general$pdb)
+
 pdb_CO = read.table('../../properties/pdb_prop_CO.out',header=T)
-pdb_CO$pdb = factor(pdb_CO$pdb)
 pdb_CO = pdb_CO[!(pdb_CO$pdb %in% excluded_pdbs),]
 
 pdb_prop_dssp = read.table('../../properties/pdb_prop_dssp.out',header=T)
@@ -22,7 +29,8 @@ pdb_prop_dssp$pdb = factor(pdb_prop_dssp$pdb)
 pdb_prop_dssp = pdb_prop_dssp[!(pdb_prop_dssp$pdb %in% excluded_pdbs),]
 
 pdb_temp = cbind( #subset(pdb_CO, select = c(pdb,natoms,contact_order,contact_orderSC,contact_orderAA)),
-                  subset(pdb_CO, select = c(pdb,natoms,contact_orderSC)),
+                  pdb_general,
+                  subset(pdb_CO, select = c(natoms,contact_orderSC)),
                   subset(pdb_prop_dssp, select = -c(pdb,pdb_asa))
                   )
 
@@ -43,7 +51,7 @@ all_pdb_prop_select = rbind(pdb_prop_from_residue_prop_select,pdb_prop_dssp_CO_l
 
 write.csv(all_pdb_prop_select, "../tables/all_pdb_prop_select.csv", row.names=F )
 
-all_pdb_prop_select_wide = dcast(all_pdb_prop_select, pdb ~ variable, value.var = 'value', mean)
+all_pdb_prop_select_wide = dcast(all_pdb_prop_select, pdb ~ variable, value.var = 'value')
 # The following lines arrange data in the chronological order of the column names.
 colnames_all_pdb_prop_select_wide = data.frame( colnames = colnames( subset(all_pdb_prop_select_wide, select = -c(pdb)) ) )
 colnames_all_pdb_prop_select_wide$colnames = colnames_all_pdb_prop_select_wide[with(colnames_all_pdb_prop_select_wide, order(colnames)),]
