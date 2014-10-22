@@ -18,38 +18,58 @@
 
 setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 
+excluded_pdbs = c('1BBS_A','1BS0_A','1DIN_A','1HPL_A')   # These are the 4 PDBs that did not have complete r4s evolutionary rates and are omitted from the dataset to avoid NA values.
+npdbs = 209         # number of pdb structures in the dataset
+
+res_prop_jec         = read.csv('../../jec_pdb_r4s.csv', header=T)
+res_prop_jec         = res_prop_jec[!(res_prop_jec$pdb %in% excluded_pdbs),]
+res_prop_jec$pdb     = factor(res_prop_jec$pdb)
+
 res_prop_elj         = read.table('../../elj_pdb_entropies.in', header=T)
+res_prop_elj         = res_prop_elj[!(res_prop_elj$pdb %in% excluded_pdbs),]
 res_prop_elj$pdb     = factor(res_prop_elj$pdb)
 
 res_prop_hps         = read.table('../../properties/res_prop_hps.out', header=T)
+res_prop_hps         = res_prop_hps[!(res_prop_hps$pdb %in% excluded_pdbs),]
 res_prop_hps$pdb     = factor(res_prop_hps$pdb)
 
 res_prop_dssp        = read.table('../../properties/res_prop_dssp.out', header=T)
+res_prop_dssp        = res_prop_dssp[!(res_prop_dssp$pdb %in% excluded_pdbs),]
 res_prop_dssp$pdb    = factor(res_prop_dssp$pdb)
 
 res_prop_wcn_bf      = read.table('../../properties/res_prop_wcn_bf.out', header=T)
+res_prop_wcn_bf      = res_prop_wcn_bf[!(res_prop_wcn_bf$pdb %in% excluded_pdbs),]
 res_prop_wcn_bf$pdb  = factor(res_prop_wcn_bf$pdb)
 
 res_prop_voroAA      = read.table('../../properties/res_prop_voronoiAA.out', header=T)
+res_prop_voroAA      = res_prop_voroAA[!(res_prop_voroAA$pdb %in% excluded_pdbs),]
 res_prop_voroAA$pdb  = factor(res_prop_voroAA$pdb)
-res_prop_voroAA      = cbind(res_prop_voroAA, VAAmodified_volume = res_prop_voroAA$VAAvolume)
+res_prop_voroAA      = cbind(res_prop_voroAA, VAAmodified_volume_diff = res_prop_voroAA$VAAvolume, VAAmodified_volume_ratio = res_prop_voroAA$VAAvolume)
 maxval = max(res_prop_voroAA$VAAvolume)
-res_prop_voroAA$VAAmodified_volume[res_prop_voroAA$VAAvolume_change != 0] = maxval
-res_prop_voroAA$VAAmodified_volume = res_prop_voroAA$VAAmodified_volume + res_prop_voroAA$VAAvolume_change
+res_prop_voroAA$VAAmodified_volume_diff[res_prop_voroAA$VAAvolume_change_diff != 0] = maxval
+res_prop_voroAA$VAAmodified_volume_diff  = res_prop_voroAA$VAAmodified_volume_diff + res_prop_voroAA$VAAvolume_change_diff
+res_prop_voroAA$VAAmodified_volume_ratio[res_prop_voroAA$VAAvolume_change_ratio != 1] = maxval
+res_prop_voroAA$VAAmodified_volume_ratio = res_prop_voroAA$VAAmodified_volume_ratio * res_prop_voroAA$VAAvolume_change_ratio
 
 res_prop_voroCA      = read.table('../../properties/res_prop_voronoiCA.out', header=T)
+res_prop_voroCA      = res_prop_voroCA[!(res_prop_voroCA$pdb %in% excluded_pdbs),]
 res_prop_voroCA$pdb  = factor(res_prop_voroCA$pdb)
-res_prop_voroCA      = cbind(res_prop_voroCA, VCAmodified_volume = res_prop_voroCA$VCAvolume)
+res_prop_voroCA      = cbind(res_prop_voroCA, VCAmodified_volume_diff = res_prop_voroCA$VCAvolume, VCAmodified_volume_ratio = res_prop_voroCA$VCAvolume)
 maxval = max(res_prop_voroCA$VCAvolume)
-res_prop_voroCA$VCAmodified_volume[res_prop_voroCA$VCAvolume_change != 0] = maxval
-res_prop_voroCA$VCAmodified_volume = res_prop_voroCA$VCAmodified_volume + res_prop_voroCA$VCAvolume_change
+res_prop_voroCA$VCAmodified_volume_diff[res_prop_voroCA$VCAvolume_change_diff != 0] = maxval
+res_prop_voroCA$VCAmodified_volume_diff  = res_prop_voroCA$VCAmodified_volume_diff + res_prop_voroCA$VCAvolume_change_diff
+res_prop_voroCA$VCAmodified_volume_ratio[res_prop_voroCA$VCAvolume_change_ratio != 1] = maxval
+res_prop_voroCA$VCAmodified_volume_ratio = res_prop_voroCA$VCAmodified_volume_ratio * res_prop_voroCA$VCAvolume_change_ratio
 
 res_prop_voroSC      = read.table('../../properties/res_prop_voronoiSC.out', header=T)
+res_prop_voroSC      = res_prop_voroSC[!(res_prop_voroSC$pdb %in% excluded_pdbs),]
 res_prop_voroSC$pdb  = factor(res_prop_voroSC$pdb)
-res_prop_voroSC      = cbind(res_prop_voroSC, VSCmodified_volume = res_prop_voroSC$VSCvolume)
+res_prop_voroSC      = cbind(res_prop_voroSC, VSCmodified_volume_diff = res_prop_voroSC$VSCvolume, VSCmodified_volume_ratio = res_prop_voroSC$VSCvolume)
 maxval = max(res_prop_voroSC$VSCvolume)
-res_prop_voroSC$VSCmodified_volume[res_prop_voroSC$VSCvolume_change != 0] = maxval
-res_prop_voroSC$VSCmodified_volume = res_prop_voroSC$VSCmodified_volume + res_prop_voroSC$VSCvolume_change
+res_prop_voroSC$VSCmodified_volume_diff[res_prop_voroSC$VSCvolume_change_diff != 0] = maxval
+res_prop_voroSC$VSCmodified_volume_diff  = res_prop_voroSC$VSCmodified_volume_diff + res_prop_voroSC$VSCvolume_change_diff
+res_prop_voroSC$VSCmodified_volume_ratio[res_prop_voroSC$VSCvolume_change_ratio != 1] = maxval
+res_prop_voroSC$VSCmodified_volume_ratio = res_prop_voroSC$VSCmodified_volume_ratio * res_prop_voroSC$VSCvolume_change_ratio
 
 wcn_scors_all_pdbs = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
 wcn_list = c('wcnSC','wcnAA','wcnCB','wcnCA','wcnN','wcnC','wcnO')
@@ -60,6 +80,7 @@ for(pdb in levels(res_prop_elj$pdb))
   counter = counter + 1
   cat( paste(str(counter),pdb) )
   
+  pdb_jec    = res_prop_jec[res_prop_jec$pdb==pdb,] # c('r4sJC')]
   pdb_elj    = res_prop_elj[res_prop_elj$pdb==pdb,] # c('seqent','ddgent')]
   pdb_hps    = res_prop_hps[res_prop_hps$pdb==pdb,]  # c('hpskd','hpsww','hpshh')]
   pdb_dssp   = res_prop_dssp[res_prop_dssp$pdb==pdb,] # c('asa','rsa','hbe_mean','rss')] )
@@ -69,9 +90,11 @@ for(pdb in levels(res_prop_elj$pdb))
   #pdb_voroCA = res_prop_voroCA[res_prop_voroCA$pdb==pdb, ]
   #pdb_voroSC = res_prop_voroSC[res_prop_voroSC$pdb==pdb, ]
   
-  pdb_temp = cbind( subset(pdb_elj, select  = c(seqent,ddgent)),
+  pdb_temp = cbind( subset(pdb_jec, select = c(r4s_JC)),
+                    subset(pdb_elj, select = c(seqent,ddgent)),
                     subset(pdb_hps, select  = c(hpshh)),
-                    subset(pdb_dssp, select = c(asa,rsa,hbe_mean)),
+                    #subset(pdb_dssp, select = c(asa,rsa,hbe_mean)),
+                    subset(pdb_dssp, select = c(rsa,hbe_mean)),
                     subset(pdb_voroAA, select = c(resvol))
                     #subset(pdb_wcn, select = -c(pdb,resnam,resnum,bfSC,bfAA,bfN,bfCA,bfC,bfO,bfCB)),
                     #subset(pdb_voroAA, select = -c(pdb,resnam,resnum,sizeSC,sizeAA,VAAnvertices,VAAnedges,VAAvolume_change)),
@@ -119,7 +142,7 @@ for (wcn in levels(wcn_scors_all_pdbs$wcn))
   for (variable in levels(temp_data_wcn$variable))
   {
     temp_data = temp_data_wcn[temp_data_wcn$variable == variable,]
-    if (length(temp_data$pdb) != 213)
+    if (length(temp_data$pdb) != npdbs)
     {
       stop ( 'something is fishy here!' )
     }
@@ -172,7 +195,8 @@ for (i in 1:(length(wcn_list)-1))
 
 x = -2:2
 colors = c('red', 'blue', 'green', 'purple', 'orange3', 'darkgreen', 'black', 'gray', 'cyan2') #, 'darkred', 'darkgreen', 'bisque2')
-labels = c('ASA', 'ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
+#labels = c('ASA', 'ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
+labels = c('ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Evol. Rates', 'Residue Volume', 'RSA', 'Seq. Entropy')
 
 for (i in 1:(length(wcn_list)-1))
 {
@@ -190,8 +214,8 @@ for (i in 1:(length(wcn_list)-1))
          #xaxt='n',yaxt='n',bty='n',pch='',
     #plot(abs(wcn_scors_summary1$median),
     #     abs(wcn_scors_summary2$median),
-         xlab = paste0( 'absolute median correlation with ',wcn_list[[i]][1] ),
-         ylab = paste0( 'absolute median correlation with ',wcn_list[[j]][1] ),
+         xlab = paste0( 'absolute median cor. with ',wcn_list[[i]][1] ),
+         ylab = paste0( 'absolute median cor. with ',wcn_list[[j]][1] ),
          xlim = c(0,1.0),
          ylim = c(0,1.0)
          )
@@ -210,7 +234,8 @@ wcn_scors_all_pdbs = read.csv( "../tables/best_wcn/selected_variables/wcn_scors_
 wcn_scors_all_pdbs$variable = factor(wcn_scors_all_pdbs$variable)
 wcn_scors_all_pdbs$wcn = factor(wcn_scors_all_pdbs$wcn)
 
-variable_list = c('ASA', 'ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
+#variable_list = c('ASA', 'ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
+variable_list = c('ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Evol. Rates', 'Residue Volume', 'RSA', 'Seq. Entropy')
 counter = 0
 for (variable in levels(wcn_scors_all_pdbs$variable))
 { 
@@ -225,7 +250,7 @@ for (variable in levels(wcn_scors_all_pdbs$variable))
   par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
   boxplot(temp_data_variable,
           xlab = 'representative Weighted Contact Number (wcn)',
-          ylab = paste0('Spearman correlation with ',variable_list[[counter]][1])
+          ylab = paste0('Spearman cor. with ',variable_list[[counter]][1])
   )
   graphics.off()
 }
@@ -236,8 +261,10 @@ wcn_scors_all_pdbs = read.csv( "../tables/best_wcn/selected_variables/wcn_scors_
 wcn_scors_all_pdbs$variable = factor(wcn_scors_all_pdbs$variable)
 wcn_scors_all_pdbs$wcn = factor(wcn_scors_all_pdbs$wcn)
 
-variable_list = c('Sequence Entropy','ddG Entropy','RSA','ASA','Hydrophobicity','H-bond Energy')
-variable_names = c('seqent','ddgent','rsa','asa','hpshh','hbe_mean')
+#variable_list = c('Seq. Entropy','ddG Entropy','RSA','ASA','Hydrophobicity','H-bond Energy')
+#variable_names = c('seqent','ddgent','rsa','asa','hpshh','hbe_mean')
+variable_list = c('Evol. Rates','Seq. Entropy','ddG Entropy','RSA','Hydrophobicity','H-bond Energy')
+variable_names = c('r4s_JC','seqent','ddgent','rsa','hpshh','hbe_mean')
 wcn_list = c('wcnSC','wcnAA','wcnCB','wcnCA','wcnN','wcnC','wcnO')
 counter = 0
 filename = paste0('../figures/best_wcn/selected_variables/boxplot_wcn_all_in_one.pdf')
@@ -255,7 +282,9 @@ for (variable in variable_names)
   par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
   boxplot(temp_data_variable,
           xlab = 'representative Weighted Contact Number (wcn)',
-          ylab = paste0('Spearman cor. with ',variable_list[[counter]][1])
+          ylab = paste0('Spearman cor. with ',variable_list[[counter]][1]),
+          cex.axis = 1.3,
+          cex.lab = 1.3
           )
 }
 graphics.off()
