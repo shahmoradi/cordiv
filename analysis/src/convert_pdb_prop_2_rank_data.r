@@ -1,6 +1,8 @@
 # This code generates an ranked version of the dataframe containing all PDB data.
 # Amir Shahmoradi, Tuesday 1:27 AM, Oct 7 2014, Wilke Lab, ICMB, UT Austin 
 
+setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
+
 all_pdb_prop_select_wide = read.csv("../tables/all_pdb_prop_select_wide.csv",header=T)
 all_pdb_prop_subset = subset(all_pdb_prop_select_wide, select = -c(sum.nssb,mean.nssb))  # These two columns are all zero for all proteins and do not carry any valuable infromation.
 all_pdb_prop_select_wide_rank = all_pdb_prop_subset$pdb
@@ -20,6 +22,8 @@ write.csv(all_pdb_prop_select_wide_rank, "../tables/all_pdb_prop_select_wide_ran
 
 all_pdb_prop_rank_cormat = as.data.frame(cor(subset(all_pdb_prop_select_wide_rank, select=-c(pdb))), method='spearman')
 write.csv(all_pdb_prop_rank_cormat, "../tables/all_pdb_prop_rank_cormat.csv", row.names=T )
+
+all_pdb_prop_select_wide_rank = read.csv("../tables/all_pdb_prop_select_wide_rank.csv", header=T)
 
 #regressors = subset(all_pdb_prop_select_wide_rank, select=-c(pdb,r.seqent.wcnSC))
 #pcrdata = cbind(data.frame( r.seqent.wcnSC = all_pdb_prop_select_wide_rank$r.seqent.wcnSC), regressors)
