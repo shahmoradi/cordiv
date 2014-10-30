@@ -132,7 +132,7 @@ The University of Texas at Austin, TX 78712, USA; amir@physics.utexas.edu}
     Thus, for the sake of comprehensiveness and in order to identify the best definitions of structural properties such as WCN, Bfactor, and Voronoi cells, here we calculate and consider all possible definitions of properties depending on the choice of the representative set of atomic coordinates used. These include the set of coordinates of all backbone atoms ($N$, $C$, $C_\alpha$, $O$) and the first heavy atom in the amino acid side chains ($C_\beta$). In addition, we calculate representative coordinates for each site in protein by averaging over the coordinates of all heavy atoms in the side chains. We also calculate a representative coordinate for each site that is an average over all heavy atom coordinates in the side chain and backbone of the amino acid. In rare cases where the side chain atoms are not resolved in the PDB file or the amino acid lacks the heavy atom needed (e.g., $C_\beta$ for Glycine). The coordinate for that specific site is replaced with the coordinate of the corresponding $C_\alpha$ atom in the amino acid backbone.
     \\
 
-    We calculate the relevant Voronoi cell properties of all sites in all proteins using the software VORO++ (xx), and use DSSP (xx) for the calculation of Accessible Surface Area (ASA) for each site normalized by the theoretical maximum solvent accessibility values of Tein et al (20112 xx) to obtain the Relative Solvent Accessibility (RSA) for all individual sites in all proteins. In addition to ASA values, we also extract from DSSP information about the secondary structure of proteins, such as the total number of residues participating in different types of helices, parallel or anti-parallel beta sheets, or loops and turns. To complete the list of pdb-level structural properties, we also calculate the Spearman correlations between all residue-level structural properties and include them in the analysis to probe their potential effects on the strength of structure-sequence relations.
+    We use VORO++ software (xx) to calculate the relevant Voronoi cell properties of all sites in all proteins, and use DSSP (xx) for the calculation of Accessible Surface Area (ASA) for each site normalized by the theoretical maximum solvent accessibility values of Tein et al (20112 xx) to obtain the Relative Solvent Accessibility (RSA) for all individual sites in all proteins. In addition to ASA values, we also extract from DSSP output, information about the secondary structure of proteins such as the total number of residues participating in different types of helices, parallel or anti-parallel beta sheets, or loops and turns. To complete the list of pdb-level structural properties, we also calculate the Spearman correlations between all residue-level structure and sequence properties and include them in the analysis to probe their potential effects on the strength of structure-sequence relations.
     \\
 
     All data including a list of 213 proteins and their properties together with Python, R and Fortran codes written for data reduction and analysis are publicly available to view and download at \url{https://github.com/shahmoradi/cordiv}.
@@ -146,37 +146,42 @@ The University of Texas at Austin, TX 78712, USA; amir@physics.utexas.edu}
         As explained in the previous section, there is a high level of redundancy in the initial set of collected protein properties. In particular, depending on the set of atomic coordinates used, there are $7$ different measures for some residue characteristics such as the residue Weighted Contact Number, Bfactor and Voronoi cell properties. This in turn results in a large set of secondary variables at pdb-level that basically measure the same protein characteristics, but with different strengths.  Therefore, in order to eliminate redundant variables from dataset, we first compare the predictive power of different measures of residue characteristics based on the set of atomic coordinates used.
         \\
 
-        For the measure of local packing density in proteins (the Weighted Contact Number) we find that among all possible set of coordinates, the average over coordinates of all heavy atoms for each each individual side chain results in WCN values that show the best correlation with other structural and sequence properties, such as RSA, Voronoi cell properties, sequence entropy, and evolutionary rates. Specifically, WCN from average side chain coordinates (wcnSC) outperforms WCN based on $C_\alpha$ coordinates (wcnCA) in predicting RSA, Voronoi cell volumes, sequence entropy and evolutionary rates by a median Spearman correlation difference of $00$, $00$, $00$ \& $00$, respectively (Figure \ref{fig:best_wcn}).
+        For the measure of local packing density in proteins (the Weighted Contact Number) we find that among all possible set of coordinates, the average over coordinates of all heavy atoms of each individual side chain results in WCN values that show the best correlation with other structural and sequence properties, such as RSA, Voronoi cell properties, sequence entropy, and evolutionary rates. Specifically, WCN from average side chain coordinates (wcnSC) outperforms WCN based on $C_\alpha$ coordinates (wcnCA) in predicting RSA, $\Delta\Delta$ entropy, sequence entropy and evolutionary rates ($r4sJC$) by a median Spearman correlation difference of $0.09$, $0.10$, $0.07$ \& $0.08$, respectively (Figure \ref{fig:best_wcn}).
         \\
 
-        For the measure of local flexibility in proteins (Bfactor) we similarly find that among all $7$ representative measures of site Bfactors, the average of Bfactor values over all heavy atoms of each individual side chain (bfSC) results in the best correlations with other structural and sequence properties. Specifically, bfSC outperforms the commonly used $C_\alpha$ Bfactor (bfCA) in predicting RSA, Voronoi cell volumes, sequence entropy and evolutionary rates by a median Spearman correlation difference of $00$, $00$, $00$ \& $00$, respectively (Figure \ref{fig:best_bf}).
+        For the measure of local flexibility in proteins (Bfactor) we similarly find that among all $7$ representative measures of site Bfactors, the average of Bfactor values over all heavy atoms of each individual side chain (bfSC) results in the best correlations with other structural and sequence properties. Specifically, bfSC outperforms the commonly used $C_\alpha$ Bfactor (bfCA) in predicting RSA, $\Delta\Delta$ entropy, sequence entropy and evolutionary rates by a median Spearman correlation difference of $0.11$, $0.12$, $0.08$ \& $0.09$, respectively (Figure \ref{fig:best_bf}).
         \\
 
         Similar to WCN and Bfactor, the Voronoi cell properties, most importantly the cell surface area, volume and the cell compactness also correlate best with other structure and sequence properties, only if the average side chain coordinates are used as the seeds of Voronoi cells (Figure \ref{fig:best_voronoi}).
         \\
-        
+
         All observations clearly demonstrate that individual sites in proteins are best represented by the average properties of the side chains of amino acids in the corresponding sites. In particular, the strength of structure and sequence correlations decrease when moving from side chain to backbone atoms. An exception to this general pattern is the correlation of the hydrogen-bond energies of the sites, which correlate more strongly with site characteristics calculated based on the backbone atoms instead of side chain.
         \\
-        
-        Based on the observation that side chain structural properties have the best correlations with other structure and sequence characteristics of individual sites, we keep only variables measured based on average side chain properties and coordinates throughout the rest of the analysis and omit all other possible measures that show only weaker correlations with other site-specific characteristics.
+
+        Based on the observations described in the previous paragraphs, we keep only variables measured based on average side chain properties and coordinates throughout the rest of the analysis and omit all other possible measures that show only weaker correlations with other site-specific characteristics.
         \\
 
 
     \subsection*{Identifying Determinants of Sequence-Structure Correlation Strengths}
-    
+
         In order to identify the potential contributing factors to the strength of sequence--structure correlations, we first employ one of the simplest nonparametric yet powerful tests of statistical dependence between variables in a collection of observations, that is, we construct the Spearman correlation matrix of all pdb-level structure and sequence properties. The choice of Spearman vs. the popular Pearson's correlation measure is to minimize the effects of any potential nonlinear relationships between the set of variables on the measures of associations between the variables.
-        
-        
-        
+
+        The exclusion of alternative measures of structural quantities as described in the previous section, results in a significant reduction in the number of pdb-level variables to be further analysed, from $$ to $$, without compromising generality and comprehensiveness of the analysis.
+
+        Now with the reduced data set at hand, we attempt to identify the main determinants of each sequence-structure relation of interest using regularized regression methods (xx) on the original dataset of pdb-level properties. , also on its rank transformation to ensure non-linearities
+
+        first remove all other sequence-structure correlations from the list of potential contributing factors. As explained in the previous sections, Then we apply regularized regression methods
+
+
         In the following lines we summarize the primary factors affecting the strength of individual correlations of interest.
-        
-        -- most importantly WCN, RSA $\Delta\Delta G$ Entropy, and Voronoi cell volume and surface area -- 
-        
-        
-        
-        
-        
-        
+
+        -- most importantly WCN, RSA $\Delta\Delta G$ Entropy, and Voronoi cell volume and surface area --
+
+
+
+
+
+
 
 \section{Discussion and Concluding Remarks}
 \label{sec:dcr}
@@ -217,8 +222,8 @@ The University of Texas at Austin, TX 78712, USA; amir@physics.utexas.edu}
             \caption{Should be likely modified to volume-area-length-sphericity measures instead.}
             \label{fig:best_voronoi}
         \end{figure}
-        
-        
+
+
 \bibliographystyle{apj}
 \bibliography{proc}
 

@@ -47,6 +47,12 @@ for (correlation in not_in_pcr)
   filename = paste0('../tables/regularized_regression_rank_data/',correlation,'_l1se_rank.csv')
   write.csv(lambda.1se.coef, filename, row.names = F)
   
+  
+  
+  lfit = lm()
+  
+  
+  
   # Now generate the error-lambda plots:
   
   # filename = paste0('../figures/regularized_regression_rank_data/',correlation,'.pdf')
@@ -65,7 +71,7 @@ predictor_names[103]
 plot(fit, label = TRUE)
 plot(fit, xvar = 'dev', label = TRUE,
      xlim = c(0.,0.1),
-     xlim = c(-0.1,0.1)
+     ylim = c(-0.05,0.05)
      )
 print(fit)
 coef(fit,s=0.1)
