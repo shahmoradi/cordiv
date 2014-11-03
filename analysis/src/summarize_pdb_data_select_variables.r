@@ -3,6 +3,8 @@
 
 #install.packages("reshape2")
 library("reshape2")
+#install.packages("Hmisc")
+#library("Hmisc")
 #library('corrplot')
 
 setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
@@ -59,18 +61,35 @@ pdbs = data.frame(pdb = all_pdb_prop_select_wide$pdb)
 all_pdb_prop_select_wide = cbind(pdbs, all_pdb_prop_select_wide[,as.vector(colnames_all_pdb_prop_select_wide$colnames)])
 write.csv(all_pdb_prop_select_wide, "../tables/all_pdb_prop_select_wide.csv", row.names=F )
 
+all_pdb_prop_select_wide = read.csv("../tables/all_pdb_prop_select_wide.csv", header = T)
 all_pdb_prop_subset = subset(all_pdb_prop_select_wide, select = -c(pdb,sum.nssb,mean.nssb))
 all_pdb_prop_cormat = as.data.frame(cor(all_pdb_prop_subset, method='spearman'))
 write.csv(all_pdb_prop_cormat, "../tables/all_pdb_prop_cormat.csv", row.names=T )
 write.csv(abs(all_pdb_prop_cormat), "../tables/all_pdb_prop_cormat_abs_values.csv", row.names=T )
+
 cor(all_pdb_prop_cormat$r.rsa.seqent,all_pdb_prop_cormat$sd.vsphericitym, method='sp')
 cor(all_pdb_prop_cormat$r.seqent.wcnSC,all_pdb_prop_cormat$r.seqent.vsphericitym, method='sp')
+
 cormat_all_pdb_prop_cormat = as.data.frame(cor(all_pdb_prop_cormat, method='spearman'))
 write.csv( cormat_all_pdb_prop_cormat, "../tables/cormat_all_pdb_prop_cormat.csv", row.names=T )
 write.csv( abs(cormat_all_pdb_prop_cormat), "../tables/cormat_all_pdb_prop_cormat_abs_values.csv", row.names=T )
 
+# Now calculate the corresponding P-value matrix
 
+# install.packages('psych')
+library('psych')
 
+all_pdb_prop_select_wide = read.csv("../tables/all_pdb_prop_select_wide.csv", header = T)
+all_pdb_prop_subset = subset(all_pdb_prop_select_wide, select = -c(pdb,sum.nssb,mean.nssb))
+all_pdb_prop_cormat = as.data.frame(cor(all_pdb_prop_subset, method='spearman'))
+all_pdb_prop_corr = corr.test(all_pdb_prop_subset,method='spearman')
+all_pdb_prop_cormat_pvalues = as.data.frame(all_pdb_prop_corr$p)
+#rownames(all_pdb_prop_cormat_pvalues) = rownames(all_pdb_prop_cormat)
+write.csv(all_pdb_prop_cormat_pvalues, "../tables/all_pdb_prop_cormat_pvalues.csv", row.names=T )
+
+plot(log10(all_pdb_prop_cormat_pvalues$contact_orderSC),abs(all_pdb_prop_cormat$contact_orderSC))
+cor(all_pdb_prop_cormat_pvalues$contact_orderSC,abs(all_pdb_prop_cormat$contact_orderSC),method='pe')
+cor(all_pdb_prop_cormat_pvalues$contact_orderSC,abs(all_pdb_prop_cormat$contact_orderSC),method='sp')
 
 # all_pdb_prop_select$variable = factor(all_pdb_prop_select$variable)
 # variable_counter = 0

@@ -1,4 +1,5 @@
 # Amir Shahmoradi, Thursday 4:20 PM, Aug 21 2014, Wilke Lab, ICMB, UT Austin
+# This code summarizes all PDB-level properties of all proteins in the dataset in a long-table format.
 
 #install.packages("reshape2")
 #library("reshape2")
