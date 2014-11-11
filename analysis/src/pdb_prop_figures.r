@@ -57,17 +57,17 @@ dev.off()
 # Now generate a similar screen plot of the correlation of r4sJC-wcnSC vs. r4sJC-other
 filename = paste0('../figures/cordiv_similarities_r4sJC.pdf')
 pdf( filename, width=4.5*n.screen.cols, height=4*n.screen.rows, useDingbats=FALSE )
-column_list = c('r.r4sJC.rsa'
-                ,'r.ddgent.r4sJC'
-                ,'r.bfSC.r4sJC'
-                ,'r.r4sJC.varea'
-                ,'r.r4sJC.vsphericity'
-                ,'r.r4sJC.veccentricity'
-                )
-name_list = c('( Evol. Rates - RSA )'
+column_list = c('r.r4sJC.varea'
+               ,'r.r4sJC.rsa'
+               ,'r.ddgent.r4sJC'
+               ,'r.bfSC.r4sJC'
+               ,'r.r4sJC.vsphericity'
+               ,'r.r4sJC.veccentricity'
+               )
+name_list = c('( Evol. Rates - Voronoi Cell Surface Area )'
+              ,'( Evol. Rates - RSA )'
               ,'( Evol. Rates - ddG Entropy )'
               ,'( Evol. Rates - Mean Residue Bfactor )'
-              ,'( Evol. Rates - Voronoi Cell Surface Area )'
               ,'( Evol. Rates - Voronoi Cell Compactness )'
               ,'( Evol. Rates - Voronoi Cell Symmetry )'
               )
@@ -80,7 +80,7 @@ for (counter in seq(1,n.screen.rows*n.screen.cols))
   plot(abs(all_pdb_prop_select_wide[[column_list[counter]]]),
        abs(all_pdb_prop_select_wide$r.r4sJC.wcnSC),
        xlab = bquote('abs.' ~ rho ~ .(name_list[counter])),
-       ylab = expression(paste('abs. ', rho,' ( Seq. Entropy - Side Chain WCN )')),
+       ylab = expression(paste('abs. ', rho,' ( Evol. Rates - Side Chain WCN )')),
        xlim = c(0.,0.9),
        ylim = c(0.,0.9),
        #cex.axis = 1.4,
@@ -88,6 +88,8 @@ for (counter in seq(1,n.screen.rows*n.screen.cols))
        pch = 16
        )
   lines(x,x,col='red')
+  scor = cor(abs(all_pdb_prop_select_wide[[column_list[counter]]]),abs(all_pdb_prop_select_wide$r.r4sJC.wcnSC))
+  text(x = 0.70, y = 0.05, labels = bquote('Spearman' ~ rho ~ '=' ~ .(round(scor,2))))
 }
 dev.off()
 #graphics.off()
@@ -120,6 +122,72 @@ for (column in column_list)
 dev.off()
 #graphics.off()
 
+
+# Now plot data for validation
+
+source('input_ASAP_data.r')
+
+filename = paste0('../figures/validation_sdseqent.pdf')
+pdf( filename, width=4.5, height=4, useDingbats=FALSE )
+par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+
+plot( all_pdb_prop_select_wide$sd.seqent
+    , all_pdb_prop_select_wide$r.seqent.wcnSC
+    , pch = 19
+    , xlab = 'St. Dev. of Seq. Entropy ( sd.seqent )'
+    , ylab = bquote('Spearman' ~ rho ~ 'seqent - wcnSC')
+    , xlim = c(-0.05,0.9)
+    , ylim = c(-0.8,0.1)
+    )
+points( ASAP_pdb_prop$sd.seqent
+      , ASAP_pdb_prop$r.seqent.wcnCA
+      , col = 'red'
+      , pch = 19
+      )
+dev.off()
+
+filename = paste0('../figures/validation_sdhbe.pdf')
+pdf( filename, width=4.5, height=4, useDingbats=FALSE )
+par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+
+plot( all_pdb_prop_select_wide$sd.hbe
+      , all_pdb_prop_select_wide$r.r4sJC.wcnSC
+      , pch = 19
+      , xlab = 'St. Dev. of Seq. Entropy ( sd.seqent )'
+      , ylab = bquote('Spearman' ~ rho ~ 'seqent - wcnSC')
+      #, xlim = c(-0.05,0.9)
+      #, ylim = c(-0.8,0.1)
+)
+# points( ASAP_pdb_prop$sd.seqent
+#         , ASAP_pdb_prop$r.seqent.wcnCA
+#         , col = 'red'
+#         , pch = 19
+# )
+dev.off()
+
+
+# For Claus proposal:
+
+source('input_ASAP_data.r')
+filename = paste0('../figures/cordiv_seqent_wcn_rsa.pdf')
+pdf( filename, width=4.5, height=4, useDingbats=FALSE )
+par( mai=c(0.65, 0.65, 0.1, 0.1), mgp=c(2, 0.5, 0), tck=-0.03 )
+plot( all_pdb_prop_select_wide$r.rsa.seqent
+    , all_pdb_prop_select_wide$r.seqent.wcnSC
+    , pch = 19
+    , xlab = bquote('Spearman' ~ rho ~ '( seq. entropy - RSA )')
+    , ylab = bquote('Spearman' ~ rho ~ '( seq. entropy - WCN )')
+    , xlim = c(-0.1,0.85)
+    , ylim = c(0.1,-0.85)
+)
+x = -1:1
+lines(x,-x,col='green',lwd=2)
+points( ASAP_pdb_prop$r.seqent.rsa
+      , ASAP_pdb_prop$r.seqent.wcnCA
+      , pch = 19
+      , col = 'red'
+      )
+dev.off()
 
 plot (abs(all_pdb_prop_select_wide$r.seqent.wcnSC), abs(all_pdb_prop_select_wide$r.seqent.vsphericitym))
 lines(x,x)

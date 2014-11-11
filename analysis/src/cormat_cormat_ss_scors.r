@@ -28,10 +28,47 @@ corrplot.mixed(cormat_all_pdb_prop_cormat_SS_scors, lower = "ellipse", upper = "
 dev.off()
 
 
+# Now create the cor matrix of the main modulators of correlations of wcnSC and varea with r4sJC and seqent:
+
+all_pdb_prop_select_wide_rank = read.csv('../tables/all_pdb_prop_select_wide_rank.csv',header=T)
+# selection = subset( all_pdb_prop_select_wide_rank
+#                   , select = c(r.r4sJC.wcnSC,r.r4sJC.varea,r.seqent.wcnSC,r.seqent.varea
+#                               ,r.r4sJC.seqent,sd.seqent,sd.r4sJC
+#                               ,sd.hbe,mean.helix,mean.betas))
+
+selection = data.frame( r.r4s.wcn      = all_pdb_prop_select_wide_rank$r.r4sJC.wcnSC
+                      , r.r4s.varea    = all_pdb_prop_select_wide_rank$r.r4sJC.varea
+                      , r.se.wcn       = all_pdb_prop_select_wide_rank$r.seqent.wcnSC
+                      , r.se.varea     = all_pdb_prop_select_wide_rank$r.seqent.varea
+                      , r.r4s.se       = all_pdb_prop_select_wide_rank$r.r4sJC.seqent
+                      , sd.se          = all_pdb_prop_select_wide_rank$sd.seqent
+                      , sd.r4s         = all_pdb_prop_select_wide_rank$sd.r4sJC
+                      , sd.hbe         = all_pdb_prop_select_wide_rank$sd.hbe
+                      , mn.helix       = all_pdb_prop_select_wide_rank$mean.helix
+                      , mn.betas       = all_pdb_prop_select_wide_rank$mean.betas
+                      )
+
+pdf( "../figures/main_modulators_cormat.pdf", width=9, height=8, useDingbats=FALSE )
+cormat_select = cor(subset(selection), method = 'spearman')
+corrplot.mixed(cormat_select, lower = "ellipse", upper = "number"
+               #, tl.pos = 'lt'
+               , tl.pos = 'd'
+               , tl.cex = 0.95
+               #, tl.srt = 45
+               #, order = 'hclust'
+               #, addrect = 3
+               )
+dev.off()
+
+# Calculate how much of variance is explained by these variables:
+
+lfit = lm( r.r4sJC.wcnSC ~ sd.seqent + sd.hbe, data = all_pdb_prop_select_wide  )
+lfit = lm( r.seqent.wcnSC ~ sd.seqent + sd.hbe, data = all_pdb_prop_select_wide )
+summary(lfit)
+
 # corrplot(cormat_all_pdb_prop_cormat_SS_scors, order = "hclust")
 # cormat_all_pdb_prop_cormat_SS_scors = cor(abs(subset(all_pdb_prop_cormat_SS_scors, select = -c(variable))), method = 'spearman')
 # corrplot(cormat_all_pdb_prop_cormat_SS_scors, order = "FPC")
-# 
 # plot(all_pdb_prop_cormat_SS_scors$r.r4sJC.wcnSC,all_pdb_prop_cormat_SS_scors$r.r4sJC.rsa)
 # plot(all_pdb_prop_cormat_SS_scors$r.r4sJC.wcnSC,all_pdb_prop_cormat_SS_scors$r.seqent.wcnSC)
 # plot(all_pdb_prop_cormat_SS_scors$r.r4sJC.wcnSC,all_pdb_prop_cormat_SS_scors$r.bfSC.r4sJC)

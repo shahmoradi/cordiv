@@ -1,13 +1,11 @@
 # This R scripts generates a plot of the most influential pdb-level variables on the structure-sequence correlations.
-
+# Amir Shahmoradi, Sunday 4:39 PM, November 9 2014, Wilke Lab, ICMB, UT Austin
 
 index = names(result) %in% c("r.rsa_avg_md", "r.wcn_avg_md", "r.chi1_var_md", "r.rmsf_avg_md", "r.bfca") #, "avg_cr_rho") # columns we want to plot
 index.p = names(result) %in% c("p.rsa_avg_md", "p.wcn_avg_md", "p.chi1_var_md", "p.rmsf_avg_md", "p.bfca") # columns that store significance
 
 colors = c('red', 'blue', 'green', 'purple', 'orange3', 'darkgreen', 'black', 'gray', 'cyan2') #, 'darkred', 'darkgreen', 'bisque2')
-###proteins = c('1RD8_AB', '2FP7_B', '2JLY_A', '2Z83_A', '3GOL_A', '3LYF_A', '4AQF_B', '4GHA_A', '4IRY_A') #, '3GSZ_A', '3I5K_A', '2JLY_A_temp_50', '2JLY_A_temp_100', '2JLY_A_temp_200', '2JLY_A_temp_450')
 proteins = c('1RD8_AB', '2FP7_B', '2Z83_A', '3LYF_A', '4AQF_B', '4GHA_A', '4IRY_A') #, '3GSZ_A', '3I5K_A', '2JLY_A_temp_50', '2JLY_A_temp_100', '2JLY_A_temp_200', '2JLY_A_temp_450')
-###labels = c('1RD8', '2FP7', '2JLY', '2Z83', '3GOL', '3LYF', '4AQF', '4GHA', '4IRY') #, '3GSZ_A', '3I5K_A', '2JLY_A_temp_50', '2JLY_A_temp_100', '2JLY_A_temp_200', '2JLY_A_temp_450')
 labels = c('1RD8', '2FP7', '2Z83', '3LYF', '4AQF', '4GHA', '4IRY') #, '3GSZ_A', '3I5K_A', '2JLY_A_temp_50', '2JLY_A_temp_100', '2JLY_A_temp_200', '2JLY_A_temp_450')
 
 pdf( "correlation_analysis/figures/cor_r4s_all.pdf", width=7, height=4, useDingbats=FALSE )

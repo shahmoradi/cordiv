@@ -17,15 +17,15 @@ data_4IRY_A  = read.csv( "correlation_analysis/combined_data/data_4IRY_A.csv" )
 #data_3GSZ_A  = read.csv( "correlation_analysis/combined_data/data_3GSZ_A.csv" )
 #data_3I5K_A  = read.csv( "correlation_analysis/combined_data/data_3I5K_A.csv" )
 
-ASAP_res_data = rbind(data_1RD8_AB, data_2FP7_B, data_2Z83_A, data_2JLY_A, data_3GOL_A, data_3LYF_A, data_4AQF_B, data_4GHA_A, data_4IRY_A)
-ASAP_res_data$protein = factor(ASAP_res_data$protein)
-ASAP_pdb_data = data.frame()
+ASAP_res_prop = rbind(data_1RD8_AB, data_2FP7_B, data_2Z83_A, data_2JLY_A, data_3GOL_A, data_3LYF_A, data_4AQF_B, data_4GHA_A, data_4IRY_A)
+ASAP_res_prop$protein = factor(ASAP_res_prop$protein)
+ASAP_pdb_prop = data.frame()
 counter = 0
-for (pdb in levels(ASAP_res_data$protein))
+for (pdb in levels(ASAP_res_prop$protein))
 {
   counter = counter + 1
   cat (counter[[1]][1], ' ', pdb, '\n')
-  pdb_data = ASAP_res_data[ASAP_res_data$protein == pdb,]
+  pdb_data = ASAP_res_prop[ASAP_res_prop$protein == pdb,]
   x = cor.test(pdb_data$entropy, pdb_data$rsa_avg_md, method = 'spearman')
   r.seqent.rsa = x$estimate
   x = cor.test(pdb_data$entropy, pdb_data$wcn_avg_md, method = 'spearman')
@@ -48,11 +48,11 @@ for (pdb in levels(ASAP_res_data$protein))
                     median.rsa     = median(pdb_data$rsa_avg_md)
                     )
   
-  ASAP_pdb_data = rbind(ASAP_pdb_data,row)
+  ASAP_pdb_prop = rbind(ASAP_pdb_prop,row)
 }
 
 setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 
-write.csv(ASAP_pdb_data, "../tables/ASAP_pdb_prop.csv", row.names = F)
+write.csv(ASAP_pdb_prop, "../tables/ASAP_pdb_prop.csv", row.names = F)
 
 

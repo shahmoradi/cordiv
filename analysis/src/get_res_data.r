@@ -46,3 +46,33 @@ res_prop_voroSC$VSCmodified_sphericity = res_prop_voroSC$VSCsphericity
 res_prop_voroSC$VSCmodified_sphericity[res_prop_voroSC$VSCvolume_change_diff != 0] = -res_prop_voroSC$VSCsphericity[res_prop_voroSC$VSCvolume_change_diff != 0]
 res_prop_voroSC = res_prop_voroSC[!(res_prop_voroSC$pdb %in% excluded_pdbs),]
 res_prop_voroSC$pdb  = factor(res_prop_voroSC$pdb)
+
+scaling_data = res_prop_voroSC[res_prop_voroSC$VSCvolume_change_diff == 0,]
+#plot(1.4*(log10(scaling_data$VSCarea)-log10(4.8359758620494089221509005399179)),log10(scaling_data$VSCvolume))
+plot(log10(scaling_data$VSCarea),log10(scaling_data$VSCvolume/scaling_data$VSCarea^1.25))
+cor(log10(scaling_data$VSCarea),log10(scaling_data$VSCvolume/scaling_data$VSCarea^1.25),method='sp')
+#x = 1.4*(log10(scaling_data$VSCarea)-log10(4.8359758620494089221509005399179))
+x = log10(scaling_data$VSCarea)
+summary(lm(log10(scaling_data$VSCvolume)~ x))
+#plot(lm(log10(scaling_data$VSCvolume)~ x))
+lx = c(1,40)
+ly = 0.8807092*lx + 0.3023839
+lines(lx,ly,col='red')
+
+#H-clustering of correlation matrix:
+
+all_pdb_prop_cormat = read.csv("../tables/all_pdb_prop_cormat.csv", header=T )
+row.names(all_pdb_prop_cormat) = all_pdb_prop_cormat$X
+all_pdb_prop_cormat = subset(all_pdb_prop_cormat, select = -c(X))
+pdf( "../figures/cormat_hcluster.pdf", width=36, height=16, useDingbats=FALSE )
+plot( hclust(dist(abs(all_pdb_prop_cormat)))
+    , xlab = 'Hierarchical Clustering of the Spearman Correlation Matrix')
+dev.off()
+
+all_pdb_prop_cormat = read.csv("../tables/all_pdb_prop_cormat.csv", header=T )
+row.names(all_pdb_prop_cormat) = all_pdb_prop_cormat$X
+all_pdb_prop_cormat = subset(all_pdb_prop_cormat, select = -c(X))
+pdf( "../figures/cormat_squared_hcluster.pdf", width=36, height=16, useDingbats=FALSE )
+plot( hclust(dist(all_pdb_prop_cormat*all_pdb_prop_cormat))
+      , xlab = 'Hierarchical Clustering of the Spearman Correlation Matrix Squared')
+dev.off()
