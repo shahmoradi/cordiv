@@ -96,10 +96,11 @@ implicit none
 ! FIRST DETERMINE THE FOUR-LETTER NAME OF THE PDB STRUCTURE:
   pdb_in = adjustr(pdb_in)
   i = len(adjustr(pdb_in))
-  if (pdb_in(i-3:i) /= '.pdb' .or. pdb_in(i-10:i-10) /= '_') then
+  if (pdb_in(i-3:i) /= '.pdb') then ! .or. pdb_in(i-10:i-10) /= '_') then
     write(*,*) 'WARNING: pdb filename does not seem to be correct'
     write(*,*) 'pdb filename: ', pdb_in(i-9:i)
-    read(*,*)
+    write(*,*) 'The last 10 letters of pdb filename must be of the form: ***_*.pdb'
+    STOP  ! read(*,*)
   else
     pdb_name = pdb_in(i-9:i-4)
     write(*,*); write(*,*) 'pdb name: ', pdb_name
@@ -133,7 +134,7 @@ implicit none
       exit
     else
       if (trim(adjustl(record(1)))=='ATOM') natoms = natoms + 1
-      if (trim(adjustl(atom_name(1))) == 'CA') then
+      if (trim(adjustl(record(1)))=='ATOM' .and. trim(adjustl(atom_name(1))) == 'CA') then
         if (nres == 0) then
           nres = nres + 1
         elseif (res_num_old == res_num(1) .and. res_nam_old == res_name(1) .and. res_cod_old == res_code(1)) then
@@ -304,7 +305,7 @@ implicit none
   allocate (no_residue_contact(nres,nres))
   no_residue_contact = .TRUE.     ! Initially assume no contact between any two atoms of a pair of residues.
   ncontacts          = 0
-  do i = 1,natoms-1
+  do i = 1,natoms-1 
     do j = i+1,natoms
       not_same_residue = res_num(i) /= res_num(j) .or. res_name(i) /= res_name(j) .or. res_code(i) /= res_code(j)
       ! safety check point
@@ -313,6 +314,7 @@ implicit none
           stop
         end if
       if ( not_same_residue .and. no_residue_contact(res_num_renumbered(i),res_num_renumbered(j)) ) then
+        !write(*,*) 'Calculating CA contact order for residue number ', res_num(i)
         distance = sqrt( (crd(i,1)-crd(j,1))**2 + (crd(i,2)-crd(j,2))**2 + (crd(i,3)-crd(j,3))**2 )
         if (distance <= cutoff) then
           no_residue_contact(res_num_renumbered(i),res_num_renumbered(j)) = .FALSE.
@@ -334,6 +336,7 @@ implicit none
   ncontactsSC   = 0
   ncontactsAA   = 0
   do i = 1,nres
+    !write(*,*) 'Calculating AA/SC contact order for residue number ', i
     do j = i+1,nres
       distance = sqrt( (crdSC(i,1)-crdSC(j,1))**2 + (crdSC(i,2)-crdSC(j,2))**2 + (crdSC(i,3)-crdSC(j,3))**2 )
       if (distance <= 2.d0*cutoff) then

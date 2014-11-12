@@ -1,0 +1,107 @@
+ 
+ pdb name: 1AJ8_A
+ Found TER record in pdb file: ../../structures_asap/1AJ8_A.pdb
+END
+ natoms:     2987
+   nres:      371
+../../structures_asap/1AJ8_A.pdb
+ 
+ pdb name: 1AOR_A
+ Found TER record in pdb file: ../../structures_asap/1AOR_A.pdb
+END
+ natoms:     4693
+   nres:      605
+../../structures_asap/1AOR_A.pdb
+ 
+ pdb name: 1CTS_A
+ Found TER record in pdb file: ../../structures_asap/1CTS_A.pdb
+END
+ natoms:     3444
+   nres:      437
+../../structures_asap/1CTS_A.pdb
+ 
+ pdb name: 1MP9_A
+ Found TER record in pdb file: ../../structures_asap/1MP9_A.pdb
+END
+ natoms:     1533
+   nres:      193
+../../structures_asap/1MP9_A.pdb
+ 
+ pdb name: 1RD8_X
+ Found TER record in pdb file: ../../structures_asap/1RD8_X.pdb
+END
+ natoms:     3951
+   nres:      502
+../../structures_asap/1RD8_X.pdb
+ 
+ pdb name: 2FP7_B
+ Found TER record in pdb file: ../../structures_asap/2FP7_B.pdb
+END
+ natoms:     1115
+   nres:      147
+../../structures_asap/2FP7_B.pdb
+ 
+ pdb name: 2JLY_A
+ FATAL: Two CA atoms in the pdb file have the same res_num, res_name and res_cod
+ e!         321 SER 
+ Found TER record in pdb file: ../../structures_asap/2JLY_A.pdb
+END
+ natoms:     3604
+   nres:      451
+../../structures_asap/2JLY_A.pdb
+ 
+ pdb name: 2Z83_A
+ Found TER record in pdb file: ../../structures_asap/2Z83_A.pdb
+END
+ natoms:     3364
+   nres:      426
+../../structures_asap/2Z83_A.pdb
+ 
+ pdb name: 3GOL_A
+ Found TER record in pdb file: ../../structures_asap/3GOL_A.pdb
+END
+ natoms:     4337
+   nres:      557
+../../structures_asap/3GOL_A.pdb
+ 
+ pdb name: 3GSZ_A
+ Found TER record in pdb file: ../../structures_asap/3GSZ_A.pdb
+END
+ natoms:     4373
+   nres:      558
+../../structures_asap/3GSZ_A.pdb
+ 
+ pdb name: 3I5K_A
+ Found TER record in pdb file: ../../structures_asap/3I5K_A.pdb
+END
+ natoms:     4416
+   nres:      566
+../../structures_asap/3I5K_A.pdb
+ 
+ pdb name: 3LYF_A
+ Found TER record in pdb file: ../../structures_asap/3LYF_A.pdb
+END
+ natoms:     1910
+   nres:      244
+../../structures_asap/3LYF_A.pdb
+ 
+ pdb name: 4AQF_B
+ Found TER record in pdb file: ../../structures_asap/4AQF_B.pdb
+END
+ natoms:     3733
+   nres:      474
+../../structures_asap/4AQF_B.pdb
+ 
+ pdb name: 4GHA_A
+ Found TER record in pdb file: ../../structures_asap/4GHA_A.pdb
+END
+ natoms:      943
+   nres:      122
+../../structures_asap/4GHA_A.pdb
+ 
+ pdb name: 4IRY_A
+ Found TER record in pdb file: ../../structures_asap/4IRY_A.pdb
+END
+ natoms:     3213
+   nres:      404
+../../structures_asap/4IRY_A.pdb

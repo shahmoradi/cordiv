@@ -1,3 +1,266 @@
+missing side chain in residue:  9 GLY in PDB: 1AJ8_A
+missing side chain in residue:  25 GLY in PDB: 1AJ8_A
+missing side chain in residue:  28 GLY in PDB: 1AJ8_A
+missing side chain in residue:  34 GLY in PDB: 1AJ8_A
+missing side chain in residue:  56 GLY in PDB: 1AJ8_A
+missing side chain in residue:  76 GLY in PDB: 1AJ8_A
+missing side chain in residue:  96 GLY in PDB: 1AJ8_A
+missing side chain in residue:  106 GLY in PDB: 1AJ8_A
+missing side chain in residue:  112 GLY in PDB: 1AJ8_A
+missing side chain in residue:  125 GLY in PDB: 1AJ8_A
+missing side chain in residue:  145 GLY in PDB: 1AJ8_A
+missing side chain in residue:  167 GLY in PDB: 1AJ8_A
+missing side chain in residue:  201 GLY in PDB: 1AJ8_A
+missing side chain in residue:  214 GLY in PDB: 1AJ8_A
+missing side chain in residue:  216 GLY in PDB: 1AJ8_A
+missing side chain in residue:  220 GLY in PDB: 1AJ8_A
+missing side chain in residue:  224 GLY in PDB: 1AJ8_A
+missing side chain in residue:  225 GLY in PDB: 1AJ8_A
+missing side chain in residue:  238 GLY in PDB: 1AJ8_A
+missing side chain in residue:  259 GLY in PDB: 1AJ8_A
+missing side chain in residue:  261 GLY in PDB: 1AJ8_A
+missing side chain in residue:  283 GLY in PDB: 1AJ8_A
+missing side chain in residue:  306 GLY in PDB: 1AJ8_A
+missing side chain in residue:  316 GLY in PDB: 1AJ8_A
+missing side chain in residue:  321 GLY in PDB: 1AJ8_A
+missing side chain in residue:  336 GLY in PDB: 1AJ8_A
+missing side chain in residue:  340 GLY in PDB: 1AJ8_A
+missing side chain in residue:  363 GLY in PDB: 1AJ8_A
+missing side chain in residue:  366 GLY in PDB: 1AJ8_A
+Negative Voronoi free volume detected! 1AJ8_A TYR 31 -16.099
+Negative Voronoi free volume detected! 1AJ8_A LEU 52 -10.545
+Negative Voronoi free volume detected! 1AJ8_A ARG 75 -27.683
+Negative Voronoi free volume detected! 1AJ8_A LYS 131 -2.039
+Negative Voronoi free volume detected! 1AJ8_A TRP 139 -17.945
+Negative Voronoi free volume detected! 1AJ8_A TYR 163 -34.865
+Negative Voronoi free volume detected! 1AJ8_A MET 164 -2.222
+Negative Voronoi free volume detected! 1AJ8_A TRP 174 -6.799
+Negative Voronoi free volume detected! 1AJ8_A VAL 197 -6.9202
+Negative Voronoi free volume detected! 1AJ8_A TYR 265 -15.346
+Negative Voronoi free volume detected! 1AJ8_A PHE 275 -4.065
+Negative Voronoi free volume detected! 1AJ8_A ILE 290 -18.894
+Negative Voronoi free volume detected! 1AJ8_A TYR 313 -6.329
+Negative Voronoi free volume detected! 1AJ8_A TRP 314 -18.134
+Negative Voronoi free volume detected! 1AJ8_A ARG 337 -10.868
+Negative Voronoi free volume detected! 1AJ8_A TRP 341 -37.095
+Negative Voronoi free volume detected! 1AJ8_A ILE 20 -7.33
+Negative Voronoi free volume detected! 1AJ8_A TRP 54 -12.98
+Negative Voronoi free volume detected! 1AJ8_A TYR 207 -15.547
+Negative Voronoi free volume detected! 1AJ8_A TYR 208 -4.096
+Negative Voronoi free volume detected! 1AJ8_A TYR 265 -17.987
+Negative Voronoi free volume detected! 1AJ8_A ARG 271 -12.758
+Negative Voronoi free volume detected! 1AJ8_A ILE 309 -5.115
+Negative Voronoi free volume detected! 1AJ8_A TYR 313 -4.004
+Negative Voronoi free volume detected! 1AJ8_A TRP 314 -13.331
+Negative Voronoi free volume detected! 1AJ8_A PHE 319 -10.847
+Negative Voronoi free volume detected! 1AJ8_A PHE 333 -0.132
+Negative Voronoi free volume detected! 1AJ8_A TRP 341 -25.874
+Negative Voronoi free volume detected! 1AJ8_A TRP 54 -3.729
+Negative Voronoi free volume detected! 1AJ8_A TRP 314 -0.254
+Negative Voronoi free volume detected! 1AJ8_A TYR 329 -4.785
+Negative Voronoi free volume detected! 1AJ8_A TRP 341 -20.891
+crdCA rm crdCA crdCA.vol
+crdSC rm crdSC crdSC.vol
+crdAA rm crdAA crdAA.vol
+../../structures_asap/1AJ8_A.pdb
+missing side chain in residue:  3 GLY in PDB: 1AOR_A
+missing side chain in residue:  6 GLY in PDB: 1AOR_A
+missing side chain in residue:  16 GLY in PDB: 1AOR_A
+missing side chain in residue:  33 GLY in PDB: 1AOR_A
+missing side chain in residue:  36 GLY in PDB: 1AOR_A
+missing side chain in residue:  64 GLY in PDB: 1AOR_A
+missing side chain in residue:  68 GLY in PDB: 1AOR_A
+missing side chain in residue:  74 GLY in PDB: 1AOR_A
+missing side chain in residue:  75 GLY in PDB: 1AOR_A
+missing side chain in residue:  87 GLY in PDB: 1AOR_A
+missing side chain in residue:  95 GLY in PDB: 1AOR_A
+missing side chain in residue:  96 GLY in PDB: 1AOR_A
+missing side chain in residue:  99 GLY in PDB: 1AOR_A
+missing side chain in residue:  106 GLY in PDB: 1AOR_A
+missing side chain in residue:  114 GLY in PDB: 1AOR_A
+missing side chain in residue:  139 GLY in PDB: 1AOR_A
+missing side chain in residue:  154 GLY in PDB: 1AOR_A
+missing side chain in residue:  164 GLY in PDB: 1AOR_A
+missing side chain in residue:  167 GLY in PDB: 1AOR_A
+missing side chain in residue:  180 GLY in PDB: 1AOR_A
+missing side chain in residue:  185 GLY in PDB: 1AOR_A
+missing side chain in residue:  187 GLY in PDB: 1AOR_A
+missing side chain in residue:  188 GLY in PDB: 1AOR_A
+missing side chain in residue:  190 GLY in PDB: 1AOR_A
+missing side chain in residue:  194 GLY in PDB: 1AOR_A
+missing side chain in residue:  205 GLY in PDB: 1AOR_A
+missing side chain in residue:  235 GLY in PDB: 1AOR_A
+missing side chain in residue:  236 GLY in PDB: 1AOR_A
+missing side chain in residue:  237 GLY in PDB: 1AOR_A
+missing side chain in residue:  242 GLY in PDB: 1AOR_A
+missing side chain in residue:  254 GLY in PDB: 1AOR_A
+missing side chain in residue:  264 GLY in PDB: 1AOR_A
+missing side chain in residue:  274 GLY in PDB: 1AOR_A
+missing side chain in residue:  294 GLY in PDB: 1AOR_A
+missing side chain in residue:  296 GLY in PDB: 1AOR_A
+missing side chain in residue:  305 GLY in PDB: 1AOR_A
+missing side chain in residue:  309 GLY in PDB: 1AOR_A
+missing side chain in residue:  319 GLY in PDB: 1AOR_A
+missing side chain in residue:  323 GLY in PDB: 1AOR_A
+missing side chain in residue:  341 GLY in PDB: 1AOR_A
+missing side chain in residue:  348 GLY in PDB: 1AOR_A
+missing side chain in residue:  349 GLY in PDB: 1AOR_A
+missing side chain in residue:  361 GLY in PDB: 1AOR_A
+missing side chain in residue:  369 GLY in PDB: 1AOR_A
+missing side chain in residue:  377 GLY in PDB: 1AOR_A
+missing side chain in residue:  394 GLY in PDB: 1AOR_A
+missing side chain in residue:  396 GLY in PDB: 1AOR_A
+missing side chain in residue:  402 GLY in PDB: 1AOR_A
+missing side chain in residue:  411 GLY in PDB: 1AOR_A
+missing side chain in residue:  431 GLY in PDB: 1AOR_A
+missing side chain in residue:  434 GLY in PDB: 1AOR_A
+missing side chain in residue:  436 GLY in PDB: 1AOR_A
+missing side chain in residue:  438 GLY in PDB: 1AOR_A
+missing side chain in residue:  445 GLY in PDB: 1AOR_A
+missing side chain in residue:  446 GLY in PDB: 1AOR_A
+missing side chain in residue:  460 GLY in PDB: 1AOR_A
+missing side chain in residue:  492 GLY in PDB: 1AOR_A
+missing side chain in residue:  500 GLY in PDB: 1AOR_A
+missing side chain in residue:  502 GLY in PDB: 1AOR_A
+missing side chain in residue:  515 GLY in PDB: 1AOR_A
+missing side chain in residue:  527 GLY in PDB: 1AOR_A
+missing side chain in residue:  542 GLY in PDB: 1AOR_A
+missing side chain in residue:  563 GLY in PDB: 1AOR_A
+missing side chain in residue:  567 GLY in PDB: 1AOR_A
+missing side chain in residue:  584 GLY in PDB: 1AOR_A
+missing side chain in residue:  589 GLY in PDB: 1AOR_A
+missing side chain in residue:  600 GLY in PDB: 1AOR_A
+Negative Voronoi free volume detected! 1AOR_A TYR 2 -18.521
+Negative Voronoi free volume detected! 1AOR_A TRP 31 -24.91
+Negative Voronoi free volume detected! 1AOR_A ARG 76 -40.251
+Negative Voronoi free volume detected! 1AOR_A TYR 77 -25.614
+Negative Voronoi free volume detected! 1AOR_A LYS 103 -10.554
+Negative Voronoi free volume detected! 1AOR_A PHE 104 -12.845
+Negative Voronoi free volume detected! 1AOR_A TYR 121 -11.188
+Negative Voronoi free volume detected! 1AOR_A ARG 150 -17.536
+Negative Voronoi free volume detected! 1AOR_A ILE 163 -6.655
+Negative Voronoi free volume detected! 1AOR_A PHE 173 -2.483
+Negative Voronoi free volume detected! 1AOR_A MET 177 -5.279
+Negative Voronoi free volume detected! 1AOR_A LYS 196 -7.16
+Negative Voronoi free volume detected! 1AOR_A PHE 217 -8.745
+Negative Voronoi free volume detected! 1AOR_A LEU 228 -0.832
+Negative Voronoi free volume detected! 1AOR_A TYR 241 -7.797
+Negative Voronoi free volume detected! 1AOR_A LEU 255 -11.106
+Negative Voronoi free volume detected! 1AOR_A TYR 256 -12.075
+Negative Voronoi free volume detected! 1AOR_A ARG 297 -10.656
+Negative Voronoi free volume detected! 1AOR_A TYR 312 -2.688
+Negative Voronoi free volume detected! 1AOR_A TRP 316 -28.376
+Negative Voronoi free volume detected! 1AOR_A ILE 330 -4.038
+Negative Voronoi free volume detected! 1AOR_A LEU 342 -2.166
+Negative Voronoi free volume detected! 1AOR_A MET 355 -12.586
+Negative Voronoi free volume detected! 1AOR_A TYR 358 -16.366
+Negative Voronoi free volume detected! 1AOR_A ILE 389 -8.969
+Negative Voronoi free volume detected! 1AOR_A ARG 430 -21.704
+Negative Voronoi free volume detected! 1AOR_A TYR 439 -14.643
+Negative Voronoi free volume detected! 1AOR_A ARG 507 -13.752
+Negative Voronoi free volume detected! 1AOR_A ARG 529 -2.964
+Negative Voronoi free volume detected! 1AOR_A TYR 580 -3.983
+Negative Voronoi free volume detected! 1AOR_A TRP 585 -37.398
+Negative Voronoi free volume detected! 1AOR_A ARG 35 -25.991
+Negative Voronoi free volume detected! 1AOR_A LEU 66 -8.449
+Negative Voronoi free volume detected! 1AOR_A ILE 163 -8.521
+Negative Voronoi free volume detected! 1AOR_A ARG 186 -11.68
+Negative Voronoi free volume detected! 1AOR_A LYS 199 -0.465
+Negative Voronoi free volume detected! 1AOR_A LYS 224 -2.113
+Negative Voronoi free volume detected! 1AOR_A TRP 316 -36.626
+Negative Voronoi free volume detected! 1AOR_A LEU 342 -5.069
+Negative Voronoi free volume detected! 1AOR_A PHE 374 -3.963
+Negative Voronoi free volume detected! 1AOR_A TYR 427 -3.018
+Negative Voronoi free volume detected! 1AOR_A TYR 439 -5.789
+Negative Voronoi free volume detected! 1AOR_A ARG 444 -8.614
+Negative Voronoi free volume detected! 1AOR_A ILE 454 -1.089
+Negative Voronoi free volume detected! 1AOR_A LEU 501 -1.564
+Negative Voronoi free volume detected! 1AOR_A TRP 516 -10.472
+Negative Voronoi free volume detected! 1AOR_A TRP 531 -0.207
+Negative Voronoi free volume detected! 1AOR_A LEU 551 -0.878
+Negative Voronoi free volume detected! 1AOR_A ARG 583 -7.853
+Negative Voronoi free volume detected! 1AOR_A TRP 585 -9.065
+Negative Voronoi free volume detected! 1AOR_A TRP 31 -0.531
+Negative Voronoi free volume detected! 1AOR_A ILE 163 -13.226
+Negative Voronoi free volume detected! 1AOR_A LYS 196 -0.237
+Negative Voronoi free volume detected! 1AOR_A TRP 316 -28.774
+Negative Voronoi free volume detected! 1AOR_A LEU 501 -5.566
+Negative Voronoi free volume detected! 1AOR_A TRP 585 -22.996
+crdCA rm crdCA crdCA.vol
+crdSC rm crdSC crdSC.vol
+crdAA rm crdAA crdAA.vol
+../../structures_asap/1AOR_A.pdb
+missing side chain in residue:  29 GLY in PDB: 1CTS_A
+missing side chain in residue:  34 GLY in PDB: 1CTS_A
+missing side chain in residue:  43 GLY in PDB: 1CTS_A
+missing side chain in residue:  44 GLY in PDB: 1CTS_A
+missing side chain in residue:  47 GLY in PDB: 1CTS_A
+missing side chain in residue:  50 GLY in PDB: 1CTS_A
+missing side chain in residue:  63 GLY in PDB: 1CTS_A
+missing side chain in residue:  68 GLY in PDB: 1CTS_A
+missing side chain in residue:  83 GLY in PDB: 1CTS_A
+missing side chain in residue:  84 GLY in PDB: 1CTS_A
+missing side chain in residue:  91 GLY in PDB: 1CTS_A
+missing side chain in residue:  99 GLY in PDB: 1CTS_A
+missing side chain in residue:  161 GLY in PDB: 1CTS_A
+missing side chain in residue:  197 GLY in PDB: 1CTS_A
+missing side chain in residue:  201 GLY in PDB: 1CTS_A
+missing side chain in residue:  218 GLY in PDB: 1CTS_A
+missing side chain in residue:  240 GLY in PDB: 1CTS_A
+missing side chain in residue:  241 GLY in PDB: 1CTS_A
+missing side chain in residue:  252 GLY in PDB: 1CTS_A
+missing side chain in residue:  268 GLY in PDB: 1CTS_A
+missing side chain in residue:  271 GLY in PDB: 1CTS_A
+missing side chain in residue:  275 GLY in PDB: 1CTS_A
+missing side chain in residue:  293 GLY in PDB: 1CTS_A
+missing side chain in residue:  312 GLY in PDB: 1CTS_A
+missing side chain in residue:  317 GLY in PDB: 1CTS_A
+missing side chain in residue:  319 GLY in PDB: 1CTS_A
+missing side chain in residue:  365 GLY in PDB: 1CTS_A
+missing side chain in residue:  379 GLY in PDB: 1CTS_A
+missing side chain in residue:  386 GLY in PDB: 1CTS_A
+missing side chain in residue:  398 GLY in PDB: 1CTS_A
+missing side chain in residue:  404 GLY in PDB: 1CTS_A
+missing side chain in residue:  416 GLY in PDB: 1CTS_A
+missing side chain in residue:  429 GLY in PDB: 1CTS_A
+Negative Voronoi free volume detected! 1CTS_A ARG 65 -46.275
+Negative Voronoi free volume detected! 1CTS_A LEU 95 -1.994
+Negative Voronoi free volume detected! 1CTS_A TRP 114 -31.761
+Negative Voronoi free volume detected! 1CTS_A PHE 154 -8.748
+Negative Voronoi free volume detected! 1CTS_A TRP 168 -38.484
+Negative Voronoi free volume detected! 1CTS_A ARG 191 -35.37
+Negative Voronoi free volume detected! 1CTS_A PHE 213 -0.037
+Negative Voronoi free volume detected! 1CTS_A MET 216 -3.126
+Negative Voronoi free volume detected! 1CTS_A ARG 229 -33.872
+Negative Voronoi free volume detected! 1CTS_A TYR 259 -10.744
+Negative Voronoi free volume detected! 1CTS_A LEU 269 -3.847
+Negative Voronoi free volume detected! 1CTS_A TYR 330 -14.789
+Negative Voronoi free volume detected! 1CTS_A TRP 371 -11.8
+Negative Voronoi free volume detected! 1CTS_A ARG 401 -3.571
+Negative Voronoi free volume detected! 1CTS_A TRP 94 -24.231
+Negative Voronoi free volume detected! 1CTS_A TRP 114 -2.456
+Negative Voronoi free volume detected! 1CTS_A ARG 229 -13.125
+Negative Voronoi free volume detected! 1CTS_A LEU 269 -11.87
+Negative Voronoi free volume detected! 1CTS_A TRP 114 -6.094
+Negative Voronoi free volume detected! 1CTS_A ARG 229 -2.559
+Negative Voronoi free volume detected! 1CTS_A LEU 269 -4.698
+crdCA rm crdCA crdCA.vol
+crdSC rm crdSC crdSC.vol
+crdAA rm crdAA crdAA.vol
+../../structures_asap/1CTS_A.pdb
+missing side chain in residue:  49 GLY in PDB: 1MP9_A
+missing side chain in residue:  67 GLY in PDB: 1MP9_A
+missing side chain in residue:  73 GLY in PDB: 1MP9_A
+missing side chain in residue:  95 GLY in PDB: 1MP9_A
+missing side chain in residue:  100 GLY in PDB: 1MP9_A
+missing side chain in residue:  140 GLY in PDB: 1MP9_A
+missing side chain in residue:  158 GLY in PDB: 1MP9_A
+missing side chain in residue:  164 GLY in PDB: 1MP9_A
+Negative Voronoi free volume detected! 1MP9_A LEU 50 -0.575
+crdCA rm crdCA crdCA.vol
+crdSC rm crdSC crdSC.vol
+crdAA rm crdAA crdAA.vol
+../../structures_asap/1MP9_A.pdb
 missing side chain in residue:  16 GLY in PDB: 1RD8_X
 missing side chain in residue:  49 GLY in PDB: 1RD8_X
 missing side chain in residue:  55 GLY in PDB: 1RD8_X
