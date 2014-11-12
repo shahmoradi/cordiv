@@ -1,1 +1,5 @@
 for file in ../../structures/* ; do python get_pdb_prop_dssp.py $file ../dssp_out/${file:(-10):6}.dssp ../pdb_prop_dssp.out ; echo $file; done >& get_pdb_prop_dssp.stdout &
+
+for ASAP pdbs:
+
+for file in ../../structures_asap/* ; do python get_pdb_prop_dssp.py $file ../dssp_out_asap/${file:(-10):6}.dssp ../pdb_prop_dssp_asap.out ; echo $file; done >& get_pdb_prop_dssp_asap.stdout &

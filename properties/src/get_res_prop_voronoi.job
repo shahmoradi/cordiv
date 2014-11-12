@@ -1,1 +1,5 @@
 for file in ../../structures/* ; do python get_res_prop_voronoi.py $file ../res_prop_voronoiCA.out ../res_prop_voronoiSC.out ../res_prop_voronoiAA.out ; echo $file; done >& get_res_prop_voronoi.stdout &
+
+for ASAP pdbs:
+
+for file in ../../structures_asap/* ; do python get_res_prop_voronoi.py $file ../res_prop_voronoiCA_asap.out ../res_prop_voronoiSC_asap.out ../res_prop_voronoiAA_asap.out ; echo $file; done >& get_res_prop_voronoi_asap.stdout &

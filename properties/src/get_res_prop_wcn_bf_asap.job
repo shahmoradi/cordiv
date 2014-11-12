@@ -1,0 +1,1 @@
+for file in ../../structures_asap/* ; do python get_res_prop_wcn_bf_f90.py $file ../res_prop_wcn_bf_asap.out ; echo $file; done >& get_res_prop_wcn_bf_asap.stdout &

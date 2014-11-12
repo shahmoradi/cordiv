@@ -76,7 +76,7 @@ def get_pdb_props(pdb_path,dssp_out):
     process = subprocess.Popen(commandline, shell = True, stdout = subprocess.PIPE)
     process.wait() # Wait until dssp is done processing the file and calculating the Solvent Acessiblility  values
     input = open(dssp_out, 'r')    
-    pdb['name'] = pdb_path.split('/')[-1][10:-4] # split element 4 of the filecontent list (space-delimited). the 0th element is number of residues in pdb
+    pdb['name'] = pdb_path.split('/')[-1][-10:-4] # split element 4 of the filecontent list (space-delimited). the 0th element is number of residues in pdb
     fileContents = input.readlines()   # This is a list containing each line of the input file as an element.
     pdb['nres'] = fileContents[3].split()[0] # split element 4 of the filecontent list (space-delimited). the 0th element is number of residues in pdb
     pdb['nchain'] = fileContents[3].split()[1]

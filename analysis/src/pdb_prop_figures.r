@@ -151,9 +151,9 @@ pdf( filename, width=4.5, height=4, useDingbats=FALSE )
 par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
 
 plot( all_pdb_prop_select_wide$sd.hbe
-      , all_pdb_prop_select_wide$r.r4sJC.wcnSC
+      , all_pdb_prop_select_wide$r.seqent.wcnSC
       , pch = 19
-      , xlab = 'St. Dev. of Seq. Entropy ( sd.seqent )'
+      , xlab = 'St. Dev. of HBE ( sd.hbe )'
       , ylab = bquote('Spearman' ~ rho ~ 'seqent - wcnSC')
       #, xlim = c(-0.05,0.9)
       #, ylim = c(-0.8,0.1)
