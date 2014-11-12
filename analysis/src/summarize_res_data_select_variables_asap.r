@@ -1,14 +1,14 @@
-# This R function takes in all the the residue properties of all proteins from all sorts of analysis, and then selects the  most relevant quantites that will be later used in the analyses. Unlike its ancestor code 'get_res_data.r', this code only selects variables that performed the best among other similar variables definitions. For example, among all Bfactor definitions, only the average over SideChain atoms (bfSC) will be taken and used. This is because apparently, as far as I have searched, residue properties that are based on side chain atoms, correlate best with other residue properties. The only exception to this is the H-bond energy (hbe) of residues which correlates best with CA atom properties (such as bfCA and wcnCA).
-# Also, among the three hydrophobicity scales, I am only picking hpshh, which seems to correlate best with other residue properties.
+# This R function takes in the residue properties of all ASAP proteins from DSSP, and PDB files and and combines them into a single dataframe for further analysis at pdb level.
+
+# Last updated by Amir Shahmoradi, Wednesday 3:02 PM, Nov 12 2014, Wilke Lab, ICMB, UT Austin
 
 # input files:  
 #               ../../elj_pdb_entropies.in
-#               ../../properties/res_prop_hps.out
-#               ../../properties/res_prop_dssp.out
-#               ../../properties/res_prop_wcn_bf.out
-#               ../../properties/res_prop_voroSC.out
+#               ../../properties/res_prop_hps_asap.out
+#               ../../properties/res_prop_dssp_asap.out
+#               ../../properties/res_prop_wcn_bf_asap.out
+#               ../../properties/res_prop_voroSC_asap.out
 
-# Last updated by Amir Shahmoradi, Thursday 3:40 PM, Aug 28 2014, Wilke Lab, ICMB, UT Austin
 
 #install.packages("reshape2")
 #library("reshape2")
@@ -16,59 +16,59 @@
 
 setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 
-res_prop_elj         = read.table('../../elj_pdb_entropies.in', header=T)
-res_prop_elj$pdb     = factor(res_prop_elj$pdb)
+# res_prop_elj         = read.table('../../elj_pdb_entropies.in', header=T)
+# res_prop_elj$pdb     = factor(res_prop_elj$pdb)
 
-res_prop_jec         = read.csv('../../jec_pdb_r4s.csv', header=T)
-res_prop_jec$pdb     = factor(res_prop_jec$pdb)
+# res_prop_jec         = read.csv('../../jec_pdb_r4s.csv', header=T)
+# res_prop_jec$pdb     = factor(res_prop_jec$pdb)
 
-res_prop_hps         = read.table('../../properties/res_prop_hps.out', header=T)
-res_prop_hps$pdb     = factor(res_prop_hps$pdb)
+res_prop_hps_asap        = read.table('../../properties/res_prop_hps_asap.out', header=T)
+res_prop_hps_asap$pdb    = factor(res_prop_hps_asap$pdb)
+                         
+res_prop_dssp_asap       = read.table('../../properties/res_prop_dssp_asap.out', header=T)
+res_prop_dssp_asap$pdb   = factor(res_prop_dssp_asap$pdb)
 
-res_prop_dssp        = read.table('../../properties/res_prop_dssp.out', header=T)
-res_prop_dssp$pdb    = factor(res_prop_dssp$pdb)
+res_prop_wcn_bf_asap     = read.table('../../properties/res_prop_wcn_bf_asap.out', header=T)
+res_prop_wcn_bf_asap$pdb = factor(res_prop_wcn_bf_asap$pdb)
 
-res_prop_wcn_bf      = read.table('../../properties/res_prop_wcn_bf.out', header=T)
-res_prop_wcn_bf$pdb  = factor(res_prop_wcn_bf$pdb)
-
-#res_prop_voroAA      = read.table('../../properties/res_prop_voronoiAA.out', header=T)
+#res_prop_voroAA      = read.table('../../properties/res_prop_voronoiAA_asap.out', header=T)
 #res_prop_voroAA$pdb  = factor(res_prop_voroAA$pdb)
 
-#res_prop_voroCA      = read.table('../../properties/res_prop_voronoiCA.out', header=T)
+#res_prop_voroCA      = read.table('../../properties/res_prop_voronoiCA_asap.out', header=T)
 #res_prop_voroCA$pdb  = factor(res_prop_voroCA$pdb)
 
-res_prop_voroSC      = read.table('../../properties/res_prop_voronoiSC.out', header=T)
-res_prop_voroSC      = cbind(res_prop_voroSC, VSCsphericity = 4.8359758620494089221509005399179*(res_prop_voroSC$VSCvolume^(2./3.))/res_prop_voroSC$VSCarea)
-res_prop_voroSC$VSCmodified_sphericity = res_prop_voroSC$VSCsphericity
-res_prop_voroSC$VSCmodified_sphericity[res_prop_voroSC$VSCvolume_change_diff != 0] = -res_prop_voroSC$VSCsphericity[res_prop_voroSC$VSCvolume_change_diff != 0]
-res_prop_voroSC$pdb  = factor(res_prop_voroSC$pdb)
-# res_prop_voroSC$pdb  = factor(res_prop_voroSC$pdb)
-# res_prop_voroSC      = cbind(res_prop_voroSC, VSCmodified_volume = res_prop_voroSC$VSCvolume)
-# maxval = max(res_prop_voroSC$VSCvolume)
-# res_prop_voroSC$VSCmodified_volume[res_prop_voroSC$VSCvolume_change != 0] = maxval
-# res_prop_voroSC$VSCmodified_volume = res_prop_voroSC$VSCmodified_volume + res_prop_voroSC$VSCvolume_change
+res_prop_voroSC_asap      = read.table('../../properties/res_prop_voronoiSC_asap.out', header=T)
+res_prop_voroSC_asap      = cbind(res_prop_voroSC_asap, VSCsphericity = 4.8359758620494089221509005399179*(res_prop_voroSC_asap$VSCvolume^(2./3.))/res_prop_voroSC_asap$VSCarea)
+res_prop_voroSC_asap$VSCmodified_sphericity = res_prop_voroSC_asap$VSCsphericity
+res_prop_voroSC_asap$VSCmodified_sphericity[res_prop_voroSC_asap$VSCvolume_change_diff != 0] = -res_prop_voroSC_asap$VSCsphericity[res_prop_voroSC_asap$VSCvolume_change_diff != 0]
+res_prop_voroSC_asap$pdb  = factor(res_prop_voroSC_asap$pdb)
+# res_prop_voroSC_asap$pdb  = factor(res_prop_voroSC_asap$pdb)
+# res_prop_voroSC_asap      = cbind(res_prop_voroSC_asap, VSCmodified_volume = res_prop_voroSC_asap$VSCvolume)
+# maxval = max(res_prop_voroSC_asap$VSCvolume)
+# res_prop_voroSC_asap$VSCmodified_volume[res_prop_voroSC_asap$VSCvolume_change != 0] = maxval
+# res_prop_voroSC_asap$VSCmodified_volume = res_prop_voroSC_asap$VSCmodified_volume + res_prop_voroSC_asap$VSCvolume_change
 
-excluded_pdbs = c('1BBS_A','1BS0_A','1DIN_A','1HPL_A')   # These are the 4 PDBs that did not have complete r4s evolutionary rates and are omitted from the dataset to avoid NA values.
-pdb_prop_from_residue_prop_select = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
+nonviral_pdbs = c('1AJ8_A','1AOR_A','1CTS_A','1MP9_A','3GSZ_A','3I5K_A')   # These are thermophilic proteins, in addition to the 2 viral PDBs that are from the same family as 3GOL_A and therefore redundant.
+pdb_prop_from_residue_prop_select_asap = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
 counter = 0
 
-for(pdb in levels(res_prop_elj$pdb))
+for(pdb in levels(res_prop_dssp_asap$pdb))
 {
-  if (!(pdb %in% excluded_pdbs))
+  if (!(pdb %in% nonviral_pdbs))
   {
     counter = counter + 1
     cat( paste(pdb, str(counter[[1]][1]),'\n') )
     
-    pdb_elj    = res_prop_elj[res_prop_elj$pdb==pdb,] # c('seqent','ddgent')]
-    pdb_jec    = res_prop_jec[res_prop_jec$pdb==pdb,] # c('zr4s_JC')]
-    pdb_hps    = res_prop_hps[res_prop_hps$pdb==pdb,] # c('hpskd','hpsww','hpshh')] )
-    pdb_dssp   = res_prop_dssp[res_prop_dssp$pdb==pdb,] # c('asa','rsa','hbe','rss')] )
-    pdb_wcn_bf = res_prop_wcn_bf[res_prop_wcn_bf$pdb==pdb, ]
-    pdb_voroSC = res_prop_voroSC[res_prop_voroSC$pdb==pdb, ]
+    #pdb_elj    = res_prop_elj[res_prop_elj$pdb==pdb,] # c('seqent','ddgent')]
+    #pdb_jec    = res_prop_jec[res_prop_jec$pdb==pdb,] # c('zr4s_JC')]
+    pdb_hps    = res_prop_hps_asap[res_prop_hps_asap$pdb==pdb,] # c('hpskd','hpsww','hpshh')] )
+    pdb_dssp   = res_prop_dssp_asap[res_prop_dssp_asap$pdb==pdb,] # c('asa','rsa','hbe','rss')] )
+    pdb_wcn_bf = res_prop_wcn_bf_asap[res_prop_wcn_bf_asap$pdb==pdb, ]
+    pdb_voroSC = res_prop_voroSC_asap[res_prop_voroSC_asap$pdb==pdb, ]
     
-    pdb_temp = data.frame( seqent   = pdb_elj$seqent,
-                           ddgent   = pdb_elj$ddgent,
-                           r4sJC    = pdb_jec$r4s_JC,
+    pdb_temp = data.frame( #seqent   = pdb_elj$seqent,
+                           #ddgent   = pdb_elj$ddgent,
+                           #r4sJC    = pdb_jec$r4s_JC,
                            #r4sJCz   = pdb_jec$zr4s_JC,
                            hpshh    = pdb_hps$hpshh,
                            rsa      = pdb_dssp$rsa,
@@ -98,10 +98,10 @@ for(pdb in levels(res_prop_elj$pdb))
       # Calculate potentially important statistical moments of the factored variable:
       if(variable1 != 'r4sJCz')     # There is no information in the moments of the standardized values r4sJCz.
       {
-        row = data.frame(pdb, variable = paste0('sum.',variable1), value = sum(var1$value))       ; pdb_prop_from_residue_prop_select = rbind(pdb_prop_from_residue_prop_select,row)
-        row = data.frame(pdb, variable = paste0('mean.',variable1), value = mean(var1$value))     ; pdb_prop_from_residue_prop_select = rbind(pdb_prop_from_residue_prop_select,row)
-        row = data.frame(pdb, variable = paste0('median.',variable1), value = median(var1$value)) ; pdb_prop_from_residue_prop_select = rbind(pdb_prop_from_residue_prop_select,row)
-        row = data.frame(pdb, variable = paste0('sd.',variable1), value = sd(var1$value))         ; pdb_prop_from_residue_prop_select = rbind(pdb_prop_from_residue_prop_select,row)
+        row = data.frame(pdb, variable = paste0('sum.',variable1), value = sum(var1$value))       ; pdb_prop_from_residue_prop_select_asap = rbind(pdb_prop_from_residue_prop_select_asap,row)
+        row = data.frame(pdb, variable = paste0('mean.',variable1), value = mean(var1$value))     ; pdb_prop_from_residue_prop_select_asap = rbind(pdb_prop_from_residue_prop_select_asap,row)
+        row = data.frame(pdb, variable = paste0('median.',variable1), value = median(var1$value)) ; pdb_prop_from_residue_prop_select_asap = rbind(pdb_prop_from_residue_prop_select_asap,row)
+        row = data.frame(pdb, variable = paste0('sd.',variable1), value = sd(var1$value))         ; pdb_prop_from_residue_prop_select_asap = rbind(pdb_prop_from_residue_prop_select_asap,row)
       }
       # Now calculate the Spearman correlations between pairs of variables:
       counter2 = 0
@@ -116,7 +116,7 @@ for(pdb in levels(res_prop_elj$pdb))
           p = x$p.value
           
           row = data.frame(pdb, variable = paste0('r.',variable1,'.',variable2), value = r)
-          pdb_prop_from_residue_prop_select = rbind(pdb_prop_from_residue_prop_select,row)
+          pdb_prop_from_residue_prop_select_asap = rbind(pdb_prop_from_residue_prop_select_asap,row)
         }
       }
     }
@@ -128,14 +128,14 @@ for(pdb in levels(res_prop_elj$pdb))
 pdb_prop_ss = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
 counter = 0
 
-for(pdb in levels(res_prop_dssp$pdb))
+for(pdb in levels(res_prop_dssp_asap$pdb))
 {
-  if (!(pdb %in% excluded_pdbs))
+  if (!(pdb %in% nonviral_pdbs))
   {
     counter = counter + 1
     cat( str(counter[1]), pdb, '\n' )
     
-    pdb_dssp   = res_prop_dssp[res_prop_dssp$pdb==pdb,] # c('asa','rsa','hbe','rss')] )
+    pdb_dssp   = res_prop_dssp_asap[res_prop_dssp_asap$pdb==pdb,] # c('asa','rsa','hbe','rss')] )
     
     sum.GSS    = length(which(pdb_dssp$rss == 'G'))
     sum.HSS    = length(which(pdb_dssp$rss == 'H'))
@@ -145,8 +145,8 @@ for(pdb in levels(res_prop_dssp$pdb))
     sum.BSS    = length(which(pdb_dssp$rss == 'B'))
     sum.SSS    = length(which(pdb_dssp$rss == 'S'))
     sum.LSS    = length(which(pdb_dssp$rss == 'L'))
-    + length(which(pdb_dssp$rss == 'C'))
-    + length(which(pdb_dssp$rss == '_'))
+               + length(which(pdb_dssp$rss == 'C'))
+               + length(which(pdb_dssp$rss == '_'))
     sum.helix  = sum.GSS + sum.HSS + sum.ISS
     sum.betas  = sum.ESS + sum.BSS
     sum.hbdif  = sum.helix + sum.betas
@@ -190,21 +190,21 @@ for(pdb in levels(res_prop_dssp$pdb))
   }
 }
 
-pdb_prop_from_residue_prop_select = rbind(pdb_prop_from_residue_prop_select,pdb_prop_ss)
+pdb_prop_from_residue_prop_select_asap = rbind(pdb_prop_from_residue_prop_select_asap,pdb_prop_ss)
 
 # One last step: Since voronoi both sphericity (vsphericity) and modified voronoi sphericity (mvsphericity) are biased quantities by definition, their mean, median, and standard deviations (sd) may not be so meaningful.
 # Therefore, in the following lines I am also going to calculate the moments of vsphericity for only those voronoi cells that are closed (vccsphericity), so that the amount bias due to edge effects could be minimized.
 pdb_prop_closed_cells = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
 counter = 0
 
-for(pdb in levels(res_prop_voroSC$pdb))
+for(pdb in levels(res_prop_voroSC_asap$pdb))
 {
-  if (!(pdb %in% excluded_pdbs))
+  if (!(pdb %in% nonviral_pdbs))
   {
     counter = counter + 1
     cat( 'vccsphericity: ', paste(str(counter),pdb), '\n' )
     # Now select only those residues that belong to protein pdb and have closed voronoi cells.
-    pdb_voroSC = res_prop_voroSC[(res_prop_voroSC$pdb==pdb & res_prop_voroSC$VSCvolume_change_diff==0),]
+    pdb_voroSC = res_prop_voroSC_asap[(res_prop_voroSC_asap$pdb==pdb & res_prop_voroSC_asap$VSCvolume_change_diff==0),]
     # Calculate potentially important statistical moments of the VSCsphericity:
     row = data.frame(pdb, variable = 'sum.vsphericitycc', value = sum(pdb_voroSC$VSCsphericity))       ; pdb_prop_closed_cells = rbind(pdb_prop_closed_cells,row)
     row = data.frame(pdb, variable = 'mean.vsphericitycc', value = mean(pdb_voroSC$VSCsphericity))     ; pdb_prop_closed_cells = rbind(pdb_prop_closed_cells,row)
@@ -217,8 +217,8 @@ for(pdb in levels(res_prop_voroSC$pdb))
     row = data.frame(pdb, variable = 'sd.vnfacescc', value = sd(pdb_voroSC$VSCnfaces))         ; pdb_prop_closed_cells = rbind(pdb_prop_closed_cells,row)
   }
 }
-pdb_prop_from_residue_prop_select = rbind(pdb_prop_from_residue_prop_select,pdb_prop_closed_cells)
+pdb_prop_from_residue_prop_select_asap = rbind(pdb_prop_from_residue_prop_select_asap,pdb_prop_closed_cells)
 
 
-write.csv( pdb_prop_from_residue_prop_select, "../tables/pdb_prop_from_residue_prop_select.csv", row.names=F )
+write.csv( pdb_prop_from_residue_prop_select_asap, "../tables/pdb_prop_from_residue_prop_select_asap.csv", row.names=F )
 

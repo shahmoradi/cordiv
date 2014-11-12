@@ -1,5 +1,5 @@
-for file in ../../structures/* ; do python get_res_prop_HPS.py $file ../res_prop_HPS.out ; echo $file; done >& get_res_prop_HPS.stdout &
+for file in ../../structures/* ; do python get_res_prop_hps.py $file ../res_prop_hps.out ; echo $file; done >& get_res_prop_hps.stdout &
 
 for ASAP pdbs:
 
-for file in ../../structures_asap/* ; do python get_res_prop_HPS.py $file ../res_prop_HPS_asap.out ; echo $file; done >& get_res_prop_HPS_asap.stdout &
+for file in ../../structures_asap/* ; do python get_res_prop_hps.py $file ../res_prop_hps_asap.out ; echo $file; done >& get_res_prop_hps_asap.stdout &

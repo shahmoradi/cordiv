@@ -20,7 +20,7 @@ setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 #res_prop_jec            = read.csv('../../jec_pdb_r4s.csv', header=T)
 #res_prop_jec$pdb        = factor(res_prop_jec$pdb)
                          
-res_prop_hps_asap        = read.table('../../properties/res_prop_HPS_asap.out', header=T)
+res_prop_hps_asap        = read.table('../../properties/res_prop_hps_asap.out', header=T)
 res_prop_hps_asap$pdb    = factor(res_prop_hps_asap$pdb)
                          
 res_prop_dssp_asap       = read.table('../../properties/res_prop_dssp_asap.out', header=T)
@@ -36,13 +36,13 @@ maxval = max(res_prop_voroSC_asap$VSCvolume)
 res_prop_voroSC_asap$VSCmodified_volume[res_prop_voroSC_asap$VSCvolume_change_ratio != 0] = maxval
 res_prop_voroSC_asap$VSCmodified_volume = res_prop_voroSC_asap$VSCmodified_volume * res_prop_voroSC_asap$VSCvolume_change_ratio
 
-excluded_pdbs = c('3GSZ_A','3I5K_A')   # These are the 2 PDBs that are from the same family as 3GOL_A and therefore redundant.
+nonviral_pdbs = c('1AJ8_A','1AOR_A','1CTS_A','1MP9_A','3GSZ_A','3I5K_A')   # These are thermophilic proteins, in addition to the 2 viral PDBs that are from the same family as 3GOL_A and therefore redundant.
 pdb_prop_from_residue_prop_asap = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
 counter = 0
 
 for(pdb in levels(res_prop_dssp_asap$pdb))
 {
-  if (!(pdb %in% excluded_pdbs))
+  if (!(pdb %in% nonviral_pdbs))
   {
     counter = counter + 1
     cat( paste(str(counter),pdb) )
