@@ -52,7 +52,7 @@ Usage:'''
        sum_out_file = open(sum_out,'a')
     else:
        sum_out_file = open(sum_out,'w')
-       sum_out_file.write('pdb' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'asa' + '\t' + 'rsa' + '\t' + 'hbe_mean' + '\t' + 'rss' + '\n')
+       sum_out_file.write('pdb' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'asa' + '\t' + 'rsa' + '\t' + 'hbe' + '\t' + 'rss' + '\n')
     
     ######################################################################################################################################
     # Now calculate the mean of all 4 hydrogen bonds energies and residue RSAs for each individual residue:
