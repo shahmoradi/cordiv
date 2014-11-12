@@ -69,15 +69,14 @@ def calculate_entropy(data_array):
 
 def main(argv = sys.argv):
 	process = subprocess.call("mkdir entropies", shell = "True")
-	alignments = ["aln_aa_H1N1_HA", "aln_aa_H1N1_NP", "aln_aa_HCV_NS5B", "aln_aa_JEV", "aln_aa_crimean_congo.Nucleoprotein", 
-	"aln_aa_dengue_ns3", "aln_aa_marburg.vp35", "aln_aa_riftvalley", "aln_aa_westNile_ns2b", "aln_aa_westnile_chainb"]
-	maps = ["HP_1RD8_AB", "INP_4IRY_A", "HCP_3GOL_A", "JEHN_2Z83_A", "CCHFN_4AQF_B", "DPH_2JLY_A", "MRNABD_4GHA_A", "RVFVNP_3LYF_A", "MRNABD_4GHA_A", "WNPB_2FP7_B" ]
-	map_counter = 0
-	for a in alignments: #For each viral alignment
+	alignments = ["CCHFN", "DPH", "HCP", "HCP", "HCP", "HCP", "HP", "INP", "JEHN","JEHN", "MRNABD", "RVFVNP", "WNPB"]
+	maps = ["CCHFN_4AQF_B", "DPH_2JLY_A", "HCP_3GOL_A", "HCP_3GSZ_A", "HCP_3I5K_A", "HP_1RD8_AB", "INP_4IRY_A", "JEHN_2JLY_A", "JEHN_2Z83_A", "MRNABD_4GHA_A", "RVFVNP_3LYF_A", "WNPB_2FP7_B" ]
+	alignment_counter = 0
+	for m in maps: #For each viral alignment
 		freq_list = []
-		alignment_file = "../alignments/" + a + ".fasta"
-		map_file = "../../pdb_maps/" + maps[map_counter] + ".map"
-		entropy_file = open("entropies/" + a + "_entropies.csv", "w")
+		alignment_file = "../alignments/" + alignments[alignment_counter] + ".fasta"
+		map_file = "../../pdb_maps/" + m + ".map"
+		entropy_file = open("entropies/" + m + "_entropies.csv", "w")
 		entropy_file.write("alignment_pos,pdb_pos,entropy\n")
 		aligned_seqs, headers = ch.get_sequences(alignment_file)
 		aa_freqs = calculate_aa_frequencies(aligned_seqs)
@@ -95,6 +94,6 @@ def main(argv = sys.argv):
 				entropy_file.write(str(i) + "," + mapped_residues[i] + "," + str(entropies[entropy_counter]) + "\n")
 			entropy_counter = entropy_counter + 1
 		entropy_file.close()
-		map_counter = map_counter + 1
+		alignment_counter = alignment_counter + 1
 if __name__ == "__main__":
 	main(sys.argv)
