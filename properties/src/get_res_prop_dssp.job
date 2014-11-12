@@ -1,1 +1,5 @@
 for file in ../dssp_out/* ; do python get_res_prop_dssp.py $file ../res_prop_dssp.out ; echo $file; done >& get_res_prop_dssp.stdout &
+
+for ASA pdbs:
+
+for file in ../dssp_out_asap/* ; do python get_res_prop_dssp.py $file ../res_prop_dssp_asap.out ; echo $file; done >& get_res_prop_dssp_asap.stdout &
