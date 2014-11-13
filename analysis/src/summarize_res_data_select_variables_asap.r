@@ -16,11 +16,9 @@
 
 setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 
-# res_prop_elj         = read.table('../../elj_pdb_entropies.in', header=T)
-# res_prop_elj$pdb     = factor(res_prop_elj$pdb)
+# First get ASAP entropies:
 
-# res_prop_jec         = read.csv('../../jec_pdb_r4s.csv', header=T)
-# res_prop_jec$pdb     = factor(res_prop_jec$pdb)
+
 
 res_prop_hps_asap        = read.table('../../properties/res_prop_hps_asap.out', header=T)
 res_prop_hps_asap$pdb    = factor(res_prop_hps_asap$pdb)

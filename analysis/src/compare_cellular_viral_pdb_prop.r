@@ -14,10 +14,53 @@
 
 setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 
-pdb_prop_from_residue_prop = read.csv( "../tables/pdb_prop_from_residue_prop.csv", header=T )
-pdb_prop_from_residue_prop_asap = read.csv( "../tables/pdb_prop_from_residue_prop_asap.csv", header=T )
+all_pdb_prop_select = read.csv( "../tables/all_pdb_prop_select.csv", header=T )
+all_pdb_prop_select$variable = factor(all_pdb_prop_select$variable)
+all_pdb_prop_select_asap = read.csv( "../tables/all_pdb_prop_select_asap.csv", header=T )
+all_pdb_prop_select_asap$variable = factor(all_pdb_prop_select_asap$variable)
 
-for ()
+cellular_viral_pdb_differences = data.frame()
+
+for (vvar in levels(all_pdb_prop_select_asap$variable))
 {
+  if (vvar %in% levels(all_pdb_prop_select$variable))
+  {
+    # Echave data (213 cellular pdbs)
+    cdata = all_pdb_prop_select[all_pdb_prop_select$variable == vvar,]
+    x = quantile(cdata$value, probs = c(0,0.25,0.5,0.75, 1.))
+    crow = data.frame(c.var      = vvar,
+                      c.mean     = mean(cdata$value),
+                      c.median   = x[3],
+                      c.sd       = sd(cdata$value),
+                      c.min      = x[1],
+                      c.q1       = x[2],
+                      c.q3       = x[4],
+                      c.max      = x[5]
+                      )
     
+    # Viral data (9 pdbs)
+    vdata = all_pdb_prop_select_asap[all_pdb_prop_select_asap$variable == vvar,]
+    x = quantile(vdata$value, probs = c(0,0.25,0.5,0.75, 1.))
+    vrow = data.frame(v.var      = vvar,
+                      v.mean     = mean(vdata$value),
+                      v.median   = x[3],
+                      v.sd       = sd(vdata$value),
+                      v.min      = x[1],
+                      v.q1       = x[2],
+                      v.q3       = x[4],
+                      v.max      = x[5]
+                      )
+                      
+    # difference row
+    drow = data.frame(c.v.d.mean   = crow$c.mean - vrow$v.mean,
+                      c.v.d.median = crow$c.median - vrow$v.median,
+                      c.v.d.signif = abs(crow$c.mean - vrow$v.mean)/crow$c.sd
+                      )
+    row = cbind(crow,vrow,drow)
+    cellular_viral_pdb_differences = rbind(cellular_viral_pdb_differences,row)
+  }
 }
+
+row.names(cellular_viral_pdb_differences) = c()
+cellular_viral_pdb_differences = cellular_viral_pdb_differences[with(cellular_viral_pdb_differences, order(-c.v.d.signif)),]
+write.csv(cellular_viral_pdb_differences, "../tables/cellular_viral_pdb_differences.csv", row.names=F)
