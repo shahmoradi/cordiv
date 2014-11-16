@@ -166,9 +166,9 @@ The University of Texas at Austin, TX 78712, USA; amir@physics.utexas.edu}
         \\
 
         For the other weaker sequence--structure relations, i.e. the correlations of seqent$/$r4s with RSA, \ddg entropy (ddgent), and Bfactor (bfSC) we find other pdb-level properties that also contribute to the correlation strengths, comparable to or even stronger than in sequence divergence and hydrogen bond homogeneity. In general, we observe that for the weaker the sequence-structure correlations, factors that determine the accuracy of the measured residue properties become more influential on the strength of the correlations. In particular, the X-ray crystallographic resolution of the structure and the definition of the \ddg entropy play dominant roles, with Spearman correlation coefficients of $\rho~0.3$, on the strengths of the corresponding sequence-structure relations.
+        \\
 
-
-        To ensure the accuracy of the results obtained from the Spearman correlation matrix of the pdb-level properties, we also use multivariate linear regression models, with individual sequence-structure correlations as the sole regressand of the models, and the pdb-level properties as the explanatory variables.  Since the number of explanatory variables is comparable to the number of observations (i.e., the number pdb structures in the dataset), we use regularized regression (reference to R package xx) on the entire dataset of pdb-level properties, and also on the rank transformation of the dataset in order to minimize the effects of potential nonlinearities in data. Depending on value of the free parameter $\alpha$, this generalized regression model is a compromise between {\it ridge regression} -- which attempts to shrink the coefficients of correlated predictors towards each other -- and {\it lasso regression} -- which tends to pick one of the correlated predictors and discard the rest. In addition to regularized regression, we have also employed Principal Component Regression on the original dataset and its rank transformation, all of which point to similar set of pdb-level properties as the strongest determinants of sequence-structure correlations.
+        To ensure the accuracy of the results obtained from the Spearman correlation matrix of the pdb-level properties, we also use multivariate linear regression models, with individual sequence-structure correlations as the sole regressand of the regression models, and the set of pdb-level properties as the explanatory variables.  Since the number of explanatory variables is comparable to the number of observations (i.e., the number pdb structures in the dataset), we use regularized regression (reference to R package xx) on the entire dataset, and also on the rank transformation of the dataset in order to minimize the effects of potential nonlinearities in data. Depending on value of the free parameter $\alpha$, this generalized regression model is a compromise between {\it ridge regression} -- which attempts to shrink the coefficients of correlated predictors towards each other -- and {\it lasso regression} -- which tends to pick one of the correlated predictors and discard the rest. In addition to regularized regression, we have also employed Principal Component Regression (PCR) on the original dataset and its rank transformation. Both regression methods, PCR \& regularized, point to similar set of pdb-level properties as the strongest determinants of sequence-structure correlations.
 
         
         
@@ -225,7 +225,7 @@ The University of Texas at Austin, TX 78712, USA; amir@physics.utexas.edu}
         \begin{figure}[tbh]
             \centering
             \includegraphics[width=7.2in]{/main_modulators_cormat.pdf} \\
-            \caption{{\bf The Spearman correlation matrix of the strongest sequence--structure correlations and the prominent determinants of the strengths of the corresponding relations}. The variables on the diagonal elements of the matrix from top to bottom represent respectively, the four strongest sequence--structure relations: r4sJC--wcnSC, r4sJC--varea, seqent--wcnSC, seqent--varea, followed by protein properties that modulate the strength of these relations: the correlation between r4sJC--seqent ({\it r.r4sJC.seqent}), variance of r4sJC ({\it var.r4sJC}), variance of sequence entropy ({\it var.seqent}), the variance of hydrogen bond energies ({\it var.hbe}), and the fraction of helical \& $\beta-$sheet secondary structures in the proteins ({\it mean.helix} \& {\it mean.betas} respectively).}
+            \caption{{\bf The Spearman correlation matrix of the strongest sequence--structure correlations and the prominent determinants of the strengths of the corresponding relations}. The variables on the diagonal elements of the matrix from top to bottom represent respectively, the four strongest sequence--structure relations: r4sJC--wcnSC, r4sJC--varea, seqent--wcnSC, seqent--varea, followed by protein properties that modulate the strength of these relations: the correlation between r4sJC--seqent ({\it r.r4sJC.seqent}), variance of r4sJC ({\it var.r4sJC}), variance of sequence entropy ({\it var.seqent}), variance of back-bone hydrogen bond energies ({\it var.hbe}), and the fraction of amino acids in helical \& $\beta-$sheet secondary structures in the proteins ({\it mn.helix} \& {\it mn.betas} respectively).}
             \label{fig:mainmods}
         \end{figure}
 
@@ -234,8 +234,8 @@ The University of Texas at Austin, TX 78712, USA; amir@physics.utexas.edu}
             \begin{tabular}{cc}
             \includegraphics[width=3.4in]{/modulators_similarity_Sr4sJC_scors.pdf} & \includegraphics[width=3.4in]{/modulators_similarity_Sseqent_scors.pdf} \\
             \end{tabular}
-            \caption{Proportion of explained variance of structure-sequence correlations by 182 pdb-level properties considered individually.}
-            \label{fig:modsim}
+            \caption{{\bf Spearman correlation matrices illustrating the similarity of the set of structure and sequence properties that contribute to the strength of sequence--structure relations}.  {\bf Left:} The correlation matrix for the relation of evolutionary rates ({\it r4sJC}) with structural quantities on the diagonal of the matrix. {\bf Right:} The correlation matrix for the relation of sequence entropy ({\it seqent}) with structural quantities on the diagonal of the matrix.}
+            \label{fig:simcormats}
         \end{figure*}
 
         \begin{figure*}[tbh]
@@ -243,7 +243,7 @@ The University of Texas at Austin, TX 78712, USA; amir@physics.utexas.edu}
             \begin{tabular}{cc}
             \includegraphics[width=3.4in]{/validation_sdseqent.pdf} & \includegraphics[width=3.4in]{/validation_sdhbe.pdf} \\
             \end{tabular}
-            \caption{Proportion of explained variance of structure-sequence correlations by 182 pdb-level properties considered individually.}
+            \caption{{\bf Sequence--structure correlation strength versus sequence divergence.} The plot illustrates the relationship between the strength of a representative sequence--structure correlation ({\it seqent--scnSC}) and the sequence divergence as measured by the variance of protein sequence entropy. The black circles represent $209$ proteins used in this work. For comparison and validation, the red circles represent data for $9$ viral proteins taken from {shahmoradi2014xx}.
             \label{fig:validation}
         \end{figure*}
 

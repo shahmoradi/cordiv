@@ -18,7 +18,43 @@ setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 
 # First get ASAP entropies:
 
+seqent_1RD8_X = read.csv('../../rate_calculations/entropy/prelim_entropies/entropies/1RD8_X_HP_entropies.csv')
+seqent_1RD8_X = data.frame(pdb = '1RD8_X',seqent_1RD8_X)
+seqent_2FP7_B = read.csv('../../rate_calculations/entropy/prelim_entropies/entropies/2FP7_B_WNPB_entropies.csv')
+seqent_2FP7_B = data.frame(pdb = '2FP7_B',seqent_2FP7_B)
+seqent_2JLY_A = read.csv('../../rate_calculations/entropy/prelim_entropies/entropies/2JLY_A_DPH_entropies.csv')
+seqent_2JLY_A = data.frame(pdb = '2JLY_A',seqent_2JLY_A)
+seqent_2Z83_A = read.csv('../../rate_calculations/entropy/prelim_entropies/entropies/2Z83_A_JEHN_entropies.csv')
+seqent_2Z83_A = data.frame(pdb = '2Z83_A',seqent_2Z83_A)
+seqent_3GOL_A = read.csv('../../rate_calculations/entropy/prelim_entropies/entropies/3GOL_A_HCP_entropies.csv')
+seqent_3GOL_A = data.frame(pdb = '3GOL_A',seqent_3GOL_A)
+seqent_3GSZ_A = read.csv('../../rate_calculations/entropy/prelim_entropies/entropies/3GSZ_A_HCP_entropies.csv')
+seqent_3GSZ_A = data.frame(pdb = '3GSZ_A',seqent_3GSZ_A)
+seqent_3I5K_A = read.csv('../../rate_calculations/entropy/prelim_entropies/entropies/3I5K_A_HCP_entropies.csv')
+seqent_3I5K_A = data.frame(pdb = '3I5K_A',seqent_3I5K_A)
+seqent_3LYF_A = read.csv('../../rate_calculations/entropy/prelim_entropies/entropies/3LYF_A_RVFVNP_entropies.csv')
+seqent_3LYF_A = data.frame(pdb = '3LYF_A',seqent_3LYF_A)
+seqent_4AQF_B = read.csv('../../rate_calculations/entropy/prelim_entropies/entropies/4AQF_B_CCHFN_entropies.csv')
+seqent_4AQF_B = data.frame(pdb = '4AQF_B',seqent_4AQF_B)
+seqent_4GHA_A = read.csv('../../rate_calculations/entropy/prelim_entropies/entropies/4GHA_A_MRNABD_entropies.csv')
+seqent_4GHA_A = data.frame(pdb = '4GHA_A',seqent_4GHA_A)
+seqent_4IRY_A = read.csv('../../rate_calculations/entropy/prelim_entropies/entropies/4IRY_A_INP_entropies.csv')
+seqent_4IRY_A = data.frame(pdb = '4IRY_A',seqent_4IRY_A)
 
+res_prop_seqent = rbind( seqent_1RD8_X
+                       , seqent_2FP7_B
+                       , seqent_2JLY_A
+                       , seqent_2Z83_A
+                       , seqent_2Z83_A
+                       , seqent_3GOL_A
+                       , seqent_3GSZ_A
+                       , seqent_3I5K_A
+                       , seqent_3LYF_A
+                       , seqent_4AQF_B
+                       , seqent_4GHA_A
+                       , seqent_4IRY_A
+                       )
+res_prop_seqent$pdb = data.frame(res_prop_seqent$pdb)
 
 res_prop_hps_asap        = read.table('../../properties/res_prop_hps_asap.out', header=T)
 res_prop_hps_asap$pdb    = factor(res_prop_hps_asap$pdb)
@@ -57,30 +93,30 @@ for(pdb in levels(res_prop_dssp_asap$pdb))
     counter = counter + 1
     cat( paste(pdb, str(counter[[1]][1]),'\n') )
     
-    #pdb_elj    = res_prop_elj[res_prop_elj$pdb==pdb,] # c('seqent','ddgent')]
+    pdb_seqent  = res_prop_seqent[res_prop_seqent$pdb==pdb,] # c('seqent','ddgent')]
     #pdb_jec    = res_prop_jec[res_prop_jec$pdb==pdb,] # c('zr4s_JC')]
     pdb_hps    = res_prop_hps_asap[res_prop_hps_asap$pdb==pdb,] # c('hpskd','hpsww','hpshh')] )
     pdb_dssp   = res_prop_dssp_asap[res_prop_dssp_asap$pdb==pdb,] # c('asa','rsa','hbe','rss')] )
     pdb_wcn_bf = res_prop_wcn_bf_asap[res_prop_wcn_bf_asap$pdb==pdb, ]
     pdb_voroSC = res_prop_voroSC_asap[res_prop_voroSC_asap$pdb==pdb, ]
     
-    pdb_temp = data.frame( #seqent   = pdb_elj$seqent,
-                           #ddgent   = pdb_elj$ddgent,
-                           #r4sJC    = pdb_jec$r4s_JC,
-                           #r4sJCz   = pdb_jec$zr4s_JC,
-                           hpshh    = pdb_hps$hpshh,
-                           rsa      = pdb_dssp$rsa,
-                           hbe      = pdb_dssp$hbe,
-                           bfSC     = pdb_wcn_bf$bfSC,
-                           wcnSC    = pdb_wcn_bf$wcnSC,
-                           vnfaces       = pdb_voroSC$VSCnfaces,
-                           vedge         = log10(pdb_voroSC$VSCedge_length_total),
-                           varea         = log10(pdb_voroSC$VSCarea),
-                           vvolume       = log10(pdb_voroSC$VSCvolume),
-                           veccentricity = pdb_voroSC$VSCeccentricity,
-                           vsphericity   = pdb_voroSC$VSCsphericity,
-                           vsphericitym  = pdb_voroSC$VSCmodified_sphericity
-    )
+    pdb_temp = data.frame( seqent   = pdb_seqent$entropy
+                         #, ddgent   = pdb_elj$ddgent
+                         #, r4sJC    = pdb_jec$r4s_JC
+                         #, r4sJCz   = pdb_jec$zr4s_JC
+                         , hpshh    = pdb_hps$hpshh
+                         , rsa      = pdb_dssp$rsa
+                         , hbe      = pdb_dssp$hbe
+                         , bfSC     = pdb_wcn_bf$bfSC
+                         , wcnSC    = pdb_wcn_bf$wcnSC
+                         , vnfaces       = pdb_voroSC$VSCnfaces
+                         , vedge         = log10(pdb_voroSC$VSCedge_length_total)
+                         , varea         = log10(pdb_voroSC$VSCarea)
+                         , vvolume       = log10(pdb_voroSC$VSCvolume)
+                         , veccentricity = pdb_voroSC$VSCeccentricity
+                         , vsphericity   = pdb_voroSC$VSCsphericity
+                         , vsphericitym  = pdb_voroSC$VSCmodified_sphericity
+                         )
     
     pdb_long = reshape(pdb_temp, ids = rownames(pdb_temp), varying = colnames(pdb_temp), v.names = 'value', timevar = 'variable', times = colnames(pdb_temp), direction = 'long')
     pdb_long$variable = factor(pdb_long$variable)

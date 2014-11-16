@@ -125,44 +125,66 @@ dev.off()
 
 # Now plot data for validation
 
-source('input_ASAP_data.r')
+all_pdb_prop_select_wide = read.csv('../tables/all_pdb_prop_select_wide.csv', header = T)
+all_pdb_prop_select_wide_asap = read.csv('../tables/all_pdb_prop_select_wide_asap.csv', header = T)
 
-filename = paste0('../figures/validation_sdseqent.pdf')
-pdf( filename, width=4.5, height=4, useDingbats=FALSE )
+filename = paste0('../figures/validation_var_seqent.pdf')
+pdf( filename, width=6, height=5, useDingbats=FALSE )
 par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
 
-plot( all_pdb_prop_select_wide$sd.seqent
+plot( all_pdb_prop_select_wide$sd.seqent^2
     , all_pdb_prop_select_wide$r.seqent.wcnSC
     , pch = 19
-    , xlab = 'St. Dev. of Seq. Entropy ( sd.seqent )'
-    , ylab = bquote('Spearman' ~ rho ~ 'seqent - wcnSC')
-    , xlim = c(-0.05,0.9)
-    , ylim = c(-0.8,0.1)
+    , xlab = 'Sequence Divergence:  Variance ( Seq. Entropy )'
+    , ylab = bquote('Spearman' ~ rho ~ ':  Seq. Entropy - wcnSC')
+    , xlim = c(-0.1,0.85)
+    , ylim = c(0.2,-0.8)
     )
-points( ASAP_pdb_prop$sd.seqent
-      , ASAP_pdb_prop$r.seqent.wcnCA
+points( all_pdb_prop_select_wide_asap$sd.seqent
+      , all_pdb_prop_select_wide_asap$r.seqent.wcnSC
       , col = 'red'
       , pch = 19
       )
 dev.off()
 
-filename = paste0('../figures/validation_sdhbe.pdf')
-pdf( filename, width=4.5, height=4, useDingbats=FALSE )
+
+filename = paste0('../figures/validation_var_hbe.pdf')
+pdf( filename, width=6, height=5, useDingbats=FALSE )
 par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
 
-plot( all_pdb_prop_select_wide$sd.hbe
-      , all_pdb_prop_select_wide$r.seqent.wcnSC
+plot( all_pdb_prop_select_wide$sd.hbe^2
+    , all_pdb_prop_select_wide$r.seqent.wcnSC
+    , pch = 19
+    , xlab = 'Variance ( Hydrogen Bond Energy )'
+    , ylab = bquote('Spearman' ~ rho ~ ':  Seq. Entropy - wcnSC')
+    , xlim = c(0,0.45)
+    , ylim = c(0.2,-0.8)
+    )
+points( all_pdb_prop_select_wide_asap$sd.seqent
+      , all_pdb_prop_select_wide_asap$r.seqent.wcnSC
+      , col = 'red'
       , pch = 19
-      , xlab = 'St. Dev. of HBE ( sd.hbe )'
-      , ylab = bquote('Spearman' ~ rho ~ 'seqent - wcnSC')
-      #, xlim = c(-0.05,0.9)
-      #, ylim = c(-0.8,0.1)
-)
-# points( ASAP_pdb_prop$sd.seqent
-#         , ASAP_pdb_prop$r.seqent.wcnCA
-#         , col = 'red'
-#         , pch = 19
-# )
+      )
+dev.off()
+
+
+filename = paste0('../figures/validation_var_hbe.pdf')
+pdf( filename, width=6, height=5, useDingbats=FALSE )
+par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+
+plot( all_pdb_prop_select_wide$mean.helix
+    , all_pdb_prop_select_wide$r.r4sJC.wcnSC
+    , pch = 19
+    , xlab = 'proportion of helical structures'
+    , ylab = bquote('Spearman' ~ rho ~ ':  Seq. Entropy - wcnSC')
+    #, xlim = c(0,0.45)
+    , ylim = c(0.2,-0.8)
+    )
+points( all_pdb_prop_select_wide_asap$mean.helix
+      , all_pdb_prop_select_wide_asap$r.seqent.wcnSC
+      , col = 'red'
+      , pch = 19
+      )
 dev.off()
 
 
