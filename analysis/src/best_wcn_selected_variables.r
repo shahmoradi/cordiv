@@ -285,7 +285,43 @@ for (variable in variable_names)
           ylab = paste0('Spearman cor. with ',variable_list[[counter]][1]),
           cex.axis = 1.3,
           cex.lab = 1.3
+          #, ylim = c(0.05,-1.)
           )
 }
 graphics.off()
 
+
+# Now create two box plots in one figure for correlation of r4sJC and seqent with wcnSC.
+
+wcn_scors_all_pdbs = read.csv( "../tables/best_wcn/selected_variables/wcn_scors_all_pdbs.csv", header = TRUE )
+wcn_scors_all_pdbs$variable = factor(wcn_scors_all_pdbs$variable)
+wcn_scors_all_pdbs$wcn = factor(wcn_scors_all_pdbs$wcn)
+
+#variable_list = c('Seq. Entropy','ddG Entropy','RSA','ASA','Hydrophobicity','H-bond Energy')
+#variable_names = c('seqent','ddgent','rsa','asa','hpshh','hbe_mean')
+variable_list = c('Evol. Rates','Seq. Entropy','ddG Entropy','RSA','Hydrophobicity','H-bond Energy')
+variable_names = c('r4s_JC','seqent','ddgent','rsa','hpshh','hbe_mean')
+wcn_list = c('wcnSC','wcnAA','wcnCB','wcnCA','wcnN','wcnC','wcnO')
+counter = 0
+filename = paste0('../figures/best_wcn/selected_variables/boxplot_wcn_two_in_one.pdf')
+pdf( filename, width=15, height=4, useDingbats=FALSE )
+split.screen(c(1,2))
+for (variable in variable_names[1:2])
+{ 
+  counter = counter + 1
+  screen(counter)
+  temp_data_variable_long = wcn_scors_all_pdbs[wcn_scors_all_pdbs$variable == variable,c('pdb','wcn','value')]
+  temp_data_variable = reshape(temp_data_variable_long, timevar = 'wcn', idvar = 'pdb', direction = 'wide')
+  temp_data_variable = subset (temp_data_variable, select = -c(pdb))
+  colnames(temp_data_variable) = levels(wcn_scors_all_pdbs$wcn)
+  temp_data_variable = temp_data_variable[wcn_list]
+  par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+  boxplot( temp_data_variable
+         , xlab = 'Representative Weighted Contact Number (wcn)'
+         , ylab = paste0('Correlation with ',variable_list[[counter]][1])
+         , cex.axis = 1.3
+         , cex.lab = 1.3
+         , ylim = c(0.05,-.85)
+         )
+}
+graphics.off()

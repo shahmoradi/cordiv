@@ -1,3 +1,4 @@
+# ATTN, Wednesday 5:59 PM, Nov 19 2014, : This is an old R code that extracts data from the ASAP original dataset. I have now written a new set of codes that regrenerate all ASAP pdb properties from scratch. 
 # This file reads all data for the ASAP project, in order to compare the correlation strengths of seqent-StructuralVariables with the variance of seqent for each pdb.
 # Amir Shahmoradi, Thursday 2:08 PM, Oct 1, 2014, ICMB, UT Austin
 
