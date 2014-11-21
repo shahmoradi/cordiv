@@ -1,0 +1,26 @@
+	PDB_ID	ABBREVIATION	VIRUS	NUM_RESIDUES	ALIGNMENT	TREE
+1.	1RD8_X.pdb**	HP	Hemaglutinin Precursor	503	aln_aa_H1N1_HA.fasta	tree_H1N1_HA.tre
+	
+2.	2FP7_B	WNPB	West Nile Protease 147	aln_aa_westnile_chainb.fasta	tree_westnile_chainb.tre
+
+3.	4AQF_B.pdb	 CCHFN	Crimean Congo Hemorrhagic Fever Nucleocapsid  474  aln_aa_crimean_congo.Nucleoprotein.fasta	tree_crimean_congo.Nucleoprotein.tre
+
+4.	2JLY_A.pdb	DPH	Dengue Protease Helicase	451  aln_aa_dengue_ns3.fasta	tree_dengue_ns3.tre
+
+5.	3GOL_A.pdb	HCP	Hepatitis C Protease	557	aln_aa_HCV_NS5B.fasta	tree_HCV_NS5B.tre
+
+6.	3GSZ_A.pdb HCP Hepatitis C Protease	558	aln_aa_HCV_NS5B.fasta	tree_HCV_NS5B.tre
+
+7.	3I5K_A.pdb	HCP	Hepatitis C Protease HCP	566  aln_aa_HCV_NS5B.fasta	tree_HCV_NS5B.tre
+
+8.	4IRY_A.pdb	INP	Influenza Nucleoprotein INP	 404 aln_aa_H1N1_NP.fasta	tree_HCV_NS5B.tre
+
+9.	2Z83_A.pdb	JEHN	Japanese Encephalitis Helicase/Nucleoside JEHN   426  aln_aa_JEV.fasta	tree_JEV.tre
+	
+10.	4GHA_A.pdb	MRNABD	Marburg RNA Binding Domain	122 aln_aa_marburg.vp35.fasta	tree_marburg.vp35.tre
+
+11.	3LYF_A.pdb	RVFVNP	Rift Valley Fever Virus NucleoProtein	244 riftvalley.fasta	tree_riftvalley.tre
+
+The PDB is ID is just the name of the PDB with the chain. So 2FP7 is chain A of protein 2FP7.
+**This pdb is comprised of the residues from both chain A and B. The chains were combined and called 'X'.
+
