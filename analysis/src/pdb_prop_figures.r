@@ -9,7 +9,8 @@ library('ppcor')
 
 ASAP_pdb_data = read.csv("../tables/ASAP_pdb_prop.csv", header = T)
 
-all_pdb_prop_select_wide = read.csv("../tables/all_pdb_prop_select_wide.csv", header = T)
+all_pdb_prop_select_wide = read.csv('../tables/all_pdb_prop_select_wide.csv', header = T)
+all_pdb_prop_select_wide_asap = read.csv('../tables/all_pdb_prop_select_wide_asap.csv', header = T)
 #View(all_pdb_prop_select_wide)
 
 n.screen.rows = 2   # number of rows in the screen plots
@@ -49,7 +50,15 @@ for (counter in seq(1,n.screen.rows*n.screen.cols))
        #cex.lab = 1.4,
        pch = 16
        )
-  lines(x,x,col='red')
+  lines(x,x,col='green', lwd = 2)
+  if (column_list[counter] != 'r.ddgent.seqent')
+  {
+    points( abs(all_pdb_prop_select_wide_asap[[column_list[counter]]])
+          , abs(all_pdb_prop_select_wide_asap$r.seqent.wcnSC)
+          , pch = 19
+          , col = 'red'
+          ) 
+  }
 }
 dev.off()
 #graphics.off()
@@ -87,7 +96,7 @@ for (counter in seq(1,n.screen.rows*n.screen.cols))
        #cex.lab = 1.4,
        pch = 16
        )
-  lines(x,x,col='red')
+  lines(x,x,col='green', lwd = 2)
   scor = cor(abs(all_pdb_prop_select_wide[[column_list[counter]]]),abs(all_pdb_prop_select_wide$r.r4sJC.wcnSC))
   text(x = 0.70, y = 0.05, labels = bquote('Spearman' ~ rho ~ '=' ~ .(round(scor,2))))
 }
@@ -123,28 +132,60 @@ dev.off()
 #graphics.off()
 
 
-# Now plot data for validation
+# Now plot data for validation.
+
+# r4sJC - wcnSC correlation : 
 
 all_pdb_prop_select_wide = read.csv('../tables/all_pdb_prop_select_wide.csv', header = T)
 all_pdb_prop_select_wide_asap = read.csv('../tables/all_pdb_prop_select_wide_asap.csv', header = T)
 
-filename = paste0('../figures/validation_var_seqent.pdf')
+filename = paste0('../figures/validation_r_r4s_wcn_var_seqent.pdf')
 pdf( filename, width=6, height=5, useDingbats=FALSE )
 par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
 
 plot( all_pdb_prop_select_wide$sd.seqent^2
-    , all_pdb_prop_select_wide$r.seqent.wcnSC
+    , all_pdb_prop_select_wide$r.r4sJC.wcnSC
     , pch = 19
     , xlab = 'Sequence Divergence:  Variance ( Seq. Entropy )'
-    , ylab = bquote('Spearman' ~ rho ~ ':  Seq. Entropy - wcnSC')
+    , ylab = bquote('Spearman' ~ rho ~ ':  Evol. Rates - wcnSC')
     , xlim = c(-0.1,0.85)
-    , ylim = c(0.2,-0.8)
+    , ylim = c(0.2,-0.85)
     )
-points( all_pdb_prop_select_wide_asap$sd.seqent
-      , all_pdb_prop_select_wide_asap$r.seqent.wcnSC
-      , col = 'red'
+source('input_ASAP_data.r')
+points( all_pdb_prop_select_wide_asap$sd.seqent^2
+        , ASAP_pdb_prop$r.seqent.wcnCA
+        , col = 'red'
+        , pch = 19
+        )
+#points( all_pdb_prop_select_wide_asap$sd.seqent^2
+#      , all_pdb_prop_select_wide_asap$r.r4sJC.wcnSC
+#      , col = 'red'
+#      , pch = 19
+#      )
+dev.off()
+
+# seqent - wcnSC correlation : 
+
+all_pdb_prop_select_wide = read.csv('../tables/all_pdb_prop_select_wide.csv', header = T)
+all_pdb_prop_select_wide_asap = read.csv('../tables/all_pdb_prop_select_wide_asap.csv', header = T)
+
+filename = paste0('../figures/validation_r_seqent_wcn_var_seqent.pdf')
+pdf( filename, width=6, height=5, useDingbats=FALSE )
+par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+
+plot( all_pdb_prop_select_wide$sd.seqent^2
+      , all_pdb_prop_select_wide$r.seqent.wcnSC
       , pch = 19
-      )
+      , xlab = 'Sequence Divergence:  Variance ( Seq. Entropy )'
+      , ylab = bquote('Spearman' ~ rho ~ ':  Seq. Entropy - wcnSC')
+      , xlim = c(-0.1,0.85)
+      , ylim = c(0.2,-0.8)
+)
+points( all_pdb_prop_select_wide_asap$sd.seqent^2
+        , all_pdb_prop_select_wide_asap$r.seqent.wcnSC
+        , col = 'red'
+        , pch = 19
+)
 dev.off()
 
 
@@ -210,6 +251,9 @@ points( ASAP_pdb_prop$r.seqent.rsa
       , col = 'red'
       )
 dev.off()
+
+
+
 
 plot (abs(all_pdb_prop_select_wide$r.seqent.wcnSC), abs(all_pdb_prop_select_wide$r.seqent.vsphericitym))
 lines(x,x)

@@ -2,7 +2,7 @@
 # This is complicated, ask Amir to explain for you what this code does.
 # Amir Shahmoradi, Sunday 1:40 PM, November 2 2014, Wilke Lab, ICMB, UT Austin
 
-install.packages('corrplot')
+#install.packages('corrplot')
 library('corrplot')
 
 setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
@@ -60,11 +60,67 @@ corrplot.mixed(cormat_select, lower = "ellipse", upper = "number"
                )
 dev.off()
 
+# Now Generate a more consice version of the above correlation matrix to be included in the main text of the article only for the relation r4sJC-wcnSC
+
+selection = data.frame( r.r4s.wcn      = all_pdb_prop_select_wide_rank$r.r4sJC.wcnSC
+                        #, r.r4s.varea    = all_pdb_prop_select_wide_rank$r.r4sJC.varea
+                        #, r.se.wcn       = all_pdb_prop_select_wide_rank$r.seqent.wcnSC
+                        #, r.se.varea     = all_pdb_prop_select_wide_rank$r.seqent.varea
+                        , r.r4s.se       = all_pdb_prop_select_wide_rank$r.r4sJC.seqent
+                        , sd.se          = all_pdb_prop_select_wide_rank$sd.seqent
+                        , sd.r4s         = all_pdb_prop_select_wide_rank$sd.r4sJC
+                        , sd.hbe         = all_pdb_prop_select_wide_rank$sd.hbe
+                        , mn.helix       = all_pdb_prop_select_wide_rank$mean.helix
+                        , mn.betas       = all_pdb_prop_select_wide_rank$mean.betas
+                        )
+
+pdf( "../figures/main_modulators_cormat_r4s_wcn.pdf", width=6, height=5, useDingbats=FALSE )
+cormat_select = cor(subset(selection), method = 'spearman')
+source ('mycpm.r')
+mycpm(cormat_select, lower = "ellipse", upper = "number"
+               #, tl.pos = 'lt'
+               , tl.pos = 'd'
+               , tl.cex = 0.95
+               #, tl.srt = 45
+               #, order = 'hclust'
+               #, addrect = 3
+)
+dev.off()
+
+
+# Now Generate the same correlation matrix to be included in the supplementary matterials of the article only for the relation seqent-wcnSC
+
+selection = data.frame( r.r4s.wcn      = all_pdb_prop_select_wide_rank$r.seqent.wcnSC
+                        #, r.r4s.varea    = all_pdb_prop_select_wide_rank$r.r4sJC.varea
+                        #, r.se.wcn       = all_pdb_prop_select_wide_rank$r.seqent.wcnSC
+                        #, r.se.varea     = all_pdb_prop_select_wide_rank$r.seqent.varea
+                        , r.r4s.se       = all_pdb_prop_select_wide_rank$r.r4sJC.seqent
+                        , sd.se          = all_pdb_prop_select_wide_rank$sd.seqent
+                        , sd.r4s         = all_pdb_prop_select_wide_rank$sd.r4sJC
+                        , sd.hbe         = all_pdb_prop_select_wide_rank$sd.hbe
+                        , mn.helix       = all_pdb_prop_select_wide_rank$mean.helix
+                        , mn.betas       = all_pdb_prop_select_wide_rank$mean.betas
+                        )
+
+pdf( "../figures/main_modulators_cormat_seqent_wcn.pdf", width=6, height=5, useDingbats=FALSE )
+cormat_select = cor(subset(selection), method = 'spearman')
+source ('mycpm.r')
+mycpm(cormat_select, lower = "ellipse", upper = "number"
+      #, tl.pos = 'lt'
+      , tl.pos = 'd'
+      , tl.cex = 0.95
+      #, tl.srt = 45
+      #, order = 'hclust'
+      #, addrect = 3
+)
+dev.off()
+
+
 # Calculate how much of variance is explained by these variables:
 
-lfit = lm( r.r4sJC.wcnSC ~ sd.seqent + sd.hbe, data = all_pdb_prop_select_wide  )
-lfit = lm( r.seqent.wcnSC ~ sd.seqent + sd.hbe, data = all_pdb_prop_select_wide )
-summary(lfit)
+#lfit = lm( r.r4sJC.wcnSC ~ sd.seqent + sd.hbe, data = all_pdb_prop_select_wide  )
+#lfit = lm( r.seqent.wcnSC ~ sd.seqent + sd.hbe, data = all_pdb_prop_select_wide )
+#summary(lfit)
 
 # corrplot(cormat_all_pdb_prop_cormat_SS_scors, order = "hclust")
 # cormat_all_pdb_prop_cormat_SS_scors = cor(abs(subset(all_pdb_prop_cormat_SS_scors, select = -c(variable))), method = 'spearman')
