@@ -5,8 +5,8 @@ import subprocess
 import sys
 
 '''
-Last Updated: November 12, 2014
-Description: This is a script that calculates entropy values for the viral sequence alignments
+Last Updated: November 21, 2014
+Description: This is a script that calculates entropy values for an alignment
 '''
 
 aa_list = ['G', 'A', 'L', 'V', 'I', 'P', 'R', 'T', 'S', 'C', 'M', 'K', 'E', 'Q', 'D', 'N', 'W', 'Y', 'F', 'H'] #List of amino acids
@@ -60,7 +60,6 @@ def calculate_entropy(data_array):
 		for j in xrange(0,len(probs_values)): #Calculate the entropy (Can look up this formula, just the native entropy)
 			value = (float(probs_values[j])*np.log(float(probs_values[j])))
 			entropy_number = entropy_number + value
-			#print -entropy_number
 		if (entropy_number == 0.0):
 			entropy_values.append(0.0) #Append entropy value to entropy at sites. 
 		else:
@@ -68,32 +67,29 @@ def calculate_entropy(data_array):
 	return entropy_values
 
 def main(argv = sys.argv):
-	process = subprocess.call("mkdir entropies", shell = "True")
-	alignments = ["CCHFN", "DPH", "HCP", "HCP", "HCP", "HCP", "HP", "INP", "JEHN","JEHN", "MRNABD", "RVFVNP", "WNPB"]
-	maps = ["CCHFN_4AQF_B", "DPH_2JLY_A", "HCP_3GOL_A", "HCP_3GSZ_A", "HCP_3I5K_A", "HP_1RD8_AB", "INP_4IRY_A", "JEHN_2JLY_A", "JEHN_2Z83_A", "MRNABD_4GHA_A", "RVFVNP_3LYF_A", "WNPB_2FP7_B" ]
 	alignment_counter = 0
-	for m in maps: #For each viral alignment
+	if len( sys.argv ) != 3:
+		print 
+		print "Usage:     ", sys.argv[0], "<input alignment>", "<output entropy file>"
+	else:
+		alignment_file = sys.argv[1]
+		outfile = sys.argv[2]
+		
 		freq_list = []
-		alignment_file = "../alignments/" + alignments[alignment_counter] + ".fasta"
-		map_file = "../../pdb_maps/" + m + ".map"
-		entropy_file = open("entropies/" + m + "_entropies.csv", "w")
-		entropy_file.write("alignment_pos,pdb_pos,entropy\n")
+		raw_entropy_file = open(outfile, "w")
+		raw_entropy_file.write("res_num\tentropy\n")	
 		aligned_seqs, headers = ch.get_sequences(alignment_file)
 		aa_freqs = calculate_aa_frequencies(aligned_seqs)
-		mapped_residues = np.genfromtxt(map_file, skip_header = 1, dtype = "string", usecols = (2)) #Get the mapping of the sites to the alignment
 		for site in aa_freqs: #Calculate the frequencies of each amino acid of each site in the alignment
 			freq_list.append(ch.get_sequence_array(site))
 		freq_array = np.array(freq_list)
 		entropies = calculate_entropy(freq_array) #calculate the entropy values
 		entropy_counter = 0
 		#This prints out the entropy values to a file
-		for i in xrange(0, len(mapped_residues)): 
-			if(mapped_residues[i] == "NA"): 
-				continue #If the site in the alignment is NA meaning it is not in the pdb skip and do not write
-			else: #else write the entropy values and associated alignment and pdb positions
-				entropy_file.write(str(i) + "," + mapped_residues[i] + "," + str(entropies[entropy_counter]) + "\n")
-			entropy_counter = entropy_counter + 1
-		entropy_file.close()
-		alignment_counter = alignment_counter + 1
+		
+		for i in xrange(0, len(entropies)):
+			raw_entropy_file.write(str(i+1) + "\t" + str(entropies[i]) + "\n")	
+		raw_entropy_file.close()
+
 if __name__ == "__main__":
 	main(sys.argv)
