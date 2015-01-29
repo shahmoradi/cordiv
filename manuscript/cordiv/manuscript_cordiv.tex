@@ -60,7 +60,7 @@ The University of Texas at Austin, TX 78712, USA; amir@physics.utexas.edu}
 \def\Acknowledgements{\bigskip  \bigskip \begin{center} \begin{large}
              \bf ACKNOWLEDGEMENTS \end{large}\end{center}}
 
-\graphicspath{{../analysis/figures/}}
+\graphicspath{{../../analysis/figures/}}
 
 \begin{document}
 \begin{titlepage}
@@ -74,7 +74,7 @@ The University of Texas at Austin, TX 78712, USA; amir@physics.utexas.edu}
 \Address{\affiliation}
 \vfill
 \begin{Abstract}
-    Over the past decade several independent works have shown that some structural properties of proteins are capable of predicting protein evolution. The strength and significance of these structure-sequence relations, however, appear to vary widely among different proteins, with absolute correlation strengths ranging from $0.1$ to $0.8$. Here we present the results from a comprehensive search for the potential biophysical and structural determinants of protein evolution by studying more than $200$ structural and evolutionary properties in a dataset of $209$ monomeric enzymes. We discuss the main protein characteristics responsible for the general patterns of protein evolution, and identify sequence divergence as the main determinant of the strengths of virtually all structure-evolution relationships, explaining $\sim10-30\%$ of observed variation in sequence-structure relations. In addition to sequence divergence, we identify several protein structural properties that are moderately but significantly coupled with the strength of sequence-structure relations. In particular, proteins with more homogeneous back-bone hydrogen bond energies, large fractions of helical secondary structures and low fraction of beta sheets tend to have the strongest sequence-structure relation.
+    Over the past decade several independent works have shown that some structural properties of proteins are capable of predicting protein evolution. The strength and significance of these structure-sequence relations, however, appear to vary widely among different proteins, with absolute correlation strengths ranging from $0.1$ to $0.8$. Here we present the results from a comprehensive search for the potential biophysical and structural determinants of protein evolution by studying more than $200$ structural and evolutionary properties in a dataset of $209$ monomeric enzymes. We discuss the main protein characteristics responsible for the general patterns of protein evolution, and identify sequence divergence as the main determinant of the strengths of virtually all structure-evolution relationships, explaining $\sim10-30\%$ of observed variation in sequence-structure relations. In addition to sequence divergence, we identify several protein structural properties that are moderately but significantly coupled with the strength of sequence-structure relations. In particular, proteins with more homogeneous back-bone hydrogen bond energies, large fractions of helical secondary structures and low fraction of beta sheets tend to have the strongest sequence-structure relations.
 
     %Over the past decade several independent works have shown that some site-specific structural properties of proteins are capable of predicting the site-specific evolutionary sequence variations. The strength and significance of these structure-evolution relations, however, appear to vary widely among different proteins, with absolute correlation strengths ranging from $0.1$ to $0.8$. In search for potential determinants of the observed variation in sequence-structure correlations, here we present the results of a comprehensive study of interrelations among more than $200$ structural and evolutionary characteristics in a dataset of 209 monomeric enzymes. We identify sequence divergence as the main determinant of the strengths of virtually all structure-evolution relationships, explaining $\sim10-30\%$ of observed variation in correlation strengths. In addition to sequence divergence, we identify several protein structural properties that are weakly but significantly coupled with the strength of sequence-structure relations. In particular, proteins with more homogeneous back-bone hydrogen bond energies, large fractions of helical secondary structures and low fraction of beta sheets tend to exhibit the strongest sequence-structure relations.
 \end{Abstract}
@@ -88,16 +88,16 @@ The University of Texas at Austin, TX 78712, USA; amir@physics.utexas.edu}
 \section{Introduction}
 \label{sec:intro}
 
-    Patterns of amino acid sequence variation are known to be influenced by the function of proteins (xx). The general consensus, based on the flurry of research done over the past several decades, is that the amino-acid sequence determines the 3D structure of proteins, known as the native conformation. This sequence-structure relation, however, does not necessitate a unique one-to-one mapping of sequence and the functionality of the protein. According to stability threshold model of proteins (xx), substitutions at specific sites may be tolerated more than other sites in the protein sequence, if the substitution does not significantly change the energy landscape and therefore the functional conformation of the protein. Indeed, several independent work have identified site-specific structural properties that can explain the general patterns of sequence variability in proteins (xx). As one of the earliest discovered examples, residues that are buried in the core of proteins tend to be more evolutionary conserved than exposed residues close to the surface of the protein.
+    Patterns of amino acid sequence variation are known to be influenced by the function of proteins (xx). The general consensus, based on the flurry of research done over the past several decades, is that the amino-acid sequence determines the 3D structure of proteins, known as the native conformation. This sequence-structure relation, however, does not necessitate a unique one-to-one mapping of sequence and the functionality of the protein. According to stability threshold model of proteins (xx), some substitutions at specific sites may be tolerated, if the new amino acid does not significantly change the energy landscape of the protein and therefore, its functional {\it native} conformation. Indeed, several independent work have identified site-specific structural properties that can explain the general patterns of sequence variability in proteins (xx). One of the earliest discovered examples of such relations, is the correlation of the site-specific Relative Solvent Accessibility (RSA) with sequence variation, that is, residues that are buried in the core of proteins tend to be more evolutionary conserved than exposed residues close to the surface of the protein.
     \\
 
-    Other structural properties have also been identified recently and proposed to influence or explain the site-specific evolutionary variations of proteins. Among the simplest properties is a measure of local density of the protein defined as the number of amino acids within a spherical neighborhood of a specific residue of interest, named residue {\it contact number (CN)}(xx). Variants of this quantity that eliminate the free-parameter (i.e., radius) in the definition of CN have also been proposed (xx) and have been shown to correlate better with sequence evolutionary rates (xx). In a recent work Echave et al. xx presented a biophysical model that links the thermodynamic stability changes due to mutations at sites in proteins (\ddg) to the rate at which mutations accumulate at the corresponding sites over evolutionary time. They find that the variations in the free energy of the protein due to amino acid substitutions at individual sites can explain the site-specific evolutionary rates, comparable to the predictive powers of other structural variables such as residue solvent accessibility and contact number.
+    Other structural properties have also been recently identified and proposed to influence or explain the site-specific evolutionary variations of proteins. Among the simplest properties is the residue {\it contact number (CN)}, a measure of local density of the protein defined as the number of amino acids within a spherical neighborhood of a specific residue of interest (xx). Variants of this quantity that eliminate the free-parameter (i.e., the radius of the spherical neighborhood) in the definition of CN have also been proposed (xx) and have been shown to correlate better with sequence evolutionary rates (xx).   In a recent work Echave et al. xx presented a biophysical model that links the thermodynamic stability changes due to mutations at each site in proteins (\ddg) to the rate at which mutations accumulate in the corresponding site over evolutionary time. They find that the variations in the free energy of the protein due to amino acid substitutions at individual sites can explain the site-specific evolutionary rates, comparable to the predictive powers of other structural variables such as residue solvent accessibility and contact number.
     \\
 
-    Not all proteins exhibit the same correlation strength and association between sequence variation and structural properties. By analyzing a data set of $216$ monomeric enzymes, Yeh et al. xx find a wide range of $\rho\sim0.1-0.8$ for the distributions of the correlations of sequence variability with two site-specific properties: contact number and residue solvent accessibility. Similarly, Echave et al. xx find a wide range of $\rho\sim0.2-0.8$ for the correlation strength of the site-specific stability contribution -- quantified by \ddg with evolutionary rates. Interestingly however, it appears that sequence-structure correlations also tend to correlate strongly with each other, as illustrated in Figure \ref{fig:ssscor}. This implies that for a given protein, the correlation strength of a specific structural property with evolutionary rates can serve as a proxy for the correlation strength of other structural properties with sequence evolutionary rates.
+    Although the majority of proteins exhibit some degree of correlation and association between sequence variation and structural properties, the strength of these correlations vary widely among different structures. By analyzing a data set of $216$ monomeric enzymes, Yeh et al. xx found a wide range of $\rho\sim0.1-0.8$ for the Spearman correlation strengths of sequence variability with two site-specific properties: the Weighted Contact Number (WCN) and the residue-specific solvent accessibility (i.e., RSA). Similarly, Echave et al. xx recently found a wide range of $\rho\sim0.2-0.8$ for the correlation strength of the site-specific stability contribution -- quantified by \ddg -- with evolutionary rates. It appears that sequence-structure correlations tend to correlate strongly with each other, as illustrated in Figure \ref{fig:ssscor}. This implies that for a given protein, the correlation strength of a specific structural property with evolutionary rates can serve as a proxy for the correlation strength of other structural properties with sequence evolutionary rates.
     \\
 
-    The fact that all relevant structural properties seem to have more or less the same predictive power for sequence evolution, implies the existence of one or more structural or evolutionary characteristics of protein that modulate sequence-structure correlations in all proteins. Motivated by this observation, here we present the results of comprehensive effort in search for the potential underlying structural or evolutionary properties of proteins that can explain the wide-range variations seen in correlation strengths of sequence evolutionary rates with different structural properties.  We show that among all properties considered, sequence divergence appears to be the primary determinant for the strength of sequence-structure relations.
+    The fact that all relevant structural properties seem to have more or less the same predictive power for sequence variability, implies the existence of one or more structural or evolutionary characteristics of proteins that modulate sequence-structure correlations in all proteins. Motivated by these observations, here we present the results of comprehensive effort in search for the potential underlying structural or evolutionary properties of proteins that can explain the wide range of variations seen in correlation strengths of sequence evolutionary rates with different structural properties.  We show that among all properties considered, sequence divergence appears to be the primary determinant for the strength of sequence-structure relations. In addition, we show that proteins with more homogeneous Hydrogen bond (H-bond) energies, higher fraction of Helical structures and lower number of $\beta$-sheets generally tend to exhibit the strongest sequence-structure correlations. In the following sections, we present evidence in support of these findings and discuss their implications.
     \\
 
 
@@ -106,7 +106,7 @@ The University of Texas at Austin, TX 78712, USA; amir@physics.utexas.edu}
 
     \subsection*{Sequence Data, Alignments and Evolutionary Rates}
 
-    The results presented in this work are based on data set of 209 monomeric enzymes randomly picked from the Catalytic Site Atlas 2.2.11 (Porter et al. 2004) with protein sizes in the sample ranging from $95$ to $1287$ and including representatives of all six main EC functional classes (Webb 1992) and domains of all main SCOP structural classes (Murzin et al. 1995). To assess the evolutionary rates at the amino acid level for each protein, first a set of up to $300$ homologous sequences were collected for each protein from the {\it Clean Uniprot} database following the ConSurf protocol (Goldenberg et al. 2009; Ashkenazy et al. 2010). Sequence alignments were then constructed using amino-acid sequences with MAFFT (Katoh et al. 2002, 2005), specifying the auto flag to select the optimal algorithm for the given data set, and then back-translated to a codon alignment using the original nucleotide sequence data. The alignments were then used to calculate the site-specific evolutionary rates for each individual protein in dataset. To do so, we relied on two independent methods of measuring sequence variability measure. First, we calculated the Shannon entropy ($H_i$) -- the sequence entropy, hereafter abbreviated as {\it seqent} -- at each alignment column $i$, based on the assumption that the occurrence of each of the $20$ amino acids is equally likely at any given site in the alignments:
+    The results presented in this work are based on a dataset of $209$ monomeric enzymes (Echave papers, Wilke ddg paper xx) randomly picked from the Catalytic Site Atlas $2.2.11$ (Porter et al. 2004) with protein sizes in the sample ranging from $95$ to $1287$, including representatives from all six main EC functional classes (Webb 1992) and domains of all main SCOP structural classes (Murzin et al. 1995). To assess the evolutionary rates at the amino acid level for each protein, first a set of up to $300$ homologous sequences were collected by (Yeh et all xx) for each protein from the {\it Clean Uniprot} database following the ConSurf protocol (Goldenberg et al. 2009; Ashkenazy et al. 2010). Sequence alignments were then constructed using amino-acid sequences with MAFFT (Katoh et al. 2002, 2005), specifying the auto flag to select the optimal algorithm for the given data set, and then back-translated to a codon alignment using the original nucleotide sequence data. The alignments were then used to calculate the site-specific evolutionary rates for each individual protein in dataset. To do so, we relied on two independent methods of measuring sequence variability measure. First, we calculated the Shannon entropy ($H_i$) -- the sequence entropy, hereafter abbreviated as {\it seqent} -- at each alignment column $i$, based on the assumption that the occurrence of each of the $20$ amino acids is equally likely at any given site in the alignments:
 
     \begin{equation}
         \label{eqn:shannon}
@@ -117,7 +117,7 @@ The University of Texas at Austin, TX 78712, USA; amir@physics.utexas.edu}
 
     \subsection*{Structural Properties}
 
-    The goal of the presented work is to identify the prominent structural or evolutionary properties of proteins that modulate sequence-structure correlations. These potential modulators represent a unique characteristics of the protein as a whole.  In general, the structural and evolutionary properties fall into two major categories. 1. Residue-level properties: Site-specific structural or evolutionary properties that are defined and calculated for each specific amino acid site in the protein sequence. Prominent examples of the former include site-specific Relative Solvent Accessibility (RSA) (Tien et al. 2012 xx), Weighted Contact Number (WCN) (shih? xx).   2. PDB-level properties: structural or evolutionary characteristics that are representative of the protein as a whole. Examples include pdb Contact Order (CO) as defined by xx, protein size, protein compactness.  In addition, the distribution of each residue-level property can be summarized by its statistical moments as pdb-level property of the protein. A comprehensive list of protein properties and their definitions are given in Table \ref{tab:definitions}.
+    The goal of the presented work is to identify the prominent structural or evolutionary properties of proteins that modulate sequence-structure correlations. These potential modulators represent a unique characteristics of the protein as a whole.  In general, the structural and evolutionary properties fall into two major categories.  1. {\it Residue-level properties}: Site-specific structural or evolutionary properties that are defined and calculated for each specific amino acid site in the protein sequence. Prominent examples of the site-specific structural properties include RSA (Tien et al. 2012 xx), WCN (shih? xx).   2. {\it PDB-level properties}: structural or evolutionary characteristics that are representative of the protein as a whole. Examples include pdb Contact Order (CO) as defined by xx, protein size and compactness, sequence length, structural resolution of the protein in X-ray crystallography.  In addition, the distribution of each residue-level property can be summarized by its statistical moments as pdb-level property of the protein. Prime examples include, the mean and variance of WCN, RSA, sequence entropy, evolutionary rates. A comprehensive list of protein properties and their definitions are given in Table \ref{tab:definitions}.
 
     \subsection*{Eliminating Degeneracy in Structural Property Definitions}
 
@@ -208,13 +208,13 @@ The University of Texas at Austin, TX 78712, USA; amir@physics.utexas.edu}
             \label{fig:seqent_structure_cors}
     \end{figure}
 
-    \begin{figure}[tbh]
-        \begin{center}
-        \includegraphics[width=6.9in]{/best_wcn/selected_variables/boxplot_wcn_two_in_one.pdf}
-        \end{center}
-        \caption{A comparison of the predictive power of different measures of Weighted Contact Number (WCN) about different structure or sequence properties for 209 proteins in dataset. In each plot, the Spearman correlation strengths of a given structure or sequence property on the vertical axis with different measures of WCN on the horizontal axis are compared against each other. The capital letters in the variable names on the horizontal axis denote the set of atomic coordinates used to calculate WCN. The variable $wcnSC$ denotes WCN measure based on the average coordinates over all heavy atoms in the side chain and the variable $wcnAA$ denotes WCN measure based on the average coordinate over all heavy atoms in the side chain and backbone of the amino acid.}
-        \label{fig:best_wcn}
-    \end{figure}
+%    \begin{figure}[tbh]
+%        \begin{center}
+%        \includegraphics[width=6.9in]{/best_wcn/selected_variables/boxplot_wcn_two_in_one.pdf}
+%        \end{center}
+%        \caption{A comparison of the predictive power of different measures of Weighted Contact Number (WCN) about different structure or sequence properties for 209 proteins in dataset. In each plot, the Spearman correlation strengths of a given structure or sequence property on the vertical axis with different measures of WCN on the horizontal axis are compared against each other. The capital letters in the variable names on the horizontal axis denote the set of atomic coordinates used to calculate WCN. The variable $wcnSC$ denotes WCN measure based on the average coordinates over all heavy atoms in the side chain and the variable $wcnAA$ denotes WCN measure based on the average coordinate over all heavy atoms in the side chain and backbone of the amino acid.}
+%        \label{fig:best_wcn}
+%    \end{figure}
 
     \begin{figure}[tbh]
         \centering
@@ -240,29 +240,29 @@ The University of Texas at Austin, TX 78712, USA; amir@physics.utexas.edu}
     %\noindent \textbf{Fig. S1} Principal Component (PC) Regression of sequence entropy against the structural variables, including CS RMSF. {\bf (A)} Variance in entropy explained by each principal component. For most proteins, PC1 and either PC2 or PC3 show the strongest correlations with sequence entropy. Significant correlations ($P<0.05$) are shown as filled symbols, and insignificant correlations ($P\geq0.05$) are shown as open symbols. {\bf (B)} and {\bf (C)} Composition of the three leading components. Red arrows represent the loadings of each of the structural variables on the principal components; black dots represent the amino acid sites in the PC coordinate system.
     %\customlabel{fig:cor_entropy_PC_screen_CSrmsf}{S1}
 
-    \begin{figure}[tbh]
-        \begin{center}
-        \includegraphics[width=6.9in]{/best_wcn/selected_variables/boxplot_wcn_all_in_one.pdf}
-        \end{center}
-        \caption{A comparison of the predictive power of different measures of Weighted Contact Number (WCN) about different structure or sequence properties for 209 proteins in dataset. In each plot, the Spearman correlation strengths of a given structure or sequence property on the vertical axis with different measures of WCN on the horizontal axis are compared against each other. The capital letters in the variable names on the horizontal axis denote the set of atomic coordinates used to calculate WCN. The variable $wcnSC$ denotes WCN measure based on the average coordinates over all heavy atoms in the side chain and the variable $wcnAA$ denotes WCN measure based on the average coordinate over all heavy atoms in the side chain and backbone of the amino acid.}
-        \label{fig:best_wcn}
-    \end{figure}
-
-    \begin{figure}[tbh]
-        \begin{center}
-        \includegraphics[width=6.9in]{/best_bf/selected_variables/boxplot_bf_all_in_one.pdf}
-        \end{center}
-        \caption{A comparison of the predictive power of different measures of Bfactor (BF) with different structure or sequence properties for 209 proteins in dataset. In each plot, the Spearman correlation strengths of a given structure or sequence property on the vertical axis with different measures of atomic Bfactors on the horizontal axis are compared against each other. The capital letters in the variable names on the horizontal axis denote the representative atomic Bfactors. The variable $bfSC$ denotes the average coordinate over all heavy atoms in the side chain for each site in protein and the variable $bfAA$ denotes average coordinate over all heavy atoms in the side chain and backbone of the amino acid.}
-        \label{fig:best_bf}
-    \end{figure}
-
-    \begin{figure}[tbh]
-        \begin{center}
-        \includegraphics[width=6.9in]{/best_varea/selected_variables/boxplot_varea_all_in_one.pdf}
-        \end{center}
-        \caption{Should be likely modified to volume-area-length-sphericity measures instead.}
-        \label{fig:best_voronoi}
-    \end{figure}
+%    \begin{figure}[tbh]
+%        \begin{center}
+%        \includegraphics[width=6.9in]{/best_wcn/selected_variables/boxplot_wcn_all_in_one.pdf}
+%        \end{center}
+%        \caption{A comparison of the predictive power of different measures of Weighted Contact Number (WCN) about different structure or sequence properties for 209 proteins in dataset. In each plot, the Spearman correlation strengths of a given structure or sequence property on the vertical axis with different measures of WCN on the horizontal axis are compared against each other. The capital letters in the variable names on the horizontal axis denote the set of atomic coordinates used to calculate WCN. The variable $wcnSC$ denotes WCN measure based on the average coordinates over all heavy atoms in the side chain and the variable $wcnAA$ denotes WCN measure based on the average coordinate over all heavy atoms in the side chain and backbone of the amino acid.}
+%        \label{fig:best_wcn}
+%    \end{figure}
+%
+%    \begin{figure}[tbh]
+%        \begin{center}
+%        \includegraphics[width=6.9in]{/best_bf/selected_variables/boxplot_bf_all_in_one.pdf}
+%        \end{center}
+%        \caption{A comparison of the predictive power of different measures of Bfactor (BF) with different structure or sequence properties for 209 proteins in dataset. In each plot, the Spearman correlation strengths of a given structure or sequence property on the vertical axis with different measures of atomic Bfactors on the horizontal axis are compared against each other. The capital letters in the variable names on the horizontal axis denote the representative atomic Bfactors. The variable $bfSC$ denotes the average coordinate over all heavy atoms in the side chain for each site in protein and the variable $bfAA$ denotes average coordinate over all heavy atoms in the side chain and backbone of the amino acid.}
+%        \label{fig:best_bf}
+%    \end{figure}
+%
+%    \begin{figure}[tbh]
+%        \begin{center}
+%        \includegraphics[width=6.9in]{/best_varea/selected_variables/boxplot_varea_all_in_one.pdf}
+%        \end{center}
+%        \caption{Should be likely modified to volume-area-length-sphericity measures instead.}
+%        \label{fig:best_voronoi}
+%    \end{figure}
 
 
 
@@ -283,8 +283,8 @@ The University of Texas at Austin, TX 78712, USA; amir@physics.utexas.edu}
         \caption{{\bf Sequence--structure correlation strength versus sequence divergence.} The plot illustrates the relationship between the strength of a representative sequence--structure correlation ({\it seqent--scnSC}) and the sequence divergence as measured by the variance of protein sequence entropy. The black circles represent $209$ proteins used in this work. For comparison and validation, the red circles represent data for $9$ viral proteins taken from {shahmoradi2014xx}}.
         \label{fig:validation}
     \end{figure*}
-    
-    
+
+
 \bibliographystyle{apj}
 \bibliography{proc}
 
