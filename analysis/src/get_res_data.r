@@ -1,6 +1,6 @@
-# Amir Shahmoradi, Monday 7:48 PM, Oct 13 2014, Wilke Lab, ICMB, UT Austin
+# Last updated by Amir Shahmoradi, Monday 1:51 PM, Feb 2 2015, Wilke Lab, ICMB, UT Austin
 
-# reads all residue properties data from different files into R dataframes.
+# This R script first reads in all residue properties for the entire dataset of 209 proteins from different files into R dataframes.
 
 setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 

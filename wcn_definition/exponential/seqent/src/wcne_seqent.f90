@@ -56,7 +56,7 @@ implicit none
   integer         , parameter                   :: nexpmean = nint((expmean_max-expmean_min)/expmean_stride)
   real*8          , dimension(:)  , allocatable :: wcn                                              ! The array of contact numbers for each each CA atom.
   real*8          , dimension(:,:), allocatable :: CAcrd                                            ! this vector will contain the coordinates of the c-alpha carbons in the md crd file. dimension is (nres,3). 
-  real*8          , dimension(nexpmean)           :: expmean,sp_cor,abs_sp_cor                          ! The array of contact numbers for each each CA atom. sp_cor stands for the spearman correlation of wcn and ELJ sequence entropies. abs stands for the absolute values of the spearman correlations.
+  real*8          , dimension(nexpmean)         :: expmean,sp_cor,abs_sp_cor                        ! The array of contact numbers for each each CA atom. sp_cor stands for the spearman correlation of wcn and ELJ sequence entropies. abs stands for the absolute values of the spearman correlations.
   real*8                                        :: spear                                            ! function
   real*8                                        :: sp_default                                       ! The value of Spearman correlation for the default case of alpha = -2 in WCN definition.
   character(len=6)                              :: dummy_char
