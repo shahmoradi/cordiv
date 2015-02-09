@@ -74,7 +74,10 @@
 \Address{\affiliation}
 \vfill
 \begin{Abstract}
-    A dataset of 209 monomeric enzymes is considered here to carry out a comprehensive search for the potential structural determinants of the site-specific evolution of protein sequence. Based on Voronoi tessellation of protein structures, we define new site-specific structural properties that are on average capable of describing up to $30\%$ of sequence variability observed in the dataset. We show that the Voronoi cell area and volume outperform other structural proxy measures of site-specific sequence variability previously considered in the literature, such as the Relative Solvent Accessibility, Contact Number (CN), and measures of local flexibility such as the Debye-Waller factor.  Using a variety of atomic coordinates in the definition and calculation of structural properties, we show that the best representative set of coordinates for individual sites in proteins is the average of the side-chain atomic coordinates. This choice of coordinates for the definition of structural properties results in the best predictions of site-specific sequence variability. Example structural properties that show significant improvement in this regard include those derived from Voronoi tessellation, contact number and representative B-factors for individual sites in proteins. On average, the choice of geometrical centers of side-chains vs. the commonly chosen coordinates of the backbone atom $C_\alpha$ can result in $0.07$ to $0.12$ improvements in sequence-structure correlation strengths. We finally argue and show that there is no uniquely-defined best kernel for the calculation of the Weighted Contact Number, which is commonly defined as the sum of the inverse-square of the reciprocal distances between pairs of sites in proteins. By contrast, other definitions perform equally well or better.  This finding highlights the diverse energy landscapes of proteins and the fact that no single potential-of-mean-force can uniquely describe all interactions between individual sites in proteins.
+    A dataset of 209 monomeric enzymes is considered here to carry out a comprehensive search for potential structural determinants of the site-specific evolution of protein sequence. Based on Voronoi tessellation of protein structures, we define new site-specific structural properties that are on average capable of describing up to $30\%$ of sequence variability observed in the dataset. We show that the Voronoi cell area and volume outperform other structural proxy measures of site-specific sequence variability previously considered in the literature, such as the Relative Solvent Accessibility, Contact Number (CN), and measures of local flexibility such as the Debye-Waller factor.  Using a variety of atomic coordinates in the definition and calculation of structural properties, we show that the best representative set of coordinates for individual sites in proteins is the average of the side-chain atomic coordinates. This choice of coordinates for the definition of structural properties results in the best predictions of site-specific sequence variability. Example structural properties that show significant improvement in this regard include those derived from Voronoi tessellation, contact number and representative B-factors for individual sites in proteins. On average, the choice of geometrical centers of side-chains vs. the commonly chosen coordinates of the backbone atom $C_\alpha$ can result in $0.07$ to $0.12$ improvements in sequence-structure correlation strengths. We finally argue and show that there is no uniquely-defined best kernel for the calculation of the Weighted Contact Number, which is commonly defined as the sum of the inverse-square of the reciprocal distances between pairs of sites in proteins. By contrast, other definitions perform equally well or better.  This finding highlights the diverse energy landscapes of proteins and the fact that no single potential-of-mean-force can uniquely describe all interactions between individual sites in proteins.
+    
+    % OLD abstract:
+    %A dataset of 209 monomeric enzymes is considered here to carry out a comprehensive search for the potential structural determinants of the site-specific evolution of protein sequence. Based on Voronoi tessellation of protein structures, we define new site-specific structural properties that are on average capable of describing up to $30\%$ of sequence variability observed in the dataset. We show that the Voronoi cell area and volume outperform other structural proxy measures of site-specific sequence variability previously considered in the literature, such as the Relative Solvent Accessibility, Contact Number (CN), and measures of local flexibility such as the Debye-Waller factor.  Using a variety of atomic coordinates in the definition and calculation of structural properties, we show that the best representative set of coordinates for individual sites in proteins is the average of the side-chain atomic coordinates. This choice of coordinates for the definition of structural properties results in the best predictions of site-specific sequence variability. Example structural properties that show significant improvement in this regard include those derived from Voronoi tessellation, contact number and representative B-factors for individual sites in proteins. On average, the choice of geometrical centers of side-chains vs. the commonly chosen coordinates of the backbone atom $C_\alpha$ can result in $0.07$ to $0.12$ improvements in sequence-structure correlation strengths. We finally argue and show that there is no uniquely-defined best kernel for the calculation of the Weighted Contact Number, which is commonly defined as the sum of the inverse-square of the reciprocal distances between pairs of sites in proteins. By contrast, other definitions perform equally well or better.  This finding highlights the diverse energy landscapes of proteins and the fact that no single potential-of-mean-force can uniquely describe all interactions between individual sites in proteins.
 \end{Abstract}
 \vfill
 \vfill
@@ -219,21 +222,17 @@
 
 %\section*{Figures}
 
-    \begin{figure}[tbh]
-        \begin{center}
-        \includegraphics[width=6.9in]{/best_wcn/selected_variables/boxplot_wcn_two_in_one.pdf}
-        \end{center}
-        \caption{A comparison of the predictive power of different measures of Weighted Contact Number (WCN) about different structure or sequence properties for 209 proteins in dataset. In each plot, the Spearman correlation strengths of a given structure or sequence property on the vertical axis with different measures of WCN on the horizontal axis are compared against each other. The capital letters in the variable names on the horizontal axis denote the set of atomic coordinates used to calculate WCN. The variable $wcnSC$ denotes WCN measure based on the average coordinates over all heavy atoms in the side chain and the variable $wcnAA$ denotes WCN measure based on the average coordinate over all heavy atoms in the side chain and backbone of the amino acid.}
-        \label{fig:best_wcn}
-    \end{figure}
-
 %\newpage
 
 %\section*{Supplementary Figures}
 
-    %\centerline{\includegraphics[width=6.5in]{PC_screen_entropy_CSrmsf.pdf}}
-    %\noindent \textbf{Fig. S1} Principal Component (PC) Regression of sequence entropy against the structural variables, including CS RMSF. {\bf (A)} Variance in entropy explained by each principal component. For most proteins, PC1 and either PC2 or PC3 show the strongest correlations with sequence entropy. Significant correlations ($P<0.05$) are shown as filled symbols, and insignificant correlations ($P\geq0.05$) are shown as open symbols. {\bf (B)} and {\bf (C)} Composition of the three leading components. Red arrows represent the loadings of each of the structural variables on the principal components; black dots represent the amino acid sites in the PC coordinate system.
-    %\customlabel{fig:cor_entropy_PC_screen_CSrmsf}{S1}
+    \begin{figure}[tbh]
+        \begin{center}
+        \includegraphics[width=6.9in]{/best_varea/selected_variables/boxplot_varea_all_in_one.pdf}
+        \end{center}
+        \caption{Should be likely modified to volume-area-length-sphericity measures instead.}
+        \label{fig:best_voronoi}
+    \end{figure}
 
     \begin{figure}[tbh]
         \begin{center}
@@ -253,10 +252,10 @@
 
     \begin{figure}[tbh]
         \begin{center}
-        \includegraphics[width=6.9in]{/best_varea/selected_variables/boxplot_varea_all_in_one.pdf}
+        \includegraphics[width=6.9in]{/best_wcn/selected_variables/boxplot_wcn_two_in_one.pdf}
         \end{center}
-        \caption{Should be likely modified to volume-area-length-sphericity measures instead.}
-        \label{fig:best_voronoi}
+        \caption{A comparison of the predictive power of different measures of Weighted Contact Number (WCN) about different structure or sequence properties for 209 proteins in dataset. In each plot, the Spearman correlation strengths of a given structure or sequence property on the vertical axis with different measures of WCN on the horizontal axis are compared against each other. The capital letters in the variable names on the horizontal axis denote the set of atomic coordinates used to calculate WCN. The variable $wcnSC$ denotes WCN measure based on the average coordinates over all heavy atoms in the side chain and the variable $wcnAA$ denotes WCN measure based on the average coordinate over all heavy atoms in the side chain and backbone of the amino acid.}
+        \label{fig:best_wcn}
     \end{figure}
 
 \bibliographystyle{apj}

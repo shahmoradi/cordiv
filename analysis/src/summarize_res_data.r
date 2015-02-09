@@ -1,46 +1,10 @@
 # This R function takes in the residue properties of all proteins from DSSP, and PDB files and and combines them into a single dataframe for further analysis at pdb level.
 
-# input files:  
-#               ../../elj_pdb_entropies.in
-#               ../../properties/res_prop_hps.out
-#               ../../properties/res_prop_dssp.out
-#               ../../properties/res_prop_wcn_bf.out
-
 # Last updated by Amir Shahmoradi, Thursday 3:40 PM, Aug 28 2014, Wilke Lab, ICMB, UT Austin
 
 #install.packages("reshape2")
 #library("reshape2")
 #library('corrplot')
-
-setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
-
-res_prop_elj         = read.table('../../elj_pdb_entropies.in', header=T)
-res_prop_elj$pdb     = factor(res_prop_elj$pdb)
-
-res_prop_jec         = read.csv('../../jec_pdb_r4s.csv', header=T)
-res_prop_jec$pdb     = factor(res_prop_jec$pdb)
-
-res_prop_hps         = read.table('../../properties/res_prop_hps.out', header=T)
-res_prop_hps$pdb     = factor(res_prop_hps$pdb)
-
-res_prop_dssp        = read.table('../../properties/res_prop_dssp.out', header=T)
-res_prop_dssp$pdb    = factor(res_prop_dssp$pdb)
-
-res_prop_wcn_bf      = read.table('../../properties/res_prop_wcn_bf.out', header=T)
-res_prop_wcn_bf$pdb  = factor(res_prop_wcn_bf$pdb)
-
-#res_prop_voroAA      = read.table('../../properties/res_prop_voronoiAA.out', header=T)
-#res_prop_voroAA$pdb  = factor(res_prop_voroAA$pdb)
-
-#res_prop_voroCA      = read.table('../../properties/res_prop_voronoiCA.out', header=T)
-#res_prop_voroCA$pdb  = factor(res_prop_voroCA$pdb)
-
-res_prop_voroSC      = read.table('../../properties/res_prop_voronoiSC.out', header=T)
-res_prop_voroSC$pdb  = factor(res_prop_voroSC$pdb)
-res_prop_voroSC      = cbind(res_prop_voroSC, VSCmodified_volume = res_prop_voroSC$VSCvolume)
-maxval = max(res_prop_voroSC$VSCvolume)
-res_prop_voroSC$VSCmodified_volume[res_prop_voroSC$VSCvolume_change_ratio != 0] = maxval
-res_prop_voroSC$VSCmodified_volume = res_prop_voroSC$VSCmodified_volume * res_prop_voroSC$VSCvolume_change_ratio
 
 excluded_pdbs = c('1BBS_A','1BS0_A','1DIN_A','1HPL_A')   # These are the 4 PDBs that did not have complete r4s evolutionary rates and are omitted from the dataset to avoid NA values.
 pdb_prop_from_residue_prop = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
