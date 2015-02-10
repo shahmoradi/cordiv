@@ -246,14 +246,22 @@ Usage:'''
             else:
                  for k,record in enumerate(filecontent):
                      residue_extended_volume = float(record.split()[-4])
+                     residue_extended_area = float(record.split()[-5])
                      free_volume = residue_extended_volume - resvol_dict[resnam[k]]
                      if free_volume < 0.0:
                          print 'Negative Voronoi free volume detected!', pdb_name, resnam[k], str(resnum[k]), str(free_volume)
                      pdb_voro_data[k].append(str(free_volume))
+                     # Distinguish the buried from exposed residues, via changes in cell volumes upon extending the box size
                      volume_change_diff  = residue_extended_volume - float(pdb_voro_data[k][-3])
                      volume_change_ratio = residue_extended_volume / float(pdb_voro_data[k][-3])
+                     # Distinguish the buried from exposed residues, via changes in cell areas upon extending the box size
+                     area_change_diff  = residue_extended_area - float(pdb_voro_data[k][-4])
+                     area_change_ratio = residue_extended_area / float(pdb_voro_data[k][-4])
+                     # Now append the volume and area changes in the cell number k:
                      pdb_voro_data[k].append(str(volume_change_diff))
                      pdb_voro_data[k].append(str(volume_change_ratio))
+                     pdb_voro_data[k].append(str(area_change_diff))
+                     pdb_voro_data[k].append(str(area_change_ratio))
 
         # Now write out data in the output files. First check if the output file currently exists. If not, then create the output and add the file header.
         if os.path.isfile(summary_file[i]):
@@ -264,37 +272,44 @@ Usage:'''
                 output_file.write( 'pdb' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'sizeSC' + '\t' + 'sizeAA' + '\t' + 'resvol' + '\t' \
                                  + 'VSCnvertices' + '\t' + 'VSCnedges' + '\t' + 'VSCedge_length_total' + '\t' + 'VSCnfaces' + '\t' \
                                  + 'VSCarea' + '\t' + 'VSCvolume' + '\t' + 'VSCeccentricity' + '\t' + 'VSCfree_volume' + '\t' \
-                                 + 'VSCvolume_change_diff' + '\t' + 'VSCvolume_change_ratio' + '\n' )
+                                 + 'VSCvolume_change_diff' + '\t' + 'VSCvolume_change_ratio' + '\t' \
+                                 + 'VSCarea_change_diff' + '\t' + 'VSCarea_change_ratio' + '\n' )
             elif filename[i] == filenameAA.name:
                 output_file.write( 'pdb' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'sizeSC' + '\t' + 'sizeAA' + '\t' + 'resvol' + '\t' \
                                  + 'VAAnvertices' + '\t' + 'VAAnedges' + '\t' + 'VAAedge_length_total' + '\t' + 'VAAnfaces' + '\t' \
                                  + 'VAAarea' + '\t' + 'VAAvolume' + '\t' + 'VAAeccentricity' + '\t' + 'VAAfree_volume' + '\t' \
-                                 + 'VAAvolume_change_diff' + '\t' + 'VAAvolume_change_ratio' + '\n' )
+                                 + 'VAAvolume_change_diff' + '\t' + 'VAAvolume_change_ratio' + '\t' \
+                                 + 'VAAarea_change_diff' + '\t' + 'VAAarea_change_ratio' + '\n' )
             elif filename[i] == filenameCA.name:
                 output_file.write( 'pdb' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'sizeSC' + '\t' + 'sizeAA' + '\t' + 'resvol' + '\t' \
                                  + 'VCAnvertices' + '\t' + 'VCAnedges' + '\t' + 'VCAedge_length_total' + '\t' + 'VCAnfaces' + '\t' \
                                  + 'VCAarea' + '\t' + 'VCAvolume' + '\t' + 'VCAeccentricity' + '\t' + 'VCAfree_volume' + '\t' \
-                                 + 'VCAvolume_change_diff' + '\t' + 'VCAvolume_change_ratio' + '\n' )
+                                 + 'VCAvolume_change_diff' + '\t' + 'VCAvolume_change_ratio' + '\t' \
+                                 + 'VCAarea_change_diff' + '\t' + 'VCAarea_change_ratio' + '\n' )
             elif filename[i] == filenameCB.name:
                 output_file.write( 'pdb' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'sizeSC' + '\t' + 'sizeAA' + '\t' + 'resvol' + '\t' \
                                  + 'VCBnvertices' + '\t' + 'VCBnedges' + '\t' + 'VCBedge_length_total' + '\t' + 'VCBnfaces' + '\t' \
                                  + 'VCBarea' + '\t' + 'VCBvolume' + '\t' + 'VCBccentricity' + '\t' + 'VCBfree_volume' + '\t' \
-                                 + 'VCBvolume_change_diff' + '\t' + 'VCBvolume_change_ratio' + '\n' )
+                                 + 'VCBvolume_change_diff' + '\t' + 'VCBvolume_change_ratio' + '\t' \
+                                 + 'VCBarea_change_diff' + '\t' + 'VCBarea_change_ratio' + '\n' )
             elif filename[i] == filenameN.name:
                 output_file.write( 'pdb' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'sizeSC' + '\t' + 'sizeAA' + '\t' + 'resvol' + '\t' \
                                  + 'VNnvertices' + '\t' + 'VNnedges' + '\t' + 'VNedge_length_total' + '\t' + 'VNnfaces' + '\t' \
                                  + 'VNarea' + '\t' + 'VNvolume' + '\t' + 'VNeccentricity' + '\t' + 'VNfree_volume' + '\t' \
-                                 + 'VNvolume_change_diff' + '\t' + 'VNvolume_change_ratio' + '\n' )
+                                 + 'VNvolume_change_diff' + '\t' + 'VNvolume_change_ratio' + '\t' \
+                                 + 'VNarea_change_diff' + '\t' + 'VNarea_change_ratio' + '\n' )
             elif filename[i] == filenameC.name:
                 output_file.write( 'pdb' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'sizeSC' + '\t' + 'sizeAA' + '\t' + 'resvol' + '\t' \
                                  + 'VCnvertices' + '\t' + 'VCnedges' + '\t' + 'VCedge_length_total' + '\t' + 'VCnfaces' + '\t' \
                                  + 'VCarea' + '\t' + 'VCvolume' + '\t' + 'VCeccentricity' + '\t' + 'VCfree_volume' + '\t' \
-                                 + 'VCvolume_change_diff' + '\t' + 'VCvolume_change_ratio' + '\n' )
+                                 + 'VCvolume_change_diff' + '\t' + 'VCvolume_change_ratio' + '\t' \
+                                 + 'VCarea_change_diff' + '\t' + 'VCarea_change_ratio' + '\n' )
             elif filename[i] == filenameO.name:
                 output_file.write( 'pdb' + '\t' + 'resnam' + '\t' + 'resnum' + '\t' + 'sizeSC' + '\t' + 'sizeAA' + '\t' + 'resvol' + '\t' \
                                  + 'VOnvertices' + '\t' + 'VOnedges' + '\t' + 'VOedge_length_total' + '\t' + 'VOnfaces' + '\t' \
                                  + 'VOarea' + '\t' + 'VOvolume' + '\t' + 'VOeccentricity' + '\t' + 'VOfree_volume' + '\t' \
-                                 + 'VOvolume_change_diff' + '\t' + 'VOvolume_change_ratio' + '\n' )
+                                 + 'VOvolume_change_diff' + '\t' + 'VOvolume_change_ratio' + '\t' \
+                                 + 'VOarea_change_diff' + '\t' + 'VOarea_change_ratio' + '\n' )
 
         for j,data in enumerate(pdb_voro_data):
             output_file.write( pdb_name + '\t' + resnam[j] + '\t' + str(resnum[j]) + '\t' + str(sizeSC[j]) + '\t' + str(sizeAA[j]) + '\t' + str(resvol_dict[resnam[j]]) + '\t' \
