@@ -85,7 +85,7 @@ for(pdb in levels(res_prop_elj$pdb))
   pdb_jec    = res_prop_jec[res_prop_jec$pdb==pdb,] # c('r4sJC')]
   pdb_elj    = res_prop_elj[res_prop_elj$pdb==pdb,] # c('seqent','ddgent')]
   pdb_hps    = res_prop_hps[res_prop_hps$pdb==pdb,]  # c('hpskd','hpsww','hpshh')]
-  pdb_dssp   = res_prop_dssp[res_prop_dssp$pdb==pdb,] # c('asa','rsa','hbe_mean','rss')] )
+  pdb_dssp   = res_prop_dssp[res_prop_dssp$pdb==pdb,] # c('asa','rsa','hbe','rss')] )
   pdb_bf     = res_prop_wcn_bf[res_prop_wcn_bf$pdb==pdb, bf_list]
   pdb_wcn    = res_prop_wcn_bf[res_prop_wcn_bf$pdb==pdb,]
   pdb_voroAA = res_prop_voroAA[res_prop_voroAA$pdb==pdb, ]
@@ -95,8 +95,8 @@ for(pdb in levels(res_prop_elj$pdb))
   pdb_temp = cbind( subset(pdb_jec, select = c(r4s_JC)),
                     subset(pdb_elj, select = c(seqent,ddgent)),
                     subset(pdb_hps, select = c(hpshh)),
-                    #subset(pdb_dssp, select = c(asa,rsa,hbe_mean)),
-                    subset(pdb_dssp, select = c(rsa,hbe_mean)),
+                    #subset(pdb_dssp, select = c(asa,rsa,hbe)),
+                    subset(pdb_dssp, select = c(rsa,hbe)),
                     subset(pdb_wcn, select = -c(pdb,resnam,resnum,bfSC,bfAA,bfN,bfCA,bfC,bfO,bfCB)),
                     subset(pdb_voroAA, select = -c(pdb,resnam,resnum,sizeSC,sizeAA,VAAnvertices,VAAnedges,VAAvolume_change_ratio)),
                     subset(pdb_voroCA, select = -c(pdb,resnam,resnum,sizeSC,sizeAA,resvol,VCAnvertices,VCAnedges,VCAvolume_change_ratio)),

@@ -1,4 +1,3 @@
-
 # This code is aimed at finding which definition of Voronoi cell volume (vvol) and area (varea) can best represent a residue. This is done by comparing the correlations of different vorvols with other residue variables.
 # "select_variables" in the name of this code refers to the fact that I am comparing the performance of different vorvols to only a select number of important residue properties, such as ASA, RSA, seqent, ddGent, and I am ignoring the rest which are generally definition dependent, such as different definitions of B factors and varea based on the set of atom coordinates used.
 
@@ -76,7 +75,7 @@ varea_scors_all_pdbs = data.frame()
 # The above dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
 # Here scor stands for Sperman CORrelation.
 varea_list = c('vareaSC','vareaAA','vareaCA','vareaCB','vareaN','vareaC','vareaO') #,'wcnCA','wcnN','wcnC','wcnO')
-crd_list = c('SC','AA','CB','CA','N','C','O') #,'wcnCA','wcnN','wcnC','wcnO') # list of representative coordinates used to generate Voronoi cells.
+crd_list = c('SC','AA','CB','CA','N','C','O') # list of representative coordinates used to generate Voronoi cells.
 counter = 0
 
 for(pdb in levels(res_prop_elj$pdb))
@@ -138,8 +137,6 @@ for(pdb in levels(res_prop_elj$pdb))
   }
 }
 write.csv( varea_scors_all_pdbs, "../tables/best_varea/select_variables/varea_scors_all_pdbs.csv", row.names=F )
-
-
 
 # Now summarize all Spearman correlations over the entire dataset
 
@@ -208,103 +205,104 @@ for (i in 1:(length(varea_list)-1))
 
 # Make plots of ABS(varea) vs. ABS(varea) for comparison:
 
-x = -2:2
-colors = c('red', 'blue', 'green', 'purple', 'orange3', 'darkgreen', 'black', 'gray', 'cyan2') #, 'darkred', 'darkgreen', 'bisque2')
-#labels = c('ASA', 'ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
-labels = c('ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Evol. Rates', 'Residue Volume', 'RSA', 'Seq. Entropy')
-
-for (i in 1:(length(varea_list)-1))
-{
-  filename = paste0("../tables/best_varea/select_variables/",varea_list[[i]][1],'_scors_summary.csv')
-  varea_scors_summary1 = read.csv( filename, header = T )
-  for (j in (i+1):length(varea_list))
+  x = -2:2
+  colors = c('red', 'blue', 'green', 'purple', 'orange3', 'darkgreen', 'black', 'gray', 'cyan2') #, 'darkred', 'darkgreen', 'bisque2')
+  #labels = c('ASA', 'ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
+  labels = c('ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Evol. Rates', 'Residue Volume', 'RSA', 'Seq. Entropy')
+  
+  for (i in 1:(length(varea_list)-1))
   {
-    filename = paste0("../tables/best_varea/select_variables/",varea_list[[j]][1],'_scors_summary.csv')
-    varea_scors_summary2 = read.csv( filename, header = T )
-    filename = paste0('../figures/best_varea/select_variables/abs(',varea_list[[i]][1],'_',varea_list[[j]][1],').pdf')
-    cat (filename, '\n')
-    pdf( filename, width=4.5, height=4, useDingbats=FALSE )
-    par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
-    plot(-999,
-         #xaxt='n',yaxt='n',bty='n',pch='',
-    #plot(abs(varea_scors_summary1$median),
-    #     abs(varea_scors_summary2$median),
-         xlab = paste0( 'absolute median cor. with ',varea_list[[i]][1] ),
-         ylab = paste0( 'absolute median cor. with ',varea_list[[j]][1] ),
-         xlim = c(0,1.0),
-         ylim = c(0,1.0)
-         )
-    points( abs(varea_scors_summary1$median),
-            abs(varea_scors_summary2$median), pch=19, col=colors[1:length(varea_scors_summary2$median)])
-    lines( x, x, col='red' )
-    legend( -0.02, 1.05, labels[1:7], pch=19, col=colors[1:7], bty='n', cex=0.9)
-    #legend( 0.7, 0.1, labels[4:6], pch=19, col=colors[4:6], bty='n', cex=0.9)
-    graphics.off()
+    filename = paste0("../tables/best_varea/select_variables/",varea_list[[i]][1],'_scors_summary.csv')
+    varea_scors_summary1 = read.csv( filename, header = T )
+    for (j in (i+1):length(varea_list))
+    {
+      filename = paste0("../tables/best_varea/select_variables/",varea_list[[j]][1],'_scors_summary.csv')
+      varea_scors_summary2 = read.csv( filename, header = T )
+      filename = paste0('../figures/best_varea/select_variables/abs(',varea_list[[i]][1],'_',varea_list[[j]][1],').pdf')
+      cat (filename, '\n')
+      pdf( filename, width=4.5, height=4, useDingbats=FALSE )
+      par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+      plot(-999,
+           #xaxt='n',yaxt='n',bty='n',pch='',
+      #plot(abs(varea_scors_summary1$median),
+      #     abs(varea_scors_summary2$median),
+           xlab = paste0( 'absolute median cor. with ',varea_list[[i]][1] ),
+           ylab = paste0( 'absolute median cor. with ',varea_list[[j]][1] ),
+           xlim = c(0,1.0),
+           ylim = c(0,1.0)
+           )
+      points( abs(varea_scors_summary1$median),
+              abs(varea_scors_summary2$median), pch=19, col=colors[1:length(varea_scors_summary2$median)])
+      lines( x, x, col='red' )
+      legend( -0.02, 1.05, labels[1:7], pch=19, col=colors[1:7], bty='n', cex=0.9)
+      #legend( 0.7, 0.1, labels[4:6], pch=19, col=colors[4:6], bty='n', cex=0.9)
+      graphics.off()
+    }
   }
-}
 
 # Now create box plots
 
-varea_scors_all_pdbs = read.csv( "../tables/best_varea/select_variables/varea_scors_all_pdbs.csv", header = TRUE )
-varea_scors_all_pdbs$variable = factor(varea_scors_all_pdbs$variable)
-varea_scors_all_pdbs$varea = factor(varea_scors_all_pdbs$varea)
-
-#variable_list = c('ASA', 'ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
-variable_list = c('ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Evol. Rates', 'Residue Volume', 'RSA', 'Seq. Entropy')
-counter = 0
-for (variable in levels(varea_scors_all_pdbs$variable))
-{ 
-  counter = counter + 1
-  temp_data_variable_long = varea_scors_all_pdbs[varea_scors_all_pdbs$variable == variable,c('pdb','varea','value')]
-  temp_data_variable = reshape(temp_data_variable_long, timevar = 'varea', idvar = 'pdb', direction = 'wide')
-  temp_data_variable = subset (temp_data_variable, select = -c(pdb))
-  #colnames(temp_data_variable) = levels(varea_scors_all_pdbs$varea)
-  colnames(temp_data_variable) = substr(levels(varea_scors_all_pdbs$varea),start=6,stop=7)  # remove 'varea' from the names of the variables. It is unnecessary and ugly in the figures. Only the the atom names will remain.
-  #temp_data_variable = temp_data_variable[varea_list]
-  temp_data_variable = temp_data_variable[crd_list]
-  filename = paste0('../figures/best_varea/select_variables/boxplot_',variable,'.pdf')
-  pdf( filename, width=6, height=4, useDingbats=FALSE )
-  par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
-  boxplot(temp_data_variable,
-          xlab = 'representative Voronoi Cell Area (varea)',
-          ylab = paste0('Spearman cor. with ',variable_list[[counter]][1])
-  )
-  graphics.off()
-}
+  varea_scors_all_pdbs = read.csv( "../tables/best_varea/select_variables/varea_scors_all_pdbs.csv", header = TRUE )
+  varea_scors_all_pdbs$variable = factor(varea_scors_all_pdbs$variable)
+  varea_scors_all_pdbs$varea = factor(varea_scors_all_pdbs$varea)
+  
+  #variable_list = c('ASA', 'ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
+  variable_list = c('ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Evol. Rates', 'Residue Volume', 'RSA', 'Seq. Entropy')
+  counter = 0
+  for (variable in levels(varea_scors_all_pdbs$variable))
+  { 
+    counter = counter + 1
+    temp_data_variable_long = varea_scors_all_pdbs[varea_scors_all_pdbs$variable == variable,c('pdb','varea','value')]
+    temp_data_variable = reshape(temp_data_variable_long, timevar = 'varea', idvar = 'pdb', direction = 'wide')
+    temp_data_variable = subset (temp_data_variable, select = -c(pdb))
+    #colnames(temp_data_variable) = levels(varea_scors_all_pdbs$varea)
+    colnames(temp_data_variable) = substr(levels(varea_scors_all_pdbs$varea),start=6,stop=7)  # remove 'varea' from the names of the variables. It is unnecessary and ugly in the figures. Only the the atom names will remain.
+    #temp_data_variable = temp_data_variable[varea_list]
+    temp_data_variable = temp_data_variable[crd_list]
+    filename = paste0('../figures/best_varea/select_variables/boxplot_',variable,'.pdf')
+    pdf( filename, width=6, height=4, useDingbats=FALSE )
+    par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+    boxplot(temp_data_variable,
+            xlab = 'representative Voronoi Cell Area',
+            ylab = paste0('Spearman cor. with ',variable_list[[counter]][1])
+    )
+    graphics.off()
+  }
 
 # Now create box plots all in one figure
 
-varea_scors_all_pdbs = read.csv( "../tables/best_varea/select_variables/varea_scors_all_pdbs.csv", header = TRUE )
-varea_scors_all_pdbs$variable = factor(varea_scors_all_pdbs$variable)
-varea_scors_all_pdbs$varea = factor(varea_scors_all_pdbs$varea)
-
-#variable_list = c('Seq. Entropy','ddG Entropy','RSA','ASA','Hydrophobicity','H-bond Energy')
-#variable_names = c('seqent','ddgent','rsa','asa','hpshh','hbe')
-variable_list = c('Evol. Rates','Seq. Entropy','ddG Entropy','RSA','Hydrophobicity','H-bond Energy')
-variable_names = c('r4s_JC','seqent','ddgent','rsa','hpshh','hbe')
-#varea_list = c('vareaSC','vareaAA','vareaCA') #,'wcnCA','wcnN','wcnC','wcnO')
-counter = 0
-filename = paste0('../figures/best_varea/select_variables/boxplot_varea_all_in_one.pdf')
-pdf( filename, width=15, height=12, useDingbats=FALSE )
-split.screen(c(3,2))
-for (variable in variable_names)
-{
-  counter = counter + 1
-  screen(counter)
-  temp_data_variable_long = varea_scors_all_pdbs[varea_scors_all_pdbs$variable == variable,c('pdb','varea','value')]
-  #temp_data_variable_long$varea = substr(temp_data_variable_long$varea,start=6,stop=7)  # remove 'varea' from the names of the variables. It is unnecessary and ugly in the figures. Only the the atom names will remain.
-  temp_data_variable = reshape(temp_data_variable_long, timevar = 'varea', idvar = 'pdb', direction = 'wide')
-  temp_data_variable = subset (temp_data_variable, select = -c(pdb))
-  colnames(temp_data_variable) = substr(levels(varea_scors_all_pdbs$varea),start=6,stop=7)  # remove 'varea' from the names of the variables. It is unnecessary and ugly in the figures. Only the the atom names will remain.
-  temp_data_variable = temp_data_variable[crd_list]
-  #temp_data_variable = temp_data_variable[varea_list]
-  par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
-  boxplot(temp_data_variable,
-          xlab = 'representative Voronoi Cell Area (varea)',
-          ylab = paste0('Spearman cor. with ',variable_list[[counter]][1]),
-          cex.axis = 1.3,
-          cex.lab = 1.3
-          #, ylim = c(0.05,-1.)
-          )
-}
-graphics.off()
+  varea_scors_all_pdbs = read.csv( "../tables/best_varea/select_variables/varea_scors_all_pdbs.csv", header = TRUE )
+  varea_scors_all_pdbs$variable = factor(varea_scors_all_pdbs$variable)
+  varea_scors_all_pdbs$varea = factor(varea_scors_all_pdbs$varea)
+  
+  #variable_list = c('Seq. Entropy','ddG Entropy','RSA','ASA','Hydrophobicity','H-bond Energy')
+  #variable_names = c('seqent','ddgent','rsa','asa','hpshh','hbe')
+  variable_list = c('Evol. Rates','Seq. Entropy','ddG Entropy','RSA','Hydrophobicity','H-bond Energy')
+  variable_names = c('r4s_JC','seqent','ddgent','rsa','hpshh','hbe')
+  #varea_list = c('vareaSC','vareaAA','vareaCA') #,'wcnCA','wcnN','wcnC','wcnO')
+  counter = 0
+  filename = paste0('../figures/best_varea/select_variables/boxplot_varea_all_in_one.pdf')
+  pdf( filename, width=15, height=12, useDingbats=FALSE )
+  split.screen(c(3,2))
+  for (variable in variable_names)
+  {
+    counter = counter + 1
+    screen(counter)
+    temp_data_variable_long = varea_scors_all_pdbs[varea_scors_all_pdbs$variable == variable,c('pdb','varea','value')]
+    #temp_data_variable_long$varea = substr(temp_data_variable_long$varea,start=6,stop=7)  # remove 'varea' from the names of the variables. It is unnecessary and ugly in the figures. Only the the atom names will remain.
+    temp_data_variable = reshape(temp_data_variable_long, timevar = 'varea', idvar = 'pdb', direction = 'wide')
+    temp_data_variable = subset (temp_data_variable, select = -c(pdb))
+    colnames(temp_data_variable) = substr(levels(varea_scors_all_pdbs$varea),start=6,stop=7)  # remove 'varea' from the names of the variables. It is unnecessary and ugly in the figures. Only the the atom names will remain.
+    temp_data_variable = temp_data_variable[crd_list]
+    #temp_data_variable = temp_data_variable[varea_list]
+    par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+    boxplot(  temp_data_variable
+            , xlab = 'representative Voronoi Cell Area'
+            , ylab = paste0('Spearman cor. with ',variable_list[[counter]][1])
+            , cex.axis = 1.3
+            , cex.lab = 1.3
+            , ylim = c(0.0,1.)
+            , outline=FALSE    # Remove outliers from the plot
+            )
+  }
+  graphics.off()

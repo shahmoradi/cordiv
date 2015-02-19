@@ -1,5 +1,5 @@
 # This code is aimed at finding which definition of B factor can best represent a residue. This is done by comparing the correlations of different atomic B factors or defenitions of B factor (SC and AA) with other residue variables.
-# "selected_variables" in the name of this code refers to the fact that I am comparing the performance of different B factors to only a select number of important residue properties, such as ASA, RSA, seqent, ddGent, and I am ignoring the rest which are generally definition dependent, such as different definitions of WCN and voronoi Volumes and areas based on the set of atom coordinates used.
+# "select_variables" in the name of this code refers to the fact that I am comparing the performance of different B factors to only a select number of important residue properties, such as ASA, RSA, seqent, ddGent, and I am ignoring the rest which are generally definition dependent, such as different definitions of WCN and voronoi Volumes and areas based on the set of atom coordinates used.
 
 # Last updated by Amir Shahmoradi, Wednesday 5:06 PM, October 1 2014, Wilke Lab, ICMB, UT Austin
 
@@ -20,61 +20,62 @@
 
 setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 
-excluded_pdbs = c('1BBS_A','1BS0_A','1DIN_A','1HPL_A')   # These are the 4 PDBs that did not have complete r4s evolutionary rates and are omitted from the dataset to avoid NA values.
 npdbs = 209         # number of pdb structures in the dataset
-
-res_prop_elj         = read.table('../../elj_pdb_entropies.in', header=T)
-res_prop_elj         = res_prop_elj[!(res_prop_elj$pdb %in% excluded_pdbs),]
-res_prop_elj$pdb     = factor(res_prop_elj$pdb)
-
-res_prop_jec         = read.csv('../../jec_pdb_r4s.csv', header=T)
-res_prop_jec         = res_prop_jec[!(res_prop_jec$pdb %in% excluded_pdbs),]
-res_prop_jec$pdb     = factor(res_prop_jec$pdb)
-
-res_prop_hps         = read.table('../../properties/res_prop_hps.out', header=T)
-res_prop_hps         = res_prop_hps[!(res_prop_hps$pdb %in% excluded_pdbs),]
-res_prop_hps$pdb     = factor(res_prop_hps$pdb)
-
-res_prop_dssp        = read.table('../../properties/res_prop_dssp.out', header=T)
-res_prop_dssp        = res_prop_dssp[!(res_prop_dssp$pdb %in% excluded_pdbs),]
-res_prop_dssp$pdb    = factor(res_prop_dssp$pdb)
-
-res_prop_wcn_bf      = read.table('../../properties/res_prop_wcn_bf.out', header=T)
-res_prop_wcn_bf      = res_prop_wcn_bf[!(res_prop_wcn_bf$pdb %in% excluded_pdbs),]
-res_prop_wcn_bf$pdb  = factor(res_prop_wcn_bf$pdb)
-
-res_prop_voroAA      = read.table('../../properties/res_prop_voronoiAA.out', header=T)
-res_prop_voroAA      = res_prop_voroAA[!(res_prop_voroAA$pdb %in% excluded_pdbs),]
-res_prop_voroAA$pdb  = factor(res_prop_voroAA$pdb)
-res_prop_voroAA      = cbind(res_prop_voroAA, VAAmodified_volume_diff = res_prop_voroAA$VAAvolume, VAAmodified_volume_ratio = res_prop_voroAA$VAAvolume)
-maxval = max(res_prop_voroAA$VAAvolume)
-res_prop_voroAA$VAAmodified_volume_diff[res_prop_voroAA$VAAvolume_change_diff != 0] = maxval
-res_prop_voroAA$VAAmodified_volume_diff  = res_prop_voroAA$VAAmodified_volume_diff + res_prop_voroAA$VAAvolume_change_diff
-res_prop_voroAA$VAAmodified_volume_ratio[res_prop_voroAA$VAAvolume_change_ratio != 1] = maxval
-res_prop_voroAA$VAAmodified_volume_ratio = res_prop_voroAA$VAAmodified_volume_ratio * res_prop_voroAA$VAAvolume_change_ratio
-
-res_prop_voroCA      = read.table('../../properties/res_prop_voronoiCA.out', header=T)
-res_prop_voroCA      = res_prop_voroCA[!(res_prop_voroCA$pdb %in% excluded_pdbs),]
-res_prop_voroCA$pdb  = factor(res_prop_voroCA$pdb)
-res_prop_voroCA      = cbind(res_prop_voroCA, VCAmodified_volume_diff = res_prop_voroCA$VCAvolume, VCAmodified_volume_ratio = res_prop_voroCA$VCAvolume)
-maxval = max(res_prop_voroCA$VCAvolume)
-res_prop_voroCA$VCAmodified_volume_diff[res_prop_voroCA$VCAvolume_change_diff != 0] = maxval
-res_prop_voroCA$VCAmodified_volume_diff  = res_prop_voroCA$VCAmodified_volume_diff + res_prop_voroCA$VCAvolume_change_diff
-res_prop_voroCA$VCAmodified_volume_ratio[res_prop_voroCA$VCAvolume_change_ratio != 1] = maxval
-res_prop_voroCA$VCAmodified_volume_ratio = res_prop_voroCA$VCAmodified_volume_ratio * res_prop_voroCA$VCAvolume_change_ratio
-
-res_prop_voroSC      = read.table('../../properties/res_prop_voronoiSC.out', header=T)
-res_prop_voroSC      = res_prop_voroSC[!(res_prop_voroSC$pdb %in% excluded_pdbs),]
-res_prop_voroSC$pdb  = factor(res_prop_voroSC$pdb)
-res_prop_voroSC      = cbind(res_prop_voroSC, VSCmodified_volume_diff = res_prop_voroSC$VSCvolume, VSCmodified_volume_ratio = res_prop_voroSC$VSCvolume)
-maxval = max(res_prop_voroSC$VSCvolume)
-res_prop_voroSC$VSCmodified_volume_diff[res_prop_voroSC$VSCvolume_change_diff != 0] = maxval
-res_prop_voroSC$VSCmodified_volume_diff  = res_prop_voroSC$VSCmodified_volume_diff + res_prop_voroSC$VSCvolume_change_diff
-res_prop_voroSC$VSCmodified_volume_ratio[res_prop_voroSC$VSCvolume_change_ratio != 1] = maxval
-res_prop_voroSC$VSCmodified_volume_ratio = res_prop_voroSC$VSCmodified_volume_ratio * res_prop_voroSC$VSCvolume_change_ratio
+# excluded_pdbs = c('1BBS_A','1BS0_A','1DIN_A','1HPL_A')   # These are the 4 PDBs that did not have complete r4s evolutionary rates and are omitted from the dataset to avoid NA values.
+# 
+# res_prop_elj         = read.table('../../elj_pdb_entropies.in', header=T)
+# res_prop_elj         = res_prop_elj[!(res_prop_elj$pdb %in% excluded_pdbs),]
+# res_prop_elj$pdb     = factor(res_prop_elj$pdb)
+# 
+# res_prop_jec         = read.csv('../../jec_pdb_r4s.csv', header=T)
+# res_prop_jec         = res_prop_jec[!(res_prop_jec$pdb %in% excluded_pdbs),]
+# res_prop_jec$pdb     = factor(res_prop_jec$pdb)
+# 
+# res_prop_hps         = read.table('../../properties/res_prop_hps.out', header=T)
+# res_prop_hps         = res_prop_hps[!(res_prop_hps$pdb %in% excluded_pdbs),]
+# res_prop_hps$pdb     = factor(res_prop_hps$pdb)
+# 
+# res_prop_dssp        = read.table('../../properties/res_prop_dssp.out', header=T)
+# res_prop_dssp        = res_prop_dssp[!(res_prop_dssp$pdb %in% excluded_pdbs),]
+# res_prop_dssp$pdb    = factor(res_prop_dssp$pdb)
+# 
+# res_prop_wcn_bf      = read.table('../../properties/res_prop_wcn_bf.out', header=T)
+# res_prop_wcn_bf      = res_prop_wcn_bf[!(res_prop_wcn_bf$pdb %in% excluded_pdbs),]
+# res_prop_wcn_bf$pdb  = factor(res_prop_wcn_bf$pdb)
+# 
+# res_prop_voroAA      = read.table('../../properties/res_prop_voronoiAA.out', header=T)
+# res_prop_voroAA      = res_prop_voroAA[!(res_prop_voroAA$pdb %in% excluded_pdbs),]
+# res_prop_voroAA$pdb  = factor(res_prop_voroAA$pdb)
+# res_prop_voroAA      = cbind(res_prop_voroAA, VAAmodified_volume_diff = res_prop_voroAA$VAAvolume, VAAmodified_volume_ratio = res_prop_voroAA$VAAvolume)
+# maxval = max(res_prop_voroAA$VAAvolume)
+# res_prop_voroAA$VAAmodified_volume_diff[res_prop_voroAA$VAAvolume_change_diff != 0] = maxval
+# res_prop_voroAA$VAAmodified_volume_diff  = res_prop_voroAA$VAAmodified_volume_diff + res_prop_voroAA$VAAvolume_change_diff
+# res_prop_voroAA$VAAmodified_volume_ratio[res_prop_voroAA$VAAvolume_change_ratio != 1] = maxval
+# res_prop_voroAA$VAAmodified_volume_ratio = res_prop_voroAA$VAAmodified_volume_ratio * res_prop_voroAA$VAAvolume_change_ratio
+# 
+# res_prop_voroCA      = read.table('../../properties/res_prop_voronoiCA.out', header=T)
+# res_prop_voroCA      = res_prop_voroCA[!(res_prop_voroCA$pdb %in% excluded_pdbs),]
+# res_prop_voroCA$pdb  = factor(res_prop_voroCA$pdb)
+# res_prop_voroCA      = cbind(res_prop_voroCA, VCAmodified_volume_diff = res_prop_voroCA$VCAvolume, VCAmodified_volume_ratio = res_prop_voroCA$VCAvolume)
+# maxval = max(res_prop_voroCA$VCAvolume)
+# res_prop_voroCA$VCAmodified_volume_diff[res_prop_voroCA$VCAvolume_change_diff != 0] = maxval
+# res_prop_voroCA$VCAmodified_volume_diff  = res_prop_voroCA$VCAmodified_volume_diff + res_prop_voroCA$VCAvolume_change_diff
+# res_prop_voroCA$VCAmodified_volume_ratio[res_prop_voroCA$VCAvolume_change_ratio != 1] = maxval
+# res_prop_voroCA$VCAmodified_volume_ratio = res_prop_voroCA$VCAmodified_volume_ratio * res_prop_voroCA$VCAvolume_change_ratio
+# 
+# res_prop_voroSC      = read.table('../../properties/res_prop_voronoiSC.out', header=T)
+# res_prop_voroSC      = res_prop_voroSC[!(res_prop_voroSC$pdb %in% excluded_pdbs),]
+# res_prop_voroSC$pdb  = factor(res_prop_voroSC$pdb)
+# res_prop_voroSC      = cbind(res_prop_voroSC, VSCmodified_volume_diff = res_prop_voroSC$VSCvolume, VSCmodified_volume_ratio = res_prop_voroSC$VSCvolume)
+# maxval = max(res_prop_voroSC$VSCvolume)
+# res_prop_voroSC$VSCmodified_volume_diff[res_prop_voroSC$VSCvolume_change_diff != 0] = maxval
+# res_prop_voroSC$VSCmodified_volume_diff  = res_prop_voroSC$VSCmodified_volume_diff + res_prop_voroSC$VSCvolume_change_diff
+# res_prop_voroSC$VSCmodified_volume_ratio[res_prop_voroSC$VSCvolume_change_ratio != 1] = maxval
+# res_prop_voroSC$VSCmodified_volume_ratio = res_prop_voroSC$VSCmodified_volume_ratio * res_prop_voroSC$VSCvolume_change_ratio
 
 bf_scors_all_pdbs = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
 bf_list = c('bfSC','bfAA','bfCB','bfCA','bfN','bfC','bfO')
+crd_list = c('SC','AA','CB','CA','N','C','O') # list of representative coordinates used to generate Voronoi cells.
 counter = 0
 
 for(pdb in levels(res_prop_elj$pdb))
@@ -85,7 +86,7 @@ for(pdb in levels(res_prop_elj$pdb))
   pdb_jec    = res_prop_jec[res_prop_jec$pdb==pdb,] # c('r4sJC')]
   pdb_elj    = res_prop_elj[res_prop_elj$pdb==pdb,] # c('seqent','ddgent')]
   pdb_hps    = res_prop_hps[res_prop_hps$pdb==pdb,]  # c('hpskd','hpsww','hpshh')]
-  pdb_dssp   = res_prop_dssp[res_prop_dssp$pdb==pdb,] # c('asa','rsa','hbe_mean','rss')] )
+  pdb_dssp   = res_prop_dssp[res_prop_dssp$pdb==pdb,] # c('asa','rsa','hbe','rss')] )
   pdb_bf     = res_prop_wcn_bf[res_prop_wcn_bf$pdb==pdb, bf_list]
   #pdb_wcn    = res_prop_wcn_bf[res_prop_wcn_bf$pdb==pdb,]
   pdb_voroAA = res_prop_voroAA[res_prop_voroAA$pdb==pdb, ]
@@ -95,8 +96,8 @@ for(pdb in levels(res_prop_elj$pdb))
   pdb_temp = cbind( subset(pdb_jec, select = c(r4s_JC)),
                     subset(pdb_elj, select = c(seqent,ddgent)),
                     subset(pdb_hps, select  = c(hpshh)),
-                    #subset(pdb_dssp, select = c(asa,rsa,hbe_mean)),
-                    subset(pdb_dssp, select = c(rsa,hbe_mean)),
+                    #subset(pdb_dssp, select = c(asa,rsa,hbe)),
+                    subset(pdb_dssp, select = c(rsa,hbe)),
                     subset(pdb_voroAA, select = c(resvol))
                     #subset(pdb_wcn, select = -c(pdb,resnam,resnum,bfSC,bfAA,bfN,bfCA,bfC,bfO,bfCB)),
                     #subset(pdb_voroAA, select = -c(pdb,resnam,resnum,sizeSC,sizeAA,VAAnvertices,VAAnedges,VAAvolume_change)),
@@ -124,13 +125,13 @@ for(pdb in levels(res_prop_elj$pdb))
     }
   }
 }
-write.csv( bf_scors_all_pdbs, "../tables/best_bf/selected_variables/bf_scors_all_pdbs.csv", row.names=F )
+write.csv( bf_scors_all_pdbs, "../tables/best_bf/select_variables/bf_scors_all_pdbs.csv", row.names=F )
 
 
 
 # Now summarize all Spearman correlations over the entire dataset
 
-bf_scors_all_pdbs = read.csv( "../tables/best_bf/selected_variables/bf_scors_all_pdbs.csv", header = TRUE )
+bf_scors_all_pdbs = read.csv( "../tables/best_bf/select_variables/bf_scors_all_pdbs.csv", header = TRUE )
 bf_scors_all_pdbs$variable = factor(bf_scors_all_pdbs$variable)
 bf_scors_all_pdbs$bf = factor(bf_scors_all_pdbs$bf)
 
@@ -162,7 +163,7 @@ for (bf in levels(bf_scors_all_pdbs$bf))
     bf_scors_summary = rbind(bf_scors_summary,row)
   }
   row.names(bf_scors_summary) = c()
-  filename = paste0("../tables/best_bf/selected_variables/",bf,'_scors_summary.csv')
+  filename = paste0("../tables/best_bf/select_variables/",bf,'_scors_summary.csv')
   write.csv(bf_scors_summary, filename, row.names=F )
   cat (bf, filename, '\n')
 }
@@ -171,11 +172,11 @@ for (bf in levels(bf_scors_all_pdbs$bf))
 
 for (i in 1:(length(bf_list)-1))
 {
-  filename = paste0("../tables/best_bf/selected_variables/",bf_list[[i]][1],'_scors_summary.csv')
+  filename = paste0("../tables/best_bf/select_variables/",bf_list[[i]][1],'_scors_summary.csv')
   bf_scors_summary1 = read.csv( filename, header = T )
   for (j in (i+1):length(bf_list))
   {
-    filename = paste0("../tables/best_bf/selected_variables/",bf_list[[j]][1],'_scors_summary.csv')
+    filename = paste0("../tables/best_bf/select_variables/",bf_list[[j]][1],'_scors_summary.csv')
     bf_scors_summary2 = read.csv( filename, header = T )
     difference = data.frame(variable      = bf_scors_summary1$variable,
                             mean_diff     = abs(bf_scors_summary1$mean)   - abs(bf_scors_summary2$mean),
@@ -187,7 +188,7 @@ for (i in 1:(length(bf_list)-1))
                             max_diff      = abs(bf_scors_summary1$max)    - abs(bf_scors_summary2$max)
                             )
     row.names(difference) = c()
-    filename = paste0('../tables/best_bf/selected_variables/diff_',bf_list[[i]][1],'_',bf_list[[j]][1],'.csv')
+    filename = paste0('../tables/best_bf/select_variables/diff_',bf_list[[i]][1],'_',bf_list[[j]][1],'.csv')
     cat (filename, '\n')
     write.csv( difference, filename, row.names=F )
   }
@@ -202,13 +203,13 @@ labels = c('ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Evol. Rates', 'Res
 
 for (i in 1:(length(bf_list)-1))
 {
-  filename = paste0("../tables/best_bf/selected_variables/",bf_list[[i]][1],'_scors_summary.csv')
+  filename = paste0("../tables/best_bf/select_variables/",bf_list[[i]][1],'_scors_summary.csv')
   bf_scors_summary1 = read.csv( filename, header = T )
   for (j in (i+1):length(bf_list))
   {
-    filename = paste0("../tables/best_bf/selected_variables/",bf_list[[j]][1],'_scors_summary.csv')
+    filename = paste0("../tables/best_bf/select_variables/",bf_list[[j]][1],'_scors_summary.csv')
     bf_scors_summary2 = read.csv( filename, header = T )
-    filename = paste0('../figures/best_bf/selected_variables/abs(',bf_list[[i]][1],'_',bf_list[[j]][1],').pdf')
+    filename = paste0('../figures/best_bf/select_variables/abs(',bf_list[[i]][1],'_',bf_list[[j]][1],').pdf')
     cat (filename, '\n')
     pdf( filename, width=4.5, height=4, useDingbats=FALSE )
     par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
@@ -232,7 +233,7 @@ for (i in 1:(length(bf_list)-1))
 
 # Now create box plots
 
-bf_scors_all_pdbs = read.csv( "../tables/best_bf/selected_variables/bf_scors_all_pdbs.csv", header = TRUE )
+bf_scors_all_pdbs = read.csv( "../tables/best_bf/select_variables/bf_scors_all_pdbs.csv", header = TRUE )
 bf_scors_all_pdbs$variable = factor(bf_scors_all_pdbs$variable)
 bf_scors_all_pdbs$bf = factor(bf_scors_all_pdbs$bf)
 
@@ -244,13 +245,15 @@ for (variable in levels(bf_scors_all_pdbs$variable))
   temp_data_variable_long = bf_scors_all_pdbs[bf_scors_all_pdbs$variable == variable,c('pdb','bf','value')]
   temp_data_variable = reshape(temp_data_variable_long, timevar = 'bf', idvar = 'pdb', direction = 'wide')
   temp_data_variable = subset (temp_data_variable, select = -c(pdb))
-  colnames(temp_data_variable) = levels(bf_scors_all_pdbs$bf)
-  temp_data_variable = temp_data_variable[bf_list]
-  filename = paste0('../figures/best_bf/selected_variables/boxplot_',variable,'.pdf')
+  colnames(temp_data_variable) = substr(levels(bf_scors_all_pdbs$bf),start=3,stop=4)  # remove 'bf' from the names of the variables. It is unnecessary and ugly in the figures. Only the the atom names will remain.
+  temp_data_variable = temp_data_variable[crd_list]
+  #colnames(temp_data_variable) = levels(bf_scors_all_pdbs$bf)
+  #temp_data_variable = temp_data_variable[bf_list]
+  filename = paste0('../figures/best_bf/select_variables/boxplot_',variable,'.pdf')
   pdf( filename, width=6, height=4, useDingbats=FALSE )
   par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
   boxplot(temp_data_variable,
-          xlab = 'representative B factor (bf)',
+          xlab = 'representative B factor',
           ylab = paste0('Spearman correlation with ',variable_list[[counter]][1])
           )
   graphics.off()
@@ -258,15 +261,15 @@ for (variable in levels(bf_scors_all_pdbs$variable))
 
 # Now create box plots all in one figure
 
-bf_scors_all_pdbs = read.csv( "../tables/best_bf/selected_variables/bf_scors_all_pdbs.csv", header = TRUE )
+bf_scors_all_pdbs = read.csv( "../tables/best_bf/select_variables/bf_scors_all_pdbs.csv", header = TRUE )
 bf_scors_all_pdbs$variable = factor(bf_scors_all_pdbs$variable)
 bf_scors_all_pdbs$bf = factor(bf_scors_all_pdbs$bf)
 
 variable_list = c('Evol. Rates', 'Seq. Entropy','ddG Entropy','RSA','Hydrophobicity','H-bond Energy')
-variable_names = c('r4s_JC','seqent','ddgent','rsa','hpshh','hbe_mean')
+variable_names = c('r4s_JC','seqent','ddgent','rsa','hpshh','hbe')
 bf_list = c('bfSC','bfAA','bfCB','bfCA','bfN','bfC','bfO')
 counter = 0
-filename = paste0('../figures/best_bf/selected_variables/boxplot_bf_all_in_one.pdf')
+filename = paste0('../figures/best_bf/select_variables/boxplot_bf_all_in_one.pdf')
 pdf( filename, width=15, height=12, useDingbats=FALSE )
 split.screen(c(3,2))
 for (variable in variable_names)
@@ -276,14 +279,18 @@ for (variable in variable_names)
   temp_data_variable_long = bf_scors_all_pdbs[bf_scors_all_pdbs$variable == variable,c('pdb','bf','value')]
   temp_data_variable = reshape(temp_data_variable_long, timevar = 'bf', idvar = 'pdb', direction = 'wide')
   temp_data_variable = subset (temp_data_variable, select = -c(pdb))
-  colnames(temp_data_variable) = levels(bf_scors_all_pdbs$bf)
-  temp_data_variable = temp_data_variable[bf_list]
+  colnames(temp_data_variable) = substr(levels(bf_scors_all_pdbs$bf),start=3,stop=4)  # remove 'bf' from the names of the variables. It is unnecessary and ugly in the figures. Only the the atom names will remain.
+  temp_data_variable = temp_data_variable[crd_list]
+  #colnames(temp_data_variable) = levels(bf_scors_all_pdbs$bf)
+  #temp_data_variable = temp_data_variable[bf_list]
   par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
-  boxplot(temp_data_variable,
-          xlab = 'representative B factor (bf)',
-          ylab = paste0('Spearman cor. with ',variable_list[[counter]][1]),
-          cex.axis = 1.3,
-          cex.lab = 1.3
+  boxplot(  temp_data_variable
+          , xlab = 'representative B factor'
+          , ylab = paste0('Spearman cor. with ',variable_list[[counter]][1])
+          , cex.axis = 1.3
+          , cex.lab = 1.3
+          , ylim = c(-0.04,0.8)
+          , outline=FALSE    # Remove outliers from the plot
           )
 }
 graphics.off()
