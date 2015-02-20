@@ -11,7 +11,7 @@ getcrd = function(file,atom,crd)
   return(crd)
 }
 
-cacrd = getcrd(file='../../structures/RepairPDB_1LBA_A.pdb',atom='CA')
+cacrd = getcrd(file='../../structures/RepairPDB_1A2T_A.pdb',atom='CA')
 
 vt = deldir(cacrd$x1,cacrd$x2)  # generate Voronoi tessellationa dn Delaunay trangulation
 filename = '../figures/voronoi_diagram.pdf'
@@ -20,7 +20,7 @@ par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
 plot( vt
     , wlines='tess'
     , pch=19:1
-    , cex=0.3
+    , cex=0.35
     , lty = 1
     , col = c(34,1)
     , xlab = 'X coordinate [ Angstroms ]'

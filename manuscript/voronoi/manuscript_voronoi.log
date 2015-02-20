@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2011.11.7)  19 FEB 2015 09:36
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9) (preloaded format=pdflatex 2011.11.7)  20 FEB 2015 15:07
 entering extended mode
 **C:/Users/Amir/Documents/GitHub/cordiv/manuscript/voronoi/manuscript_voronoi.t
 ex
@@ -489,73 +489,105 @@ Underfull \hbox (badness 10000) in paragraph at lines 193--195
 LaTeX Warning: Reference `fig:seqent_structure_cors' on page 5 undefined on inp
 ut line 203.
 
-[5]
+[5] <../../analysis/figures//voronoi_diagram.pdf, id=75, 325.215pt x 289.08pt>
+File: ../../analysis/figures//voronoi_diagram.pdf Graphic file (type pdf)
+
+<use ../../analysis/figures//voronoi_diagram.pdf>
+Package pdftex.def Info: ../../analysis/figures//voronoi_diagram.pdf used on in
+put line 230.
+(pdftex.def)             Requested size: 498.66255pt x 443.28783pt.
+
 <../../analysis/figures//best_varea/select_variables/boxplot_varea_all_in_one.p
-df, id=75, 1084.05pt x 867.24pt>
+df, id=76, 1084.05pt x 867.24pt>
 File: ../../analysis/figures//best_varea/select_variables/boxplot_varea_all_in_
 one.pdf Graphic file (type pdf)
 
 <use ../../analysis/figures//best_varea/select_variables/boxplot_varea_all_in_o
 ne.pdf>
 Package pdftex.def Info: ../../analysis/figures//best_varea/select_variables/bo
-xplot_varea_all_in_one.pdf used on input line 230.
+xplot_varea_all_in_one.pdf used on input line 239.
 (pdftex.def)             Requested size: 498.66255pt x 398.93524pt.
 
 <../../analysis/figures//best_wcn/select_variables/boxplot_wcn_all_in_one.pdf, 
-id=76, 1084.05pt x 867.24pt>
+id=77, 1084.05pt x 867.24pt>
 File: ../../analysis/figures//best_wcn/select_variables/boxplot_wcn_all_in_one.
 pdf Graphic file (type pdf)
 
 <use ../../analysis/figures//best_wcn/select_variables/boxplot_wcn_all_in_one.p
 df>
 Package pdftex.def Info: ../../analysis/figures//best_wcn/select_variables/boxp
-lot_wcn_all_in_one.pdf used on input line 239.
+lot_wcn_all_in_one.pdf used on input line 249.
 (pdftex.def)             Requested size: 498.66255pt x 398.93524pt.
 
 <../../analysis/figures//best_bf/select_variables/boxplot_bf_all_in_one.pdf, id
-=77, 1084.05pt x 867.24pt>
+=78, 1084.05pt x 867.24pt>
 File: ../../analysis/figures//best_bf/select_variables/boxplot_bf_all_in_one.pd
 f Graphic file (type pdf)
 
 <use ../../analysis/figures//best_bf/select_variables/boxplot_bf_all_in_one.pdf
 >
 Package pdftex.def Info: ../../analysis/figures//best_bf/select_variables/boxpl
-ot_bf_all_in_one.pdf used on input line 247.
+ot_bf_all_in_one.pdf used on input line 257.
 (pdftex.def)             Requested size: 498.66255pt x 398.93524pt.
+
+<../../analysis/figures//best_structural_predictors_of_ER.pdf, id=79, 325.215pt
+ x 289.08pt>
+File: ../../analysis/figures//best_structural_predictors_of_ER.pdf Graphic file
+ (type pdf)
+
+<use ../../analysis/figures//best_structural_predictors_of_ER.pdf>
+Package pdftex.def Info: ../../analysis/figures//best_structural_predictors_of_
+ER.pdf used on input line 265.
+(pdftex.def)             Requested size: 498.66255pt x 443.28783pt.
 
 (C:\Users\Amir\Documents\GitHub\cordiv\manuscript\voronoi\manuscript_voronoi.bb
 l)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 264.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 282.
  [6] [7pdfTeX warning (ext4): destination with the same identifier (name{figure
 .1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.264 \end{document}
+l.282 \end{document}
+                     <C:/Users/Amir/Documents/GitHub/cordiv/analysis/figures/vo
+ronoi_diagram.pdf>] [8pdfTeX warning (ext4): destination with the same identifi
+er (name{figure.2}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.282 \end{document}
                      <C:/Users/Amir/Documents/GitHub/cordiv/analysis/figures/be
-st_varea/select_variables/boxplot_varea_all_in_one.pdf>] [8pdfTeX warning (ext4
-): destination with the same identifier (name{figure.2}) has been already used,
+st_varea/select_variables/boxplot_varea_all_in_one.pdf>] [9pdfTeX warning (ext4
+): destination with the same identifier (name{figure.3}) has been already used,
  duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.264 \end{document}
+l.282 \end{document}
                      <C:/Users/Amir/Documents/GitHub/cordiv/analysis/figures/be
-st_wcn/select_variables/boxplot_wcn_all_in_one.pdf>] [9pdfTeX warning (ext4): d
-estination with the same identifier (name{figure.3}) has been already used, dup
-licate ignored
+st_wcn/select_variables/boxplot_wcn_all_in_one.pdf>] [10pdfTeX warning (ext4): 
+destination with the same identifier (name{figure.4}) has been already used, du
+plicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.264 \end{document}
+l.282 \end{document}
                      <C:/Users/Amir/Documents/GitHub/cordiv/analysis/figures/be
-st_bf/select_variables/boxplot_bf_all_in_one.pdf>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 264.
+st_bf/select_variables/boxplot_bf_all_in_one.pdf>] [11pdfTeX warning (ext4): de
+stination with the same identifier (name{figure.5}) has been already used, dupl
+icate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.282 \end{document}
+                     <C:/Users/Amir/Documents/GitHub/cordiv/analysis/figures/be
+st_structural_predictors_of_ER.pdf>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 282.
 
 (C:\Users\Amir\Documents\GitHub\cordiv\manuscript\voronoi\manuscript_voronoi.au
 x)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 264.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 264.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 282.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 282.
 Package rerunfilecheck Info: File `manuscript_voronoi.out' has not changed.
 (rerunfilecheck)             Checksum: D247F4243D4C515BEEB715570FE17AA2;203.
 
@@ -564,10 +596,10 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 6559 strings out of 494045
- 94140 string characters out of 3145972
- 194826 words of memory out of 3000000
- 9759 multiletter control sequences out of 15000+200000
+ 6577 strings out of 494045
+ 94733 string characters out of 3145972
+ 195412 words of memory out of 3000000
+ 9769 multiletter control sequences out of 15000+200000
  9386 words of font info for 34 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
  29i,6n,35p,2091b,341s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -585,9 +617,9 @@ MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/Mi
 KTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files (x86)/MiKTe
 X 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Program Files (x86)/MiKTeX 
 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on manuscript_voronoi.pdf (10 pages, 229224 bytes).
+Output written on manuscript_voronoi.pdf (12 pages, 266062 bytes).
 PDF statistics:
- 164 PDF objects out of 1000 (max. 8388607)
- 28 named destinations out of 1000 (max. 500000)
- 48 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 187 PDF objects out of 1000 (max. 8388607)
+ 32 named destinations out of 1000 (max. 500000)
+ 58 words of extra memory for PDF output out of 10000 (max. 10000000)
 

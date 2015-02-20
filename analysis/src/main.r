@@ -28,4 +28,10 @@ source('best_bfactor_select_variables.r')
 # Generate data for the best definition of WCN:
 # Make plots of correlation of WCN with other site-specific variables for all proteins in the form of box plots.
 source('best_wcn_select_variables.r')
+
+# Generate an example Voronoi diagram
+source('voronoi_diagram.r')
+
+# Generate density plots comparing the predictive power of Voronoi cell area, Weighted Contact Number, and RSA about sequence evolution:
+
  

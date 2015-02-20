@@ -227,17 +227,28 @@
 
     \begin{figure}[tbh]
         \begin{center}
+        \includegraphics[width=6.9in]{/voronoi_diagram.pdf}
+        \end{center}
+        \caption{Example 2-dimensional Voronoi diagram for bacteriophage T7 lysozyme (Protein Data Bank ID `1LBA'). The red dots represent the backbone $C_\alpha$ atoms projected on the X--Y plane, used as cell seeds in Voronoi tesellation.}
+        \label{fig:voronoi}
+    \end{figure}
+
+
+    \begin{figure}[tbh]
+        \begin{center}
         \includegraphics[width=6.9in]{/best_varea/select_variables/boxplot_varea_all_in_one.pdf}
         \end{center}
-        \caption{A comparison of the predictive power of different measures of Voronoi Cell Areas about different structure or sequence properties for 209 proteins in dataset. In each plot, the Spearman correlation strengths of a given structure/sequence property on the vertical axis with different measures of cell areas with different atomic Voronoi seeds on the horizontal axis are compared against each other. The capital letters on the horizontal axis denote the set of atomic coordinates used in Voronoi tessellation of protein structures. The two variables {\it SC} \& {\it AA} stand respectively for the geometric average coordinates of the Side Chain atoms and the entire Amino Acid atoms, excluding hydrogens.}
+        \caption{A comparison of the correlation strength of 6 different measures of Voronoi cell areas with 6 coordinate-independent structural or sequence properties for 209 proteins in dataset.  The Voronoi cells are generated using 6 sets of atomic coordinates: {\it SC, AA, CB, CA, N, C, O}, used as different representations of individual sites in proteins. The two labels {\it SC} \& {\it AA} stand respectively for the geometric average coordinates of the Side Chain (SC) atoms and the entire Amino Acid (AA) atoms, excluding hydrogens.}
+        %about different structure or sequence properties for 209 proteins in dataset. In each plot, the Spearman correlation strengths of a given structure/sequence property on the vertical axis with different measures of cell areas with different atomic Voronoi seeds on the horizontal axis are compared against each other. The capital letters on the horizontal axis denote the set of atomic coordinates used in Voronoi tessellation of protein structures. }
         \label{fig:best_voronoi}
     \end{figure}
+
 
     \begin{figure}[tbh]
         \begin{center}
         \includegraphics[width=6.9in]{/best_wcn/select_variables/boxplot_wcn_all_in_one.pdf}
         \end{center}
-        \caption{A comparison of the predictive power of different measures of Weighted Contact Number (WCN) about different structure or sequence properties for 209 proteins in dataset. In each plot, the Spearman correlation strengths of a given structure or sequence property on the vertical axis with different measures of WCN on the horizontal axis are compared against each other. The capital letters in the variable names on the horizontal axis denote the set of atomic coordinates used to calculate WCN. The variable $wcnSC$ denotes WCN measure based on the average coordinates over all heavy atoms in the side chain and the variable $wcnAA$ denotes WCN measure based on the average coordinate over all heavy atoms in the side chain and backbone of the amino acid.}
+        \caption{A comparison of the correlation strength of 6 different measures of Weighted Contact Number (WCN) with 6 coordinate-independent structural or sequence properties for 209 proteins in dataset. The contact numbers, WCN, are calculated using 6 sets of atomic coordinates: {\it SC, AA, CB, CA, N, C, O}, used as different representations of individual sites in proteins. The two labels {\it SC} \& {\it AA} stand respectively for the geometric average coordinates of the Side Chain (SC) atoms and the entire Amino Acid (AA) atoms, excluding hydrogens.}
         \label{fig:best_wcn}
     \end{figure}
 
@@ -245,8 +256,16 @@
         \begin{center}
         \includegraphics[width=6.9in]{/best_bf/select_variables/boxplot_bf_all_in_one.pdf}
         \end{center}
-        \caption{A comparison of the predictive power of different measures of Bfactor (BF) with different structure or sequence properties for 209 proteins in dataset. In each plot, the Spearman correlation strengths of a given structure or sequence property on the vertical axis with different measures of atomic Bfactors on the horizontal axis are compared against each other. The capital letters in the variable names on the horizontal axis denote the representative atomic Bfactors. The variable $bfSC$ denotes the average coordinate over all heavy atoms in the side chain for each site in protein and the variable $bfAA$ denotes average coordinate over all heavy atoms in the side chain and backbone of the amino acid.}
+        \caption{A comparison of the correlation strength of 6 different measures of B factor with 6 coordinate-independent structural or sequence properties for 209 proteins in dataset. Shown on the horizontal axes, are the 6 representative atomic B factors: {\it SC, AA, CB, CA, N, C, O} used as flexibility measures of individual sites in proteins. The two variables {\it SC} \& {\it AA} stand respectively for the average B factor of all Side Chain (SC) atoms and the entire Amino Acid (AA) atoms, excluding hydrogens.}
         \label{fig:best_bf}
+    \end{figure}
+
+    \begin{figure}[tbh]
+        \begin{center}
+        \includegraphics[width=6.9in]{/voronoi_diagram.pdf}
+        \end{center}
+        \caption{A comparison of the prediction power of four structural variables about site-specific evolutionary rates. Example 2-dimensional Voronoi diagram for bacteriophage T7 lysozyme (Protein Data Bank ID `1LBA'). The red dots represent the backbone $C_\alpha$ atoms projected on the X--Y plane, used as cell seeds in Voronoi tesellation.}
+        \label{fig:best_predictor}
     \end{figure}
 
 %    \begin{figure}[tbh]

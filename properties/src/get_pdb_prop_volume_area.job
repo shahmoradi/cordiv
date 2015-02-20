@@ -1,0 +1,9 @@
+# This bach script uses 3v software to calculate the volume and surface area of all proteins in the dataset
+# Note that the use of pdb_to_xyzr requires its library "atmtypenumbers" to be located in the same directory where the pdb file (temp.pdb below) exists.
+
+for file in ../../structures/* ;
+do egrep "^ATOM  " $file > temp.pdb ;
+~/3v/xyzr/pdb_to_xyzr temp.pdb > ../pdb_crd/${file:(-10):6}.xyz ;
+~/3v/bin/Volume.exe -i ../pdb_crd/${file:(-10):6}.xyz -p 1.5 -g 0.5 >> ../pdb_prop_volume_area.out ;
+echo $file;
+done >& get_pdb_prop_volume_area.stdout; rm temp.pdb &
