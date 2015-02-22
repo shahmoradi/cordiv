@@ -101,6 +101,7 @@
   res_prop_voroO$VOmodified_sphericity[res_prop_voroO$VOvolume_change_diff != 0] = -res_prop_voroO$VOsphericity[res_prop_voroO$VOvolume_change_diff != 0]
   res_prop_voroO = res_prop_voroO[!(res_prop_voroO$pdb %in% excluded_pdbs),]
   res_prop_voroO$pdb  = factor(res_prop_voroO$pdb)
+  
 
 # The following are some random calculations and thoughts. have to figure out what they are later
 

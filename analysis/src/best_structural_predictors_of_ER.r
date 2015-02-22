@@ -19,23 +19,26 @@ for(pdb in levels(res_prop_elj$pdb))
   pdb_hps    = res_prop_hps[res_prop_hps$pdb==pdb,] # c('hpskd','hpsww','hpshh')] )
   pdb_dssp   = res_prop_dssp[res_prop_dssp$pdb==pdb,] # c('asa','rsa','hbe_mean','rss')] )
   pdb_wcn_bf = res_prop_wcn_bf[res_prop_wcn_bf$pdb==pdb, ]
-  pdb_voro   = res_prop_voroSC[res_prop_voroSC$pdb==pdb, ]
+  pdb_voroSC = res_prop_voroSC[res_prop_voroSC$pdb==pdb, ]
+  pdb_voroCA = res_prop_voroCA[res_prop_voroCA$pdb==pdb, ]
   
   pdb_temp = cbind( subset(pdb_elj, select = c(pdb,seqent,ddgent))
                   , subset(pdb_jec, select = c(zr4s_JC))
                   , subset(pdb_hps, select = c(hpshh))
                   , subset(pdb_dssp, select = c(rsa,hbe))
                   , subset(pdb_wcn_bf, select = c(wcnSC,wcnCA,bfSC))
-                  , subset(pdb_voro, select = c(VSCarea))
+                  , subset(pdb_voroSC, select = c(VSCarea))
+                  , subset(pdb_voroCA, select = c(VCAarea))
                   )
   r.rsa.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$rsa,method='sp')
   r.wcnSC.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$wcnSC,method='sp')
   r.wcnCA.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$wcnCA,method='sp')
-  r.varea.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$VSCarea,method='sp')
+  r.vareaSC.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$VSCarea,method='sp')
   r.ddgent.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$ddgent,method='sp')
+  r.vareaCA.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$VCAarea,method='sp')
   
-  #row = data.frame( pdb = pdb, rsa = r.rsa.r4sJC, wcn = r.wcn.r4sJC, varea = r.varea.r4sJC, ddgent = r.ddgent.r4sJC )
-  row = data.frame( pdb, r.wcnCA.r4sJC, r.wcnSC.r4sJC, r.rsa.r4sJC, r.varea.r4sJC, r.ddgent.r4sJC )
+  #row = data.frame( pdb = pdb, rsa = r.rsa.r4sJC, wcn = r.wcn.r4sJC, vareaSC = r.vareaSC.r4sJC, ddgent = r.ddgent.r4sJC )
+  row = data.frame( pdb, r.wcnCA.r4sJC, r.wcnSC.r4sJC, r.rsa.r4sJC, r.vareaSC.r4sJC, r.ddgent.r4sJC , r.vareaCA.r4sJC )
   ERscors = rbind( ERscors, row )
 }
 
@@ -44,7 +47,7 @@ for(pdb in levels(res_prop_elj$pdb))
 hist.rsa = density(ERscors$r.rsa.r4sJC)
 hist.wcnSC = density(ERscors$r.wcnSC.r4sJC)
 hist.wcnCA = density(ERscors$r.wcnCA.r4sJC)
-hist.varea = density(ERscors$r.varea.r4sJC)
+hist.vareaSC = density(ERscors$r.vareaSC.r4sJC)
 hist.ddgent = density(ERscors$r.ddgent.r4sJC)
 
 # Now plot histograms in a single plot
@@ -72,8 +75,8 @@ lines( abs(hist.ddgent$x)
      , col = 'green'
      , lwd  = 2
      )
-lines( abs(hist.varea$x)
-     , abs(hist.varea$y)
+lines( abs(hist.vareaSC$x)
+     , abs(hist.vareaSC$y)
      , col = 'red'
      , lwd  = 2
      )
