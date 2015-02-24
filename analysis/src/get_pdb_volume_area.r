@@ -11,7 +11,7 @@
 
 # setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 
-#  excluded_pdbs = c('1BBS_A','1BS0_A','1DIN_A','1HPL_A')   # These are the 4 PDBs that did not have complete r4s evolutionary rates and are omitted from the dataset to avoid NA values.
+excluded_pdbs = c('1BBS_A','1BS0_A','1DIN_A','1HPL_A')   # These are the 4 PDBs that did not have complete r4s evolutionary rates and are omitted from the dataset to avoid NA values.
   
 temp = read.table('../../properties/pdb_prop_volume_area.out', header=F, sep="\t", comment.char="", colClasses="character")
 pdb_prop_volume_area = data.frame( pdb = substr(temp$V6,start=13,stop=18)
@@ -22,6 +22,18 @@ pdb_prop_volume_area = data.frame( pdb = substr(temp$V6,start=13,stop=18)
 pdb_prop_volume_area = pdb_prop_volume_area[!(pdb_prop_volume_area$pdb %in% excluded_pdbs),]
 pdb_prop_volume_area$pdb  = factor(pdb_prop_volume_area$pdb)
 
+all_pdb_prop = read.csv('../tables/all_pdb_prop.csv', header=T)
+all_pdb_prop = all_pdb_prop[!(all_pdb_prop$pdb %in% excluded_pdbs),]
+all_pdb_prop$variable  = factor(all_pdb_prop$variable)
+temp = all_pdb_prop[all_pdb_prop$variable=='nres',]
+pdb_prop_volume_area = cbind (pdb_prop_volume_area, nres = temp$value)
+
+cor(pdb_prop_volume_area$sphericity,pdb_prop_volume_area$nres,method='sp')
+cor(pdb_prop_volume_area$volume,pdb_prop_volume_area$nres,method='sp')
+cor(pdb_prop_volume_area$area,pdb_prop_volume_area$nres,method='sp')
+cor(abs(ERscors$r.wcnSC.r4sJC),pdb_prop_volume_area$area,method='sp')
+cor(abs(ERscors$r.vareaSC.r4sJC),pdb_prop_volume_area$nres,method='sp')
+
 cor(abs(ERscors$r.wcnSC.r4sJC)-abs(ERscors$r.wcnCA.r4sJC),pdb_prop_volume_area$sphericity,method='sp')
 cor(abs(ERscors$r.wcnSC.r4sJC)-abs(ERscors$r.wcnCA.r4sJC),pdb_prop_volume_area$volume,method='sp')
 cor(abs(ERscors$r.wcnSC.r4sJC)-abs(ERscors$r.wcnCA.r4sJC),pdb_prop_volume_area$area,method='sp')
@@ -31,6 +43,9 @@ plot(abs(ERscors$r.wcnSC.r4sJC)-abs(ERscors$r.wcnCA.r4sJC),log10(pdb_prop_volume
 cor(abs(ERscors$r.vareaSC.r4sJC)-abs(ERscors$r.vareaCA.r4sJC),pdb_prop_volume_area$sphericity,method='sp')
 cor(abs(ERscors$r.vareaSC.r4sJC)-abs(ERscors$r.vareaCA.r4sJC),pdb_prop_volume_area$volume,method='sp')
 cor(abs(ERscors$r.vareaSC.r4sJC)-abs(ERscors$r.vareaCA.r4sJC),pdb_prop_volume_area$area,method='sp')
+
+library("ppcor")
+pcor.test(abs(ERscors$r.wcnSC.r4sJC)-abs(ERscors$r.vareaCA.r4sJC),pdb_prop_volume_area$sphericity,pdb_prop_volume_area$volume,method='sp')
 
 cor(abs(ERscors$r.wcnSC.r4sJC)-abs(ERscors$r.vareaSC.r4sJC),pdb_prop_volume_area$sphericity,method='sp')
 cor(abs(ERscors$r.wcnSC.r4sJC)-abs(ERscors$r.vareaSC.r4sJC),pdb_prop_volume_area$volume,method='sp')
