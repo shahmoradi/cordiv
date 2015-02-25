@@ -1,37 +1,46 @@
-# Amir Shahmoradi, Sunday 7:42 PM, Oct 5 2014, Wilke Lab, ICMB, UT Austin
+# Amir Shahmoradi, Wednesday 3:07 PM, Feb 25 2015, Wilke Lab, ICMB, UT Austin
 # This code is very similar to the original code adjacent_averaging.r with the only difference being that here the figures are generated as multiple plots for the a single residue variable versus all others, in a single pdf figure.
 
-# install.packages('zoo')
+#install.packages('zoo')
+#install.packages('ggplot2')
+library('ggplot2')
 library('zoo')
 
-setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
+# setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 
-source('get_res_data.r')
+# source('get_res_data.r')
 
 # The following is short version of the most useful residue properties that I have found so far.
 # Now since the three Voronoi quantities vnvortices, vnedges and vnfaces happen to be exactly the same as seen in the cormat calculated above, I am going to remove them from the data set, in addition to resvol which is not as informative.
-res_prop_concise = data.frame(zr4s_JC       = res_prop_jec$zr4s_JC,
-                              seqent        = res_prop_elj$seqent,
-                              ddgent        = res_prop_elj$ddgent,
-                              rsa           = res_prop_dssp$rsa,
-                              hbe           = res_prop_dssp$hbe_mean,
-                              hpshh         = res_prop_hps$hpshh,
-                              wcnSC         = res_prop_wcn_bf$wcnSC,
-                              bfSC          = res_prop_wcn_bf$bfSC,
-                              #resvol        = res_prop_voroSC$resvol,
-                              #vnvertices    = res_prop_voroSC$VSCnvertices,
-                              #vnedges       = res_prop_voroSC$VSCnedges,
-                              vnfaces       = res_prop_voroSC$VSCnfaces,
-                              #vedge         = log10(res_prop_voroSC$VSCedge_length_total),
-                              varea         = log10(res_prop_voroSC$VSCarea),
-                              vvolume       = log10(res_prop_voroSC$VSCvolume),
-                              veccentricity = res_prop_voroSC$VSCeccentricity,
-                              vsphericity   = res_prop_voroSC$VSCsphericity
-                              #mvsphericity  = res_prop_voroSC$VSCsphericity
-                              )
+res_prop_concise = data.frame( zr4s_JC       = res_prop_jec$zr4s_JC
+                             , seqent        = res_prop_elj$seqent
+                             , ddgent        = res_prop_elj$ddgent
+                             , rsa           = res_prop_dssp$rsa
+                             , hbe           = res_prop_dssp$hbe
+                             , hpshh         = res_prop_hps$hpshh
+                             , wcnSC         = res_prop_wcn_bf$wcnSC
+                             , bfSC          = res_prop_wcn_bf$bfSC
+                             #, resvol        = res_prop_voroSC$resvol
+                             #, vnvertices    = res_prop_voroSC$VSCnvertices
+                             #, vnedges       = res_prop_voroSC$VSCnedges
+                             , vnfaces       = res_prop_voroSC$VSCnfaces
+                             #, vedge         = log10(res_prop_voroSC$VSCedge_length_total)
+                             , varea         = log10(res_prop_voroSC$VSCarea)
+                             , vvolume       = log10(res_prop_voroSC$VSCvolume)
+                             , veccentricity = res_prop_voroSC$VSCeccentricity
+                             , vsphericity   = res_prop_voroSC$VSCsphericity
+                             #, mvsphericity  = res_prop_voroSC$VSCsphericity
+                             )
 
 res_prop_concise_closed = res_prop_concise[res_prop_voroSC$VSCvolume_change_diff == 0,]
 res_prop_concise_open = res_prop_concise[res_prop_voroSC$VSCvolume_change_diff != 0,]
+
+#qplot(wcnSC, zr4s_JC, data = res_prop_concise, geom = c("smooth"))
+#qplot(rsa, zr4s_JC, data = res_prop_concise, geom = c("smooth"))
+#qplot(varea, zr4s_JC, data = res_prop_concise, geom = c("smooth"))
+#qplot(ddgent, zr4s_JC, data = res_prop_concise, geom = c("smooth"))
+#qplot(log10(bfSC), zr4s_JC, data = res_prop_concise, geom = c("point"))
+
 
 # The following is an ordered list, in agreement with the column names of the above data frame.
 varnames_long = c('Evolutionary Rates (r4sJC)' , 'Sequence Entropy (seqent)' , 'ddG Entropy (ddGent)' , 'Relative Solvent Accessibility (RSA)' , 'Hydrogen Bond Energy (HBE)' ,
@@ -125,6 +134,8 @@ for (i in 1:length(varnames_short))
   close.screen(all = TRUE)
   graphics.off()
 }
+
+
 
 #temp_quantile = rollapply(cbind(res_prop_all_ordered$wcnSC,res_prop_all_ordered$volume, res_prop_all_ordered$rsa), width = 1000, FUN = quantile)
 #temp = data.frame(temp_quantile)
