@@ -7,7 +7,7 @@
 # excluded_pdbs = c('1BBS_A','1BS0_A','1DIN_A','1HPL_A')   # These are the 4 PDBs that did not have complete r4s evolutionary rates and are omitted from the dataset to avoid NA values.
 library(ppcor)
 pdb_temp = data.frame()
-ERscors = data.frame()  # This data frame will contain correlations of select structural variables with r4sJC evolutionary rates, for each pdb file on eaxch row
+best_voronoi_predictors_of_ER = data.frame()  # This data frame will contain correlations of select structural variables with r4sJC evolutionary rates, for each pdb file on eaxch row
 counter = 0
 
 for(pdb in levels(res_prop_elj$pdb))
@@ -53,10 +53,10 @@ for(pdb in levels(res_prop_elj$pdb))
   #row = data.frame( pdb, r.nvertices.r4sJC, r.nedges.r4sJC, r.nfaces.r4sJC, r.edgelength.r4sJC, r.area.r4sJC , r.volume.r4sJC, r.eccentricity.r4sJC, r.sphericity.r4sJC )
   row = data.frame( pdb, edge, area , volume, eccentricity, sphericity
                   , r.edg_given_area, r.vol_given_area, r.ecc_given_area, r.sph_given_area )
-  ERscors = rbind( ERscors, row )
+  best_voronoi_predictors_of_ER = rbind( best_voronoi_predictors_of_ER, row )
 }
 
-write.csv(ERscors, file = "../tables/best_voronoi_predictors_of_ER.csv", row.names=F )
+write.csv(best_voronoi_predictors_of_ER, file = "../tables/best_voronoi_predictors_of_ER.csv", row.names=F )
 
 #GGPLOT is a waste of time!
 ### library(reshape2)
@@ -68,23 +68,23 @@ cbbPalette <- c("#009E73", "#0072B2", "#D55E00", "#CC79A7", "#000000", "#F0E442"
 # To use for line and point colors, add
 #scale_colour_manual(values=cbPalette)
 
-### ERscors_long = melt(ERscors, id.vars = "pdb")
+### best_voronoi_predictors_of_ER_long = melt(best_voronoi_predictors_of_ER, id.vars = "pdb")
 ### pdf( "../figures/best_voronoi_predictors_of_ER.pdf", width=4.5, height=4, useDingbats=FALSE )
 ### par( mai=c(0.65, 0.65, 0.05, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
-### ggplot(ERscors_long, aes(x=value, colour=variable) ) + geom_density(size = 1, fill=NA) + scale_colour_manual(values=cbbPalette) + xlim(0.1,0.9) + 
+### ggplot(best_voronoi_predictors_of_ER_long, aes(x=value, colour=variable) ) + geom_density(size = 1, fill=NA) + scale_colour_manual(values=cbbPalette) + xlim(0.1,0.9) + 
 ### graphics.off()
 
 
 # NOW GENERATE CORRELATIONS HISTOGRAM DATA:
-hist.edge = density(ERscors$edge)
-hist.area = density(ERscors$area)
-hist.volume = density(ERscors$volume)
-hist.eccentricity = density(ERscors$eccentricity)
-hist.sphericity = density(ERscors$sphericity)
-hist.r.edg_given_area = density(ERscors$r.edg_given_area)
-hist.r.vol_given_area = density(ERscors$r.vol_given_area)
-hist.r.ecc_given_area = density(ERscors$r.ecc_given_area)
-hist.r.sph_given_area = density(ERscors$r.sph_given_area)
+hist.edge = density(best_voronoi_predictors_of_ER$edge)
+hist.area = density(best_voronoi_predictors_of_ER$area)
+hist.volume = density(best_voronoi_predictors_of_ER$volume)
+hist.eccentricity = density(best_voronoi_predictors_of_ER$eccentricity)
+hist.sphericity = density(best_voronoi_predictors_of_ER$sphericity)
+hist.r.edg_given_area = density(best_voronoi_predictors_of_ER$r.edg_given_area)
+hist.r.vol_given_area = density(best_voronoi_predictors_of_ER$r.vol_given_area)
+hist.r.ecc_given_area = density(best_voronoi_predictors_of_ER$r.ecc_given_area)
+hist.r.sph_given_area = density(best_voronoi_predictors_of_ER$r.sph_given_area)
 
 # Now plot histograms in a single plot
 #colors = c('green', 'blue', 'red', 'black', 'gray', 'cyan2')

@@ -6,7 +6,7 @@
 
 # excluded_pdbs = c('1BBS_A','1BS0_A','1DIN_A','1HPL_A')   # These are the 4 PDBs that did not have complete r4s evolutionary rates and are omitted from the dataset to avoid NA values.
 pdb_temp = data.frame()
-ERscors = data.frame()  # This data frame will contain correlations of select structural variables with r4sJC evolutionary rates, for each pdb file on eaxch row
+best_structural_predictors_of_ER = data.frame()  # This data frame will contain correlations of select structural variables with r4sJC evolutionary rates, for each pdb file on eaxch row
 counter = 0
 
 for(pdb in levels(res_prop_elj$pdb))
@@ -39,16 +39,17 @@ for(pdb in levels(res_prop_elj$pdb))
   
   #row = data.frame( pdb = pdb, rsa = r.rsa.r4sJC, wcn = r.wcn.r4sJC, vareaSC = r.vareaSC.r4sJC, ddgent = r.ddgent.r4sJC )
   row = data.frame( pdb, r.wcnCA.r4sJC, r.wcnSC.r4sJC, r.rsa.r4sJC, r.vareaSC.r4sJC, r.ddgent.r4sJC , r.vareaCA.r4sJC )
-  ERscors = rbind( ERscors, row )
+  best_structural_predictors_of_ER = rbind( best_structural_predictors_of_ER, row )
 }
 
+write.csv(best_voronoi_predictors_of_ER, file = "../tables/best_structural_predictors_of_ER.csv", row.names=F )
 
 # NOW GENERATE CORRELATIONS HISTOGRAM DATA:
-hist.rsa = density(ERscors$r.rsa.r4sJC)
-hist.wcnSC = density(ERscors$r.wcnSC.r4sJC)
-hist.wcnCA = density(ERscors$r.wcnCA.r4sJC)
-hist.vareaSC = density(ERscors$r.vareaSC.r4sJC)
-hist.ddgent = density(ERscors$r.ddgent.r4sJC)
+hist.rsa = density(best_structural_predictors_of_ER$r.rsa.r4sJC)
+hist.wcnSC = density(best_structural_predictors_of_ER$r.wcnSC.r4sJC)
+hist.wcnCA = density(best_structural_predictors_of_ER$r.wcnCA.r4sJC)
+hist.vareaSC = density(best_structural_predictors_of_ER$r.vareaSC.r4sJC)
+hist.ddgent = density(best_structural_predictors_of_ER$r.ddgent.r4sJC)
 
 # Now plot histograms in a single plot
 #colors = c('green', 'blue', 'red', 'black', 'gray', 'cyan2')
