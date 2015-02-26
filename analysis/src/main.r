@@ -33,5 +33,10 @@ source('best_wcn_select_variables.r')
 source('voronoi_diagram.r')
 
 # Generate density plots comparing the predictive power of Voronoi cell area, Weighted Contact Number, and RSA about sequence evolution:
+source('best_structural_predictors_of_ER.r')    # for Evolutionary Rates: r4sJC
+source('best_structural_predictors_of_SE.r')    # for Sequence Entropy: seqent
+
+# Generate density plots comparing the predictive power of different properties of Voronoi cell:
+source('best_voronoi_predictors_of_ER.r')
 
  
