@@ -37,7 +37,7 @@ for(pdb in levels(res_prop_elj$pdb))
   r.seqent_wcnca = x$estimate
   p.seqent_wcnca = x$p.value
   
-  x = cor.test( pdb_elj$entropy_from_alignments, pdb_dssp$hbe_mean, method='pearson', na.action="na.omit" )
+  x = cor.test( pdb_elj$entropy_from_alignments, pdb_dssp$hbe, method='pearson', na.action="na.omit" )
   r.seqent_hbe = x$estimate
   p.seqent_hbe = x$p.value
   
@@ -53,7 +53,7 @@ for(pdb in levels(res_prop_elj$pdb))
   r.ddgent_wcnca = x$estimate
   p.ddgent_wcnca = x$p.value
   
-  x = cor.test( pdb_elj$entropy_from_ddGs, pdb_dssp$hbe_mean, method='pearson', na.action="na.omit" )
+  x = cor.test( pdb_elj$entropy_from_ddGs, pdb_dssp$hbe, method='pearson', na.action="na.omit" )
   r.ddgent_hbe = x$estimate
   p.ddgent_hbe = x$p.value
   
@@ -65,7 +65,7 @@ for(pdb in levels(res_prop_elj$pdb))
   r.asa_wcnca = x$estimate
   p.asa_wcnca = x$p.value
   
-  x = cor.test( pdb_dssp$asa, pdb_dssp$hbe_mean, method='pearson', na.action="na.omit" )
+  x = cor.test( pdb_dssp$asa, pdb_dssp$hbe, method='pearson', na.action="na.omit" )
   r.asa_hbe = x$estimate
   p.asa_hbe = x$p.value
   
@@ -73,11 +73,11 @@ for(pdb in levels(res_prop_elj$pdb))
   r.rsa_wcnca = x$estimate
   p.rsa_wcnca = x$p.value
   
-  x = cor.test( pdb_dssp$rsa, pdb_dssp$hbe_mean, method='pearson', na.action="na.omit" )
+  x = cor.test( pdb_dssp$rsa, pdb_dssp$hbe, method='pearson', na.action="na.omit" )
   r.rsa_hbe = x$estimate
   p.rsa_hbe = x$p.value
   
-  x = cor.test( pdb_dssp$wcn_ca, pdb_dssp$hbe_mean, method='pearson', na.action="na.omit" )
+  x = cor.test( pdb_dssp$wcn_ca, pdb_dssp$hbe, method='pearson', na.action="na.omit" )
   r.wcnca_hbe = x$estimate
   p.wcnca_hbe = x$p.value
   

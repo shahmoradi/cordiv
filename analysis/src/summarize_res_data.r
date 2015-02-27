@@ -20,13 +20,13 @@ for(pdb in levels(res_prop_elj$pdb))
     pdb_elj    = res_prop_elj[res_prop_elj$pdb==pdb,] # c('seqent','ddgent')]
     pdb_jec    = res_prop_jec[res_prop_jec$pdb==pdb,] # c('zr4s_JC')]
     pdb_hps    = res_prop_hps[res_prop_hps$pdb==pdb,] # c('hpskd','hpsww','hpshh')] )
-    pdb_dssp   = res_prop_dssp[res_prop_dssp$pdb==pdb,] # c('asa','rsa','hbe_mean','rss')] )
-    pdb_wcn_bf = res_prop_wcn_bf[res_prop_wcn_bf$pdb==pdb, ] #c('asa','rsa','hbe_mean','rss')] )
+    pdb_dssp   = res_prop_dssp[res_prop_dssp$pdb==pdb,] # c('asa','rsa','hbe','rss')] )
+    pdb_wcn_bf = res_prop_wcn_bf[res_prop_wcn_bf$pdb==pdb, ] #c('asa','rsa','hbe','rss')] )
     
     pdb_temp = cbind( subset(pdb_elj, select = c(seqent,ddgent)),
                       subset(pdb_jec, select = c(zr4s_JC)),
                       subset(pdb_hps, select = c(hpskd,hpsww,hpshh)),
-                      subset(pdb_dssp, select = c(asa,rsa,hbe_mean)),
+                      subset(pdb_dssp, select = c(asa,rsa,hbe)),
                       subset(pdb_wcn_bf, select = -c(pdb,resnam,resnum))
     )
     
@@ -77,7 +77,7 @@ for(pdb in levels(res_prop_dssp$pdb))
   counter = counter + 1
   cat( paste(str(counter),pdb) )
   
-  pdb_dssp   = res_prop_dssp[res_prop_dssp$pdb==pdb,] # c('asa','rsa','hbe_mean','rss')] )
+  pdb_dssp   = res_prop_dssp[res_prop_dssp$pdb==pdb,] # c('asa','rsa','hbe','rss')] )
 
   sum.GSS    = length(which(pdb_dssp$rss == 'G'))
   sum.HSS    = length(which(pdb_dssp$rss == 'H'))

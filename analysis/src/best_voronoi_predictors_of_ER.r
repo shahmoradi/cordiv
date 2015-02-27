@@ -18,7 +18,7 @@ for(pdb in levels(res_prop_elj$pdb))
   #pdb_elj    = res_prop_elj[res_prop_elj$pdb==pdb,] # c('seqent','ddgent')]
   pdb_jec    = res_prop_jec[res_prop_jec$pdb==pdb,] # c('zr4s_JC')]
   #pdb_hps    = res_prop_hps[res_prop_hps$pdb==pdb,] # c('hpskd','hpsww','hpshh')] )
-  #pdb_dssp   = res_prop_dssp[res_prop_dssp$pdb==pdb,] # c('asa','rsa','hbe_mean','rss')] )
+  #pdb_dssp   = res_prop_dssp[res_prop_dssp$pdb==pdb,] # c('asa','rsa','hbe','rss')] )
   #pdb_wcn_bf = res_prop_wcn_bf[res_prop_wcn_bf$pdb==pdb, ]
   pdb_voroSC = res_prop_voroSC[res_prop_voroSC$pdb==pdb, ]
   #pdb_voroCA = res_prop_voroCA[res_prop_voroCA$pdb==pdb, ]
@@ -196,3 +196,134 @@ legend( 'topleft'
       )
 
 graphics.off()
+
+
+
+
+#####################################################
+#####################################################
+#####################################################
+#####################################################
+#####################################################
+
+
+
+# Now combine both histograms in one screen figure:
+
+# Now plot histograms in a single plot
+#colors = c('green', 'blue', 'red', 'black', 'gray', 'cyan2')
+pdf( "../figures/best_voronoi_predictors_of_ER_screen.pdf", width=9, height=4, useDingbats=FALSE )
+
+split.screen(c(1,2))
+
+  screen(1)
+  par( mai=c(0.65, 0.65, 0.2, 0.2), mgp=c(2, 0.5, 0), tck=-0.03 )
+  plot( hist.edge$x
+    , hist.edge$y
+    #, col = 'blue'
+    ,  col = cbbPalette[[1]]
+    ,   xlim = c(0.1,0.85)
+    ,   ylim = c(0,5.5)
+    #,   col=colors[1]
+    #,   ylim=c(0,7)
+    #,   border = colors[1]
+    #,   lty = 0
+    ,   type = 'l'
+    ,   lwd  = 2 
+    #,   main = 'Correlations with Evolutionary Rates'
+    #,   xlab = expression(paste('Absolute Spearman Cor. with Evolutionary Rates ',rho))
+    ,   xlab = 'Absolute Spearman Cor. with Evolutionary Rates'
+    ,   ylab = 'frequency'
+    )
+  mtext('A', side = 3, at=-0.03, font=2, cex=1.2)
+  lines( abs(hist.area$x)
+       , abs(hist.area$y)
+       #, col = 'green'
+       ,  col = cbbPalette[[2]]
+       , lwd  = 2
+      )
+  lines( abs(hist.volume$x)
+       , abs(hist.volume$y)
+       #, col = 'red'
+       , col = cbbPalette[[3]]
+       , lwd  = 2
+       )
+  lines( abs(hist.eccentricity$x)
+       , abs(hist.eccentricity$y)
+       #, col = 'black'
+       , col = cbbPalette[[4]]
+       , lwd = 2
+       )
+  lines( abs(hist.sphericity$x)
+       , abs(hist.sphericity$y)
+       #, col = 'black'
+       , col = cbbPalette[[5]]
+       , lwd = 2
+       #, lty = 2
+       )
+  legend( 'topleft'
+        , c("cell edge length", "cell area", "cell volume", "cell eccentricity", "cell sphericity")
+        #, col = c('red','black','black','green','blue')
+        , col = cbbPalette
+        , lty = c(1,1,1,1)
+        , lwd = 2
+        , bty = 'n'
+        , cex = 0.9
+        )
+
+
+screen(2)
+
+  par( mai=c(0.65, 0.65, 0.2, 0.2), mgp=c(2, 0.5, 0), tck=-0.03 )
+  plot(  hist.r.edg_given_area$x
+       ,  hist.r.edg_given_area$y
+       #, col = 'blue'
+       ,  col = cbbPalette[[1]]
+       ,   xlim = c(-0.4,0.3)
+       ,   ylim = c(0,7.5)
+       #,   col=colors[1]
+       #,   ylim=c(0,7)
+       #,   border = colors[1]
+       #,   lty = 0
+       ,   type = 'l'
+       ,   lwd  = 2 
+       #,   main = 'Correlations with Evolutionary Rates'
+       #,   xlab = expression(paste('Absolute Spearman Cor. with Evolutionary Rates ',rho))
+       ,   xlab = 'Spearman Cor. with Evolutionary Rates'
+       ,   ylab = 'frequency'
+       )
+  mtext('B', side = 3, at=-0.52, font=2, cex=1.2)
+  lines( hist.r.vol_given_area$x
+       , hist.r.vol_given_area$y
+       #, col = 'red'
+       , col = cbbPalette[[2]]
+       , lwd  = 2
+       )
+  lines( hist.r.ecc_given_area$x
+       , hist.r.ecc_given_area$y
+       #, col = 'black'
+       , col = cbbPalette[[3]]
+       , lwd = 2
+       #, lty = 2
+       )
+  lines( hist.r.sph_given_area$x
+       , hist.r.sph_given_area$y
+       #, col = 'black'
+       , col = cbbPalette[[4]]
+       , lwd = 2
+       #, lty = 2
+       )
+  legend( 'topleft'
+        , c("cell edge length", "cell volume", "cell eccentricity", "cell sphericity")
+        #, col = c('red','black','green','blue')
+        , col = cbbPalette
+        , lty = c(1,1,1)
+        , lwd = 2
+        , bty = 'n'
+        , cex = 0.9
+        )
+
+close.screen(all = TRUE)
+
+graphics.off()
+

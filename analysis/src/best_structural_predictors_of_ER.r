@@ -17,7 +17,7 @@ for(pdb in levels(res_prop_elj$pdb))
   pdb_elj    = res_prop_elj[res_prop_elj$pdb==pdb,] # c('seqent','ddgent')]
   pdb_jec    = res_prop_jec[res_prop_jec$pdb==pdb,] # c('zr4s_JC')]
   pdb_hps    = res_prop_hps[res_prop_hps$pdb==pdb,] # c('hpskd','hpsww','hpshh')] )
-  pdb_dssp   = res_prop_dssp[res_prop_dssp$pdb==pdb,] # c('asa','rsa','hbe_mean','rss')] )
+  pdb_dssp   = res_prop_dssp[res_prop_dssp$pdb==pdb,] # c('asa','rsa','hbe','rss')] )
   pdb_wcn_bf = res_prop_wcn_bf[res_prop_wcn_bf$pdb==pdb, ]
   pdb_voroSC = res_prop_voroSC[res_prop_voroSC$pdb==pdb, ]
   pdb_voroCA = res_prop_voroCA[res_prop_voroCA$pdb==pdb, ]
@@ -36,9 +36,11 @@ for(pdb in levels(res_prop_elj$pdb))
   r.vareaSC.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$VSCarea,method='sp')
   r.ddgent.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$ddgent,method='sp')
   r.vareaCA.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$VCAarea,method='sp')
+  r.bfSC.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$bfSC,method='sp')
+  r.hbe.r4sJC = cor(pdb_temp$zr4s_JC,abs(pdb_temp$hbe),method='sp')
   
   #row = data.frame( pdb = pdb, rsa = r.rsa.r4sJC, wcn = r.wcn.r4sJC, vareaSC = r.vareaSC.r4sJC, ddgent = r.ddgent.r4sJC )
-  row = data.frame( pdb, r.wcnCA.r4sJC, r.wcnSC.r4sJC, r.rsa.r4sJC, r.vareaSC.r4sJC, r.ddgent.r4sJC , r.vareaCA.r4sJC )
+  row = data.frame( pdb, r.wcnCA.r4sJC, r.wcnSC.r4sJC, r.rsa.r4sJC, r.vareaSC.r4sJC, r.ddgent.r4sJC , r.vareaCA.r4sJC , r.bfSC.r4sJC , r.hbe.r4sJC )
   best_structural_predictors_of_ER = rbind( best_structural_predictors_of_ER, row )
 }
 
@@ -50,6 +52,8 @@ hist.wcnSC = density(best_structural_predictors_of_ER$r.wcnSC.r4sJC)
 hist.wcnCA = density(best_structural_predictors_of_ER$r.wcnCA.r4sJC)
 hist.vareaSC = density(best_structural_predictors_of_ER$r.vareaSC.r4sJC)
 hist.ddgent = density(best_structural_predictors_of_ER$r.ddgent.r4sJC)
+hist.bfSC = density(best_structural_predictors_of_ER$r.bfSC.r4sJC)
+hist.hbe = density(best_structural_predictors_of_ER$r.hbe.r4sJC)
 
 # Now plot histograms in a single plot
 #colors = c('green', 'blue', 'red', 'black', 'gray', 'cyan2')
@@ -58,7 +62,7 @@ par( mai=c(0.65, 0.65, 0.05, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
 plot(  hist.rsa$x
     ,  hist.rsa$y
     ,   col = 'blue'
-    ,   xlim = c(0.15,0.85)
+    ,   xlim = c(-0.5,0.85)
     ,   ylim = c(0,5.5)
     #,   col=colors[1]
     #,   ylim=c(0,7)
@@ -71,13 +75,13 @@ plot(  hist.rsa$x
     ,   xlab = 'Absolute Spearman Cor. with Evolutionary Rates'
     ,   ylab = 'frequency'
     )
-lines( abs(hist.ddgent$x)
-     , abs(hist.ddgent$y)
+lines( hist.ddgent$x
+     , hist.ddgent$y
      , col = 'green'
      , lwd  = 2
      )
-lines( abs(hist.vareaSC$x)
-     , abs(hist.vareaSC$y)
+lines( hist.vareaSC$x
+     , hist.vareaSC$y
      , col = 'red'
      , lwd  = 2
      )
@@ -92,10 +96,20 @@ lines( abs(hist.wcnCA$x)
      , lwd = 2
      , lty = 2
      )
+lines( hist.bfSC$x
+     , hist.bfSC$y
+     , col = 'cyan2'
+     , lwd = 2
+     )
+lines( -hist.hbe$x
+     , hist.hbe$y
+     , col = 'grey'
+     , lwd = 2
+     )
 
 legend( 'topleft'
-      , c("Voronoi Cell Area", "WCN (SC)", "WCN (CA)", "ddG Rate", "RSA")
-      , col = c('red','black','black','green','blue')
+      , c("Voronoi Cell Area","H-bond strength", "WCN (SC)", "WCN (CA)", "ddG Rate", "Bfactor", "RSA")
+      , col = c('red','grey','black','black','green','cyan2','blue')
       , lty = c(1,1,2,1,1)
       , lwd = 2
       , bty = 'n'
