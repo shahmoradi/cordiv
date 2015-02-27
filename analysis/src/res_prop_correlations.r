@@ -65,7 +65,7 @@ res_prop_voroSC$pdb  = factor(res_prop_voroSC$pdb)
 all_res_prop = cbind( subset(res_prop_jec, select = c(pdb,r4s_JC)),
                       subset(res_prop_elj, select = c(seqent,ddgent)),
                       subset(res_prop_hps, select = c(hpskd,hpsww,hpshh)),
-                      subset(res_prop_dssp, select = c(asa,rsa,hbe_mean)),
+                      subset(res_prop_dssp, select = c(asa,rsa,hbe)),
                       subset(res_prop_wcn_bf, select = -c(pdb,resnam,resnum)),
                       subset(res_prop_voroAA, select = -c(pdb,resnam,resnum,sizeSC,sizeAA,VAAnvertices,VAAnedges,VAAvolume_change_diff,VAAvolume_change_ratio)),
                       subset(res_prop_voroCA, select = -c(pdb,resnam,resnum,sizeSC,sizeAA,resvol,VCAnvertices,VCAnedges,VCAvolume_change_diff,VCAvolume_change_ratio)),
