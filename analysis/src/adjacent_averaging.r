@@ -151,7 +151,7 @@ for (i in 1:length(varnames_short))
 res_prop_ordered = res_prop_concise[with(res_prop_concise, order(res_prop_concise$wcnSC)),]
 temp = rollapply(res_prop_ordered, width = 3000, FUN = mean)
 temp = data.frame(temp)
-filename = paste0('../figures/adjacent_averaging/zr4sJC_wcnSCinv_all_cells.pdf')
+filename = paste0('../figures/adjacent_averaging/wcnSCinv_zr4sJC_all_cells.pdf')
 pdf( filename, width=5.625, height=5, useDingbats=FALSE )
 par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
 plot(1./temp$wcnSC,
@@ -160,6 +160,50 @@ plot(1./temp$wcnSC,
      ylab = "Evolutionary Rates (zr4sJC)",
      type='l')
 graphics.off()
+
+# Update: Feb 26 2015, Amir
+# Now let's make a plot of r4sJC vs. inverse of Voronoi Volume (volinv), that is 1/volume, to see if it is linear or not.
+
+res_prop_ordered = res_prop_concise[with(res_prop_concise, order(res_prop_concise$vvolume)),]
+temp = rollapply(res_prop_ordered, width = 3000, FUN = mean)
+temp = data.frame(temp)
+filename = paste0('../figures/adjacent_averaging/vvolumeSCinv_zr4sJC_all_cells.pdf')
+pdf( filename, width=5.625, height=5, useDingbats=FALSE )
+par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+plot(1./temp$vvolume,
+     temp$zr4s_JC,
+     xlab = "1 / Voronoi Volume",
+     ylab = "Evolutionary Rates (zr4sJC)",
+     type='l')
+graphics.off()
+
+res_prop_concise_closed = res_prop_concise[res_prop_voroSC$VSCvolume_change_diff == 0,]
+res_prop_closed_ordered = res_prop_concise_closed[with(res_prop_concise_closed, order(res_prop_concise_closed$vvolume)),]
+temp_closed = data.frame(rollapply(res_prop_closed_ordered, width = 3000, FUN = mean))
+filename = paste0('../figures/adjacent_averaging/vvolumeSCinv_zr4sJC_all_cells_closed_cells.pdf')
+pdf( filename, width=5.625, height=5, useDingbats=FALSE )
+par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+plot(1./temp_closed$vvolume,
+     temp_closed$zr4s_JC,
+     xlab = "1 / Voronoi Volume",
+     ylab = "Evolutionary Rates (zr4sJC)",
+     type='l')
+graphics.off()
+
+res_prop_concise_open = res_prop_concise[res_prop_voroSC$VSCvolume_change_diff != 0,]
+res_prop_open_ordered = res_prop_concise_open[with(res_prop_concise_open, order(res_prop_concise_open$vvolume)),]
+temp_open = data.frame(rollapply(res_prop_open_ordered, width = 3000, FUN = mean))
+filename = paste0('../figures/adjacent_averaging/vvolumeSCinv_zr4sJC_all_cells_open_cells.pdf')
+pdf( filename, width=5.625, height=5, useDingbats=FALSE )
+par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+plot(1./temp_open$vvolume,
+     temp_open$zr4s_JC,
+     xlab = "1 / Voronoi Volume",
+     ylab = "Evolutionary Rates (zr4sJC)",
+     type='l')
+graphics.off()
+
+
 
 #temp_quantile = rollapply(cbind(res_prop_all_ordered$wcnSC,res_prop_all_ordered$volume, res_prop_all_ordered$rsa), width = 1000, FUN = quantile)
 #temp = data.frame(temp_quantile)
