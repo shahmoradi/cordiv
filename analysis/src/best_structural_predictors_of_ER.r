@@ -2,7 +2,7 @@
 
 # Last updated by Amir Shahmoradi, Friday 4:25 PM, February 13 2015, Wilke Lab, ICMB, UT Austin
 
-# setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
+setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 
 # excluded_pdbs = c('1BBS_A','1BS0_A','1DIN_A','1HPL_A')   # These are the 4 PDBs that did not have complete r4s evolutionary rates and are omitted from the dataset to avoid NA values.
 pdb_temp = data.frame()

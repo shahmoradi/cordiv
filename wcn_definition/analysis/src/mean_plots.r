@@ -75,7 +75,7 @@
 # DENSITY WCN
 
     pdf( "../figures/mean_sp_wcnd_bfac.pdf", width=4.5, height=4, useDingbats=FALSE )
-    plot(wcnd_bfac$parameter,wcnd_bfac$mean_sp, type = 'l', ylim=c(0.,0.8), xlab='cutoff distance', ylab='spearman correlation: WCN-Bfactor', main='Density CN')
+    plot(wcnd_bfac$parameter,wcnd_bfac$mean_sp, type = 'l', ylim=c(0.,0.8), xlab='cutoff distance [Angstroms]', ylab='correlation: WCN-Bfactor', main='Density CN')
     polygon(c(wcnd_bfac$parameter,rev(wcnd_bfac$parameter)),c(wcnd_bfac$quantile25_sp,rev(wcnd_bfac$quantile75_sp)),col = "green", border = FALSE)
     lspl = smooth.spline(wcnd_bfac$parameter,wcnd_bfac$quantile25_sp)
     uspl = smooth.spline(wcnd_bfac$parameter,wcnd_bfac$quantile75_sp)
@@ -86,7 +86,7 @@
     dev.off()
 
     pdf( "../figures/mean_sp_wcnd_seqent.pdf", width=4.5, height=4, useDingbats=FALSE )
-    plot(wcnd_seqent$parameter,wcnd_seqent$mean_sp, type = 'l', ylim=c(0.,0.8), xlab='cutoff distance', ylab='spearman correlation: WCN-SeqEnt', main='Density CN')
+    plot(wcnd_seqent$parameter,wcnd_seqent$mean_sp, type = 'l', ylim=c(0.,0.6), xlab='cutoff distance [Angstroms]', ylab='Spearman correlation strength') #, main='Density CN')
     polygon(c(wcnd_seqent$parameter,rev(wcnd_seqent$parameter)),c(wcnd_seqent$quantile25_sp,rev(wcnd_seqent$quantile75_sp)),col = "green", border = FALSE)
     lspl = smooth.spline(wcnd_seqent$parameter,wcnd_seqent$quantile25_sp)
     uspl = smooth.spline(wcnd_seqent$parameter,wcnd_seqent$quantile75_sp)
