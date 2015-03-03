@@ -144,6 +144,7 @@ pdf( filename, width=6, height=5, useDingbats=FALSE )
 par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
 
 plot( all_pdb_prop_select_wide$sd.seqent^2
+      #all_pdb_prop_select_wide$sd.r4sJC^2
     , all_pdb_prop_select_wide$r.r4sJC.wcnSC
     , pch = 19
     , xlab = 'Sequence Divergence:  Variance ( Seq. Entropy )'
@@ -151,7 +152,7 @@ plot( all_pdb_prop_select_wide$sd.seqent^2
     , xlim = c(-0.1,0.85)
     , ylim = c(0.2,-0.85)
     )
-source('input_ASAP_data.r')
+#source('input_ASAP_data.r')
 points( all_pdb_prop_select_wide_asap$sd.seqent^2
         , ASAP_pdb_prop$r.seqent.wcnCA
         , col = 'red'
@@ -186,7 +187,7 @@ plot( all_pdb_prop_select_wide$sd.seqent^2
       , ylim = c(-0.2,0.8)
 )
 points( all_pdb_prop_select_wide_asap$sd.seqent^2
-        , all_pdb_prop_select_wide_asap$r.seqent.wcnSC
+        #, all_pdb_prop_select_wide_asap$r.seqent.wcnSC
         , abs(all_pdb_prop_select_wide_asap$r.seqent.wcnSC)
         , col = 'red'
         , pch = 19

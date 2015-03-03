@@ -4,7 +4,7 @@
 
 #INPUT FILES:
 
-#setwd('C:/Users/Amir/Documents/GitHub/structural_prediction_of_ER/')
+setwd('C:/Users/Amir/Documents/GitHub/structural_prediction_of_ER/')
 
 data_1RD8_AB = read.csv( "correlation_analysis/combined_data/data_1RD8_AB.csv" )
 data_2FP7_B  = read.csv( "correlation_analysis/combined_data/data_2FP7_B.csv" )
