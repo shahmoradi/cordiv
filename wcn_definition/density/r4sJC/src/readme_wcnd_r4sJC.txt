@@ -1,0 +1,4 @@
+In this set of codes, I tried to investigate the effects of varying the cutoff in the original definition of contact number (CN) -- equivalent to local packing density --  for each pdb file on the strength of the correlation between CN and sequence entropies.
+Previously, I had used CN definition with cutoff 13 angstroms, in my structural_prediction_of_ER paper. Here, this cutoff is left to vary in the range (0.,50) with stides of size 0.1.  For many of these strides CN values for all residues were zero or identical, or equivalent to the total number of residues in the pdb file. For these cases, the spearman correlation was either NAN or Infinity, which were replaced by zero in the summary and extended output.
+
+Amir Shahmoradi, Friday 12:17 AM, July 18 2014, iCMB, UT Austin
