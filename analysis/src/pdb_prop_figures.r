@@ -174,15 +174,20 @@ pdf( filename, width=6, height=5, useDingbats=FALSE )
 par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
 
 plot( all_pdb_prop_select_wide$sd.seqent^2
-      , all_pdb_prop_select_wide$r.seqent.wcnSC
+      #, all_pdb_prop_select_wide$r.seqent.wcnSC
+      , abs(all_pdb_prop_select_wide$r.seqent.wcnSC)
       , pch = 19
-      , xlab = 'Sequence Divergence:  Variance ( Seq. Entropy )'
-      , ylab = bquote('Spearman' ~ rho ~ ':  Seq. Entropy - wcnSC')
+      #, xlab = 'Sequence Divergence:  Variance ( Seq. Entropy )'
+      , xlab = 'Sequence Divergence:  Variance ( Sequence Entropy )'
+      #, ylab = bquote('Spearman' ~ rho ~ ':  Seq. Entropy - wcnSC')
+      , ylab = "Sequence-Structure Correlation Strength"
       , xlim = c(-0.1,0.85)
-      , ylim = c(0.2,-0.8)
+      #, ylim = c(0.2,-0.8)
+      , ylim = c(-0.2,0.8)
 )
 points( all_pdb_prop_select_wide_asap$sd.seqent^2
         , all_pdb_prop_select_wide_asap$r.seqent.wcnSC
+        , abs(all_pdb_prop_select_wide_asap$r.seqent.wcnSC)
         , col = 'red'
         , pch = 19
 )

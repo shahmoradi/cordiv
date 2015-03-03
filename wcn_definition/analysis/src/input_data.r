@@ -4,7 +4,7 @@
 # install.packages('matrixStats')  # needed for functions colMedians
 # library(matrixStats)
 
-setwd('C:/Users/Amir/Documents/GitHub/cordiv/wcn_definition/analysis/src')   # ATTN: Set this to directory where this R code exists
+#setwd('C:/Users/Amir/Documents/GitHub/cordiv/wcn_definition/analysis/src')   # ATTN: Set this to directory where this R code exists
 
 
 # INPUT DATA FOR POWER-LAW WCN

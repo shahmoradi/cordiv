@@ -62,7 +62,11 @@ par( mai=c(0.65, 0.65, 0.05, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
 plot(  hist.rsa$x
     ,  hist.rsa$y
     ,   col = 'blue'
+<<<<<<< HEAD
+    ,   xlim = c(-0.5,0.85)
+=======
     ,   xlim = c(0.0,0.85)
+>>>>>>> 519de7a0894a0bf5b518c93b746a5aed87117401
     ,   ylim = c(0,5.5)
     #,   col=colors[1]
     #,   ylim=c(0,7)
@@ -101,6 +105,17 @@ lines( hist.bfSC$x
      , col = 'cyan2'
      , lwd = 2
      )
+<<<<<<< HEAD
+lines( -hist.hbe$x
+     , hist.hbe$y
+     , col = 'grey'
+     , lwd = 2
+     )
+
+legend( 'topleft'
+      , c("Voronoi Cell Area","H-bond strength", "WCN (SC)", "WCN (CA)", "ddG Rate", "Bfactor", "RSA")
+      , col = c('red','grey','black','black','green','cyan2','blue')
+=======
 #lines( -hist.hbe$x
 #     , hist.hbe$y
 #     , col = 'grey'
@@ -111,6 +126,7 @@ legend( 'topleft'
       #, c("Voronoi Cell Area","H-bond strength", "WCN (SC)", "WCN (CA)", "ddG Rate", "Bfactor", "RSA")
       , c("Voronoi Cell Area","WCN (SC)", "WCN (CA)", "ddG Rate", "Bfactor", "RSA")
       , col = c('red','black','black','green','cyan2','blue')
+>>>>>>> 519de7a0894a0bf5b518c93b746a5aed87117401
       , lty = c(1,1,2,1,1)
       , lwd = 2
       , bty = 'n'
