@@ -62,11 +62,11 @@ dev.off()
 
 # Now Generate a more consice version of the above correlation matrix to be included in the main text of the article only for the relation r4sJC-wcnSC
 
-selection = data.frame( r.r4s.wcn      = all_pdb_prop_select_wide_rank$r.r4sJC.wcnSC
+selection = data.frame( r.r4s.wcn      = abs(all_pdb_prop_select_wide_rank$r.r4sJC.wcnSC)
                         #, r.r4s.varea    = all_pdb_prop_select_wide_rank$r.r4sJC.varea
                         #, r.se.wcn       = all_pdb_prop_select_wide_rank$r.seqent.wcnSC
                         #, r.se.varea     = all_pdb_prop_select_wide_rank$r.seqent.varea
-                        , r.r4s.se       = all_pdb_prop_select_wide_rank$r.r4sJC.seqent
+                        #, r.r4s.se       = all_pdb_prop_select_wide_rank$r.r4sJC.seqent
                         , sd.se          = all_pdb_prop_select_wide_rank$sd.seqent
                         , sd.r4s         = all_pdb_prop_select_wide_rank$sd.r4sJC
                         , sd.hbe         = all_pdb_prop_select_wide_rank$sd.hbe
