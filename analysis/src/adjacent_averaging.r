@@ -205,6 +205,22 @@ graphics.off()
 
 
 
+
+res_prop_ordered = res_prop_concise[with(res_prop_concise, order(res_prop_concise$vvolume)),]
+temp = rollapply(res_prop_ordered, width = 3000, FUN = mean)
+temp = data.frame(temp)
+filename = paste0('../figures/adjacent_averaging/vvolumeSC_zr4sJC_all_cells_nonlog.pdf')
+pdf( filename, width=5.625, height=5, useDingbats=FALSE )
+par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+plot(10^temp$vvolume,
+     temp$zr4s_JC,
+     xlab = "Voronoi Cell Volume",
+     ylab = "Evolutionary Rates (zr4sJC)",
+     type='l')
+graphics.off()
+
+
+
 #temp_quantile = rollapply(cbind(res_prop_all_ordered$wcnSC,res_prop_all_ordered$volume, res_prop_all_ordered$rsa), width = 1000, FUN = quantile)
 #temp = data.frame(temp_quantile)
 #View(temp)
