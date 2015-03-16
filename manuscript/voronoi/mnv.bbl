@@ -1,0 +1,280 @@
+\begin{thebibliography}{41}
+\providecommand{\natexlab}[1]{#1}
+
+\bibitem[{Ashkenazy et~al.(2010)Ashkenazy, Erez, Martz, Pupko, and
+  Ben-Tal}]{ashkenazy_consurf_2010}
+Ashkenazy H, Erez E, Martz E, Pupko T, Ben-Tal N. 2010.
+\newblock {ConSurf} 2010: calculating evolutionary conservation in sequence and
+  structure of proteins and nucleic acids.
+\newblock \emph{Nucleic Acids Research}. 38:W529--W533.
+
+\bibitem[{Bloom et~al.(2006)Bloom, Drummond, Arnold, and
+  Wilke}]{bloom_structural_2006}
+Bloom JD, Drummond DA, Arnold FH, Wilke CO. 2006.
+\newblock Structural {Determinants} of the {Rate} of {Protein} {Evolution} in
+  {Yeast}.
+\newblock \emph{Molecular Biology and Evolution}. 23:1751--1761.
+
+\bibitem[{Bustamante et~al.(2000)Bustamante, Townsend, and
+  Hartl}]{bustamante_solvent_2000}
+Bustamante CD, Townsend JP, Hartl DL. 2000.
+\newblock Solvent {Accessibility} and {Purifying} {Selection} {Within}
+  {Proteins} of {Escherichia} coli and {Salmonella} enterica.
+\newblock \emph{Molecular Biology and Evolution}. 17:301--308.
+
+\bibitem[{Conant and Stadler(2009)}]{conant_solvent_2009}
+Conant GC, Stadler PF. 2009.
+\newblock Solvent {Exposure} {Imparts} {Similar} {Selective} {Pressures} across
+  a {Range} of {Yeast} {Proteins}.
+\newblock \emph{Molecular Biology and Evolution}. 26:1155--1161.
+
+\bibitem[{Echave et~al.(2014)Echave, Jackson, and
+  Wilke}]{echave_relationship_2014}
+Echave J, Jackson EL, Wilke CO. 2014.
+\newblock Relationship between protein thermodynamic constraints and variation
+  of evolutionary rates among sites.
+\newblock \emph{bioRxiv}. p. 009423.
+
+\bibitem[{Franzosa and Xia(2009)}]{franzosa_structural_2009}
+Franzosa EA, Xia Y. 2009.
+\newblock Structural {Determinants} of {Protein} {Evolution} {Are}
+  {Context}-{Sensitive} at the {Residue} {Level}.
+\newblock \emph{Molecular Biology and Evolution}. 26:2387--2395.
+
+\bibitem[{Gerstein et~al.(1994)Gerstein, Sonnhammer, and
+  Chothia}]{gerstein_volume_1994}
+Gerstein M, Sonnhammer ELL, Chothia C. 1994.
+\newblock Volume changes in protein evolution.
+\newblock \emph{Journal of Molecular Biology}. 236:1067--1078.
+
+\bibitem[{Goldenberg et~al.(2009)Goldenberg, Erez, Nimrod, and
+  Ben-Tal}]{goldenberg_consurf-db:_2009}
+Goldenberg O, Erez E, Nimrod G, Ben-Tal N. 2009.
+\newblock The {ConSurf}-{DB}: pre-calculated evolutionary conservation profiles
+  of protein structures.
+\newblock \emph{Nucleic Acids Research}. 37:D323--D327.
+
+\bibitem[{Goldman et~al.(1998)Goldman, Thorne, and
+  Jones}]{goldman_assessing_1998}
+Goldman N, Thorne JL, Jones DT. 1998.
+\newblock Assessing the {Impact} of {Secondary} {Structure} and {Solvent}
+  {Accessibility} on {Protein} {Evolution}.
+\newblock \emph{Genetics}. 149:445--458.
+
+\bibitem[{Halle(2002)}]{halle_flexibility_2002}
+Halle B. 2002.
+\newblock Flexibility and packing in proteins.
+\newblock \emph{Proceedings of the National Academy of Sciences}.
+  99:1274--1279.
+
+\bibitem[{Hamelryck(2005)}]{hamelryck_amino_2005}
+Hamelryck T. 2005.
+\newblock An amino acid has two sides: {A} new 2d measure provides a different
+  view of solvent exposure.
+\newblock \emph{Proteins: Structure, Function, and Bioinformatics}. 59:38--48.
+
+\bibitem[{Huang et~al.(2014)Huang, Marcos, Hwang, and
+  Echave}]{huang_mechanistic_2014}
+Huang TT, Marcos MLdV, Hwang JK, Echave J. 2014.
+\newblock A mechanistic stress model of protein evolution accounts for
+  site-specific evolutionary rates and their relationship with packing density
+  and flexibility.
+\newblock \emph{BMC Evolutionary Biology}. 14:78.
+
+\bibitem[{Kabsch and Sander(1983)}]{kabsch_dictionary_1983}
+Kabsch W, Sander C. 1983.
+\newblock Dictionary of protein secondary structure: {Pattern} recognition of
+  hydrogen-bonded and geometrical features.
+\newblock \emph{Biopolymers}. 22:2577--2637.
+
+\bibitem[{Katoh et~al.(2005)Katoh, Kuma, Toh, and Miyata}]{katoh_mafft_2005}
+Katoh K, Kuma Ki, Toh H, Miyata T. 2005.
+\newblock {MAFFT} version 5: improvement in accuracy of multiple sequence
+  alignment.
+\newblock \emph{Nucleic Acids Research}. 33:511--518.
+
+\bibitem[{Liao et~al.(2005)Liao, Yeh, Chiang, Jernigan, and
+  Lustig}]{liao_protein_2005}
+Liao H, Yeh W, Chiang D, Jernigan R, Lustig B. 2005.
+\newblock Protein sequence entropy is closely related to packing density and
+  hydrophobicity.
+\newblock \emph{Protein engineering, design \& selection : PEDS}. 18:59--64.
+
+\bibitem[{Lin et~al.(2008)Lin, Huang, Lai, Yen, Shih, Lu, Huang, and
+  Hwang}]{lin_deriving_2008}
+Lin CP, Huang SW, Lai YL, Yen SC, Shih CH, Lu CH, Huang CC, Hwang JK. 2008.
+\newblock Deriving protein dynamical properties from weighted protein contact
+  number.
+\newblock \emph{Proteins: Structure, Function, and Bioinformatics}.
+  72:929--935.
+
+\bibitem[{Liu and Bahar(2012)}]{liu_sequence_2012}
+Liu Y, Bahar I. 2012.
+\newblock Sequence {Evolution} {Correlates} with {Structural} {Dynamics}.
+\newblock \emph{Molecular Biology and Evolution}. 29:2253--2263.
+
+\bibitem[{Marcos and Echave(2014)}]{marcos_too_2014}
+Marcos ML, Echave J. 2014.
+\newblock Too packed to change: site-specific substitution rates and side-chain
+  packing in protein evolution.
+\newblock \emph{bioRxiv}. p. 013359.
+
+\bibitem[{Mayrose et~al.(2004)Mayrose, Graur, Ben-Tal, and
+  Pupko}]{mayrose_comparison_2004}
+Mayrose I, Graur D, Ben-Tal N, Pupko T. 2004.
+\newblock Comparison of {Site}-{Specific} {Rate}-{Inference} {Methods} for
+  {Protein} {Sequences}: {Empirical} {Bayesian} {Methods} {Are} {Superior}.
+\newblock \emph{Molecular Biology and Evolution}. 21:1781--1791.
+
+\bibitem[{Meyer et~al.(2013)Meyer, Dawson, and
+  Wilke}]{meyer_cross-species_2013}
+Meyer AG, Dawson ET, Wilke CO. 2013.
+\newblock Cross-species comparison of site-specific evolutionary-rate variation
+  in influenza haemagglutinin.
+\newblock \emph{Philosophical Transactions of the Royal Society of London B:
+  Biological Sciences}. 368:20120334.
+
+\bibitem[{Meyer and Wilke(2013)}]{meyer_integrating_2013}
+Meyer AG, Wilke CO. 2013.
+\newblock Integrating {Sequence} {Variation} and {Protein} {Structure} to
+  {Identify} {Sites} under {Selection}.
+\newblock \emph{Molecular Biology and Evolution}. 30:36--44.
+
+\bibitem[{Murzin et~al.(1995)Murzin, Brenner, Hubbard, and
+  Chothia}]{murzin_scop:_1995}
+Murzin AG, Brenner SE, Hubbard T, Chothia C. 1995.
+\newblock {SCOP}: {A} structural classification of proteins database for the
+  investigation of sequences and structures.
+\newblock \emph{Journal of Molecular Biology}. 247:536--540.
+
+\bibitem[{Porter et~al.(2004)Porter, Bartlett, and
+  Thornton}]{porter_catalytic_2004}
+Porter CT, Bartlett GJ, Thornton JM. 2004.
+\newblock The {Catalytic} {Site} {Atlas}: a resource of catalytic sites and
+  residues identified in enzymes using structural data.
+\newblock \emph{Nucleic Acids Research}. 32:D129--D133.
+
+\bibitem[{Ramsey et~al.(2011)Ramsey, Scherrer, Zhou, and
+  Wilke}]{ramsey_relationship_2011}
+Ramsey DC, Scherrer MP, Zhou T, Wilke CO. 2011.
+\newblock The {Relationship} {Between} {Relative} {Solvent} {Accessibility} and
+  {Evolutionary} {Rate} in {Protein} {Evolution}.
+\newblock \emph{Genetics}. 188:479--488.
+
+\bibitem[{Richards(1974)}]{richards_interpretation_1974}
+Richards FM. 1974.
+\newblock The interpretation of protein structures: {Total} volume, group
+  volume distributions and packing density.
+\newblock \emph{Journal of Molecular Biology}. 82:1--14.
+
+\bibitem[{Rodionov and Blundell(1998)}]{rodionov_sequence_1998}
+Rodionov MA, Blundell TL. 1998.
+\newblock Sequence and structure conservation in a protein core.
+\newblock \emph{Proteins: Structure, Function, and Bioinformatics}.
+  33:358--366.
+
+\bibitem[{Rycroft(2009)}]{rycroft_voro++:_2009}
+Rycroft CH. 2009.
+\newblock {VORO}++: {A} three-dimensional {Voronoi} cell library in {C}++.
+\newblock \emph{Chaos: An Interdisciplinary Journal of Nonlinear Science}.
+  19:041111.
+
+\bibitem[{Scherrer et~al.(2012)Scherrer, Meyer, and
+  Wilke}]{scherrer_modeling_2012}
+Scherrer MP, Meyer AG, Wilke CO. 2012.
+\newblock Modeling coding-sequence evolution within the context of residue
+  solvent accessibility.
+\newblock \emph{BMC Evolutionary Biology}. 12:179.
+
+\bibitem[{Shahmoradi et~al.(2014)Shahmoradi, Sydykova, Spielman, Jackson,
+  Dawson, Meyer, and Wilke}]{shahmoradi_predicting_2014}
+Shahmoradi A, Sydykova DK, Spielman SJ, Jackson EL, Dawson ET, Meyer AG, Wilke
+  CO. 2014.
+\newblock Predicting {Evolutionary} {Site} {Variability} from {Structure} in
+  {Viral} {Proteins}: {Buriedness}, {Packing}, {Flexibility}, and {Design}.
+\newblock \emph{Journal of Molecular Evolution}. 79:130--142.
+
+\bibitem[{Shenkin et~al.(1991)Shenkin, Erman, and
+  Mastrandrea}]{shenkin_information-theoretical_1991}
+Shenkin PS, Erman B, Mastrandrea LD. 1991.
+\newblock Information-theoretical entropy as a measure of sequence variability.
+\newblock \emph{Proteins: Structure, Function, and Bioinformatics}.
+  11:297--313.
+
+\bibitem[{Shih et~al.(2012)Shih, Chang, Lin, Lo, and
+  Hwang}]{shih_evolutionary_2012}
+Shih CH, Chang CM, Lin YS, Lo WC, Hwang JK. 2012.
+\newblock Evolutionary information hidden in a single protein structure.
+\newblock \emph{Proteins: Structure, Function, and Bioinformatics}.
+  80:1647--1657.
+
+\bibitem[{Sikosek and Chan(2014)}]{sikosek_biophysics_2014}
+Sikosek T, Chan HS. 2014.
+\newblock Biophysics of protein evolution and evolutionary protein biophysics.
+\newblock \emph{Journal of The Royal Society Interface}. 11:20140419.
+
+\bibitem[{Soyer et~al.(2000)Soyer, Chomilier, Mornon, Jullien, and
+  Sadoc}]{soyer_voronoi_2000}
+Soyer A, Chomilier J, Mornon JP, Jullien R, Sadoc JF. 2000.
+\newblock Vorono{\textbackslash}"{\textbackslash}i {Tessellation} {Reveals} the
+  {Condensed} {Matter} {Character} of {Folded} {Proteins}.
+\newblock \emph{Physical Review Letters}. 85:3532--3535.
+
+\bibitem[{Tien et~al.(2013)Tien, Meyer, Sydykova, Spielman, and
+  Wilke}]{tien_maximum_2013}
+Tien MZ, Meyer AG, Sydykova DK, Spielman SJ, Wilke CO. 2013.
+\newblock Maximum {Allowed} {Solvent} {Accessibilites} of {Residues} in
+  {Proteins}.
+\newblock \emph{PLoS ONE}. 8:e80635.
+
+\bibitem[{Webb(1992)}]{webb_enzyme_1992}
+Webb EC. 1992.
+\newblock \emph{Enzyme nomenclature 1992. {Recommendations} of the
+  {Nomenclature} {Committee} of the {International} {Union} of {Biochemistry}
+  and {Molecular} {Biology} on the {Nomenclature} and {Classification} of
+  {Enzymes}.} pp. xiii + 863 pp.
+
+\bibitem[{Wilke et~al.(2005)Wilke, Bloom, Drummond, and
+  Raval}]{wilke_predicting_2005}
+Wilke CO, Bloom JD, Drummond DA, Raval A. 2005.
+\newblock Predicting the {Tolerance} of {Proteins} to {Random} {Amino} {Acid}
+  {Substitution}.
+\newblock \emph{Biophysical Journal}. 89:3714--3720.
+
+\bibitem[{Xia et~al.(2014)Xia, Tong, Yang, Wang, Hoi, Koehl, and
+  Lu}]{xia_identifying_2014}
+Xia F, Tong D, Yang L, Wang D, Hoi SCH, Koehl P, Lu L. 2014.
+\newblock Identifying essential pairwise interactions in elastic network model
+  using the alpha shape theory.
+\newblock \emph{Journal of Computational Chemistry}. 35:1111--1121.
+
+\bibitem[{Yeh et~al.(2014{\natexlab{a}})Yeh, Huang, Liu, Yu, Shih, Hwang, and
+  Echave}]{yeh_local_2014}
+Yeh SW, Huang TT, Liu JW, Yu SH, Shih CH, Hwang JK, Echave J.
+  2014{\natexlab{a}}.
+\newblock Local {Packing} {Density} {Is} the {Main} {Structural} {Determinant}
+  of the {Rate} of {Protein} {Sequence} {Evolution} at {Site} {Level}.
+\newblock \emph{BioMed Research International}. 2014:e572409.
+
+\bibitem[{Yeh et~al.(2014{\natexlab{b}})Yeh, Liu, Yu, Shih, Hwang, and
+  Echave}]{yeh_site-specific_2014}
+Yeh SW, Liu JW, Yu SH, Shih CH, Hwang JK, Echave J. 2014{\natexlab{b}}.
+\newblock Site-{Specific} {Structural} {Constraints} on {Protein} {Sequence}
+  {Evolutionary} {Divergence}: {Local} {Packing} {Density} versus {Solvent}
+  {Exposure}.
+\newblock \emph{Molecular Biology and Evolution}. 31:135--139.
+
+\bibitem[{Zhou and Yan(2014)}]{zhou_alpha_2014}
+Zhou W, Yan H. 2014.
+\newblock Alpha shape and {Delaunay} triangulation in studies of
+  protein-related interactions.
+\newblock \emph{Briefings in Bioinformatics}. 15:54--64.
+
+\bibitem[{Zomorodian et~al.(2006)Zomorodian, Guibas, and
+  Koehl}]{zomorodian_geometric_2006}
+Zomorodian A, Guibas L, Koehl P. 2006.
+\newblock Geometric filtering of pairwise atomic interactions applied to the
+  design of efficient statistical potentials.
+\newblock \emph{Computer Aided Geometric Design}. 23:531--544.
+
+\end{thebibliography}
