@@ -1,4 +1,4 @@
-\begin{thebibliography}{41}
+\begin{thebibliography}{44}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Ashkenazy et~al.(2010)Ashkenazy, Erez, Martz, Pupko, and
@@ -73,6 +73,14 @@ Hamelryck T. 2005.
   view of solvent exposure.
 \newblock \emph{Proteins: Structure, Function, and Bioinformatics}. 59:38--48.
 
+\bibitem[{Hessa et~al.(2005)Hessa, Kim, Bihlmaier, Lundin, Boekel, Andersson,
+  Nilsson, White, and von Heijne}]{hessa_recognition_2005}
+Hessa T, Kim H, Bihlmaier K, Lundin C, Boekel J, Andersson H, Nilsson I, White
+  SH, von Heijne G. 2005.
+\newblock Recognition of transmembrane helices by the endoplasmic reticulum
+  translocon.
+\newblock \emph{Nature}. 433:377--381.
+
 \bibitem[{Huang et~al.(2014)Huang, Marcos, Hwang, and
   Echave}]{huang_mechanistic_2014}
 Huang TT, Marcos MLdV, Hwang JK, Echave J. 2014.
@@ -139,6 +147,12 @@ Meyer AG, Wilke CO. 2013.
 \newblock Integrating {Sequence} {Variation} and {Protein} {Structure} to
   {Identify} {Sites} under {Selection}.
 \newblock \emph{Molecular Biology and Evolution}. 30:36--44.
+
+\bibitem[{Meyer and Wilke(2015)}]{meyer_geometric_2015}
+Meyer AG, Wilke CO. 2015.
+\newblock Geometric constraints dominate the antigenic evolution of influenza
+  {H}3n2 hemagglutinin.
+\newblock \emph{bioRxiv}. p. 014183.
 
 \bibitem[{Murzin et~al.(1995)Murzin, Brenner, Hubbard, and
   Chothia}]{murzin_scop:_1995}
@@ -247,6 +261,12 @@ Xia F, Tong D, Yang L, Wang D, Hoi SCH, Koehl P, Lu L. 2014.
 \newblock Identifying essential pairwise interactions in elastic network model
   using the alpha shape theory.
 \newblock \emph{Journal of Computational Chemistry}. 35:1111--1121.
+
+\bibitem[{Yang et~al.(2009)Yang, Song, and Jernigan}]{yang_protein_2009}
+Yang L, Song G, Jernigan RL. 2009.
+\newblock Protein elastic network models and the ranges of cooperativity.
+\newblock \emph{Proceedings of the National Academy of Sciences}.
+  106:12347--12352.
 
 \bibitem[{Yeh et~al.(2014{\natexlab{a}})Yeh, Huang, Liu, Yu, Shih, Hwang, and
   Echave}]{yeh_local_2014}

@@ -43,9 +43,9 @@ res_prop_concise_open = res_prop_concise[res_prop_voroSC$VSCvolume_change_diff !
 
 
 # The following is an ordered list, in agreement with the column names of the above data frame.
-varnames_long = c('Evolutionary Rates (r4sJC)' , 'Sequence Entropy (seqent)' , 'ddG Entropy (ddGent)' , 'Relative Solvent Accessibility (RSA)' , 'Hydrogen Bond Energy (HBE)' ,
-                  'Hydrophobicity Scale (HPS)' , 'Side-Chain Contact Number (wcnSC)' ,
-                  'Average Side-Chain Bfactor (bfSC)' , 'Voronoi Cell Faces' , 'log10 ( Voronoi Cell Surface Area )' ,
+varnames_long = c('Evolutionary Rates (r4sJC)' , 'Sequence Entropy' , 'ddG Rate (Stability upon Substitution)' , 'Relative Solvent Accessibility (RSA)' , 'Hydrogen Bond Energy (HBE)' ,
+                  'Hydrophobicity Scale' , 'Side-Chain Weighted Contact Number' ,
+                  'Average Side-Chain B factor' , 'Number of Voronoi Cell Faces' , 'log10 ( Voronoi Cell Surface Area )' ,
                   'log10 ( Voronoi Cell Volume )' , 'Voronoi Cell Eccentricity' , 'Voronoi Cell Sphericity')
 
 varnames_short = colnames(res_prop_concise)
@@ -80,8 +80,9 @@ for (i in 1:length(varnames_short))
 {
   #i = 1
   cat('generating graph # ', i, '\n')
-  filename = paste0('../figures/adjacent_averaging_screen/voro_log/',varnames_short[i],'.pdf')
-  pdf( filename, width=13.5, height=16, useDingbats=FALSE )  
+  filename = paste0('../figures/adjacent_averaging_screen/voro_log/',varnames_short[i],'.png')
+  #pdf( filename, width=13.5, height=16, useDingbats=FALSE )  
+  png( filename, width=1100, height=1200 )  
   split.screen(c(4,3))
   
   counter = 0
