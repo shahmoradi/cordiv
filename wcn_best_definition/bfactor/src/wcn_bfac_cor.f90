@@ -2,7 +2,7 @@
 ! GOALS:
 !       -- To see if all structures have approximately the best performing free parameters of the CN definition or not.
 ! INPUT:
-!       -- CN definition to be used, with weighting options: h (heavy-side step function), p (power-law), e (exponential), g (Gaussian)
+!       -- CN definition to be used, with weighting options: h (Heaviside step function), p (power-law), e (exponential), g (Gaussian)
 !       -- Path to the input file pdb_prop_CO.out containing pdb names and number of residues
 !       -- Path to the input representative atomic coordinates and Bfactors (../../../properties/res_crd_bf)
 !       -- Path and name of the output file containing Spearman correlations of CN-bfac for each pdb structure on each line.
@@ -54,6 +54,7 @@ implicit none
   !character(len=100):: wcn_output_format,res_output_format,resnum_output_format
 ! other variables:
   integer                                 :: i,ii,j
+  real*8 :: tstart,tend
 
 ! First get the command line arguments
   if (command_argument_count()/=5) then
@@ -69,26 +70,22 @@ implicit none
   call get_command_argument(3,crd_in)
   call get_command_argument(4,exp_out)
   call get_command_argument(5,sum_out)
-  if ( model /= 'h' ) then
+  if ( model == 'h' ) then
     free_param_min = 0.d0
     free_param_max = 50.d0
     stride = 0.1d0
-    nstride = nint ( (free_param_max-free_param_min) / stride )
-  elseif ( model /= 'p' ) then
+  elseif ( model == 'p' ) then
     free_param_min = -30.d0
     free_param_max = 30.d0
     stride = 0.1d0
-    nstride = nint ( (free_param_max-free_param_min) / stride )
-  elseif ( model /= 'e' ) then
+  elseif ( model == 'e' ) then
     free_param_min = 0.d0
     free_param_max = 50.d0
     stride = 0.2d0
-    nstride = nint ( (free_param_max-free_param_min) / stride )
-  elseif ( model /= 'g' ) then
+  elseif ( model == 'g' ) then
     free_param_min = 0.d0
     free_param_max = 50.d0
     stride = 0.2d0
-    nstride = nint ( (free_param_max-free_param_min) / stride )
   else
     write (*,*) 'invalid input model! : ', model
     write (*,*) 'program aborted'
@@ -96,6 +93,7 @@ implicit none
   end if
 
 ! allocate fre_param values:
+  nstride = nint ( (free_param_max-free_param_min) / stride )
   allocate(free_param(nstride),sp_cor(nstride),abs_sp_cor(nstride))
   do i = 1,nstride
     free_param(i) = free_param_min + dble(i)*stride
@@ -112,12 +110,13 @@ implicit none
   open(unit=exp_out_unit,file=trim(adjustl(exp_out)),status='replace')
   write(exp_out_unit,exp_output_format) 'free_parameter',(free_param(i),i=1,nstride)
   open(unit=sum_out_unit,file=trim(adjustl(sum_out)),status='replace')
-  write(sum_out_unit,'(5A20)') 'pdb','free_param_best','sp_cor_best','nres'
+  write(sum_out_unit,'(4A20)') 'pdb','free_param_best','sp_cor_best','nres'
   
+call cpu_time(tstart)
 do ii = 1,npdb
 
   read(co_in_unit,*) pdb,natoms,nres
-  write(*,*) "processing PDB number ", ii, " : ", pdb, "out of 213 pdbs"
+  write(*,*) "processing PDB number ", ii, " : ", pdb, " out of 213 pdbs"
   allocate(crd(3,nres),bfactor(nres),wcn(nres))
   ! Now read the crd file:
   do j = 1,nres
@@ -139,9 +138,12 @@ do ii = 1,npdb
   ! NOW WRITE OUT THE FIRST FOUR LINES OF THE OUTPUT WCN FILE
   write(exp_out_unit,exp_output_format) pdb,(sp_cor(i),i=1,nstride)
   abs_sp_cor = abs(sp_cor)
-  write(sum_out_unit,'(1A20,3F20.3,1I20)') pdb,free_param(maxloc(abs_sp_cor)),sp_cor(maxloc(abs_sp_cor)),nres
+  write(sum_out_unit,'(1A20,2F20.3,1I20)') pdb,free_param(maxloc(abs_sp_cor)),sp_cor(maxloc(abs_sp_cor)),nres
 
 end do
+call cpu_time(tend)
+
+write(*,*) new_line('a'), 'Overall it took ', tend-tstart, ' seconds for all 213 proteins.' 
 
 close(co_in_unit)
 close(crd_in_unit)
@@ -159,10 +161,11 @@ subroutine wcn_finder(model,free_param,nres,crd,wcn)
   character(len=1), intent(in) :: model
   integer, intent(in)          :: nres
   real*8, intent(in)           :: free_param,crd(3,nres)
-  real*8, intent(out)          :: wcn
+  real*8, intent(out)          :: wcn(nres)
   integer                      :: i,j
-  real*8                       :: distance
+  real*8                       :: distance,free_param_sq
   wcn = 0.d0
+  free_param_sq = free_param*free_param
   do i=1,nres
     do j=1,nres
       if (i /= j) then
@@ -170,12 +173,13 @@ subroutine wcn_finder(model,free_param,nres,crd,wcn)
         if (model == 'h') then
           if (distance <= free_param) wcn(i) = wcn(i) + 1.d0
         elseif (model == 'p') then
-          wcn(i) = wcn(i) + 1.d0/distance**free_param
+          wcn(i) = wcn(i) + distance**free_param
         elseif (model == 'e') then
-          wcn(i) = wcn(i) + exp(-distance/free_param)
+          wcn(i) = wcn(i) + exp( -distance/free_param )
         elseif (model == 'g') then
-          wcn(i) = wcn(i) + exp(-distance*distance/free_param)
+          wcn(i) = wcn(i) + exp( -distance*distance/free_param_sq )
         end if
+      end if
     end do
   end do
 end subroutine wcn_finder
