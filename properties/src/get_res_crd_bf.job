@@ -1,0 +1,3 @@
+cd /home/amir/git/cordiv/properties/src/
+
+for file in ../../structures/* ; do python get_res_crd_bf.py $file ../res_crd_bf/crd_bf_SC.out ../res_crd_bf/crd_bf_AA.out ../res_crd_bf/crd_bf_CA.out ../res_crd_bf/crd_bf_CB.out ../res_crd_bf/crd_bf_N.out ../res_crd_bf/crd_bf_C.out ../res_crd_bf/crd_bf_O.out ; echo $file; done >& get_res_crd_bf.stdout &
