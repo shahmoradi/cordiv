@@ -1,0 +1,1 @@
+wcn_bfac_cor.o h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../exp_wcnhSC_bfSC.out ../sum_wcnhSC_bfSC.out ; echo $file; done >& wcnhSC_bfSC.bash_screen &
