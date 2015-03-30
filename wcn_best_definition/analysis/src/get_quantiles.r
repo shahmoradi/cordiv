@@ -69,6 +69,7 @@ for (dataframe in dflist){
   if (var == "r4") ylab = expression( paste( "Absolute Spearman ", rho ," : WCN - r4sJC" ) )
   if (var == "se") ylab = expression( paste( "Absolute Spearman ", rho ," : WCN - Seq. Entropy" ) )
   
+  #Plot Average Spearman correlation vs. value of free parameter
   pdf( paste0("../figures/spcor_",names(dflist)[[counter]],".pdf"), width=4.5, height=4, useDingbats=FALSE )
   #par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
   plot(quantiles$parameter,quantiles$mean_sp, type = 'l', ylim=c(0.,0.9), xlab=xlab, ylab=ylab, main=main_lab)
@@ -79,5 +80,17 @@ for (dataframe in dflist){
   lines(quantiles$parameter,quantiles$median_sp,lwd=2,lty=2)
   lines(predict(lspl,quantiles$parameter),lty=2,lwd=2,col='red')
   lines(predict(uspl,quantiles$parameter),lty=2,lwd=2,col='red')
+  graphics.off()
+
+  #Plot Standard deviation of Spearman correlations vs. value of free parameters:
+  if (var == "bf") ylab = expression( paste( "St. Dev. Spearman ", rho ," : WCN - B factor" ) )
+  if (var == "dd") ylab = expression( paste( "St. Dev. Spearman ", rho ," : WCN - ddG Rate" ) )
+  if (var == "r4") ylab = expression( paste( "St. Dev. Spearman ", rho ," : WCN - r4sJC" ) )
+  if (var == "se") ylab = expression( paste( "St. Dev. Spearman ", rho ," : WCN - Seq. Entropy" ) )
+  pdf( paste0("../figures/stdev_",names(dflist)[[counter]],".pdf"), width=4.5, height=4, useDingbats=FALSE )
+  #par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+  plot(quantiles$parameter,quantiles$stdev_sp, type = 'l', lwd=2, xlab=xlab, ylab=ylab, main=main_lab)
+  #lines(predict(lspl,quantiles$parameter),lty=2,lwd=2,col='red')
+  #lines(predict(uspl,quantiles$parameter),lty=2,lwd=2,col='red')
   graphics.off()
 }
