@@ -1,32 +1,32 @@
-cd /home/amir/git/cordiv/wcn_best_definition/bfactor/src/
+cd /home/amir/git/cordiv/wcn_best_definition/r4sJC/src/
 ifort wcn_r4sJC_cor.f90 -o wcn_r4sJC_cor.exe
 
 for heavy-side weighting function of WCN, using center of mass of side chain coordinates:
-./wcn_r4sJC_cor.exe h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../exp_wcnhSC_bfSC.out ../sum_wcnhSC_r4sJC.out >& wcnhSC_r4sJC.bash_screen &
+./wcn_r4sJC_cor.exe h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../seq_var_data.in ../exp_wcnhSC_bfSC.out ../sum_wcnhSC_r4sJC.out >& wcnhSC_r4sJC.bash_screen &
 
 for heavy-side weighting function of WCN, using CA coordinates:
-./wcn_r4sJC_cor.exe h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../exp_wcnhCA_r4sJC.out ../sum_wcnhCA_r4sJC.out >& wcnhCA_r4sJC.bash_screen &
+./wcn_r4sJC_cor.exe h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../seq_var_data.in ../exp_wcnhCA_r4sJC.out ../sum_wcnhCA_r4sJC.out >& wcnhCA_r4sJC.bash_screen &
 
 
 
 for power-law weighting function of WCN, using center of mass of side chain coordinates:
-./wcn_r4sJC_cor.exe p ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../exp_wcnpSC_r4sJC.out ../sum_wcnpSC_r4sJC.out >& wcnpSC_r4sJC.bash_screen &
+./wcn_r4sJC_cor.exe p ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../seq_var_data.in ../exp_wcnpSC_r4sJC.out ../sum_wcnpSC_r4sJC.out >& wcnpSC_r4sJC.bash_screen &
 
 for power-law weighting function of WCN, using CA coordinates:
-./wcn_r4sJC_cor.exe p ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../exp_wcnpCA_r4sJC.out ../sum_wcnpCA_r4sJC.out >& wcnpCA_r4sJC.bash_screen &
+./wcn_r4sJC_cor.exe p ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../seq_var_data.in ../exp_wcnpCA_r4sJC.out ../sum_wcnpCA_r4sJC.out >& wcnpCA_r4sJC.bash_screen &
 
 
 
 for exponential weighting function of WCN, using center of mass of side chain coordinates:
-./wcn_r4sJC_cor.exe e ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../exp_wcneSC_r4sJC.out ../sum_wcneSC_r4sJC.out >& wcneSC_r4sJC.bash_screen &
+./wcn_r4sJC_cor.exe e ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../seq_var_data.in ../exp_wcneSC_r4sJC.out ../sum_wcneSC_r4sJC.out >& wcneSC_r4sJC.bash_screen &
 
 for exponential weighting function of WCN, using CA coordinates:
-./wcn_r4sJC_cor.exe e ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../exp_wcneCA_r4sJC.out ../sum_wcneCA_r4sJC.out >& wcneCA_r4sJC.bash_screen &
+./wcn_r4sJC_cor.exe e ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../seq_var_data.in ../exp_wcneCA_r4sJC.out ../sum_wcneCA_r4sJC.out >& wcneCA_r4sJC.bash_screen &
 
 
 
 for Gaussian weighting function of WCN, using center of mass of side chain coordinates:
-./wcn_r4sJC_cor.exe g ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../exp_wcngSC_r4sJC.out ../sum_wcngSC_r4sJC.out >& wcngSC_r4sJC.bash_screen &
+./wcn_r4sJC_cor.exe g ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../seq_var_data.in ../exp_wcngSC_r4sJC.out ../sum_wcngSC_r4sJC.out >& wcngSC_r4sJC.bash_screen &
 
 for Gaussian weighting function of WCN, using CA coordinates:
-./wcn_r4sJC_cor.exe g ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../exp_wcngCA_r4sJC.out ../sum_wcngCA_r4sJC.out >& wcngCA_r4sJC.bash_screen &
+./wcn_r4sJC_cor.exe g ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../seq_var_data.in ../exp_wcngCA_r4sJC.out ../sum_wcngCA_r4sJC.out >& wcngCA_r4sJC.bash_screen &

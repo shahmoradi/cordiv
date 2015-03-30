@@ -14,7 +14,7 @@
 
 ! Amir Shahmoradi, Sunday 6:05 PM, March 29 2015, iCMB, UT Austin
 
-program wcn_r4sJC_cor
+program wcn_seqent_cor
 implicit none
 ! pdb file variables:
   integer, parameter                            :: npdb=213                ! number of pdbs in pdb_prop_CO.out file
@@ -135,7 +135,7 @@ do ii = 1,npdb
   do i = 1,nstride
     call wcn_finder(model,free_param(i),nres,crd,wcn)
     ! Now calculate the spearman correlation between wcn and the quantity of interest:
-    sp_cor(i) = spear(nres,wcn,r4sJC)
+    sp_cor(i) = spear(nres,wcn,ddgent)
     if (isnan(sp_cor(i)) .or. abs(sp_cor(i)) > 1.d0) sp_cor(i) = 0.d0     ! replace NAN values with zero.
   end do
   deallocate(crd,bfactor,wcn)
@@ -156,7 +156,7 @@ close(seq_in_unit)
 close(exp_out_unit)
 close(sum_out_unit)
 
-end program wcn_r4sJC_cor
+end program wcn_seqent_cor
 
 
 ! This Fortran subroutine takes in the 3D coordinates of a set of atoms. On the output it gives the WCN of all the atoms that were given in the input.

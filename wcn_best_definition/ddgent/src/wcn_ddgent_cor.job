@@ -1,0 +1,32 @@
+cd /home/amir/git/cordiv/wcn_best_definition/ddgent/src/
+ifort wcn_ddgent_cor.f90 -o wcn_ddgent_cor.exe
+
+for heavy-side weighting function of WCN, using center of mass of side chain coordinates:
+./wcn_ddgent_cor.exe h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../seq_var_data.in ../exp_wcnhSC_bfSC.out ../sum_wcnhSC_ddgent.out >& wcnhSC_ddgent.bash_screen &
+
+for heavy-side weighting function of WCN, using CA coordinates:
+./wcn_ddgent_cor.exe h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../seq_var_data.in ../exp_wcnhCA_ddgent.out ../sum_wcnhCA_ddgent.out >& wcnhCA_ddgent.bash_screen &
+
+
+
+for power-law weighting function of WCN, using center of mass of side chain coordinates:
+./wcn_ddgent_cor.exe p ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../seq_var_data.in ../exp_wcnpSC_ddgent.out ../sum_wcnpSC_ddgent.out >& wcnpSC_ddgent.bash_screen &
+
+for power-law weighting function of WCN, using CA coordinates:
+./wcn_ddgent_cor.exe p ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../seq_var_data.in ../exp_wcnpCA_ddgent.out ../sum_wcnpCA_ddgent.out >& wcnpCA_ddgent.bash_screen &
+
+
+
+for exponential weighting function of WCN, using center of mass of side chain coordinates:
+./wcn_ddgent_cor.exe e ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../seq_var_data.in ../exp_wcneSC_ddgent.out ../sum_wcneSC_ddgent.out >& wcneSC_ddgent.bash_screen &
+
+for exponential weighting function of WCN, using CA coordinates:
+./wcn_ddgent_cor.exe e ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../seq_var_data.in ../exp_wcneCA_ddgent.out ../sum_wcneCA_ddgent.out >& wcneCA_ddgent.bash_screen &
+
+
+
+for Gaussian weighting function of WCN, using center of mass of side chain coordinates:
+./wcn_ddgent_cor.exe g ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../seq_var_data.in ../exp_wcngSC_ddgent.out ../sum_wcngSC_ddgent.out >& wcngSC_ddgent.bash_screen &
+
+for Gaussian weighting function of WCN, using CA coordinates:
+./wcn_ddgent_cor.exe g ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../seq_var_data.in ../exp_wcngCA_ddgent.out ../sum_wcngCA_ddgent.out >& wcngCA_ddgent.bash_screen &
