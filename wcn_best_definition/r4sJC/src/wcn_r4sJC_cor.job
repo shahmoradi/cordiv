@@ -2,7 +2,7 @@ cd /home/amir/git/cordiv/wcn_best_definition/r4sJC/src/
 ifort wcn_r4sJC_cor.f90 -o wcn_r4sJC_cor.exe
 
 for heavy-side weighting function of WCN, using center of mass of side chain coordinates:
-./wcn_r4sJC_cor.exe h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../seq_var_data.in ../exp_wcnhSC_bfSC.out ../sum_wcnhSC_r4sJC.out >& wcnhSC_r4sJC.bash_screen &
+./wcn_r4sJC_cor.exe h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../seq_var_data.in ../exp_wcnhSC_r4sJC.out ../sum_wcnhSC_r4sJC.out >& wcnhSC_r4sJC.bash_screen &
 
 for heavy-side weighting function of WCN, using CA coordinates:
 ./wcn_r4sJC_cor.exe h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../seq_var_data.in ../exp_wcnhCA_r4sJC.out ../sum_wcnhCA_r4sJC.out >& wcnhCA_r4sJC.bash_screen &
