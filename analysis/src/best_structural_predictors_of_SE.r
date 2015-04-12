@@ -57,7 +57,6 @@ hist.rsa = density(SEscors$r.rsa.seqent)
 #colors = c('green', 'blue', 'red', 'black', 'gray', 'cyan2')
 pdf( "../figures/best_structural_predictors_of_SE.pdf", width=4.5, height=4, useDingbats=FALSE )
 par( mai=c(0.65, 0.65, 0.05, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
-par( mai=c(0.65, 0.65, 0.05, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
 plot(  hist.vareaSC$x
        ,  hist.vareaSC$y
        ,   col = 'red'
