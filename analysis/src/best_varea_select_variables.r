@@ -208,7 +208,7 @@ for (i in 1:(length(varea_list)-1))
   x = -2:2
   colors = c('red', 'blue', 'green', 'purple', 'orange3', 'darkgreen', 'black', 'gray', 'cyan2') #, 'darkred', 'darkgreen', 'bisque2')
   #labels = c('ASA', 'ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
-  labels = c('ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Evol. Rates', 'Residue Volume', 'RSA', 'Seq. Entropy')
+  labels = c('ddG Rate', 'H-bond energy', 'Hydrophobicity', 'Evol. Rates', 'Residue Volume', 'RSA', 'Seq. Entropy')
   
   for (i in 1:(length(varea_list)-1))
   {
@@ -247,7 +247,7 @@ for (i in 1:(length(varea_list)-1))
   varea_scors_all_pdbs$varea = factor(varea_scors_all_pdbs$varea)
   
   #variable_list = c('ASA', 'ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
-  variable_list = c('ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Evol. Rates', 'Residue Volume', 'RSA', 'Seq. Entropy')
+  variable_list = c('ddG Rate', 'H-bond energy', 'Hydrophobicity', 'Evol. Rates', 'Residue Volume', 'RSA', 'Seq. Entropy')
   counter = 0
   for (variable in levels(varea_scors_all_pdbs$variable))
   { 
@@ -277,7 +277,7 @@ for (i in 1:(length(varea_list)-1))
   
   #variable_list = c('Seq. Entropy','ddG Entropy','RSA','ASA','Hydrophobicity','H-bond Energy')
   #variable_names = c('seqent','ddgent','rsa','asa','hpshh','hbe')
-  variable_list = c('Evol. Rates','Seq. Entropy','ddG Entropy','RSA','Hydrophobicity','H-bond Energy')
+  variable_list = c('Evol. Rates','Seq. Entropy','ddG Rate','RSA','Hydrophobicity','H-bond Energy')
   variable_names = c('r4s_JC','seqent','ddgent','rsa','hpshh','hbe')
   #varea_list = c('vareaSC','vareaAA','vareaCA') #,'wcnCA','wcnN','wcnC','wcnO')
   counter = 0

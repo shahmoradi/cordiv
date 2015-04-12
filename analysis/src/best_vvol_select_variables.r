@@ -71,7 +71,7 @@
 # res_prop_voroSC$VSCmodified_volume_ratio[res_prop_voroSC$VSCvolume_change_ratio != 1] = maxval
 # res_prop_voroSC$VSCmodified_volume_ratio = res_prop_voroSC$VSCmodified_volume_ratio * res_prop_voroSC$VSCvolume_change_ratio
 
-vvol_scors_all_pdbs = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
+vvol_scors_all_pdbs = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG Rate for each pdb file.
 vvol_list = c('vSC','vAA','vCA','mvSC','mvAA','mvCA','fvSC','fvAA','fvCA')
 vvol_list_long = c('VSCvolume','VAAvolume','VCAvolume','VSCmodified_volume_ratio','VAAmodified_volume_ratio','VCAmodified_volume_ratio','VSCfree_volume','VAAfree_volume','VCAfree_volume')
 counter = 0
@@ -201,8 +201,8 @@ for (i in 1:(length(vvol_list)-1))
 
 x = -2:2
 colors = c('red', 'blue', 'green', 'purple', 'orange3', 'darkgreen', 'black', 'gray', 'cyan2') #, 'darkred', 'darkgreen', 'bisque2')
-#labels = c('ASA', 'ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
-labels = c('ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Evol. Rates', 'Residue Volume', 'RSA', 'Seq. Entropy')
+#labels = c('ASA', 'ddG Rate', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
+labels = c('ddG Rate', 'H-bond energy', 'Hydrophobicity', 'Evol. Rates', 'Residue Volume', 'RSA', 'Seq. Entropy')
 
 for (i in 1:(length(vvol_list)-1))
 {
@@ -240,8 +240,8 @@ vvol_scors_all_pdbs = read.csv( "../tables/best_vvol/select_variables/vvol_scors
 vvol_scors_all_pdbs$variable = factor(vvol_scors_all_pdbs$variable)
 vvol_scors_all_pdbs$vvol = factor(vvol_scors_all_pdbs$vvol)
 
-#variable_list = c('ASA', 'ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
-variable_list = c('ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Evol. Rates', 'Residue Volume', 'RSA', 'Seq. Entropy')
+#variable_list = c('ASA', 'ddG Rate', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
+variable_list = c('ddG Rate', 'H-bond energy', 'Hydrophobicity', 'Evol. Rates', 'Residue Volume', 'RSA', 'Seq. Entropy')
 vvol_list = c('vSC','vAA','vCA','mvSC','mvAA','mvCA','fvSC','fvAA','fvCA')
 counter = 0
 for (variable in levels(vvol_scors_all_pdbs$variable))
@@ -268,9 +268,9 @@ vvol_scors_all_pdbs = read.csv( "../tables/best_vvol/select_variables/vvol_scors
 vvol_scors_all_pdbs$variable = factor(vvol_scors_all_pdbs$variable)
 vvol_scors_all_pdbs$vvol = factor(vvol_scors_all_pdbs$vvol)
 
-#variable_list = c('Sequence Entropy','ddG Entropy','RSA','Hydrophobicity','H-bond Energy','Residue Volume')
+#variable_list = c('Sequence Entropy','ddG Rate','RSA','Hydrophobicity','H-bond Energy','Residue Volume')
 #variable_names = c('seqent','ddgent','rsa','hpshh','hbe','resvol')
-variable_list = c('Evol. Rates','Seq. Entropy','ddG Entropy','RSA','Hydrophobicity','H-bond Energy')
+variable_list = c('Evol. Rates','Seq. Entropy','ddG Rate','RSA','Hydrophobicity','H-bond Energy')
 variable_names = c('r4s_JC','seqent','ddgent','rsa','hpshh','hbe')
 vvol_list = c('vSC','vAA','vCA','mvSC','mvAA','mvCA','fvSC','fvAA','fvCA')
 filename = paste0('../figures/best_vvol/select_variables/boxplot_vvol_all_in_one.pdf')

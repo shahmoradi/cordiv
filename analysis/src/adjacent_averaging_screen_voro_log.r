@@ -3,8 +3,11 @@
 
 #install.packages('zoo')
 #install.packages('ggplot2')
+#install.packages("fields")
 library('ggplot2')
+library('fields') # used for function fudgeit
 library('zoo')
+
 
 # setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 
@@ -14,7 +17,7 @@ library('zoo')
 # Now since the three Voronoi quantities vnvortices, vnedges and vnfaces happen to be exactly the same as seen in the cormat calculated above, I am going to remove them from the data set, in addition to resvol which is not as informative.
 res_prop_concise = data.frame( zr4s_JC       = res_prop_jec$zr4s_JC
                              , seqent        = res_prop_elj$seqent
-                             , ddgent        = res_prop_elj$ddgent
+                             , ddgent        = res_prop_jec_ddg$rate.ddg.foldx
                              , rsa           = res_prop_dssp$rsa
                              , hbe           = res_prop_dssp$hbe
                              , hpshh         = res_prop_hps$hpshh
@@ -76,6 +79,18 @@ for (i in 1:length(varnames_short))
 }
 
 
+fudgeit <- function(){
+  xm <- get('xm', envir = parent.frame(1))
+  ym <- get('ym', envir = parent.frame(1))
+  z  <- get('dens', envir = parent.frame(1))
+  colramp <- get('colramp', parent.frame(1))
+  image.plot(xm,ym,z, col = colramp(256)
+             , legend.only = T
+             , add = F
+  )
+}
+
+
 for (i in 1:length(varnames_short))
 {
   #i = 1
@@ -98,37 +113,58 @@ for (i in 1:length(varnames_short))
       
       counter = counter + 1
       screen(counter)
-      par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+      par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 ) #, mar = c(5,4,4,5) + .1 )
+      
       if ((varnames_short[[i]][1] %in% voronoi_colnames) | (varnames_short[[j]][1] %in% voronoi_colnames))
       {
-        # Plot all closed, open and all cells in one.
         x_range = range( min(temp[[varnames_short[[j]][1]]], temp_closed[[varnames_short[[j]][1]]], temp_open[[varnames_short[[j]][1]]]),
                          max(temp[[varnames_short[[j]][1]]], temp_closed[[varnames_short[[j]][1]]], temp_open[[varnames_short[[j]][1]]]) )
         y_range = range( min(temp[[varnames_short[[i]][1]]], temp_closed[[varnames_short[[i]][1]]], temp_open[[varnames_short[[i]][1]]]),
                          max(temp[[varnames_short[[i]][1]]], temp_closed[[varnames_short[[i]][1]]], temp_open[[varnames_short[[i]][1]]]) )
-        plot(temp[[varnames_short[[j]][1]]],
+        smoothScatter(temp[[varnames_short[[j]][1]]],
+                      temp[[varnames_short[[i]][1]]],
+                      xlab = varnames_long[j],
+                      ylab = varnames_long[i],
+                      xlim = x_range,
+                      ylim = y_range,
+                      nrpoints=0,
+                      nbin=500
+                      #,postPlotHook = fudgeit
+                      )
+        # Plot all closed, open and all cells in one.
+        lines(temp[[varnames_short[[j]][1]]],
              temp[[varnames_short[[i]][1]]],
-             xlab = varnames_long[j],
-             ylab = varnames_long[i],
-             xlim = x_range,
-             ylim = y_range,
-             col = 'black',
-             type='l'
+             col = 'red',
+             #type='l'
+             lwd=3
              )
         lines(temp_closed[[varnames_short[[j]][1]]],
               temp_closed[[varnames_short[[i]][1]]],
-              col = 'red')
+              col = 'black',
+              lwd=1,
+             )
         lines(temp_open[[varnames_short[[j]][1]]],
               temp_open[[varnames_short[[i]][1]]],
-              col = 'blue')
+              col = 'orange',
+              lwd=1,
+             )
       }
       else
       {
-        plot(temp[[varnames_short[[j]][1]]],
+        smoothScatter(temp[[varnames_short[[j]][1]]],
+                      temp[[varnames_short[[i]][1]]],
+                      xlab = varnames_long[j],
+                      ylab = varnames_long[i],
+                      nrpoints=0,
+                      nbin=500
+                      #,postPlotHook = fudgeit
+                      ) 
+        lines(temp[[varnames_short[[j]][1]]],
              temp[[varnames_short[[i]][1]]],
-             xlab = varnames_long[j],
-             ylab = varnames_long[i],
-             type='l')
+             col = 'red',
+             #type='l'
+             lwd=3
+             )
       }
     }
   }

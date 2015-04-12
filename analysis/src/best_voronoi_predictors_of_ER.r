@@ -104,7 +104,7 @@ plot(  hist.edge$x
     ,   lwd  = 2 
     #,   main = 'Correlations with Evolutionary Rates'
     #,   xlab = expression(paste('Absolute Spearman Cor. with Evolutionary Rates ',rho))
-    ,   xlab = 'Absolute Spearman Cor. with Evolutionary Rates'
+    ,   xlab = 'Spearman Cor. with Evolutionary Rates'
     ,   ylab = 'frequency'
     )
 lines( abs(hist.area$x)
@@ -133,7 +133,7 @@ lines( abs(hist.sphericity$x)
      #, lty = 2
      )
 legend( 'topleft'
-        , c("cell edge length", "cell area", "cell volume", "cell eccentricity", "cell sphericity")
+        , c("cell edge length", "cell area", "cell volume", "cell eccentricity", "1 / cell sphericity")
         #, col = c('red','black','black','green','blue')
         , col = cbbPalette
         , lty = c(1,1,1,1)
@@ -171,22 +171,22 @@ lines( hist.r.vol_given_area$x
      , col = cbbPalette[[2]]
      , lwd  = 2
      )
-lines( hist.r.ecc_given_area$x
-     , hist.r.ecc_given_area$y
-     #, col = 'black'
-     , col = cbbPalette[[3]]
-     , lwd = 2
-     #, lty = 2
-     )
-lines( hist.r.sph_given_area$x
+lines( -hist.r.sph_given_area$x
        , hist.r.sph_given_area$y
        #, col = 'black'
-       , col = cbbPalette[[4]]
+       , col = cbbPalette[[3]]
        , lwd = 2
        #, lty = 2
      )
+lines( hist.r.ecc_given_area$x
+     , hist.r.ecc_given_area$y
+     #, col = 'black'
+     , col = cbbPalette[[4]]
+     , lwd = 2
+     #, lty = 2
+     )
 legend( 'topleft'
-      , c("cell edge length", "cell volume", "cell eccentricity", "cell sphericity")
+      , c("cell edge length", "cell volume", "1 / cell sphericity", "cell eccentricity")
       #, col = c('red','black','green','blue')
       , col = cbbPalette
       , lty = c(1,1,1)
@@ -232,7 +232,7 @@ split.screen(c(1,2))
     ,   lwd  = 2 
     #,   main = 'Correlations with Evolutionary Rates'
     #,   xlab = expression(paste('Absolute Spearman Cor. with Evolutionary Rates ',rho))
-    ,   xlab = 'Absolute Spearman Cor. with Evolutionary Rates'
+    ,   xlab = 'Spearman Cor. with Evolutionary Rates'
     ,   ylab = 'frequency'
     )
   mtext('A', side = 3, at=-0.03, font=2, cex=1.2)
@@ -262,7 +262,7 @@ split.screen(c(1,2))
        #, lty = 2
        )
   legend( 'topleft'
-        , c("cell edge length", "cell area", "cell volume", "cell eccentricity", "cell sphericity")
+        , c("cell edge length", "cell area", "cell volume", "cell eccentricity", "1 / cell sphericity")
         #, col = c('red','black','black','green','blue')
         , col = cbbPalette
         , lty = c(1,1,1,1)
@@ -288,7 +288,7 @@ screen(2)
        ,   type = 'l'
        ,   lwd  = 2 
        #,   main = 'Correlations with Evolutionary Rates'
-       #,   xlab = expression(paste('Absolute Spearman Cor. with Evolutionary Rates ',rho))
+       #,   xlab = expression(paste('Spearman Cor. with Evolutionary Rates ',rho))
        ,   xlab = 'Spearman Cor. with Evolutionary Rates'
        ,   ylab = 'frequency'
        )

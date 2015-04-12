@@ -31,6 +31,11 @@
   res_prop_jec         = res_prop_jec[!(res_prop_jec$pdb %in% excluded_pdbs),]
   res_prop_jec$pdb     = factor(res_prop_jec$pdb)
   
+  # Rate4Site site-specific evolutionary rates
+  res_prop_jec_ddg     = read.csv('../../jec_ddg_209_monomers.csv', header=T)
+  res_prop_jec_ddg     = res_prop_jec_ddg[!(res_prop_jec_ddg$pdb %in% excluded_pdbs),]
+  res_prop_jec_ddg$pdb = factor(res_prop_jec_ddg$pdb)
+  
   # site-specific Hydrophobicity scales
   res_prop_hps         = read.table('../../properties/res_prop_hps.out', header=T)
   res_prop_hps         = res_prop_hps[!(res_prop_hps$pdb %in% excluded_pdbs),]

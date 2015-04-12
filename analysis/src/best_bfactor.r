@@ -72,7 +72,7 @@ res_prop_voroSC$VSCmodified_volume_diff  = res_prop_voroSC$VSCmodified_volume_di
 res_prop_voroSC$VSCmodified_volume_ratio[res_prop_voroSC$VSCvolume_change_ratio != 1] = maxval
 res_prop_voroSC$VSCmodified_volume_ratio = res_prop_voroSC$VSCmodified_volume_ratio * res_prop_voroSC$VSCvolume_change_ratio
 
-bf_scors_all_pdbs = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
+bf_scors_all_pdbs = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG Rate for each pdb file.
 bf_list = c('bfSC','bfAA','bfN','bfCA','bfC','bfO','bfCB')
 
 counter = 0

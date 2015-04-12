@@ -71,7 +71,7 @@ npdbs = 209         # number of pdb structures in the dataset
 # res_prop_voroSC$VSCmodified_volume_ratio[res_prop_voroSC$VSCvolume_change_ratio != 1] = maxval
 # res_prop_voroSC$VSCmodified_volume_ratio = res_prop_voroSC$VSCmodified_volume_ratio * res_prop_voroSC$VSCvolume_change_ratio
 
-wcn_scors_all_pdbs = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
+wcn_scors_all_pdbs = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG Rate for each pdb file.
 wcn_list = c('wcnSC','wcnAA','wcnCB','wcnCA','wcnN','wcnC','wcnO')
 crd_list = c('SC','AA','CB','CA','N','C','O') # list of representative coordinates used to generate Voronoi cells.
 counter = 0
@@ -196,8 +196,8 @@ for (i in 1:(length(wcn_list)-1))
 
 x = -2:2
 colors = c('red', 'blue', 'green', 'purple', 'orange3', 'darkgreen', 'black', 'gray', 'cyan2') #, 'darkred', 'darkgreen', 'bisque2')
-#labels = c('ASA', 'ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
-labels = c('ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Evol. Rates', 'Residue Volume', 'RSA', 'Seq. Entropy')
+#labels = c('ASA', 'ddG Rate', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
+labels = c('ddG Rate', 'H-bond energy', 'Hydrophobicity', 'Evol. Rates', 'Residue Volume', 'RSA', 'Seq. Entropy')
 
 for (i in 1:(length(wcn_list)-1))
 {
@@ -235,8 +235,8 @@ wcn_scors_all_pdbs = read.csv( "../tables/best_wcn/select_variables/wcn_scors_al
 wcn_scors_all_pdbs$variable = factor(wcn_scors_all_pdbs$variable)
 wcn_scors_all_pdbs$wcn = factor(wcn_scors_all_pdbs$wcn)
 
-#variable_list = c('ASA', 'ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
-variable_list = c('ddG Entropy', 'H-bond energy', 'Hydrophobicity', 'Evol. Rates', 'Residue Volume', 'RSA', 'Seq. Entropy')
+#variable_list = c('ASA', 'ddG Rate', 'H-bond energy', 'Hydrophobicity', 'Residue Volume', 'RSA', 'Seq. Entropy')
+variable_list = c('ddG Rate', 'H-bond energy', 'Hydrophobicity', 'Evol. Rates', 'Residue Volume', 'RSA', 'Seq. Entropy')
 counter = 0
 for (variable in levels(wcn_scors_all_pdbs$variable))
 { 
@@ -262,9 +262,9 @@ wcn_scors_all_pdbs = read.csv( "../tables/best_wcn/select_variables/wcn_scors_al
 wcn_scors_all_pdbs$variable = factor(wcn_scors_all_pdbs$variable)
 wcn_scors_all_pdbs$wcn = factor(wcn_scors_all_pdbs$wcn)
 
-#variable_list = c('Seq. Entropy','ddG Entropy','RSA','ASA','Hydrophobicity','H-bond Energy')
+#variable_list = c('Seq. Entropy','ddG Rate','RSA','ASA','Hydrophobicity','H-bond Energy')
 #variable_names = c('seqent','ddgent','rsa','asa','hpshh','hbe')
-variable_list = c('Evol. Rates','Seq. Entropy','ddG Entropy','RSA','Hydrophobicity','H-bond Energy')
+variable_list = c('Evol. Rates','Seq. Entropy','ddG Rate','RSA','Hydrophobicity','H-bond Energy')
 variable_names = c('r4s_JC','seqent','ddgent','rsa','hpshh','hbe')
 wcn_list = c('wcnSC','wcnAA','wcnCB','wcnCA','wcnN','wcnC','wcnO')
 counter = 0
@@ -301,9 +301,9 @@ wcn_scors_all_pdbs = read.csv( "../tables/best_wcn/select_variables/wcn_scors_al
 wcn_scors_all_pdbs$variable = factor(wcn_scors_all_pdbs$variable)
 wcn_scors_all_pdbs$wcn = factor(wcn_scors_all_pdbs$wcn)
 
-#variable_list = c('Seq. Entropy','ddG Entropy','RSA','ASA','Hydrophobicity','H-bond Energy')
+#variable_list = c('Seq. Entropy','ddG Rate','RSA','ASA','Hydrophobicity','H-bond Energy')
 #variable_names = c('seqent','ddgent','rsa','asa','hpshh','hbe')
-variable_list = c('Evol. Rates','Seq. Entropy','ddG Entropy','RSA','Hydrophobicity','H-bond Energy')
+variable_list = c('Evol. Rates','Seq. Entropy','ddG Rate','RSA','Hydrophobicity','H-bond Energy')
 variable_names = c('r4s_JC','seqent','ddgent','rsa','hpshh','hbe')
 wcn_list = c('wcnSC','wcnAA','wcnCB','wcnCA','wcnN','wcnC','wcnO')
 counter = 0

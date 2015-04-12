@@ -52,7 +52,7 @@ maxval = max(res_prop_voroSC$VSCvolume)
 res_prop_voroSC$VSCmodified_volume[res_prop_voroSC$VSCvolume_change != 0] = maxval
 res_prop_voroSC$VSCmodified_volume = res_prop_voroSC$VSCmodified_volume + res_prop_voroSC$VSCvolume_change
 
-hps_scors_all_pdbs = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG entropy for each pdb file.
+hps_scors_all_pdbs = data.frame()    # This dataframe will contain the mean median and variance of sequqence entropy and ddG Rate for each pdb file.
 counter = 0
 
 for(pdb in levels(res_prop_elj$pdb))
