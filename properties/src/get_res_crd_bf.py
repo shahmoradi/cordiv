@@ -12,6 +12,7 @@ from collections import OrderedDict
 import math
 import numpy
 
+# Update Sunday 6:08 PM April 12 2015:  I am revising this code to output the standard deviations of AA B factor in addition to crd bf. Everything else is untouched.
 # This code reads in a given input PDB file, and the name of the atom representing the individual residues in proteins. Then outputs, in a given output file, the residue names and numbers and the coordinates of the representative atoms in all residues and their corresponding B factors. There will be 7 output files, corresponding to atom names: C, CA, O, N, CB, SC: the Center-Of-Mass (COM) of the side chain, and AA: the COM of the BackBone and side chain atoms of each residue.
 # The B factor for SC and AA are calculated by averaging over all the corresponding atomic B factors.
 # INPUT:  pdb files in ../structures/*  and the name of the 7 output files in a VERY SPECIFIC ORDER!.
@@ -43,13 +44,13 @@ Usage:'''
        sum_SC_file = open(sum_SC,'a')
     else:
        sum_SC_file = open(sum_SC,'w')
-       sum_SC_file.write('pdb'   + '\t' + 'resnam'+ '\t' + 'resnum' + '\t' + 'x' + '\t' + 'y' + '\t' + 'z' + '\t' + 'bf' + '\n')
+       sum_SC_file.write('pdb'   + '\t' + 'resnam'+ '\t' + 'resnum' + '\t' + 'x' + '\t' + 'y' + '\t' + 'z' + '\t' + 'bf' + '\t' + 'bf_min' + '\t' + 'bf_max' + '\t' + 'natoms' + '\n')
        
     if os.path.isfile(sum_AA):
        sum_AA_file = open(sum_AA,'a')
     else:
        sum_AA_file = open(sum_AA,'w')
-       sum_AA_file.write('pdb'   + '\t' + 'resnam'+ '\t' + 'resnum' + '\t' + 'x' + '\t' + 'y' + '\t' + 'z' + '\t' + 'bf' + 'std_bf' + '\n')
+       sum_AA_file.write('pdb'   + '\t' + 'resnam'+ '\t' + 'resnum' + '\t' + 'x' + '\t' + 'y' + '\t' + 'z' + '\t' + 'bf' + '\t' + 'bf_min' + '\t' + 'bf_max' + '\t' + 'std_bf' + '\t' + 'natoms' + '\n')
 
     if os.path.isfile(sum_CA):
        sum_CA_file = open(sum_CA,'a')
@@ -102,8 +103,12 @@ Usage:'''
     bfO     = []
     bfCB    = []
     bfAA    = []
-	stdbfAA = []   # Only for AA: this is the standard deviation of the B factors of all heavy atoms in the amino acid
+    bfAAmin = []
+    bfAAmax = []
+    stdbfAA = []   # Only for AA: this is the standard deviation of the B factors of all heavy atoms in the amino acid
     bfSC    = []
+    bfSCmin = []
+    bfSCmax = []
     sizeSC  = []   # A list containing the total number of atoms in each residue Side Chain (SC).
     sizeAA  = []   # A list containing the total number of atoms in each Amino Acid (AA).
     
@@ -192,6 +197,8 @@ Usage:'''
             if resnam[-1] == 'GLY':
                 crdSC.append(crdCA[-1])
                 bfSC.append(bfCA[-1])
+                bfSCmin.append(bfCA[-1])
+                bfSCmax.append(bfCA[-1])
                 sizeSC.append(0)
             else:
                 print 'FATAL: missing no side chain detected while the residue is NOT GLYCINE amino acid.'
@@ -201,6 +208,8 @@ Usage:'''
             sizeSC.append(len(rescrd_SC))
             crdSC.append(sum(rescrd_SC)/float(sizeSC[-1]))
             bfSC.append(sum(resbf_SC)/float(sizeSC[-1]))	# Calculates average side chain B factor
+            bfSCmin.append(numpy.amin(resbf_SC))
+            bfSCmax.append(numpy.amax(resbf_SC))
             if sizeSC[-1] != len(resbf_SC):
                 print 'something is terribly wrong with the code!: sizeSC[-1] != len(resbf_SC)', sizeSC[-1], len(resbf_SC)
                 sys.exit()
@@ -209,6 +218,8 @@ Usage:'''
         sizeAA.append(len(rescrd_AA))
         crdAA.append(sum(rescrd_AA)/float(sizeAA[-1]))
         bfAA.append(sum(resbf_AA)/float(sizeAA[-1]))
+        bfAAmin.append(numpy.amin(resbf_AA))
+        bfAAmax.append(numpy.amax(resbf_AA))
         stdbfAA.append(numpy.std(resbf_AA))	# Only for AA: calculates the standard deviation of the B factors of all heavy atoms in the amino acid
         if sizeAA[-1] != len(resbf_AA):
             print 'something is terribly wrong with the code!: sizeSC[-1] != len(resbf_SC)', sizeSC[-1], len(resbf_SC)
@@ -223,8 +234,8 @@ Usage:'''
         sum_CA_file.write(pdb_name + '\t' + resnam[i] + '\t' + str(resnum[i]) + '\t' + str(crdCA[i][0]) + '\t' + str(crdCA[i][1]) + '\t' + str(crdCA[i][2])  + '\t' + str(bfCA[i]) + '\n')
         sum_O_file.write(pdb_name + '\t' + resnam[i] + '\t' + str(resnum[i]) + '\t' + str(crdO[i][0]) + '\t' + str(crdO[i][1]) + '\t' + str(crdO[i][2])  + '\t' + str(bfO[i]) + '\n')
         sum_CB_file.write(pdb_name + '\t' + resnam[i] + '\t' + str(resnum[i]) + '\t' + str(crdCB[i][0]) + '\t' + str(crdCB[i][1]) + '\t' + str(crdCB[i][2])  + '\t' + str(bfCB[i]) + '\n')
-        sum_SC_file.write(pdb_name + '\t' + resnam[i] + '\t' + str(resnum[i]) + '\t' + str(crdSC[i][0]) + '\t' + str(crdSC[i][1]) + '\t' + str(crdSC[i][2])  + '\t' + str(bfSC[i]) + '\n')
-        sum_AA_file.write(pdb_name + '\t' + resnam[i] + '\t' + str(resnum[i]) + '\t' + str(crdAA[i][0]) + '\t' + str(crdAA[i][1]) + '\t' + str(crdAA[i][2])  + '\t' + str(bfAA[i]) + str(stdbfAA[i]) + '\n')
+        sum_SC_file.write(pdb_name + '\t' + resnam[i] + '\t' + str(resnum[i]) + '\t' + str(crdSC[i][0]) + '\t' + str(crdSC[i][1]) + '\t' + str(crdSC[i][2])  + '\t' + str(bfSC[i]) + '\t' + str(bfSCmin[i]) + '\t' + str(bfSCmax[i]) + '\t'  + str(sizeSC[i]) + '\n')
+        sum_AA_file.write(pdb_name + '\t' + resnam[i] + '\t' + str(resnum[i]) + '\t' + str(crdAA[i][0]) + '\t' + str(crdAA[i][1]) + '\t' + str(crdAA[i][2])  + '\t' + str(bfAA[i]) + '\t' + str(bfAAmin[i]) + '\t' + str(bfAAmax[i]) + '\t' + str(stdbfAA[i]) + '\t' + str(sizeAA[i]) + '\n')
     
 if __name__ == "__main__":
    main()
