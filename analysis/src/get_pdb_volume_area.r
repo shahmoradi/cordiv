@@ -59,7 +59,7 @@ nres_thresh = 200 # The size at which the protein enters the scaling region acco
 pdf( "../figures/fractal_dim_max_extent_volume.pdf", width=4.5, height=4, useDingbats=FALSE )
 par( mai=c(0.9, 0.9, 0.05, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
 plot ( log10(pdb_extent$max_extent) , log10(pdb_prop_geometry$volume),  type = 'p', pch=19
-     , xlab = expression( "Protein Size: Log ( R"[m]*" [ Angstroms ] )")
+     , xlab = expression( "Protein Max. Extent: Log ( R"[m]*" [ Angstroms ] )")
      , ylab = expression( 'Protein Volume: Log ( V [ Angstroms'^3*' ] )' )
      )
 reg_gv = Deming( log10(pdb_extent$max_extent), log10(pdb_prop_geometry$volume), boot = TRUE )
