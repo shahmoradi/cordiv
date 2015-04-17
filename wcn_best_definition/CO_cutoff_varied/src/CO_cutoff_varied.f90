@@ -147,6 +147,10 @@ function contact_order(model,free_param,nres,crd)
     end do
   end do
   
-  contact_order = contact_order/dble(nres*ncontacts)
-  
+  if (ncontacts==0) then
+    contact_order = 0.d0
+  else
+    contact_order = contact_order/dble(nres*ncontacts)
+  end if
+
 end function contact_order
