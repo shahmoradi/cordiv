@@ -39,6 +39,7 @@ dflist = list( wcneSC_bfSC   = exp_wcneSC_bfSC
              )
 
 counter = 0
+best_params = data.frame()
 for (dataframe in dflist)
 {
   counter = counter + 1
@@ -61,7 +62,7 @@ for (dataframe in dflist)
   }
   rownames(quantiles) = NULL
   write.csv( quantiles, file = paste0('../tables/get_quantiles/sp_raw/',names(dflist)[[counter]],'_quantiles.csv'), row.names=F)
-  
+
   # Now generate the plot:
   model = substr(names(dflist)[[counter]],start=4,stop=4)
   atom  = substr(names(dflist)[[counter]],start=5,stop=6)
@@ -88,7 +89,11 @@ for (dataframe in dflist)
   #lines(predict(uspl,quantiles$parameter),lty=2,lwd=2,col='red')
   graphics.off()
 
-
+  #counter = 0
+  #best_params = data.frame()
+  #for (dataframe in dflist)
+  #{
+  #  counter = counter + 1
   ###############################################################################
   ###############################################################################
   # Now write out the quantiles for the absolute values of Spearman correlation strengths:
@@ -108,6 +113,16 @@ for (dataframe in dflist)
   rownames(quantiles) = NULL
   write.csv( quantiles, file = paste0('../tables/get_quantiles/sp_abs/',names(dflist)[[counter]],'_quantiles.csv'), row.names=F)
 
+  # Now find the best performing paramneters of the four kernels and their corresponding median correltions
+  best_param = quantiles$parameter[which.max(quantiles$median_sp)]
+  best_median_sp = quantiles$median_sp[which.max(quantiles$median_sp)]
+  row_best_param = data.frame( relation = names(dflist)[[counter]]
+                             , best_param = best_param
+                             , best_median_sp_cor = best_median_sp
+                             )
+  best_params = rbind(best_params, row_best_param)
+  #}
+  
   # Now generate the plot:
   model = substr(names(dflist)[[counter]],start=4,stop=4)
   atom  = substr(names(dflist)[[counter]],start=5,stop=6)
@@ -150,6 +165,8 @@ for (dataframe in dflist)
   graphics.off()
 }
 
+write.csv( best_params, file = paste0('../tables/get_quantiles/best_params.csv'), row.names=F)
+
 
 ##################################################################################
 ##################################################################################
@@ -188,10 +205,10 @@ for (dataframe in dflist)
   model = substr(names(dflist)[[counter]],start=4,stop=4)
   atom  = substr(names(dflist)[[counter]],start=5,stop=6)
   var   = substr(names(dflist)[[counter]],start=8,stop=9)
-  if (model == "e") {xlab = 'Exponential Mean [ Angstroms ]'}
-  if (model == "g") {xlab = 'Scale parameter [ Angstroms ]'}
-  if (model == "h") {xlab = 'Cutoff Distance [ Angstroms ]'}
-  if (model == "p") {xlab = 'Power-law Exponent'; quantiles = quantiles[!quantiles$parameter==0.0,] }
+  if (model == "e") xlab =  expression( paste( 'Exponential Mean: ', lambda, ' [ Angstroms ]') )
+  if (model == "g") xlab =  expression( paste( 'Scale Parameter: ', sigma, ' [ Angstroms ]') )
+  if (model == "h") xlab =  expression( paste( 'Cutoff Distance: ', r, ' [ Angstroms ]') )
+  if (model == "p") {xlab = expression( paste( 'Power-law Exponent: ', alpha ) ) ; quantiles = quantiles[!quantiles$parameter==0.0,] }
   if (var == "bf") ylab = expression( paste( "Absolute Spearman ", rho ," : WCN - B factor" ) )
   if (var == "dd") ylab = expression( paste( "Absolute Spearman ", rho ," : WCN - ddG Rate" ) )
   if (var == "r4") ylab = expression( paste( "Absolute Spearman ", rho ," : WCN - r4sJC" ) )

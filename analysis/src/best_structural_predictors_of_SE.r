@@ -71,8 +71,8 @@ plot(  hist.vareaSC$x
        ,   lwd  = 2 
        #,   main = 'Correlations with Evolutionary Rates'
        #,   xlab = expression(paste('Spearman Cor. with Evolutionary Rates ',rho))
-       ,   xlab = 'Spearman Cor. with Evolutionary Rates'
-       ,   ylab = 'frequency'
+       ,   xlab = 'Spearman Cor. with Sequence Entropy'
+       ,   ylab = 'Frequency'
 )
 lines( -hist.wcnSC$x
        , hist.wcnSC$y

@@ -1,4 +1,5 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
-\BOOKMARK [1][-]{section.2}{Methods}{}% 2
+\BOOKMARK [1][-]{section.2}{Protein Dataset and Structure/Sequence Variability Measures}{}% 2
 \BOOKMARK [1][-]{section.3}{Results}{}% 3
-\BOOKMARK [1][-]{section.4}{Discussion}{}% 4
+\BOOKMARK [2][-]{subsection.3.1}{Average Side-Chain Coordinates as the Best Representation of Protein 3D Structure}{section.3}% 4
+\BOOKMARK [2][-]{subsection.3.2}{Average Side-Chain B Factors as the Best Representation of Local Fluctuations of Amino Acids in Proteins}{section.3}% 5

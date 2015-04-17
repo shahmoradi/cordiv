@@ -3,11 +3,13 @@
 
 setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 
-# source('input_ASAP_data')
+#source('input_ASAP_data')
 
 library('ppcor')
 
 ASAP_pdb_data = read.csv("../tables/ASAP_pdb_prop.csv", header = T)
+#ASAP_pdb_data = read.csv("../tables/all_pdb_prop_select_wide_asap.csv", header = T)
+#ASAP_pdb_data = read.csv("../tables/ASAP_pdb_prop_manually_corrected.csv", header = T)
 
 all_pdb_prop_select_wide = read.csv('../tables/all_pdb_prop_select_wide.csv', header = T)
 all_pdb_prop_select_wide_asap = read.csv('../tables/all_pdb_prop_select_wide_asap.csv', header = T)
@@ -20,17 +22,17 @@ n.screen.cols = 2   # number of columns in the screen plots
 
 filename = paste0('../figures/cordiv_similarities_seqent.pdf')
 pdf( filename, width=4.5*n.screen.cols, height=4*n.screen.rows, useDingbats=FALSE )
-column_list = c('r.rsa.seqent'
-                ,'r.ddgent.seqent'
+column_list = c( 'r.seqent.varea'
+                ,'r.rsa.seqent'
                 ,'r.bfSC.seqent'
-                ,'r.seqent.varea'
+                ,'r.ddgent.seqent'
                 ,'r.seqent.vsphericity'
                 ,'r.seqent.veccentricity'
                 )
-name_list = c('( Seq. Entropy - RSA )'
-              ,'( Seq. Entropy - ddG Entropy )'
+name_list = c('( Seq. Entropy - Voronoi Cell Surface Area )'
+              ,'( Seq. Entropy - RSA )'
               ,'( Seq. Entropy - Mean Residue Bfactor )'
-              ,'( Seq. Entropy - Voronoi Cell Surface Area )'
+              ,'( Seq. Entropy - ddG Rate )'
               ,'( Seq. Entropy - Voronoi Cell Compactness )'
               ,'( Seq. Entropy - Voronoi Cell Symmetry )'
               )
@@ -50,33 +52,37 @@ for (counter in seq(1,n.screen.rows*n.screen.cols))
        #cex.lab = 1.4,
        pch = 16
        )
-  lines(x,x,col='green', lwd = 2)
-  if (column_list[counter] != 'r.ddgent.seqent')
-  {
-    points( abs(all_pdb_prop_select_wide_asap[[column_list[counter]]])
-          , abs(all_pdb_prop_select_wide_asap$r.seqent.wcnSC)
-          , pch = 19
-          , col = 'red'
-          ) 
-  }
+  lines(x,x,col='red', lwd = 2)
+  scor = cor(abs(all_pdb_prop_select_wide[[column_list[counter]]]),abs(all_pdb_prop_select_wide$r.r4sJC.wcnSC))
+  text(x = 0.70, y = 0.05, labels = bquote('Spearman' ~ rho ~ '=' ~ .(round(scor,2))))
+#  if (column_list[counter] != 'r.ddgent.seqent')
+#  {
+#    points( abs(all_pdb_prop_select_wide_asap[[column_list[counter]]])
+#          , abs(all_pdb_prop_select_wide_asap$r.seqent.wcnSC)
+#          , pch = 19
+#          , col = 'red'
+#          ) 
+#  }
 }
 dev.off()
 #graphics.off()
+
+#ASAP_pdb_data = read.csv("../tables/ASAP_pdb_prop.csv", header = T)
 
 # Now generate a similar screen plot of the correlation of r4sJC-wcnSC vs. r4sJC-other
 filename = paste0('../figures/cordiv_similarities_r4sJC.pdf')
 pdf( filename, width=4.5*n.screen.cols, height=4*n.screen.rows, useDingbats=FALSE )
 column_list = c('r.r4sJC.varea'
                ,'r.r4sJC.rsa'
-               ,'r.ddgent.r4sJC'
                ,'r.bfSC.r4sJC'
+               ,'r.ddgent.r4sJC'
                ,'r.r4sJC.vsphericity'
                ,'r.r4sJC.veccentricity'
                )
 name_list = c('( Evol. Rates - Voronoi Cell Surface Area )'
               ,'( Evol. Rates - RSA )'
-              ,'( Evol. Rates - ddG Entropy )'
               ,'( Evol. Rates - Mean Residue Bfactor )'
+              ,'( Evol. Rates - ddG Rate )'
               ,'( Evol. Rates - Voronoi Cell Compactness )'
               ,'( Evol. Rates - Voronoi Cell Symmetry )'
               )
@@ -96,7 +102,7 @@ for (counter in seq(1,n.screen.rows*n.screen.cols))
        #cex.lab = 1.4,
        pch = 16
        )
-  lines(x,x,col='green', lwd = 2)
+  lines(x,x,col='red', lwd = 2)
   scor = cor(abs(all_pdb_prop_select_wide[[column_list[counter]]]),abs(all_pdb_prop_select_wide$r.r4sJC.wcnSC))
   text(x = 0.70, y = 0.05, labels = bquote('Spearman' ~ rho ~ '=' ~ .(round(scor,2))))
 }
@@ -111,7 +117,7 @@ counter = 0
 filename = paste0('../figures/sd.seqent_cors.pdf')
 pdf( filename, width=9, height=8, useDingbats=FALSE )
 column_list = c('r.rsa.seqent','r.ddgent.seqent','r.bfSC.seqent','r.seqent.varea')
-name_list = c('rho ( Seq. Entropy - RSA )','rho ( Seq. Entropy - ddG Entropy )','rho ( Seq. Entropy - Bfactor )', 'rho ( Seq. Entropy - Voronoi Cell Volume )')
+name_list = c('rho ( Seq. Entropy - RSA )','rho ( Seq. Entropy - ddG Rate )','rho ( Seq. Entropy - Bfactor )', 'rho ( Seq. Entropy - Voronoi Cell Volume )')
 split.screen(c(2,2))
 x = -1:1
 for (column in column_list)
@@ -148,27 +154,28 @@ plot( all_pdb_prop_select_wide$sd.seqent^2
     , all_pdb_prop_select_wide$r.r4sJC.wcnSC
     , pch = 19
     , xlab = 'Sequence Divergence:  Variance ( Seq. Entropy )'
-    , ylab = bquote('Spearman' ~ rho ~ ':  Evol. Rates - wcnSC')
+    , ylab = bquote('Spearman' ~ rho ~ ':  Evol. Rates - WCN')
     , xlim = c(-0.1,0.85)
     , ylim = c(0.2,-0.85)
     )
 #source('input_ASAP_data.r')
-points( all_pdb_prop_select_wide_asap$sd.seqent^2
-        , ASAP_pdb_prop$r.seqent.wcnCA
-        , col = 'red'
-        , pch = 19
-        )
 #points( all_pdb_prop_select_wide_asap$sd.seqent^2
-#      , all_pdb_prop_select_wide_asap$r.r4sJC.wcnSC
-#      , col = 'red'
-#      , pch = 19
-#      )
+#        , ASAP_pdb_prop$r.seqent.wcnCA
+#        , col = 'red'
+#        , pch = 19
+#        )
+points( all_pdb_prop_select_wide_asap$sd.seqent^2
+      , all_pdb_prop_select_wide_asap$r.r4sJC.wcnSC
+      , col = 'red'
+      , pch = 19
+      )
 dev.off()
 
 # seqent - wcnSC correlation : 
 
 all_pdb_prop_select_wide = read.csv('../tables/all_pdb_prop_select_wide.csv', header = T)
-all_pdb_prop_select_wide_asap = read.csv('../tables/all_pdb_prop_select_wide_asap.csv', header = T)
+all_pdb_prop_select_wide_asap = read.csv('../tables/all_pdb_prop_asap.csv', header = T)
+all_pdb_prop_select_wide_asap = read.csv("../tables/ASAP_pdb_prop_manually_corrected.csv", header = T)
 
 filename = paste0('../figures/validation_r_seqent_wcn_var_seqent.pdf')
 pdf( filename, width=6, height=5, useDingbats=FALSE )
@@ -176,19 +183,20 @@ par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
 
 plot( all_pdb_prop_select_wide$sd.seqent^2
       #, all_pdb_prop_select_wide$r.seqent.wcnSC
-      , abs(all_pdb_prop_select_wide$r.seqent.wcnSC)
+      , all_pdb_prop_select_wide$r.seqent.wcnSC
       , pch = 19
       #, xlab = 'Sequence Divergence:  Variance ( Seq. Entropy )'
       , xlab = 'Sequence Divergence:  Variance ( Sequence Entropy )'
       #, ylab = bquote('Spearman' ~ rho ~ ':  Seq. Entropy - wcnSC')
-      , ylab = "Sequence-Structure Correlation Strength"
+      #, ylab = "Sequence-Structure Correlation Strength"
+      , ylab = bquote('Spearman' ~ rho ~ ':  Seq. Entropy - WCN')
       , xlim = c(-0.1,0.85)
       #, ylim = c(0.2,-0.8)
-      , ylim = c(-0.2,0.8)
+      , ylim = c(0.2,-0.85)
 )
 points( all_pdb_prop_select_wide_asap$sd.seqent^2
         #, all_pdb_prop_select_wide_asap$r.seqent.wcnSC
-        , abs(all_pdb_prop_select_wide_asap$r.seqent.wcnSC)
+        , all_pdb_prop_select_wide_asap$r.seqent.wcnSC
         , col = 'red'
         , pch = 19
 )

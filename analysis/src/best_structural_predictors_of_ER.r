@@ -77,7 +77,7 @@ plot(  hist.vareaSC$x
     #,   main = 'Correlations with Evolutionary Rates'
     #,   xlab = expression(paste('Spearman Cor. with Evolutionary Rates ',rho))
     ,   xlab = 'Spearman Cor. with Evolutionary Rates'
-    ,   ylab = 'frequency'
+    ,   ylab = 'Frequency'
     )
 lines( -hist.wcnSC$x
      , hist.wcnSC$y
@@ -130,3 +130,8 @@ legend( 'topleft'
       )
 
 graphics.off()
+
+max(best_structural_predictors_of_ER$r.wcnSC.r4sJC)-min(best_structural_predictors_of_ER$r.wcnSC.r4sJC)
+max(best_structural_predictors_of_ER$r.vareaSC.r4sJC)-min(best_structural_predictors_of_ER$r.vareaSC.r4sJC)
+sd(best_structural_predictors_of_ER$r.vareaSC.r4sJC)
+sd(best_structural_predictors_of_ER$r.wcnSC.r4sJC)
