@@ -1,0 +1,5 @@
+cd /home/amir/git/cordiv/wcn_best_definition/best_CO_cutoff/src/
+ifort CO_cutoff_varied.f90 -o CO_cutoff_varied.exe
+
+for heavy-side weighting function of WCN, using center of mass of side chain coordinates:
+./CO_cutoff_varied.exe h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../CO_cutoff_varied.out >& CO_cutoff_varied.bash_screen &

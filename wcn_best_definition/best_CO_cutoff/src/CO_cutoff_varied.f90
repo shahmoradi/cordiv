@@ -8,7 +8,7 @@
 
 ! Amir Shahmoradi, Friday 11:31 AM, April 17 2015, iCMB, UT Austin
 
-program best_CO_cutoff
+program CO_cutoff_varied
   implicit none
 ! pdb file variables:
   integer, parameter                            :: npdb = 213                ! number of pdbs in pdb_prop_CO.out file
@@ -16,7 +16,6 @@ program best_CO_cutoff
   character(len=3)                              :: res_name
   integer                                       :: res_num
   real*8          , dimension(:,:), allocatable :: crd
-  real*8          , dimension(:), allocatable   :: CO
   real*8                                        :: bfactor
   character(len=6)                              :: pdb,pdb_name            ! The name of the pdb structure and the SINGLE chain contained in it.
 
@@ -33,7 +32,8 @@ program best_CO_cutoff
   integer            :: ios
   character(len=100) :: exp_output_format
 
-! variables and parameters for CN calculations:
+! variables and parameters for CO calculations:
+  real*8                                  :: contact_order      ! function calculating CO
   real*8                                  :: free_param_min, free_param_max,stride
   integer                                 :: nstride     ! number of strides
   real*8 , dimension(:)     , allocatable :: free_param, CO   ! The array of the values of the free parameter and the corresponding Contact Order.
@@ -44,7 +44,7 @@ program best_CO_cutoff
   real*8 :: tstart,tend
 
 ! First get the command line arguments
-  if (command_argument_count()/=5) then
+  if (command_argument_count()/=4) then
     write(*,*)
     write(*,*) "Incorrect number of input arguments on the command line."
     write(*,*) "Correct use:"
@@ -55,7 +55,7 @@ program best_CO_cutoff
   call get_command_argument(1,model)
   call get_command_argument(2,co_in)
   call get_command_argument(3,crd_in)
-  call get_command_argument(5,exp_out)
+  call get_command_argument(4,exp_out)
   if ( model == 'h' ) then
     free_param_min = 0.d0
     free_param_max = 50.d0
@@ -99,14 +99,13 @@ do ii = 1,npdb
   
   ! Now calculate CN for all values of parameters:
   do i = 1,nstride
-    call wcn_finder(model,free_param(i),nres,crd,wcn)
-    ! Now calculate the spearman correlation between wcn and the quantity of interest:
-    sp_cor(i) = spear(nres,wcn,ddgent)
-    if (isnan(sp_cor(i)) .or. abs(sp_cor(i)) > 1.d0) sp_cor(i) = 0.d0     ! replace NAN values with zero.
+    CO(i) = contact_order(model,free_param(i),nres,crd)
   end do
+
   deallocate(crd)
-  ! NOW WRITE OUT THE FIRST FOUR LINES OF THE OUTPUT WCN FILE
-  write(exp_out_unit,exp_output_format) pdb,(sp_cor(i),i=1,nstride)
+  
+  ! NOW WRITE OUT THE FIRST FOUR LINES OF THE OUTPUT CO FILE
+  write(exp_out_unit,exp_output_format) pdb,(CO(i),i=1,nstride)
 
 end do
 call cpu_time(tend)
@@ -115,16 +114,15 @@ write(*,*) new_line('a'), 'Overall it took ', tend-tstart, ' seconds for all 213
 
 close(co_in_unit)
 close(crd_in_unit)
-close(seq_in_unit)
 close(exp_out_unit)
-close(sum_out_unit)
 
-end program best_CO_cutoff
+end program CO_cutoff_varied
 
 
 ! This Fortran subroutine takes in the 3D coordinates of a set of atoms or amino acid representative coordinates. On the output it gives the contact_order of the protein given the free parameter of the model.
 
 function contact_order(model,free_param,nres,crd)
+  
   implicit none
   character(len=1), intent(in) :: model
   integer, intent(in)          :: nres
@@ -132,14 +130,23 @@ function contact_order(model,free_param,nres,crd)
   real*8                       :: contact_order     ! function
   integer                      :: i,j
   real*8                       :: distance_sq,free_param_sq
+  integer                      :: ncontacts   ! number of contacts detected in the file
+
+  ncontacts = 0.d0
   contact_order = 0.d0
   free_param_sq = free_param*free_param
-  do i=1,nres
+  do i=1,nres-1
     do j=i+1,nres
       distance_sq = (crd(1,i)-crd(1,j))**2 + (crd(2,i)-crd(2,j))**2 + (crd(3,i)-crd(3,j))**2
       !if (model == 'h') then
-        if (distance_sq <= free_param_sq) contact_order = contact_order + dble(j-i)
+        if (distance_sq <= free_param_sq) then
+          contact_order = contact_order + dble(j-i)
+          ncontacts = ncontacts + 1
+        end if
       !end if
     end do
   end do
+  
+  contact_order = contact_order/dble(nres*ncontacts)
+  
 end function contact_order
