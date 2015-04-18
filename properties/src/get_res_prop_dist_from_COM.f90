@@ -14,8 +14,8 @@ implicit none
 ! pdb file variables:
   integer, parameter                            :: npdb=213                ! number of pdbs in pdb_prop_CO.out file
   integer                                       :: natoms, nres  
-  character(len=3), dimension(:,:), allocatable :: res_name
-  integer         , dimension(:,:), allocatable :: res_num
+  character(len=3), dimension(:)  , allocatable :: res_name
+  integer         , dimension(:)  , allocatable :: res_num
   real*8          , dimension(:,:), allocatable :: crd
   real*8          , dimension(:)  , allocatable :: bfactor,bfactor_min,bfactor_max,distance
   real*8          , dimension(3)                :: COM  ! geometrical center of protein
@@ -25,7 +25,7 @@ implicit none
 ! input files and variables:
   character(len=300) :: co_in                                              ! input pdb file. ATTN: Any non ATOM records will be ignored!
   character(len=300) :: crd_in                                             ! input pdb file. ATTN: Any non ATOM records will be ignored!
-  character(len=300) :: output	                                           ! output file containing distances of residues from COM of proteins
+  character(len=300) :: output                                             ! output file containing distances of residues from COM of proteins
   
 ! input files variables:
   integer            :: iostat, counter
@@ -56,7 +56,8 @@ implicit none
   read(co_in_unit,*)        ! read file header
   read(crd_in_unit,*)       ! read file header
 
-  write(output_unit,'7A25') 'pdb','resnam','resnum','distance_from_COM','bf','bfmin','bfmax'
+  open(unit=output_unit,file=trim(adjustl(output)),status='replace')
+  write(output_unit,'(7A25)') 'pdb','resnam','resnum','distance_from_COM','bf','bfmin','bfmax'
   
 call cpu_time(tstart)
 do ii = 1,npdb

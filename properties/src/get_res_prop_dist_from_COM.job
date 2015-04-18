@@ -1,32 +1,5 @@
-cd /home/amir/git/cordiv/wcn_best_definition/bfactor/src/
-ifort wcn_bfac_cor.f90 -o wcn_bfac_cor.exe
+cd /home/amir/git/cordiv/properties/src/
+ifort get_res_prop_dist_from_COM.f90 -o get_res_prop_dist_from_COM.exe
 
 for heavy-side weighting function of WCN, using center of mass of side chain coordinates:
-./wcn_bfac_cor.exe h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../exp_wcnhSC_bfSC.out ../sum_wcnhSC_bfSC.out >& wcnhSC_bfSC.bash_screen &
-
-for heavy-side weighting function of WCN, using CA coordinates:
-./wcn_bfac_cor.exe h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../exp_wcnhCA_bfCA.out ../sum_wcnhCA_bfCA.out >& wcnhCA_bfCA.bash_screen &
-
-
-
-for power-law weighting function of WCN, using center of mass of side chain coordinates:
-./wcn_bfac_cor.exe p ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../exp_wcnpSC_bfSC.out ../sum_wcnpSC_bfSC.out >& wcnpSC_bfSC.bash_screen &
-
-for power-law weighting function of WCN, using CA coordinates:
-./wcn_bfac_cor.exe p ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../exp_wcnpCA_bfCA.out ../sum_wcnpCA_bfCA.out >& wcnpCA_bfCA.bash_screen &
-
-
-
-for exponential weighting function of WCN, using center of mass of side chain coordinates:
-./wcn_bfac_cor.exe e ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../exp_wcneSC_bfSC.out ../sum_wcneSC_bfSC.out >& wcneSC_bfSC.bash_screen &
-
-for exponential weighting function of WCN, using CA coordinates:
-./wcn_bfac_cor.exe e ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../exp_wcneCA_bfCA.out ../sum_wcneCA_bfCA.out >& wcneCA_bfCA.bash_screen &
-
-
-
-for Gaussian weighting function of WCN, using center of mass of side chain coordinates:
-./wcn_bfac_cor.exe g ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../exp_wcngSC_bfSC.out ../sum_wcngSC_bfSC.out >& wcngSC_bfSC.bash_screen &
-
-for Gaussian weighting function of WCN, using CA coordinates:
-./wcn_bfac_cor.exe g ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../exp_wcngCA_bfCA.out ../sum_wcngCA_bfCA.out >& wcngCA_bfCA.bash_screen &
+./get_res_prop_dist_from_COM.exe ../pdb_prop_CO.out ../res_crd_bf/crd_bf_SC.out ../res_prop_dist_from_COM.out >& get_res_prop_dist_from_COM.stdout &
