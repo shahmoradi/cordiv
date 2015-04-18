@@ -20,6 +20,11 @@
 # setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 
   excluded_pdbs = c('1BBS_A','1BS0_A','1DIN_A','1HPL_A')   # These are the 4 PDBs that did not have complete r4s evolutionary rates and are omitted from the dataset to avoid NA values.
+
+  # distances of sites from the geometrical centers of proteins
+  res_prop_dfcSC         = read.table('../../properties/res_prop_dist_from_COM_SC.out', header=T)
+  res_prop_dfcSC         = res_prop_dfcSC[!(res_prop_dfcSC$pdb %in% excluded_pdbs),]
+  res_prop_dfcSC$pdb     = factor(res_prop_dfcSC$pdb)
   
   # site-specific entropies
   res_prop_elj         = read.table('../../elj_pdb_entropies.in', header=T)

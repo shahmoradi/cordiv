@@ -61,6 +61,9 @@ plot( free_param_values$X1
     )
 
 max(co_cormat$bfsc[-1:-4],na.rm=TRUE)
+which.max(co_cormat$bfsc[-1:-4])
+co_cormat$bfsc[66]
+free_param_values$X1[66]
 
 plot( free_param_values$X1
     , co_cormat$ddg[-1:-4]
