@@ -159,7 +159,7 @@
     % Figure goes here xx
 
     In order to assess the prediction power of site-specific variables derived from Voronoi tessellation, first the geometric centers of all side-chains for each of the proteins in dataset were calculated and used as the seeds of Voronoi polyhedra. Figure \ref{fig:voronoi_ER} depicts the distributions of the Spearman's correlation coefficients of five most important Voronoi cell characteristics with site-specific evolutionary rates (ER). It is notable that all cell characteristics in the plot correlate positively with ER, except the cell sphericity which is always negatively correlated with ER and other Voronoi cell properties. In general, it is observed that the cell surface area has the best prediction power compared to other cell characteristics, followed by the cell volume, cell eccentricity as defined in previous section, cell's total edge length, and the cell sphericitiy. \\
-    
+
     The cell properties are also strongly correlated with each other. Although the Voronoi cell volume is the second best correlating variable with ER, it exhibits no significant independent correlation with ER once we control for the cell area, with the median of its distribution centered at $\sim0.0$, as illustrated in Figure \ref{fig:voronoi_ER_cond}. Conversely, the cell sphericity and eccentricity both exhibit median partial correlations of $\sim-0.1$ \& $\sim0.07$ with ER respectively, when the contribution from the Voronoi cell area is controlled. In conclusion, the cell area, volume, and edge length appear to almost represent the same property of the Voronoi cell. Other Voronoi cell characteristics, such as the number of vertices, faces and edges of the cell also tend to correlate weakly with sequence evolutionary rates. These cell characteristics are however, discrete (integer) quantities and in general have a limited range. \\
 
     Not shown here for brevity, almost identical results to the above are obtained if sequence entropy as defined by Eqn. \ref{eqn:shannon} were used in place of sequence evolutionary rates. The use of sequence entropy however, generally results in weaker correlation strengths due to the discreteness and limited range inherent in the definition of sequence entropy. \\
@@ -172,7 +172,7 @@
 
     % Figure goes here xx
 
-    \subsection{Average Side-Chain Coordinates as the Best Representation of Protein 3D Structure}
+    \subsection*{Average Side-Chain Coordinates as the Best Representation of Protein 3D Structure}
     \label{sec:voronoi_SC}
 
     Depending on the choice of the Cartesian coordinates used, there exist degeneracy in the definition of some site-specific structural variables. For example, the quantity WCN is generally calculated from the coordinates of $C_\alpha$ atoms in the 3-dimensional structure of protein. The choice of $C_\alpha$ coordinates is however mainly driven by convenience in WCN calculation and there is no reason to believe this set of atomic coordinates is the best representative of individual sites in proteins. Indeed, some earlier works have already suggested the use of center-of-mass of side chain coordinates to represent the 3D structure of protein \cite{soyer_voronoi_2000}. More recently, Marcos \& Echave (2014)\cite{marcos_too_2014} have also shown that WCN calculated from side-chain center-of-mass coordinates generally result in significantly better correlations of WCN with sequence variability measures. \\
@@ -191,7 +191,7 @@
 
     It is notable that the standard deviations of the difference distributions for both quantities: WCN, and Voronoi cell area, are an order of magnitude smaller than the observed differences, implying that the correlation coefficients for all proteins in dataset uniformly translate to higher values by moving from C$_\alpha$ atomic coordinates to the geometric centers of the side chains, regardless of the strength of the correlation coefficients. \\
 
-    \subsection{Average Side-Chain B Factors as the Best Representation of Local Fluctuations of Amino Acids in Proteins}
+    \subsection*{Average Side-Chain B Factors as the Best Representation of Local Fluctuations of Amino Acids in Proteins}
 
     For the measure of local flexibility in proteins (B factor) we similarly find that among all $7$ representative measures of site B factors, the average of B factor values over all heavy atoms of each individual side chain results in the best correlations with other structural and sequence properties. Specifically, the average side chain B factor outperforms the commonly used $C_\alpha$ B factor in predicting RSA, \ddg rate, sequence entropy and evolutionary rates by a median Spearman correlation difference of $0.11$, $0.12$, $0.08$ \& $0.09$, respectively (Figure \ref{fig:best_bf}). \\
 
