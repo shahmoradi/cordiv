@@ -15,14 +15,14 @@ setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
 
 # The following is short version of the most useful residue properties that I have found so far.
 # Now since the three Voronoi quantities vnvortices, vnedges and vnfaces happen to be exactly the same as seen in the cormat calculated above, I am going to remove them from the data set, in addition to resvol which is not as informative.
-res_prop_concise = data.frame( dfcsc         = res_prop_dfcSC$distance_from_COM
-                             , seqent        = res_prop_elj$seqent
+res_prop_concise = data.frame( distsq        = res_prop_dfcSC$distance_normalized^2
+                             , zr4sJC        = res_prop_jec$zr4s_JC
                              , ddgent        = res_prop_jec_ddg$rate.ddg.foldx
                              , rsa           = res_prop_dssp$rsa
-                             , wcnSC         = res_prop_wcn_bf$wcnSC
+                             , wcnSC         = 1/res_prop_wcn_bf$wcnSC
                              , bfSC          = res_prop_wcn_bf$bfSC
-                             , bfSC_min      = res_prop_dfcSC$bfmin
-                             , bfSC_min      = res_prop_dfcSC$bfmax
+                             #, bfSC_min      = res_prop_dfcSC$bfmin
+                             #, bfSC_max      = res_prop_dfcSC$bfmax
                              , hbe           = res_prop_dssp$hbe
                              )
 
@@ -32,15 +32,14 @@ res_prop_concise = data.frame( dfcsc         = res_prop_dfcSC$distance_from_COM
 #qplot(ddgent, zr4s_JC, data = res_prop_concise, geom = c("smooth"))
 #qplot(log10(bfSC), zr4s_JC, data = res_prop_concise, geom = c("point"))
 
-
 # The following is an ordered list, in agreement with the column names of the above data frame.
-varnames_long = c('Distance from COM [ Å ]' , 'Evolutionary Rates (r4sJC)' , 'Sequence Entropy'
+varnames_long = c('Normalized Distance Squared from C.O.M' , 'Evolutionary Rates (r4sJC)'
+              # , 'Sequence Entropy'
                 , 'ddG Rate (Stability upon Substitution)' , 'Relative Solvent Accessibility (RSA)'
-				        , 'Side-Chain Weighted Contact Number' , 'Average Side-Chain B factor'
-                , 'Min Side-Chain B factor' , 'Max Side-Chain B factor' , 'Hydrogen Bond Energy (HBE)'
+				        , '1 / Side-Chain Weighted Contact Number' , 'Side-Chain B factor'
+              # , 'Min Side-Chain B factor' , 'Max Side-Chain B factor'
+                , 'Hydrogen Bond Energy (HBE)'
                 )
-
-
 varnames_short = colnames(res_prop_concise)
 
 
@@ -54,6 +53,88 @@ for (i in 1:length(varnames_short))
   temp = data.frame(temp)
   list_temp[[i]] = temp
 }
+
+
+
+# Generate a plot of distance Squared vs. log variable:
+
+install.packages("MethComp")
+library("MethComp")
+
+j = 1
+for (i in 2:length(varnames_short))
+{
+  filename = paste0('../figures/adjacent_averaging/dist_from_COM/',varnames_short[j],'_',varnames_short[i],'_adjacent_avg.pdf')
+  #png( filename, width=370, height=300 )
+  pdf( filename, width=4.5, height=4, useDingbats=FALSE )  
+  temp = as.data.frame(list_temp[[j]])
+  par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 ) #, mar = c(5,4,4,5) + .1 )
+  
+  smoothScatter(temp[[varnames_short[[j]][1]]],
+                temp[[varnames_short[[i]][1]]],
+                xlim = c( min(temp[[varnames_short[[j]][1]]]) , max(temp[[varnames_short[[j]][1]]]) ),
+                ylim = c( min(temp[[varnames_short[[i]][1]]]) , max(temp[[varnames_short[[i]][1]]]) ),
+                xlab = varnames_long[j],
+                ylab = varnames_long[i],
+                nrpoints=0,
+                nbin=500
+                #,postPlotHook = fudgeit
+  ) 
+  lines(  temp[[varnames_short[[j]][1]]]
+        , temp[[varnames_short[[i]][1]]]
+        , col = 'red'
+        , #type='l'
+        , lwd=3
+  )
+  
+  if( varnames_short[[i]][1] == 'bfSC' | varnames_short[[i]][1] == 'wcnSC' )
+  {
+    #regressiton = lm(log10(temp[[varnames_short[[i]][1]]])~log10(temp[[varnames_short[[j]][1]]]))
+    regression = Deming(temp[[varnames_short[[j]][1]]], temp[[varnames_short[[i]][1]]], boot = TRUE )
+    abline(regression[1:2],col='yellow',lwd=2,lty=2)
+  }
+  graphics.off()  
+}
+
+
+# Now do the same, but instead plot scatter plot:
+j = 1
+for (i in 2:length(varnames_short))
+{
+  filename = paste0('../figures/adjacent_averaging/dist_from_COM/scatter_plot/',varnames_short[j],'_',varnames_short[i],'_adjacent_avg.pdf')
+  #png( filename, width=370, height=300 )
+  pdf( filename, width=4.5, height=4, useDingbats=FALSE )  
+  temp = as.data.frame(list_temp[[j]])
+  par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 ) #, mar = c(5,4,4,5) + .1 )
+  
+  smoothScatter(res_prop_concise[[varnames_short[[j]][1]]],
+                res_prop_concise[[varnames_short[[i]][1]]],
+                xlim = c( min(temp[[varnames_short[[j]][1]]]) , max(temp[[varnames_short[[j]][1]]]) ),
+                ylim = c( min(temp[[varnames_short[[i]][1]]]) , max(temp[[varnames_short[[i]][1]]]) ),
+                xlab = varnames_long[j],
+                ylab = varnames_long[i],
+                nrpoints=0,
+                nbin=500
+                #,postPlotHook = fudgeit
+  ) 
+  lines(  temp[[varnames_short[[j]][1]]]
+          , temp[[varnames_short[[i]][1]]]
+          , col = 'red'
+          , #type='l'
+          , lwd=3
+  )
+  
+  if( varnames_short[[i]][1] == 'bfSC' | varnames_short[[i]][1] == 'wcnSC' )
+  {
+    #regressiton = lm(log10(temp[[varnames_short[[i]][1]]])~log10(temp[[varnames_short[[j]][1]]]))
+    regression = Deming(temp[[varnames_short[[j]][1]]], temp[[varnames_short[[i]][1]]], boot = TRUE )
+    abline(regression[1:2],col='yellow',lwd=2,lty=2)
+  }
+  graphics.off()  
+}
+
+
+
 
 
 #fudgeit <- function(){
@@ -72,7 +153,7 @@ for (i in 1:length(varnames_short))
 {
   #i = 1
   cat('generating graph # ', i, '\n')
-  filename = paste0('../figures/adjacent_averaging_screen/only_nonvoro/',varnames_short[i],'_nonvoro.png')
+  filename = paste0('../figures/adjacent_averaging/dist_from_COM/',varnames_short[i],'_nonvoro.png')
   #pdf( filename, width=13.5, height=16, useDingbats=FALSE )  
   png( filename, width=740, height=800 )  
   split.screen(c(3,2))
@@ -109,39 +190,6 @@ for (i in 1:length(varnames_short))
   close.screen(all = TRUE)
   graphics.off()
 }
-
-
-# Generate a plot of log B factor vs. log WCN:
-
-install.packages("MethComp")
-library("MethComp")
-
-i = 6; j = 5
-#filename = paste0('../figures/wcnSC_bfSC_adjacent_avg.png')
-filename = paste0('../figures/wcnSC_bfSC_adjacent_avg.pdf')
-#png( filename, width=370, height=300 )
-pdf( filename, width=4.5, height=4, useDingbats=FALSE )  
-temp = as.data.frame(list_temp[[j]])
-par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 ) #, mar = c(5,4,4,5) + .1 )
-
-smoothScatter(log10(temp[[varnames_short[[j]][1]]]),
-                log10(temp[[varnames_short[[i]][1]]]),
-                xlab = 'Local Packing Density: Log ( WCN )' ,
-                ylab = expression ( "Local Flexibilty: Log ( B factor [ Å"^2*" ] )" ),
-                nrpoints=0,
-                nbin=500
-                #,postPlotHook = fudgeit
-) 
-lines(log10(temp[[varnames_short[[j]][1]]]),
-        log10(temp[[varnames_short[[i]][1]]]),
-        col = 'red',
-        #type='l'
-        lwd=3
-  )
-#regressiton = lm(log10(temp[[varnames_short[[i]][1]]])~log10(temp[[varnames_short[[j]][1]]]))
-regression = Deming(log10(temp[[varnames_short[[j]][1]]]), log10(temp[[varnames_short[[i]][1]]]), boot = TRUE )
-abline(regression[1:2],col='yellow',lwd=2,lty=2)
-graphics.off()
 
 
 #temp_quantile = rollapply(cbind(res_prop_all_ordered$wcnSC,res_prop_all_ordered$volume, res_prop_all_ordered$rsa), width = 1000, FUN = quantile)

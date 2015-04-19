@@ -166,6 +166,8 @@ cor(abs(ERscors$r.vareaSC.r4sJC),pdb_prop_geometry$volume,method='sp')
 cor(abs(ERscors$r.ddgent.r4sJC),pdb_prop_geometry$sphericity,method='sp')
 cor(abs(ERscors$r.ddgent.r4sJC),pdb_prop_geometry$sphericity,method='sp')
 
+
+
 # hist(pdb_prop_geometry$sphericity)
 # cor(subset(pdb_prop_geometry,select=c(volume,area,sphericity)),method='sp')
 # plot(log10(pdb_prop_geometry$volume),log10(pdb_prop_geometry$area))

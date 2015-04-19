@@ -22,6 +22,7 @@ for(pdb in levels(res_prop_elj$pdb))
   pdb_wcn_bf = res_prop_wcn_bf[res_prop_wcn_bf$pdb==pdb, ]
   pdb_voroSC = res_prop_voroSC[res_prop_voroSC$pdb==pdb, ]
   pdb_voroCA = res_prop_voroCA[res_prop_voroCA$pdb==pdb, ]
+  pdb_distance = res_prop_dfcSC[res_prop_dfcSC$pdb==pdb, ]
   
   pdb_temp = cbind( subset(pdb_elj, select = c(pdb,seqent,ddgent))
                   , subset(pdb_jec, select = c(zr4s_JC))
@@ -31,6 +32,7 @@ for(pdb in levels(res_prop_elj$pdb))
                   , subset(pdb_wcn_bf, select = c(wcnSC,wcnCA,bfSC))
                   , subset(pdb_voroSC, select = c(VSCarea))
                   , subset(pdb_voroCA, select = c(VCAarea))
+                  , subset(pdb_distance, select = c(distance_normalized))
                   )
   r.rsa.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$rsa,method='sp')
   r.wcnSC.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$wcnSC,method='sp')
@@ -41,9 +43,10 @@ for(pdb in levels(res_prop_elj$pdb))
   r.vareaCA.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$VCAarea,method='sp')
   r.bfSC.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$bfSC,method='sp')
   r.hbe.r4sJC = cor(pdb_temp$zr4s_JC,abs(pdb_temp$hbe),method='sp')
+  r.distance.r4sJC = cor(pdb_temp$zr4s_JC,abs(pdb_temp$distance_normalized),method='sp')
   
   #row = data.frame( pdb = pdb, rsa = r.rsa.r4sJC, wcn = r.wcn.r4sJC, vareaSC = r.vareaSC.r4sJC, ddgent = r.ddgent.r4sJC )
-  row = data.frame( pdb, r.wcnCA.r4sJC, r.wcnSC.r4sJC, r.rsa.r4sJC, r.vareaSC.r4sJC, r.ddgent.r4sJC , r.vareaCA.r4sJC , r.bfSC.r4sJC , r.hbe.r4sJC )
+  row = data.frame( pdb, r.wcnCA.r4sJC, r.wcnSC.r4sJC, r.rsa.r4sJC, r.vareaSC.r4sJC, r.ddgent.r4sJC , r.vareaCA.r4sJC , r.bfSC.r4sJC , r.hbe.r4sJC , r.distance.r4sJC)
   best_structural_predictors_of_ER = rbind( best_structural_predictors_of_ER, row )
 }
 
