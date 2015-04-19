@@ -2,4 +2,4 @@ cd /home/amir/git/cordiv/properties/src/
 ifort get_res_prop_dist_from_COM.f90 -o get_res_prop_dist_from_COM.exe
 
 for heavy-side weighting function of WCN, using center of mass of side chain coordinates:
-./get_res_prop_dist_from_COM.exe ../pdb_prop_CO.out ../res_crd_bf/crd_bf_SC.out ../res_prop_dist_from_COM_SC.out >& get_res_prop_dist_from_COM_SC.stdout &
+./get_res_prop_dist_from_COM.exe ../pdb_prop_CO.out ../res_crd_bf/crd_bf_SC.out ../res_prop_dist_from_COM_SC.out ../pdb_prop_rad_gyr_SC.out >& get_res_prop_dist_from_COM_SC.stdout &
