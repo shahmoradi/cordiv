@@ -44,9 +44,13 @@ for(pdb in levels(res_prop_elj$pdb))
   r.bfSC.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$bfSC,method='sp')
   r.hbe.r4sJC = cor(pdb_temp$zr4s_JC,abs(pdb_temp$hbe),method='sp')
   r.distance.r4sJC = cor(pdb_temp$zr4s_JC,abs(pdb_temp$distance_normalized),method='sp')
+  r.bfSC.wcnSC = cor(pdb_temp$wcnSC,pdb_temp$bfSC,method='sp')
+  r.bfSC.distance = cor(pdb_temp$distance_normalized,pdb_temp$bfSC,method='sp')
+  r.distance.wcnSC = cor(pdb_temp$distance_normalized,pdb_temp$wcnSC,method='sp')
+  r.distance.vareaSC = cor(pdb_temp$distance_normalized,pdb_temp$wcnSC,method='sp')
   
   #row = data.frame( pdb = pdb, rsa = r.rsa.r4sJC, wcn = r.wcn.r4sJC, vareaSC = r.vareaSC.r4sJC, ddgent = r.ddgent.r4sJC )
-  row = data.frame( pdb, r.wcnCA.r4sJC, r.wcnSC.r4sJC, r.rsa.r4sJC, r.vareaSC.r4sJC, r.ddgent.r4sJC , r.vareaCA.r4sJC , r.bfSC.r4sJC , r.hbe.r4sJC , r.distance.r4sJC)
+  row = data.frame( pdb, r.wcnCA.r4sJC, r.wcnSC.r4sJC, r.rsa.r4sJC, r.vareaSC.r4sJC, r.ddgent.r4sJC , r.vareaCA.r4sJC , r.bfSC.r4sJC , r.hbe.r4sJC , r.distance.r4sJC, r.bfSC.distance, r.bfSC.wcnSC, r.distance.wcnSC)
   best_structural_predictors_of_ER = rbind( best_structural_predictors_of_ER, row )
 }
 

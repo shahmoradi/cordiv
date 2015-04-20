@@ -2,7 +2,7 @@ cd /home/amir/git/cordiv/wcn_best_definition/seqent/src/
 ifort wcn_seqent_cor.f90 -o wcn_seqent_cor.exe
 
 for heavy-side weighting function of WCN, using center of mass of side chain coordinates:
-./wcn_seqent_cor.exe h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../seq_var_data.in ../exp_wcnhSC_ddgent.out ../sum_wcnhSC_seqent.out >& wcnhSC_seqent.bash_screen &
+./wcn_seqent_cor.exe h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../seq_var_data.in ../exp_wcnhSC_seqent.out ../sum_wcnhSC_seqent.out >& wcnhSC_seqent.bash_screen &
 
 for heavy-side weighting function of WCN, using CA coordinates:
 ./wcn_seqent_cor.exe h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../seq_var_data.in ../exp_wcnhCA_seqent.out ../sum_wcnhCA_seqent.out >& wcnhCA_seqent.bash_screen &

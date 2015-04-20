@@ -139,6 +139,53 @@ abline(regression[1:2],col='yellow',lwd=2,lty=2)
 graphics.off()
 
 
+###########################################################
+# The same plot for wcnSC-bfSC, but do averaging on the log of data, to see if the slope of the regression line gets from -0.8 to any closer to -1.
+# This damn rollappy cannot average over B factors! gives -Inf!  what the is wrong with you rollapply >:
+res_prop_wb = data.frame( wcnSC         = log10(res_prop_wcn_bf$wcnSC)
+                        , bfSC          = log10(res_prop_wcn_bf$bfSC) )
+varnames_short_wb = colnames(res_prop_wb)
+list_temp_wb = list()
+for (i in 1:2)
+{
+  cat('generating list element ', i, '\n')
+  res_prop_ordered = res_prop_wb[with(res_prop_wb, order(res_prop_wb[[varnames_short_wb[[i]][1]]])),]
+  #res_prop_ordered_wb = res_prop_ordered
+  temp = rollapply(res_prop_ordered, width = 3000, FUN = mean)
+  temp = data.frame(temp)
+  list_temp[[i]] = temp
+}
+
+i = 2; j = 1
+#filename = paste0('../figures/wcnSC_bfSC_adjacent_avg.png')
+filename = paste0('../figures/wcnSC_bfSC_adjacent_avg_log.pdf')
+#png( filename, width=370, height=300 )
+######pdf( filename, width=4.5, height=4, useDingbats=FALSE )  
+temp = as.data.frame(list_temp_wb[[j]])
+par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 ) #, mar = c(5,4,4,5) + .1 )
+
+smoothScatter(temp[[varnames_short_wb[[j]][1]]],
+              temp[[varnames_short_wb[[i]][1]]],
+              xlab = 'Local Packing Density: Log ( WCN )' ,
+              ylab = expression ( "Local Flexibilty: Log ( B factor [ Å"^2*" ] )" ),
+              nrpoints=0,
+              nbin=500
+              #,postPlotHook = fudgeit
+) 
+lines(temp[[varnames_short_wb[[j]][1]]],
+      temp[[varnames_short_wb[[i]][1]]],
+      col = 'red',
+      #type='l'
+      lwd=3
+)
+#regressiton = lm(log10(temp[[varnames_short[[i]][1]]])~log10(temp[[varnames_short[[j]][1]]]))
+regression = Deming(temp[[varnames_short_wb[[j]][1]]], temp[[varnames_short_wb[[i]][1]]], boot = TRUE )
+abline(regression[1:2],col='yellow',lwd=2,lty=2)
+graphics.off()
+
+
+
+
 #temp_quantile = rollapply(cbind(res_prop_all_ordered$wcnSC,res_prop_all_ordered$volume, res_prop_all_ordered$rsa), width = 1000, FUN = quantile)
 #temp = data.frame(temp_quantile)
 #View(temp)

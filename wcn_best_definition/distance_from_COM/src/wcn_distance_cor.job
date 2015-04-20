@@ -1,0 +1,32 @@
+cd /home/amir/git/cordiv/wcn_best_definition/distance_from_COM/src/
+ifort wcn_distance_cor.f90 -o wcn_distance_cor.exe
+
+for heavy-side weighting function of WCN, using center of mass of side chain coordinates:
+./wcn_distance_cor.exe h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../properties/res_prop_dist_from_COM_SC.out ../exp_wcnhSC_distance.out ../sum_wcnhSC_distance.out >& wcnhSC_distance.bash_screen &
+
+for heavy-side weighting function of WCN, using CA coordinates:
+./wcn_distance_cor.exe h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../properties/res_prop_dist_from_COM_SC.out ../exp_wcnhCA_distance.out ../sum_wcnhCA_distance.out >& wcnhCA_distance.bash_screen &
+
+
+
+for power-law weighting function of WCN, using center of mass of side chain coordinates:
+./wcn_distance_cor.exe p ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../properties/res_prop_dist_from_COM_SC.out ../exp_wcnpSC_distance.out ../sum_wcnpSC_distance.out >& wcnpSC_distance.bash_screen &
+
+for power-law weighting function of WCN, using CA coordinates:
+./wcn_distance_cor.exe p ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../properties/res_prop_dist_from_COM_SC.out ../exp_wcnpCA_distance.out ../sum_wcnpCA_distance.out >& wcnpCA_distance.bash_screen &
+
+
+
+for exponential weighting function of WCN, using center of mass of side chain coordinates:
+./wcn_distance_cor.exe e ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../properties/res_prop_dist_from_COM_SC.out ../exp_wcneSC_distance.out ../sum_wcneSC_distance.out >& wcneSC_distance.bash_screen &
+
+for exponential weighting function of WCN, using CA coordinates:
+./wcn_distance_cor.exe e ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../properties/res_prop_dist_from_COM_SC.out ../exp_wcneCA_distance.out ../sum_wcneCA_distance.out >& wcneCA_distance.bash_screen &
+
+
+
+for Gaussian weighting function of WCN, using center of mass of side chain coordinates:
+./wcn_distance_cor.exe g ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../properties/res_prop_dist_from_COM_SC.out ../exp_wcngSC_distance.out ../sum_wcngSC_distance.out >& wcngSC_distance.bash_screen &
+
+for Gaussian weighting function of WCN, using CA coordinates:
+./wcn_distance_cor.exe g ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../properties/res_prop_dist_from_COM_SC.out ../exp_wcngCA_distance.out ../sum_wcngCA_distance.out >& wcngCA_distance.bash_screen &
