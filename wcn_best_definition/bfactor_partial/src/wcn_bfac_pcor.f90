@@ -40,7 +40,7 @@ implicit none
   integer            :: ios
   character(len=100) :: exp_output_format
 ! Distance input file variables:
-  character(len=4)   :: distance_pdb_name
+  character(len=6)   :: distance_pdb_name
   real*8, dimension(:) , allocatable :: distance_from_COM
 !  character(len=1)   :: elj_chain_id
 !  integer            :: elj_res_num
@@ -99,7 +99,7 @@ implicit none
 
 ! allocate fre_param values:
   nstride = nint ( (free_param_max-free_param_min) / stride )
-  allocate(free_param(nstride),sp_pcor(nstride),sp_cor(nstride),abs_sp_cor(nstride),sp_cor_wcn_bf(nstride),sp_cor_wcn_dist(nstride))
+  allocate(free_param(nstride),sp_pcor(nstride),abs_sp_cor(nstride),sp_cor_wcn_bf(nstride),sp_cor_wcn_dist(nstride))
   do i = 1,nstride
     free_param(i) = free_param_min + dble(i)*stride
   end do
@@ -117,7 +117,7 @@ implicit none
   open(unit=exp_out_unit,file=trim(adjustl(exp_out)),status='replace')
   write(exp_out_unit,exp_output_format) 'free_parameter',(free_param(i),i=1,nstride)
   open(unit=sum_out_unit,file=trim(adjustl(sum_out)),status='replace')
-  write(sum_out_unit,'(4A20)') 'pdb','free_param_best','sp_cor_best','nres'
+  write(sum_out_unit,'(7A20)') 'pdb','free_param_best','sp_cor_best','nres','sp_cor_dist_Bf','sp_cor_wcn_dist','sp_cor_wcn_bf'
   
 call cpu_time(tstart)
 do ii = 1,npdb
@@ -142,9 +142,10 @@ do ii = 1,npdb
   do i = 1,nstride
     call wcn_finder(model,free_param(i),nres,crd,wcn)
     ! Now calculate the spearman correlation between wcn and the quantity of interest:
+    !wcn = 1.d0 / wcn
     sp_cor_wcn_bf(i) = spear(nres,wcn,bfactor)
     sp_cor_wcn_dist(i) = spear(nres,wcn,distance_from_COM)
-    sp_pcor(i) = (sp_cor_wcn_bf(i)-sp_cor_dist_Bf*sp_cor_wcn_dist(i)) / ( (1.d0-sp_cor_dist_Bf**2) * (1.d0-sp_cor_wcn_dist(i)**2) )
+    sp_pcor(i) = (sp_cor_wcn_bf(i)-sp_cor_dist_Bf*sp_cor_wcn_dist(i)) / ( sqrt((1.d0-sp_cor_dist_Bf**2)) * sqrt((1.d0-sp_cor_wcn_dist(i)**2)) )
     if (isnan(sp_pcor(i)) .or. abs(sp_pcor(i)) > 1.d0) sp_pcor(i) = 0.d0     ! replace NAN values with zero.
   end do
   deallocate(crd,bfactor,wcn)
@@ -152,7 +153,7 @@ do ii = 1,npdb
   ! NOW WRITE OUT THE FIRST FOUR LINES OF THE OUTPUT WCN FILE
   write(exp_out_unit,exp_output_format) pdb,(sp_pcor(i),i=1,nstride)
   abs_sp_cor = abs(sp_pcor)
-  write(sum_out_unit,'(1A20,2F20.3,1I20)') pdb,free_param(maxloc(abs_sp_cor)),sp_pcor(maxloc(abs_sp_cor)),nres
+  write(sum_out_unit,'(1A20,2F20.3,1I20, 3F20.4)') pdb, free_param(maxloc(abs_sp_cor)), sp_pcor(maxloc(abs_sp_cor)), nres, sp_cor_dist_Bf, sp_cor_wcn_dist(maxloc(abs_sp_cor)), sp_cor_wcn_bf(maxloc(abs_sp_cor))
 
 end do
 call cpu_time(tend)
