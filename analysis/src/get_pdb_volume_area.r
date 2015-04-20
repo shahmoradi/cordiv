@@ -166,7 +166,12 @@ cor(abs(ERscors$r.vareaSC.r4sJC),pdb_prop_geometry$volume,method='sp')
 cor(abs(ERscors$r.ddgent.r4sJC),pdb_prop_geometry$sphericity,method='sp')
 cor(abs(ERscors$r.ddgent.r4sJC),pdb_prop_geometry$sphericity,method='sp')
 
-
+sum_wcnhSC_bfSC = sum_wcnhSC_bfSC[!(sum_wcnhSC_bfSC$pdb %in% excluded_pdbs),]
+sum_wcnhSC_bfSC$pdb  = factor(sum_wcnhSC_bfSC$pdb)
+sum_wcnhSC_ddgent = sum_wcnhSC_ddgent[!(sum_wcnhSC_ddgent$pdb %in% excluded_pdbs),]
+sum_wcnhSC_ddgent$pdb  = factor(sum_wcnhSC_ddgent$pdb)
+sum_wcnhSC_r4sJC = sum_wcnhSC_r4sJC[!(sum_wcnhSC_r4sJC$pdb %in% excluded_pdbs),]
+sum_wcnhSC_r4sJC$pdb  = factor(sum_wcnhSC_r4sJC$pdb)
 
 # hist(pdb_prop_geometry$sphericity)
 # cor(subset(pdb_prop_geometry,select=c(volume,area,sphericity)),method='sp')

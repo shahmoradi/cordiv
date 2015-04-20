@@ -78,7 +78,19 @@ setwd('C:/Users/Amir/Documents/GitHub/cordiv/wcn_best_definition/analysis/src')
   exp_wcnpCA_ddgent   = read.table('../../ddgent/exp_wcnpCA_ddgent.out',header=F)
   sum_wcngCA_ddgent   = read.table('../../ddgent/sum_wcngCA_ddgent.out',header=T)
   exp_wcngCA_ddgent   = read.table('../../ddgent/exp_wcngCA_ddgent.out',header=F)
-  
+
+# INPUT DATA FOR WCN-distance CORRELATIONS:  (distance from Center of mass of proteins)
+
+  sum_wcneSC_distance   = read.table('../../distance_from_COM/sum_wcneSC_distance.out',header=T)
+  exp_wcneSC_distance   = read.table('../../distance_from_COM/exp_wcneSC_distance.out',header=F)
+  sum_wcnhSC_distance   = read.table('../../distance_from_COM/sum_wcnhSC_distance.out',header=T)
+  exp_wcnhSC_distance   = read.table('../../distance_from_COM/exp_wcnhSC_distance.out',header=F)
+  sum_wcnpSC_distance   = read.table('../../distance_from_COM/sum_wcnpSC_distance.out',header=T)
+  exp_wcnpSC_distance   = read.table('../../distance_from_COM/exp_wcnpSC_distance.out',header=F)
+  sum_wcngSC_distance   = read.table('../../distance_from_COM/sum_wcngSC_distance.out',header=T)
+  exp_wcngSC_distance   = read.table('../../distance_from_COM/exp_wcngSC_distance.out',header=F)
+
+
 excluded_pdbs = c('1BBS_A','1BS0_A','1DIN_A','1HPL_A')   # These are the 4 PDBs that did not have complete r4s evolutionary rates and are omitted from the dataset to avoid NA values.
 
 sum_wcneSC_bfSC = sum_wcneSC_bfSC[!(sum_wcneSC_bfSC$pdb %in% excluded_pdbs),]
@@ -87,6 +99,8 @@ sum_wcneSC_ddgent = sum_wcneSC_ddgent[!(sum_wcneSC_ddgent$pdb %in% excluded_pdbs
 sum_wcneSC_ddgent$pdb  = factor(sum_wcneSC_ddgent$pdb)
 sum_wcneSC_r4sJC = sum_wcneSC_r4sJC[!(sum_wcneSC_r4sJC$pdb %in% excluded_pdbs),]
 sum_wcneSC_r4sJC$pdb  = factor(sum_wcneSC_r4sJC$pdb)
+sum_wcneSC_distance = sum_wcneSC_distance[!(sum_wcneSC_distance$pdb %in% excluded_pdbs),]
+sum_wcneSC_distance$pdb  = factor(sum_wcneSC_distance$pdb)
 
 sum_wcnhSC_bfSC = sum_wcnhSC_bfSC[!(sum_wcnhSC_bfSC$pdb %in% excluded_pdbs),]
 sum_wcnhSC_bfSC$pdb  = factor(sum_wcnhSC_bfSC$pdb)
@@ -94,6 +108,8 @@ sum_wcnhSC_ddgent = sum_wcnhSC_ddgent[!(sum_wcnhSC_ddgent$pdb %in% excluded_pdbs
 sum_wcnhSC_ddgent$pdb  = factor(sum_wcnhSC_ddgent$pdb)
 sum_wcnhSC_r4sJC = sum_wcnhSC_r4sJC[!(sum_wcnhSC_r4sJC$pdb %in% excluded_pdbs),]
 sum_wcnhSC_r4sJC$pdb  = factor(sum_wcnhSC_r4sJC$pdb)
+sum_wcnhSC_distance = sum_wcnhSC_distance[!(sum_wcnhSC_distance$pdb %in% excluded_pdbs),]
+sum_wcnhSC_distance$pdb  = factor(sum_wcnhSC_distance$pdb)
 
 sum_wcngSC_bfSC = sum_wcngSC_bfSC[!(sum_wcngSC_bfSC$pdb %in% excluded_pdbs),]
 sum_wcngSC_bfSC$pdb  = factor(sum_wcngSC_bfSC$pdb)
@@ -101,6 +117,9 @@ sum_wcngSC_ddgent = sum_wcngSC_ddgent[!(sum_wcngSC_ddgent$pdb %in% excluded_pdbs
 sum_wcngSC_ddgent$pdb  = factor(sum_wcngSC_ddgent$pdb)
 sum_wcngSC_r4sJC = sum_wcngSC_r4sJC[!(sum_wcngSC_r4sJC$pdb %in% excluded_pdbs),]
 sum_wcngSC_r4sJC$pdb  = factor(sum_wcngSC_r4sJC$pdb)
+sum_wcngSC_r4sJC$pdb  = factor(sum_wcngSC_r4sJC$pdb)
+sum_wcngSC_distance = sum_wcngSC_distance[!(sum_wcngSC_distance$pdb %in% excluded_pdbs),]
+sum_wcngSC_distance$pdb  = factor(sum_wcngSC_distance$pdb)
 
 sum_wcnpSC_bfSC = sum_wcnpSC_bfSC[!(sum_wcnpSC_bfSC$pdb %in% excluded_pdbs),]
 sum_wcnpSC_bfSC$pdb  = factor(sum_wcnpSC_bfSC$pdb)
@@ -108,7 +127,8 @@ sum_wcnpSC_ddgent = sum_wcnpSC_ddgent[!(sum_wcnpSC_ddgent$pdb %in% excluded_pdbs
 sum_wcnpSC_ddgent$pdb  = factor(sum_wcnpSC_ddgent$pdb)
 sum_wcnpSC_r4sJC = sum_wcnpSC_r4sJC[!(sum_wcnpSC_r4sJC$pdb %in% excluded_pdbs),]
 sum_wcnpSC_r4sJC$pdb  = factor(sum_wcnpSC_r4sJC$pdb)
-
+sum_wcnpSC_distance = sum_wcnpSC_distance[!(sum_wcnpSC_distance$pdb %in% excluded_pdbs),]
+sum_wcnpSC_distance$pdb  = factor(sum_wcnpSC_distance$pdb)
 
 
 ###  plot(test$parameter,abs(test$mean_sp),type='l', col='black', ylim=c(0.,0.9))
