@@ -1,4 +1,5 @@
-! This Fortran program attempts to find the best performing definition and free parameters of the definition of Contact Number as used in my previous work "structural prediction of ER" that results in the highest Spearman correlation between the distance of residue from the center of the protein and the corresponding CN definition of residue.
+! This Fortran program attempts to find the best performing definition and free parameters of the definition of Contact Number as used in my previous work "structural prediction of ER" that results in the highest Spearman correlation between the B-factors of the representative residue atoms in pdb files (on Echave pdb data set) and CN,  WHILE CONTROLLING FOR THE DISTANCE FROM CENTER OF MASS.
+
 ! GOALS:
 !       -- To see if all structures have approximately the best performing free parameters of the CN definition or not.
 ! INPUT:
@@ -6,15 +7,15 @@
 !       -- Path to the input file pdb_prop_CO.out containing pdb names and number of residues
 !       -- Path to the input representative atomic coordinates and Bfactors (../../../properties/res_crd_bf)
 !       -- Path to the input distance from COM for all residues in all proteins(../../../res_prop_dist_from_COM_SC.out)
-!       -- Path and name of the output file containing Spearman correlations of CN-distance for each pdb structure on each line.
+!       -- Path and name of the output file containing Spearman correlations of CN-bfac for each pdb structure on each line.
 !       -- Path and name of the output summary file containing the name of the pdbs on the first column, the best performing value of free parameter of the model, the corresponding Spearman correlation.
 
 ! METHOD:
 !       The code searches for the best performing cutoff_distance for CN in the stupidest and slowest, but simplest way possible, which does not matter, thanks for Fortran's miraculous runtime speed. It searches for the best value of the free parameter cutoff_distance.
 
-! Amir Shahmoradi, Sunday 7:54 PM, April 19 2015, iCMB, UT Austin
+! Amir Shahmoradi, Monday 12:24 PM, April 20 2015, iCMB, UT Austin
 
-program wcn_distance_cor
+program wcn_bfac_cor
 implicit none
 ! pdb file variables:
   integer, parameter                            :: npdb=213                ! number of pdbs in pdb_prop_CO.out file
@@ -28,23 +29,29 @@ implicit none
   character(len=1)   :: model                                              ! the wcn model and definition: h, p, e, g
   character(len=300) :: co_in                                              ! input pdb file. ATTN: Any non ATOM records will be ignored!
   character(len=300) :: crd_in                                             ! input pdb file. ATTN: Any non ATOM records will be ignored!
-  character(len=300) :: distance_in                                        ! input file containing distances from COM data for all pdb files in the format as in "res_prop_dist_from_COM_SC.out".
+  character(len=300) :: distance_in                                        ! input file containing Eleisha's Seq.Ent for all pdb files. ATTN: The file should be in its original format written by Eleisha, that is, the columns ordering should have not been changes.
   character(len=300) :: exp_out	                                           ! output file containing on each line, the Spearman correlations of Seq.Ent of a single pdb file with different exponential definitions of WCN (different cutoff_distances).
   character(len=300) :: sum_out	                                           ! output summary file containing the pdb names and the best performing cutoff_distances and the corresponding Spearman correlations and the length of the protein on the last column.
 ! input files variables:
   integer            :: iostat, counter
-  integer            :: co_in_unit=10,crd_in_unit=11                        ! input file units
-  integer            :: distance_in_unit=12                                 ! input file units
-  integer            :: exp_out_unit=21, sum_out_unit=22                    ! output file units
+  integer            :: co_in_unit=10,crd_in_unit=11                       ! input file units
+  integer            :: distance_in_unit=12                                ! input file units
+  integer            :: exp_out_unit=21, sum_out_unit=22                   ! output file units
   integer            :: ios
   character(len=100) :: exp_output_format
-! distance input file variables:
-  character(len=6)   :: distance_pdb_name
+! Distance input file variables:
+  character(len=4)   :: distance_pdb_name
   real*8, dimension(:) , allocatable :: distance_from_COM
+!  character(len=1)   :: elj_chain_id
+!  integer            :: elj_res_num
+!  real*8             :: elj_seqent, elj_ddgent  
+!  real*8, dimension(:) , allocatable :: pdb_seqent, pdb_ddgent  
+!  integer, dimension(:), allocatable :: pdb_resnum
 ! variables and parameters for wcn calculations and correlations:
   real*8                                  :: free_param_min, free_param_max,stride
   integer                                 :: nstride     ! number of strides
-  real*8 , dimension(:)     , allocatable :: free_param,sp_cor,abs_sp_cor                       ! The array of the values of the free parameter of WCN definitions.
+  real*8 , dimension(:)     , allocatable :: free_param,sp_cor_wcn_dist,sp_cor_wcn_bf,sp_pcor,abs_sp_cor        ! The array of the values of the free parameter of WCN definitions.
+  real*8                                  :: sp_cor_dist_Bf
   real*8 , dimension(:)     , allocatable :: wcn                                                ! The array of contact numbers for each each CA atom.
   real*8                                  :: spear                                              ! function
   character(len=6)                        :: dummy_char
@@ -92,7 +99,7 @@ implicit none
 
 ! allocate fre_param values:
   nstride = nint ( (free_param_max-free_param_min) / stride )
-  allocate(free_param(nstride),sp_cor(nstride),abs_sp_cor(nstride))
+  allocate(free_param(nstride),sp_pcor(nstride),sp_cor(nstride),abs_sp_cor(nstride),sp_cor_wcn_bf(nstride),sp_cor_wcn_dist(nstride))
   do i = 1,nstride
     free_param(i) = free_param_min + dble(i)*stride
   end do
@@ -103,7 +110,7 @@ implicit none
   open(unit=distance_in_unit,file=trim(adjustl(distance_in)),status='old')
   read(co_in_unit,*)        ! read file header
   read(crd_in_unit,*)       ! read file header
-  read(distance_in_unit,*)       ! read file header
+  read(distance_in_unit,*)  ! read file header
 ! OPEN OUTPUT FILES:
   write(dummy_char,'(1I6)') nstride
   exp_output_format = trim(adjustl('(1A20,' // trim(adjustl(dummy_char)) // 'F20.6)'))
@@ -129,19 +136,23 @@ do ii = 1,npdb
       STOP
     end if
   end do
+  ! First calculate the correlation between distance and B factor:
+  sp_cor_dist_Bf = spear(nres,distance_from_COM,bfactor)
   ! now calculate WCN for all values of parameters:
   do i = 1,nstride
     call wcn_finder(model,free_param(i),nres,crd,wcn)
     ! Now calculate the spearman correlation between wcn and the quantity of interest:
-    sp_cor(i) = spear(nres,wcn,distance_from_COM)
-    if (isnan(sp_cor(i)) .or. abs(sp_cor(i)) > 1.d0) sp_cor(i) = 0.d0     ! replace NAN values with zero.
+    sp_cor_wcn_bf(i) = spear(nres,wcn,bfactor)
+    sp_cor_wcn_dist(i) = spear(nres,wcn,distance_from_COM)
+    sp_pcor(i) = (sp_cor_wcn_bf(i)-sp_cor_dist_Bf*sp_cor_wcn_dist(i)) / ( (1.d0-sp_cor_dist_Bf**2) * (1.d0-sp_cor_wcn_dist(i)**2) )
+    if (isnan(sp_pcor(i)) .or. abs(sp_pcor(i)) > 1.d0) sp_pcor(i) = 0.d0     ! replace NAN values with zero.
   end do
   deallocate(crd,bfactor,wcn)
   deallocate(distance_from_COM)
   ! NOW WRITE OUT THE FIRST FOUR LINES OF THE OUTPUT WCN FILE
-  write(exp_out_unit,exp_output_format) pdb,(sp_cor(i),i=1,nstride)
-  abs_sp_cor = abs(sp_cor)
-  write(sum_out_unit,'(1A20,2F20.3,1I20)') pdb,free_param(maxloc(abs_sp_cor)),sp_cor(maxloc(abs_sp_cor)),nres
+  write(exp_out_unit,exp_output_format) pdb,(sp_pcor(i),i=1,nstride)
+  abs_sp_cor = abs(sp_pcor)
+  write(sum_out_unit,'(1A20,2F20.3,1I20)') pdb,free_param(maxloc(abs_sp_cor)),sp_pcor(maxloc(abs_sp_cor)),nres
 
 end do
 call cpu_time(tend)
@@ -150,11 +161,10 @@ write(*,*) new_line('a'), 'Overall it took ', tend-tstart, ' seconds for all 213
 
 close(co_in_unit)
 close(crd_in_unit)
-close(distance_in_unit)
 close(exp_out_unit)
 close(sum_out_unit)
 
-end program wcn_distance_cor
+end program wcn_bfac_cor
 
 
 ! This Fortran subroutine takes in the 3D coordinates of a set of atoms. On the output it gives the WCN of all the atoms that were given in the input.
