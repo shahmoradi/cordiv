@@ -145,7 +145,7 @@ do ii = 1,npdb
     !wcn = 1.d0 / wcn
     sp_cor_wcn_bf(i) = spear(nres,wcn,bfactor)
     sp_cor_wcn_dist(i) = spear(nres,wcn,distance_from_COM)
-    sp_pcor(i) = (sp_cor_wcn_bf(i)-sp_cor_dist_Bf*sp_cor_wcn_dist(i)) / ( sqrt((1.d0-sp_cor_dist_Bf**2)) * sqrt((1.d0-sp_cor_wcn_dist(i)**2)) )
+    sp_pcor(i) = (sp_cor_wcn_bf(i)-sp_cor_dist_Bf*sp_cor_wcn_dist(i)) / ( sqrt(1.d0-sp_cor_dist_Bf**2) * sqrt(1.d0-sp_cor_wcn_dist(i)**2) )
     if (isnan(sp_pcor(i)) .or. abs(sp_pcor(i)) > 1.d0) sp_pcor(i) = 0.d0     ! replace NAN values with zero.
   end do
   deallocate(crd,bfactor,wcn)
