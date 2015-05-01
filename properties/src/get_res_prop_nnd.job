@@ -1,0 +1,8 @@
+cd ~/cordiv/properties/src
+ifort get_res_prop_nnd.f90 -o get_res_prop_nnd.exe
+
+for center of mass of side chain coordinates:
+./get_res_prop_nnd.exe ../pdb_prop_CO.out ../res_crd_bf/crd_bf_SC.out ../res_prop_nnd_SC.out >& get_res_prop_nnd_SC.stdout &
+
+for center of mass of side chain coordinates:
+./get_res_prop_nnd.exe ../pdb_prop_CO.out ../res_crd_bf/crd_bf_CA.out ../res_prop_nnd_CA.out >& get_res_prop_nnd_CA.stdout &
