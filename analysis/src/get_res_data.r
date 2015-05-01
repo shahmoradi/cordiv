@@ -111,6 +111,46 @@
   res_prop_voroO$VOmodified_sphericity[res_prop_voroO$VOvolume_change_diff != 0] = -res_prop_voroO$VOsphericity[res_prop_voroO$VOvolume_change_diff != 0]
   res_prop_voroO = res_prop_voroO[!(res_prop_voroO$pdb %in% excluded_pdbs),]
   res_prop_voroO$pdb  = factor(res_prop_voroO$pdb)
+ 
+  # Get nearest neighbour distances data, both sequential distances (snd) and non-sequential (nsnnd), and combined (nnd)
+  res_prop_nnd_SC         = read.table('../../properties/res_prop_nnd_SC.out', header=T)
+  res_prop_nnd_SC         = res_prop_nnd_SC[!(res_prop_nnd_SC$pdb %in% excluded_pdbs),]
+  res_prop_nnd_SC$pdb     = factor(res_prop_nnd_SC$pdb)
+
+  res_prop_nnd_CA         = read.table('../../properties/res_prop_nnd_CA.out', header=T)
+  res_prop_nnd_CA         = res_prop_nnd_CA[!(res_prop_nnd_CA$pdb %in% excluded_pdbs),]
+  res_prop_nnd_CA$pdb     = factor(res_prop_nnd_CA$pdb)
+  
+  res_prop_nsnnd_SC         = read.table('../../properties/res_prop_nsnnd_SC.out', header=T)
+  res_prop_nsnnd_SC         = res_prop_nsnnd_SC[!(res_prop_nsnnd_SC$pdb %in% excluded_pdbs),]
+  res_prop_nsnnd_SC$pdb     = factor(res_prop_nsnnd_SC$pdb)
+  
+  res_prop_nsnnd_CA         = read.table('../../properties/res_prop_nsnnd_CA.out', header=T)
+  res_prop_nsnnd_CA         = res_prop_nsnnd_CA[!(res_prop_nsnnd_CA$pdb %in% excluded_pdbs),]
+  res_prop_nsnnd_CA$pdb     = factor(res_prop_nsnnd_CA$pdb)
+  
+  res_prop_snd_SC         = read.table('../../properties/res_prop_snd_SC.out', header=T)
+  res_prop_snd_SC         = res_prop_snd_SC[!(res_prop_snd_SC$pdb %in% excluded_pdbs),]
+  res_prop_snd_SC$pdb     = factor(res_prop_snd_SC$pdb)
+  
+  res_prop_snd_CA         = read.table('../../properties/res_prop_snd_CA.out', header=T)
+  res_prop_snd_CA         = res_prop_snd_CA[!(res_prop_snd_CA$pdb %in% excluded_pdbs),]
+  res_prop_snd_CA$pdb     = factor(res_prop_snd_CA$pdb)
+
+  hist(res_prop_nnd_SC$nnd, xlim=c(2,12))
+  median(res_prop_nnd_SC$nnd)
+  hist(res_prop_nsnnd_SC$nsnnd, xlim=c(2,12))
+  median(res_prop_nsnnd_SC$nsnnd)
+  hist(res_prop_snd_SC$snd, xlim=c(2,12))
+  median(res_prop_snd_SC$snd,na.rm=TRUE)
+  
+  
+  hist(res_prop_nnd_CA$nnd, xlim=c(2,12))
+  median(res_prop_nnd_CA$nnd)
+  hist(res_prop_nsnnd_CA$nsnnd, xlim=c(2,12))
+  median(res_prop_nsnnd_CA$nsnnd)
+  hist(res_prop_snd_CA$snd, xlim=c(2,12))
+  median(res_prop_snd_CA$snd,na.rm=TRUE)
   
 
 # The following are some random calculations and thoughts. have to figure out what they are later

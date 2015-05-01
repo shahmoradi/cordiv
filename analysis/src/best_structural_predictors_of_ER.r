@@ -32,15 +32,19 @@ for(pdb in levels(res_prop_elj$pdb))
                   , subset(pdb_wcn_bf, select = c(wcnSC,wcnCA,bfSC))
                   , subset(pdb_voroSC, select = c(VSCarea))
                   , subset(pdb_voroCA, select = c(VCAarea))
+                  , subset(pdb_voroSC, select = c(VSCvolume))
+                  , subset(pdb_voroCA, select = c(VCAvolume))
                   , subset(pdb_distance, select = c(distance_normalized))
                   )
   r.rsa.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$rsa,method='sp')
   r.wcnSC.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$wcnSC,method='sp')
   r.wcnCA.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$wcnCA,method='sp')
   r.vareaSC.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$VSCarea,method='sp')
+  r.vvolumeSC.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$VSCvolume,method='sp')
   #r.ddgent.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$ddgent,method='sp')
   r.ddgent.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$rate.ddg.foldx,method='sp')
   r.vareaCA.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$VCAarea,method='sp')
+  r.vvolumeCA.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$VCAvolume,method='sp')
   r.bfSC.r4sJC = cor(pdb_temp$zr4s_JC,pdb_temp$bfSC,method='sp')
   r.hbe.r4sJC = cor(pdb_temp$zr4s_JC,abs(pdb_temp$hbe),method='sp')
   r.distance.r4sJC = cor(pdb_temp$zr4s_JC,abs(pdb_temp$distance_normalized),method='sp')
@@ -51,7 +55,7 @@ for(pdb in levels(res_prop_elj$pdb))
   r.wcnSC.vareaSC = cor(pdb_temp$wcnSC,pdb_temp$VSCarea,method='sp')
   
   #row = data.frame( pdb = pdb, rsa = r.rsa.r4sJC, wcn = r.wcn.r4sJC, vareaSC = r.vareaSC.r4sJC, ddgent = r.ddgent.r4sJC )
-  row = data.frame( pdb, r.wcnCA.r4sJC, r.wcnSC.r4sJC, r.rsa.r4sJC, r.vareaSC.r4sJC, r.ddgent.r4sJC , r.vareaCA.r4sJC , r.bfSC.r4sJC , r.hbe.r4sJC , r.distance.r4sJC, r.bfSC.distance, r.bfSC.wcnSC, r.distance.wcnSC , r.distance.vareaSC , r.wcnSC.vareaSC)
+  row = data.frame( pdb, r.wcnCA.r4sJC, r.wcnSC.r4sJC, r.rsa.r4sJC, r.vareaSC.r4sJC, r.vvolumeSC.r4sJC, r.vvolumeCA.r4sJC, r.ddgent.r4sJC , r.vareaCA.r4sJC , r.bfSC.r4sJC , r.hbe.r4sJC , r.distance.r4sJC, r.bfSC.distance, r.bfSC.wcnSC, r.distance.wcnSC , r.distance.vareaSC , r.wcnSC.vareaSC)
   best_structural_predictors_of_ER = rbind( best_structural_predictors_of_ER, row )
 }
 
@@ -62,16 +66,18 @@ hist.rsa = density(best_structural_predictors_of_ER$r.rsa.r4sJC)
 hist.wcnSC = density(best_structural_predictors_of_ER$r.wcnSC.r4sJC)
 hist.wcnCA = density(best_structural_predictors_of_ER$r.wcnCA.r4sJC)
 hist.vareaSC = density(best_structural_predictors_of_ER$r.vareaSC.r4sJC)
+hist.vvolumeSC = density(best_structural_predictors_of_ER$r.vvolumeSC.r4sJC)
 hist.ddgent = density(best_structural_predictors_of_ER$r.ddgent.r4sJC)
 hist.bfSC = density(best_structural_predictors_of_ER$r.bfSC.r4sJC)
 hist.hbe = density(best_structural_predictors_of_ER$r.hbe.r4sJC)
+hist.dist = density(best_structural_predictors_of_ER$r.distance.r4sJC)
 
 # Now plot histograms in a single plot
 #colors = c('green', 'blue', 'red', 'black', 'gray', 'cyan2')
 pdf( "../figures/best_structural_predictors_of_ER.pdf", width=4.5, height=4, useDingbats=FALSE )
 par( mai=c(0.65, 0.65, 0.05, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
-plot(  hist.vareaSC$x
-    ,  hist.vareaSC$y
+plot(  hist.vvolumeSC$x
+    ,  hist.vvolumeSC$y
     ,   col = 'red'
     #,   xlim = c(-0.5,0.85)
     ,   xlim = c(-0.05,0.85)
@@ -113,6 +119,11 @@ lines( hist.rsa$x
        , col = 'blue'
        , lwd  = 2
      )
+lines( hist.dist$x
+       , hist.dist$y
+       , col = 'grey'
+       , lwd  = 2
+     )
 #lines( -hist.hbe$x
 #     , hist.hbe$y
 #     , col = 'grey'
@@ -129,8 +140,8 @@ lines( hist.rsa$x
 #     )
 
 legend( 'topleft'
-      , c("Voronoi Cell Area (SC)","1 / WCN (SC)", "1 / WCN (CA)", "B factor (SC)", "ddG Rate", "RSA")
-      , col = c('red','black','black','cyan2','green','blue')
+      , c("Distance from Geometrical Center of Protein","Voronoi Cell Volume (SC)","1 / WCN (SC)", "1 / WCN (CA)", "B factor (SC)", "ddG Rate", "RSA")
+      , col = c('grey','red','black','black','cyan2','green','blue')
       , lty = c(1,1,2,1,1)
       , lwd = 2
       , bty = 'n'
