@@ -154,3 +154,22 @@ max(best_structural_predictors_of_ER$r.wcnSC.r4sJC)-min(best_structural_predicto
 max(best_structural_predictors_of_ER$r.vareaSC.r4sJC)-min(best_structural_predictors_of_ER$r.vareaSC.r4sJC)
 sd(best_structural_predictors_of_ER$r.vareaSC.r4sJC)
 sd(best_structural_predictors_of_ER$r.wcnSC.r4sJC)
+
+# Now do some paired t-tests:
+
+temp1 = data.frame(var = 'wcnSC', r = best_structural_predictors_of_ER$r.wcnSC.r4sJC)
+temp2 = data.frame(var = 'vareaSC', r = best_structural_predictors_of_ER$r.vareaSC.r4sJC)
+temp = rbind(temp1,temp2)
+temp$var = factor(temp$var)
+ttest = pairwise.t.test(temp$r,temp$var)
+
+install.packages('reshape')
+library('reshape')
+best_structural_predictors_of_ER_long = reshape(best_structural_predictors_of_ER, direction='long', varying=colnames(best_structural_predictors_of_ER)[2:ncol(best_structural_predictors_of_ER)], idvar=c('pdb'), v.names='value', timevar='variable', times=colnames(best_structural_predictors_of_ER)[2:ncol(best_structural_predictors_of_ER)])
+best_structural_predictors_of_ER_long$variable = factor(best_structural_predictors_of_ER_long$variable)
+
+ttest = pairwise.t.test(best_structural_predictors_of_ER_long$value,best_structural_predictors_of_ER_long$variable)
+
+pvalues = as.data.frame(ttest$p.value)
+
+write.csv(pvalues, file='../tables/pairwise_t_test.csv')

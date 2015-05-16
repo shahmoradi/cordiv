@@ -80,7 +80,7 @@ plot(  hist.sndCA$x
        #,   xlab = expression(paste('Spearman Cor. with Evolutionary Rates ',rho))
        ,   xlab = 'Distance [ Å ]'
        ,   ylab = 'Normalized Frequency'
-)
+       )
 lines(   hist.nsnndCA$x
          , hist.nsnndCA$y*0.9/max(hist.nsnndCA$y)
          , col = 'blue'

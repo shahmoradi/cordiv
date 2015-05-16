@@ -139,49 +139,101 @@ abline(regression[1:2],col='yellow',lwd=2,lty=2)
 graphics.off()
 
 
+
+install.packages("MethComp")
+library('MethComp')
+
 ###########################################################
 # The same plot for wcnSC-bfSC, but do averaging on the log of data, to see if the slope of the regression line gets from -0.8 to any closer to -1.
 # This damn rollappy cannot average over B factors! gives -Inf!  what the is wrong with you rollapply >:
-res_prop_wb = data.frame( wcnSC         = log10(res_prop_wcn_bf$wcnSC)
-                        , bfSC          = log10(res_prop_wcn_bf$bfSC) )
-varnames_short_wb = colnames(res_prop_wb)
-list_temp_wb = list()
-for (i in 1:2)
-{
-  cat('generating list element ', i, '\n')
-  res_prop_ordered = res_prop_wb[with(res_prop_wb, order(res_prop_wb[[varnames_short_wb[[i]][1]]])),]
-  #res_prop_ordered_wb = res_prop_ordered
-  temp = rollapply(res_prop_ordered, width = 3000, FUN = mean)
-  temp = data.frame(temp)
-  list_temp[[i]] = temp
-}
+res_prop_wb = data.frame( pdb   = res_prop_wcn_bf$pdb
+                        , wcnSC = log10(res_prop_wcn_bf$wcnSC)
+                        , bfSC  = log10(res_prop_wcn_bf$bfSC)
+                        )
 
-i = 2; j = 1
-#filename = paste0('../figures/wcnSC_bfSC_adjacent_avg.png')
-filename = paste0('../figures/wcnSC_bfSC_adjacent_avg_log.pdf')
-#png( filename, width=370, height=300 )
-######pdf( filename, width=4.5, height=4, useDingbats=FALSE )  
-temp = as.data.frame(list_temp_wb[[j]])
-par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 ) #, mar = c(5,4,4,5) + .1 )
+# First normalize the B factors and WCN for each individual PDB
+  res_prop_wb$pdb = factor(res_prop_wb$pdb)
+  res_prop_normed_log_wb = data.frame()
+  for ( pdb in levels(res_prop_wb$pdb) )
+  {
+    pdb_temp = res_prop_wb[res_prop_wb$pdb==pdb,]
+    if ( is.finite(sd(pdb_temp$bfSC)) & is.finite(mean(pdb_temp$bfSC)) )
+    {
+      pdb_temp$wcnSC = ( pdb_temp$wcnSC - mean(pdb_temp$wcnSC) ) / sd(pdb_temp$wcnSC)
+      pdb_temp$bfSC = ( pdb_temp$bfSC - mean(pdb_temp$bfSC) ) / sd(pdb_temp$bfSC)
+      pdb_temp = subset(pdb_temp, select = -c(pdb))
+      #pdb_temp = data.frame(pdb_temp,sd.bfSC = sd(pdb_temp$bfSC) , mean.bfSC = mean(pdb_temp$bfSC) )
+      res_prop_normed_log_wb = rbind( res_prop_normed_log_wb , pdb_temp ) 
+    }
+  }
 
-smoothScatter(temp[[varnames_short_wb[[j]][1]]],
-              temp[[varnames_short_wb[[i]][1]]],
-              xlab = 'Local Packing Density: Log ( WCN )' ,
-              ylab = expression ( "Local Flexibilty: Log ( B factor [ Å"^2*" ] )" ),
-              nrpoints=0,
-              nbin=500
-              #,postPlotHook = fudgeit
-) 
-lines(temp[[varnames_short_wb[[j]][1]]],
-      temp[[varnames_short_wb[[i]][1]]],
-      col = 'red',
-      #type='l'
-      lwd=3
-)
-#regressiton = lm(log10(temp[[varnames_short[[i]][1]]])~log10(temp[[varnames_short[[j]][1]]]))
-regression = Deming(temp[[varnames_short_wb[[j]][1]]], temp[[varnames_short_wb[[i]][1]]], boot = TRUE )
-abline(regression[1:2],col='yellow',lwd=2,lty=2)
-graphics.off()
+  #res_prop_normed_log_wb = subset(res_prop_wb, select=-c(pdb))
+  #res_prop_normed_log_wb = res_prop_normed_log_wb[is.finite(res_prop_normed_log_wb$bfSC),]
+
+# Now generate the adjacent averaged list
+  varnames_short_wb = colnames(res_prop_normed_log_wb)
+  ##list_temp_wb = list()
+  ##for (i in 1:2)
+  ##{
+    #cat('generating list element ', i, '\n')
+    ##res_prop_ordered = res_prop_normed_log_wb[with(res_prop_normed_log_wb, order(res_prop_normed_log_wb[[varnames_short_wb[[i]][1]]])),]
+    res_prop_ordered = res_prop_normed_log_wb[with(res_prop_normed_log_wb, order(res_prop_normed_log_wb[['wcnSC']])),]
+    #res_prop_ordered_wb = res_prop_ordered
+    temp = rollapply(res_prop_ordered, width = 3000, FUN = mean)
+    temp = data.frame(temp)
+    ##list_temp[[i]] = temp
+  ##}
+
+  ##i = 2; j = 1
+  #filename = paste0('../figures/wcnSC_bfSC_adjacent_avg.png')
+  filename = paste0('../figures/wcnSC_bfSC_adjacent_avg_log.pdf')
+  #png( filename, width=370, height=300 )
+  pdf( filename, width=4.5, height=4, useDingbats=FALSE )  
+  ##temp = as.data.frame(list_temp[[j]])
+  par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 ) #, mar = c(5,4,4,5) + .1 )
+  
+  smoothScatter(res_prop_ordered$wcnSC,
+                res_prop_ordered$bfSC,
+                xlim=c(-4,2.),
+                ylim=c(-4,4),
+                xlab = 'Local Packing Density: Standardized Log ( WCN )' ,
+                ylab = expression ( "Local Flexibilty: Standardized Log ( B factor )" ),
+                nrpoints=0,
+                nbin=500
+                #,postPlotHook = fudgeit
+  ) 
+  lines(temp$wcnSC,
+        temp$bfSC,
+        col = 'red',
+        #type='l'
+        lwd=3
+  )
+  #regressiton = lm(log10(temp[[varnames_short[[i]][1]]])~log10(temp[[varnames_short[[j]][1]]]))
+  regression = Deming(temp$wcnSC, temp$bfSC, boot = TRUE )
+  abline(regression[1:2],col='yellow',lwd=2,lty=2)
+  graphics.off()
+
+# Now get the distribution of the slopes of the log(BF) -- Log(WCN) relation:
+  
+  res_prop_wb = data.frame( pdb   = res_prop_wcn_bf$pdb
+                          , wcnSC = log10(res_prop_wcn_bf$wcnSC)
+                          , bfSC  = log10(res_prop_wcn_bf$bfSC)
+                          )
+  res_prop_wb$pdb = factor(res_prop_wb$pdb)
+  wcn_bf_slopes = data.frame()
+  counter = 0
+  for ( pdb in levels(res_prop_wb$pdb) )
+  {
+    counter = counter + 1
+    cat ('getting slope for PDB', counter, pdb,'\n')
+    pdb_temp = res_prop_wb[res_prop_wb$pdb==pdb,]
+    #if ( is.finite(sd(pdb_temp$bfSC)) & is.finite(mean(pdb_temp$bfSC)) )
+    #{
+      regression = Deming(pdb_temp$wcnSC, pdb_temp$bfSC, boot = FALSE )
+      row = data.frame( pdb = pdb, slope = regression[[2]] )
+      wcn_bf_slopes = rbind( wcn_bf_slopes, row )
+    #}
+  }
 
 
 
