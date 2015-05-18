@@ -1,4 +1,4 @@
-\begin{thebibliography}{54}
+\begin{thebibliography}{55}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Adler et~al.(1990)Adler, Meir, Aharony, and
@@ -300,6 +300,13 @@ Webb EC. 1992.
   {Nomenclature} {Committee} of the {International} {Union} of {Biochemistry}
   and {Molecular} {Biology} on the {Nomenclature} and {Classification} of
   {Enzymes}.} pp. xiii + 863 pp.
+
+\bibitem[{Weng and Wang(2014)}]{weng_molecular_2014}
+Weng J, Wang W. 2014.
+\newblock Molecular {Dynamics} {Simulation} of {Membrane} {Proteins}.
+\newblock In: Han Kl, Zhang X, Yang Mj, editors, Protein {Conformational}
+  {Dynamics}, Springer International Publishing, number 805 in Advances in
+  {Experimental} {Medicine} and {Biology}, pp. 305--329.
 
 \bibitem[{Wilke et~al.(2005)Wilke, Bloom, Drummond, and
   Raval}]{wilke_predicting_2005}
