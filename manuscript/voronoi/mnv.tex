@@ -150,13 +150,12 @@
 
 \section{Results}
 
-    \subsection*{Contact Number Definition and Long-Range Amino Acid Interactions}
+    \subsection*{Packing Density Definitions and Long-Range Amino Acid Interactions}
     \label{sec:cnwcn}
 
-    In order to determine the extent to which long-range amino acid interactions influence the general patterns of sequence variability and local flexibility measures, first we investigated the behavior of Contact Number and the Weighted Contact Number in predicting site-specific evolutionary rates (r4sJC) and amino acid fluctuations (B factor), for a wide range of the free parameters of the two packing density measures (i.e., $r_0\in[0\AA,50\AA]$ \& $\alpha\in[-30\AA,30\AA]$ as in Eqns. \ref{eqn:cn} \& \ref{eqn:wcn_pwrl}).
+    In order to determine the extent to which long-range amino acid interactions influence the general patterns of sequence variability and local flexibility measures, first we investigate the behavior of Contact Number and the Weighted Contact Number in predicting site-specific evolutionary rates (r4sJC) and the average B factor of the amino acid side-chains, for a wide range of the free parameters of the two packing density measures (i.e., $r_0\in[0\AA,50\AA]$ \& $\alpha\in[-30\AA,30\AA]$ as in Eqns. \ref{eqn:cn} \& \ref{eqn:wcn_pwrl}).
 
-    The results for the dataset of $209$ monomeric enzymes are plotted in Figure \ref{fig:cnwcn}.
-
+    The results for the dataset of $209$ monomeric enzymes are plotted in Figures \ref{fig:cn} \& \ref{fig:wcn}. The values of the free parameters of CN and WCN that result in the strongest correlations are tabulated in Table \ref{tab:cnwcn}. Evidently, the best-performing free parameters of both model indicate the non-negligible contributions of long-range amino acid interactions in the strengths of the observed correlations. The extent and significance of the influences however, cannot be deciphered solely based on the two common definitions of packing density: CN \& WCN. In the following section we present a methodology to segregate and quantify the role of local packing density from long-range interactions in on site-specific sequence variability and flexibility.
 
 
     \subsection*{Voronoi Partitioning of Protein's Structure}
@@ -177,15 +176,17 @@
 
     \noindent in which $V$ \& $A$ stand for the volume \& area of the cell respectively. For a perfectly spherical cell, $\Psi=1$, while it becomes zero for a 2-dimensional object that has no volume but only surface area.
 
-    \subsection*{Voronoi Cell Area and Volume as Proxy Measures of Local Packing Density and Flexibility in Proteins}
+    \subsection*{Voronoi Cell Volume as Proxy Measure of Local Packing Density and Flexibility in Proteins}
 
     % Figure goes here xx
 
     % Figure goes here xx
 
-    In order to assess the prediction power of site-specific variables derived from Voronoi tessellation, first the geometric centers of all side-chains for each of the proteins in dataset were calculated and used as the seeds of Voronoi polyhedra. Figure \ref{fig:voronoi_ER} depicts the distributions of the Spearman's correlation coefficients of five most important Voronoi cell characteristics with site-specific evolutionary rates (ER). It is notable that all cell characteristics in the plot correlate positively with ER, except the cell sphericity which is always negatively correlated with ER and other Voronoi cell properties. In general, it is observed that the cell surface area has the best prediction power compared to other cell characteristics, followed by the cell volume, cell eccentricity as defined in previous section, cell's total edge length, and the cell sphericitiy. \\
+    In order to assess the prediction power of site-specific variables derived from Voronoi tessellation, first the geometric centers of all side-chains for each of the proteins in dataset were calculated and used as the seeds of Voronoi polyhedra. We show in Appendix \ref{app:xx} that the choice of the geometric center of side chains as Voronoi seeds -- in contrast to other sets of atomic coordinates representative of individual sites in protein -- results in the strongest correlations of Voronoi cell properties with other site-specific structural and evolutionary characteristics of proteins.  \\
+    
+    Figure \ref{fig:voronoi_ER} depicts the distributions of the Spearman's correlation coefficients of five most important Voronoi cell characteristics with site-specific evolutionary rates (ER). It is notable that all cell characteristics in the plot correlate positively with ER, except the cell sphericity which is always negatively correlated with ER and other Voronoi cell properties. In general, it is observed that the cell surface volume and area have the best prediction power compared to other cell characteristics, followed by the cell eccentricity as defined in previous section, cell's total edge length, and the cell sphericitiy. \\
 
-    The cell properties are also strongly correlated with each other. Although the Voronoi cell volume is the second best correlating variable with ER, it exhibits no significant independent correlation with ER once we control for the cell area, with the median of its distribution centered at $\sim0.0$, as illustrated in Figure \ref{fig:voronoi_ER_cond}. Conversely, the cell sphericity and eccentricity both exhibit median partial correlations of $\sim-0.1$ \& $\sim0.07$ with ER respectively, when the contribution from the Voronoi cell area is controlled. In conclusion, the cell area, volume, and edge length appear to almost represent the same property of the Voronoi cell. Other Voronoi cell characteristics, such as the number of vertices, faces and edges of the cell also tend to correlate weakly with sequence evolutionary rates. These cell characteristics are however, discrete (integer) quantities and in general have a limited range. \\
+    The Voronoi cell characteristics are also strongly associated with each other. Although the Voronoi cell volume and area are the best correlating variables with ER, none of the two exhibit any significant independent correlation with ER once the other is controlled for control for the cell area, with the median of its distribution centered at $\sim0.0$, as illustrated in Figure \ref{fig:voronoi_ER_cond}. Conversely, the cell sphericity and eccentricity both exhibit median partial correlations of $\sim-0.1$ \& $\sim0.07$ with ER respectively, when the contribution from the Voronoi cell area is controlled. In conclusion, the cell area, volume, and edge length appear to almost represent the same property of the Voronoi cell. Other Voronoi cell characteristics, such as the number of vertices, faces and edges of the cell also tend to correlate weakly with sequence evolutionary rates. These cell characteristics are however, discrete (integer) quantities and in general have a limited range. \\
 
     Not shown here for brevity, almost identical results to the above are obtained if sequence entropy as defined by Eqn. \ref{eqn:shannon} were used in place of sequence evolutionary rates. The use of sequence entropy however, generally results in weaker correlation strengths due to the discreteness and limited range inherent in the definition of sequence entropy. \\
 
