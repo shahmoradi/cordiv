@@ -96,14 +96,28 @@
 
     Although these structural characteristics have been individually extensively studied and explored with regards to their association with sequence evolution, it is yet unknown whether these seemingly independent quantities are merely different manifestations of a more fundamental underlying characteristics of individual sites in proteins or each influence the sequence evolution independently. It is perceivable that quantities such as B factor and RSA, all serve as proxy measures of local packing density of individual sites in proteins, or the local flexibility of individual amino acids. \citet{franzosa_structural_2009} used a variety of local packing density measures to show that RSA is the key determinant of sequence evolution with packing density having only peripheral influence. Recently however, \citet{huang_mechanistic_2014} have argued, through an extensive mathematical formulation within the framework of Elastic Network Models, for the local packing density as the dominant factor in shaping the observed sequence variability patterns of enzymatic proteins in contrast to RSA and local flexibility measures. \\
 
-    It is notable that the site-specific flexibility is often represented by $C_\alpha$ atomic B factor, a quantity that is not necessarily an unbiased measure of the amino acid flexibility as a whole in a given site in protein. A more accurate measure of amino acid flexibility requires the calculation of accessible free volume to each site in protein structure. An estimate of the accessible volume to each site in protein can be generally obtained through the inverse of a quantity widely known as Contact Number introduced and discussed by several authors \citep[e.g.,][]{liao_protein_2005}. In its simplest mathematical form, the Contact Number for a given site in protein is defined as the number of amino acids within a fixed radius $r$ of neighborhood around it \citep[e.g.,][]{franzosa_structural_2009}. Individual sites are generally represented by the coordinates of $C_\alpha$ backbone atoms for the calculation of CN. A major problem with the traditional definition of contact number however, is the existence of the arbitrary parameter $r$ in the definition of CN. There is no consensus on the optimal value of this cutoff distance, although it is typically chosen in the range $5\AA$ to $18\AA$ \citep[e.g.,][]{lin_deriving_2008, franzosa_structural_2009, weng_molecular_2014}. \\
+    It is notable that the site-specific flexibility is often represented by $C_\alpha$ atomic B factor, a quantity that is not necessarily an unbiased measure of the amino acid flexibility as a whole in a given site in protein. A more accurate measure of amino acid flexibility requires the calculation of accessible free volume to each site in protein structure. An estimate of the accessible volume to each site in protein can be generally obtained through the inverse of a quantity widely known as Contact Number introduced and discussed by several authors \citep[e.g.,][]{liao_protein_2005}. In its simplest mathematical form, the Contact Number for a given site $i$ in a protein of amino acid sequence length of $N$ is defined as the number of amino acids within a fixed radius $r_0$ of neighborhood around it \citep[e.g.,][]{franzosa_structural_2009},
+
+    \begin{equation}
+        \label{eqn:cn}
+        \text{CN}_{i} = \sum^N_{j\neq i} H\big(r_0-r_{ij}\big),
+    \end{equation}
+
+    \noindent in which $r_{ij}$ represents the distance between sites $i$ \& $j$ and,
+
+    \begin{equation}
+        \label{eqn:heaviside}
+        H\big(r_0-r_{ij}\big) = \int^{r_0-r_{ij}}_{-\infty}\delta\big(x)\operatorname{x},
+    \end{equation}
+
+    \noindent is the Heaviside step function, with $\delta(x)$ standing for the Dirac delta function. Individual sites are generally represented by the coordinates of $C_\alpha$ backbone atoms for the calculation of CN. A major problem with the traditional definition of contact number however, is the existence of the arbitrary parameter $r_0$ in the definition of CN. There is no consensus on the optimal value of this cutoff distance, although it is typically chosen in the range $5\AA$ to $18\AA$ \citep[e.g.,][]{lin_deriving_2008, franzosa_structural_2009, weng_molecular_2014}. \\
 
     In an attempt to provide a more general definition of CN, some studies \citep[e.g.,][]{lin_deriving_2008} have already suggested an alternative definition known as the Weighted Contact Number (WCN): For a given site $i$ in a protein of length $N$, WCN$_i$ is defined as the sum of the inverse-squared of distances between the amino acid of interest and all other sites in protein,
 
-        \begin{equation}
-            \label{eqn:wcn_pwrl}
-            \text{WCN}_{i} = \sum^N_{j\neq i} \frac{1}{{r_{ij}}^{2}}.
-        \end{equation}
+    \begin{equation}
+        \label{eqn:wcn_pwrl}
+        \text{WCN}_{i} = \sum^N_{j\neq i} \frac{1}{{r_{ij}}^{\alpha=2}}.
+    \end{equation}
 
     Although WCN is in general a better predictor of $C_\alpha$ atomic B factor and site-specific sequence variability, the proposed definition of WCN still involves an adjustable free parameter, the exponent of the power-law kernel. The value of the exponent that results in the best predictions of B factors appears to be in the range $-3\lesssim\alpha\lesssim-2$ and is typically fixed to $\alpha=-2$ as shown in Eqn \ref{eqn:wcn_pwrl} \citep[e.g.,][]{yang_protein_2009}.  A similar exponent value was also used by \citet{huang_mechanistic_2014} to argue for the {\it local} packing density of sites as the dominant factor in shaping protein sequence variability. The specific value of $\alpha=-2$ however, implies that the long-range amino acid interactions also play a non-negligible role in sequence evolution, in addition to local packing density. Similarly, the best performing cutoff values in the definition of Contact Number are in the range of $10\AA\lesssim\alpha\lesssim15\AA$, also indicative of the significant influence of the long-range amino acid interactions on B factor and sequence variability, aside from local packing density. In this regard, the two commonly-used proxy measures of packing density may not be considered {\it local}. An important question therefore remains unanswered as to what extent the local packing density and long-range interactions influence sequence variability, separately from each other. \\
 
@@ -125,8 +139,8 @@
         H_i = -\sum_j P_{ij}\ln P_{ij}
     \end{equation}
 
-    where $P_{ij}$ is the relative frequency of amino acid $j$ at position $i$ in the alignment. We use DSSP software \citep[][]{kabsch_dictionary_1983} for the calculation of the Accessible Surface Area (ASA) for each site normalized by the theoretical maximum solvent accessibility values of \citet{tien_maximum_2013} to obtain the Relative Solvent Accessibility (RSA) for all individual sites in all proteins. 
-    
+    where $P_{ij}$ is the relative frequency of amino acid $j$ at position $i$ in the alignment. We use DSSP software \citep[][]{kabsch_dictionary_1983} for the calculation of the Accessible Surface Area (ASA) for each site normalized by the theoretical maximum solvent accessibility values of \citet{tien_maximum_2013} to obtain the Relative Solvent Accessibility (RSA) for all individual sites in all proteins.
+
     A measure of thermodynamic stability changes due to amino acid substitutions at individual sites in proteins was also defined and obtained following the stability threshold model of Bloom et al. (2006) \cite{bloom_structural_2006}, which was also recently further studied by Echave et al. (2014) \cite{echave_relationship_2014}. Based upon this model, the \ddg {\it rate} estimates for all structures in the dataset were calculated using FoldX program \citep[c.f.,][ for details of the methodology employed]{echave_relationship_2014}. In brief, the site-specific quantity, \ddg rate (also denoted by {\it ddG rate} hereafter in figures), is a proxy measure of the stability of the entire structure of protein upon substituting an amino acid in a given site with all other $19$ amino acids. Therefore, a low \ddg rate for a given site would indicate a high chance of structure perturbation upon substitution and therefore high conservation of the specific amino acid in the site on evolutionary timescales. \\
 		
     As a measure of local flexibility or fluctuation in different parts of the protein structure, the temperature factor ({\it B factor}) for all atoms in PDB files were extracted. Although, B factor is an atomic measure of flexibility and fluctuation in proteins, the backbone C$_\alpha$ B factor has become a very popular proxy measure of amino acid flexibility in the studies of protein dynamics and benchmarking of different Elastic Network Models of proteins. Alternatively, the site-specific fluctuation could be calculated from MD simulations. This was however impossible for this study for the large dataset of $209$ proteins considered in this work. \\
@@ -136,10 +150,19 @@
 
 \section{Results}
 
+    \subsection*{Contact Number Definition and Long-Range Amino Acid Interactions}
+    \label{sec:cnwcn}
+
+    In order to determine the extent to which long-range amino acid interactions influence the general patterns of sequence variability and local flexibility measures, first we investigated the behavior of Contact Number and the Weighted Contact Number in predicting site-specific evolutionary rates (r4sJC) and amino acid fluctuations (B factor), for a wide range of the free parameters of the two packing density measures (i.e., $r_0\in[0\AA,50\AA]$ \& $\alpha\in[-30\AA,30\AA]$ as in Eqns. \ref{eqn:cn} \& \ref{eqn:wcn_pwrl}).
+
+    The results for the dataset of $209$ monomeric enzymes are plotted in Figure \ref{fig:cnwcn}.
+
+
+
     \subsection*{Voronoi Partitioning of Protein's Structure}
     \label{sec:voro}
 
-    There is already extensive body of literature on the applications of different methods of structural partitioning in the studies of protein structure and its prediction from sequence \cite{richards_interpretation_1974, gerstein_volume_1994}. The Voronoi tessellation and its dual graph, the Delaunay triangulation, have particularly attracted much attention in the studies of protein internal structure and development of empirical potentials \cite{zomorodian_geometric_2006, zhou_alpha_2014, xia_identifying_2014}. For a given a set of centroid points (seeds) in 3-dimensional Euclidean space, the simplest and most familiar case of Voronoi tessellation divides the space into regions, called {\it cells}, such that the cell for each centroid point consists of every region in space whose distance is less than or equal to its distance to any other centroid points (Figure \ref{fig:voronoi}). \\
+    There is already an extensive body of literature on the applications of different methods of structural partitioning in the studies of protein structure and its relation to sequence \cite{richards_interpretation_1974, gerstein_volume_1994}. The Voronoi tessellation and its dual graph, the Delaunay triangulation, have particularly attracted much attention in the studies of protein internal structure and the development of empirical potentials \cite{zomorodian_geometric_2006, zhou_alpha_2014, xia_identifying_2014}. For a given a set of centroid points (seeds) in 3-dimensional Euclidean space, the simplest and most familiar case of Voronoi tessellation divides the space into regions, called {\it cells}, such that the cell for each centroid point consists of every region in space whose distance is less than or equal to its distance to any other centroid points (Figure \ref{fig:voronoi}). \\
 
     % Figure goes here xx
 
@@ -310,6 +333,26 @@ We thank Austin G. Meyer, Stephanie Spielman and Eleisha Jackson at UT Austin fo
 
 
 \newpage
+
+    \begin{figure}
+        \begin{center}
+        \begin{tabular}{cc}
+            \includegraphics[width=3.5in]{../../wcn_best_definition/analysis/figures/get_quantiles/screen_plots/spcor_cnhSC_r4sJC.pdf} & \includegraphics[width=3.5in]{../../wcn_best_definition/analysis/figures/get_quantiles/screen_plots/spcor_cnhSC_bfSC.pdf}
+        \end{tabular}
+        \end{center}
+        \caption{}
+        \label{fig:wcnh}
+    \end{figure}
+
+    \begin{figure}
+        \begin{center}
+        \begin{tabular}{cc}
+            \includegraphics[width=3.5in]{../../wcn_best_definition/analysis/figures/get_quantiles/screen_plots/spcor_wcnpSC_r4sJC.pdf} & \includegraphics[width=3.5in]{../../wcn_best_definition/analysis/figures/get_quantiles/screen_plots/spcor_wcnpSC_bfSC.pdf}
+        \end{tabular}
+        \end{center}
+        \caption{Average absolute Spearman's correlation strengths of Weighted Contact Number (WCN$_\operatorname{P}$) with power-law kernel as given by Eqn. \ref{eqn:wcn_pwrl}, with site-specific evolutionary rates ({\it left plot}) and average side-chain B factor ({\it right plot}), for different values of the free parameter of the kernel $\alpha$. The solid black line represents the mean correlation strength in the entire dataset of 209 proteins at each value of $\alpha$, and the dashed black line indicates the median of the distribution. The green-shaded region together with the two red-dashed lines represent the $25\%$ \& $75\%$ quartiles of the correlation strength distribution.  Note that for $\alpha>0$ the sign of the correlation strength $\rho$ is the opposite of the sign of $\rho$ for $\alpha<0$. In addition $\rho$ is undefined at $\alpha=0$ and not shown in this plot. The parameter values at which the Spearman's correlation coefficient reaches the maximum over the entire dataset are given in Table \ref{tab:best_params}.}
+        \label{fig:wcnp}
+    \end{figure}
 
     \begin{figure}
         \begin{center}
