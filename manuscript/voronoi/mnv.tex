@@ -76,6 +76,7 @@
 \Address{\affiliation}
 \vfill
 \begin{Abstract}
+
     What are the best structural predictors of protein's sequence evolution? A number of site-specific structural characteristics have been proposed over the past decade to answer this question. Most importantly, the role of local packing density has been highlighted and shown recently to be the dominant factor in shaping the observed patterns of site-specific sequence variability of proteins. A wide variety of local packing density measures has been introduced in the literature such as the Weighted Contact Number which represents by definition, the combined effects of local packing density and long-range amino acid interactions on sequence variability. Here we propose a methodology to segregate and quantify the extent to which long-range interactions determine the general patterns of sequence variability in proteins, independently of local packing density. We use Voronoi partitioning of protein's 3-dimensional structure to obtain a parameter-free measure of the local packing density, defined as the inverse volume of the Voronoi cell corresponding to each site in protein.
 
     %The majority of these quantities however depend on the set of atomic coordinates used to represent individual sites in proteins, and often involve one or more number of adjustable parameters in their definition. A number of studies have already demonstrated that the choice of $C_\alpha$ atomic coordinates may not be an optimal representation of the protein's 3-dimensional structure, in particular for the calculation of site-specific quantities such as Weighted Contact Number.  Expanding on these studies, here we propose a new set of parameter-free structural variables derived from the Voronoi tessellation of protein structure which perform equally well or better than virtually all previously-considered structural quantities in predicting protein sequence evolution. We further show that the ideal representation of the 3-dimensional structure of proteins is the set of geometric average coordinates of atoms in the side chains of individual amino acids versus the common choice of backbone $C_\alpha$ coordinates. Long-range interactions between individual amino acids are found to have a minor but significant contribution to the evolutionary patterns of protein sequence.
@@ -182,7 +183,7 @@
 
     % Figure goes here xx
 
-    In order to assess the prediction power of site-specific variables derived from Voronoi tessellation, first the geometric centers of all side-chains for each of the proteins in dataset were calculated and used as the seeds of Voronoi polyhedra. We show in Appendix \ref{app:best_voronoi} that the choice of the geometric center of side chains as Voronoi seeds -- in contrast to other sets of atomic coordinates representative of individual sites in protein -- results in the strongest correlations of Voronoi cell properties with other site-specific structural and evolutionary characteristics of proteins.  \\
+    In order to assess the prediction power of site-specific variables derived from Voronoi tessellation, first the geometric centers of all side-chains for each of the proteins in dataset were calculated and used as the seeds of Voronoi polyhedra. We show in Appendix \ref{app:best_crd} that the choice of the geometric center of side chains as Voronoi seeds -- in contrast to other sets of atomic coordinates representative of individual sites in protein -- results in the strongest correlations of Voronoi cell properties with other site-specific structural and evolutionary characteristics of proteins.  \\
 
     Figure \ref{fig:voronoi_ER} depicts the distributions of the Spearman's correlation coefficients of five most important Voronoi cell characteristics with site-specific evolutionary rates (ER). It is notable that all cell characteristics in the plot correlate positively with ER, except the cell sphericity which is always negatively correlated with ER and other Voronoi cell properties. In general, it is observed that the cell surface volume and area have the best prediction power compared to other cell characteristics, followed by the cell eccentricity as defined in previous section, cell's total edge length, and the cell sphericitiy. \\
 
@@ -198,26 +199,55 @@
 
     % Figure goes here xx
 
-    \subsection*{Average Side-Chain Coordinates as the Best Representation of Protein 3D Structure}
-    \label{sec:voronoi_SC}
+    \subsection*{Effects of Long-Range Amino Acid Interactions on Sequence Variability}
 
-    Depending on the choice of the Cartesian coordinates used, there exist degeneracy in the definition of some site-specific structural variables. For example, the quantity WCN is generally calculated from the coordinates of $C_\alpha$ atoms in the 3-dimensional structure of protein. The choice of $C_\alpha$ coordinates is however mainly driven by convenience in WCN calculation and there is no reason to believe this set of atomic coordinates is the best representative of individual sites in proteins. Indeed, some earlier works have already suggested the use of center-of-mass of side chain coordinates to represent the 3D structure of protein \cite{soyer_voronoi_2000}. More recently, Marcos \& Echave (2015) \cite{marcos_too_2015} have also shown that WCN calculated from side-chain center-of-mass coordinates generally result in significantly better correlations of WCN with sequence variability measures. \\
+    Throughout the previous sections, a variety of site-specific structural characteristics of proteins were calculated and discussed, using different sets of atomic coordinates representing individual sites in proteins. These include the weighted contact number, the Voronoi cell characteristics, and representative site-specific B factor. To make comprehensive comparison of all site-specific structural properties of proteins, we also calculate the Relative Solvent Accessibility (RSA) and \ddg rate \citep[e.g.,][]{echave_relationship_2014} of individual amino acids in their sites in proteins. \\
 
-    Despite the highly popular choice of $C_\alpha$ atomic B factor as a proxy measure of residue flexibility \cite{halle_flexibility_2002}, same definition degeneracy also exists on choice of atomic B factors that are used to represent site-specific flexibility. In addition to WCN and B factor, there is also ambiguity as to which set of residue atomic coordinates best represent individual sites in proteins for the generation of Voronoi polyhedra. \\
+    Figure \ref{fig:best_predictorER} \& \ref{fig:best_predictorSE} compare the predictive power of each of site-specific structural quantities about sequence variability as measured by evolutionary rates ({\it r4sJC}) and sequence entropy. It is notable that once WCN is recalculated using the geometric center of the side chains as the representative coordinates of individual sites, the quantity WCN still outperforms all other structural quantities, including those derived from Voronoi tessellation, in explaining site-specific sequence variability. The better performance of WCN compared to local packing density as measured from Voronoi cell volume and area may not be surprising, since WCN by its definition takes into account the potential long-range interactions among amino acids in different regions of protein. Indeed, the fractal dimension of proteins very much resembles that of lattice percolation models \cite{stauffer_introduction_1994} and similarly the random packing of hard spheres near percolation threshold \cite{lorenz_universality_1993, liang_are_2001}. To expand on this, define the average maximum extent of a protein as,
 
-    Here in this work, all possible choices of the representative set of atomic coordinates are considered in order to identify which set of atomic coordinates best represents individual sites for the calculation of WCN, B factor, and Voronoi cells. Depending on the set of atomic coordinates that represent the protein structure, there are at least $7$ different measures of each individual site-specific structural properties, such as the Weighted Contact Number, B factor and Voronoi cell properties. These include the set of coordinates of all backbone atoms ($N$, $C$, $C_\alpha$, $O$) and the first heavy atom in the amino acid side chains ($C_\beta$). In addition, representative coordinates for each site in protein are calculated by averaging over the coordinates of all heavy atoms in the side chains. Also calculated is a representative coordinate for each site by averaging over all heavy atom coordinates in the side chain and the backbone of the amino acid together. In rare cases where the side chain $C_\beta$ atom had not been resolved in the PDB file or the amino acid lacked $C_\beta$ (e.g., Glycine), the $C_\beta$ coordinate for the specific amino acid were replaced with the coordinate of the corresponding $C_\alpha$ atom in the same amino acid. The resulting Spearman's correlation strengths of site-specific evolutionary rates, sequence entropy, \ddg rate, Relative Solvent Accessibility (RSA), amino acid hydrophobicity, and Hydrogen bond energy with different measures of WCN, B factor, and Voronoi cell area are depicted in the plots of Figures \ref{fig:best_wcn}, \ref{fig:best_bf}, and \ref{fig:best_voronoi} respectively, for different sets of atomic coordinates used in the calculations. The hydrophobicity scales of amino acids residing in individual sites in proteins were taken from \cite{hessa_recognition_2005}. Other hydropobicity scales were also considered \cite{wimley_experimentally_1996, kyte_simple_1982}, however similar results are obtained for all. \\
+    % Figure goes here
+
+    % Figure goes here
+
+    \begin{equation}
+        \label{eqn:max_extent}
+        R_m = \frac{1}{2d}\sum_{i=1}^d \big( x_{i,max} - x_{i,min} \big),
+    \end{equation}
+
+    \noindent in which $d=3$ is the dimension of the Euclidean space $x_{i,max} - x_{i,min}$ is the maximum physical extent of the protein, as represented by the geometric center of the side-chain coordinates, in each of the three spatial dimensions. Alternatively, the radius of gyration of a protein of length $N$ can be defined as (similar to that of a finite size cluster: Egn. 45a, Sec. 3.2, in \cite{stauffer_introduction_1994}),
+
+    \begin{equation}
+        \label{eqn:rg}
+        R_g = \sqrt{\sum_{i=1}^N \frac{|\vec r_i-\vec r_0|^2}{N}},
+    \end{equation}
+
+    \noindent where,
+
+    \begin{equation}
+        \label{eqn:com}
+        \vec r_0 = \sum_{i=1}^N \frac{\vec r_i}{N},
+    \end{equation}
+
+    \noindent is the geometric center of the protein, and $r_i$ is the position of the geometric center of the side-chain of the $i^{th}$ amino acid in protein. This definition is such that the kinetic energy and the angular momentum of the protein about the $\vec r_0$ is equivalent to the kinetic energy and the angular momentum of all amino acids residing on a ring of radius $R_g$ centered at $\vec r_0$. Figure \ref{fig:maxextent} \& \ref{fig:rg} depict the behavior of the maximum extent ($R_m$) versus protein volume ($V$) and the radius of gyration ($R_g$) versus the protein length ($N$), respectively. \\
 
     % Figure goes here xx
 
     % Figure goes here xx
 
-    For the measure of local packing density in proteins (the Weighted Contact Number) we find that among all possible set of coordinates, the average over coordinates of all heavy atoms of each individual side chain results in WCN values that show the strongest correlation strength with other structural and sequence properties, such as RSA, Voronoi cell properties, sequence entropy, and evolutionary rates. Specifically, WCN from average side chain coordinates outperforms WCN based on $C_\alpha$ coordinates in predicting RSA, \ddg rate, sequence entropy and evolutionary rates with median Spearman correlation differences of $0.09$, $0.10$, $0.07$ \& $0.08$, respectively (Figure \ref{fig:best_wcn}). \\
+    The protein volumes and surface areas calculated using {\it 3V} software \cite{voss_3v:_2010}. A symmetric linear fit (i.e., Deming regression) to the plot of $\log R_m$ vs. $\log V$ and $\log R_g$ vs. $\log N$ results in regression slopes of $D\simeq2.47\pm0.06$ \& $D\simeq2.60\pm0.08$ respectively. The observed exponents are very similar to those of the scaling relation,
 
-    Similar to WCN, the Voronoi cell properties, most importantly the cell surface area, volume, edge length, eccentricity and the cell sphericity also correlate best with other structure and sequence properties, only if the geometric average of side chain coordinates are used as the seeds of Voronoi cells. Specifically, cell area from average side chain coordinates outperforms cell area based on $C_\alpha$ coordinates in predicting RSA, \ddg rate, sequence entropy and evolutionary rates with median Spearman correlation differences of $0.04$, $0.06$, $0.04$ \& $0.04$, respectively (Figure \ref{fig:best_voronoi}). \\
+    \begin{equation}
+        V \propto R^{D}, ~~~~~ (p\simeq p_c)
+    \end {equation}
 
-    It is notable that the standard deviations of the difference distributions for both quantities: WCN, and Voronoi cell area, are an order of magnitude smaller than the observed differences, implying that the correlation coefficients for all proteins in dataset uniformly translate to higher values by moving from C$_\alpha$ atomic coordinates to the geometric centers of the side chains, regardless of the strength of the correlation coefficients. \\
+    \noindent with $D\simeq2.51\pm0.01$ in numerical simulations of hard-sphere packing \cite{lorenz_universality_1993} in three dimensions near percolation threshold ($p\simeq p_c$) or the exponents derived from lattice models $D\simeq2.54\pm0.05$ \cite{adler_series_1990} \& $D\simeq2.5$ \cite{stauffer_introduction_1994}. It is notable that far from percolation threshold (i.e., $p\rightarrow 0$) in three dimensions, $D=2$ \cite{parisi_critical_1981}, while above the threshold ($p>p_c$), $D=d=3$, in 3D space.
 
-    \subsection*{Average Side-Chain B Factors as the Best Representation of Local Fluctuations of Amino Acids in Proteins}
+\section{Discussion}
+\label{sec:discussion}
+
+    Throughout the previous sections,  a comprehensive analysis and comparison of the main structural determinants of sequence variability was carried out, using a dataset of $209$ monomeric enzymes. Examples of sequence--structure relations include the correlations of measures of evolutionary rates such as {\it r4sJC} used in this work and sequence entropy, with measures of residue Contact Number, Relative Solvent Accessibility (RSA), and \ddg rate as defined in Chapter \ref{chap:sschar} (see also Echave et al. (2014) \cite{echave_relationship_2014}), which is essentially a proxy measure of the stability of protein's native conformation upon substitution of amino acids in individual sites in proteins. In addition, we have derived new site-specific characteristics from the Voronoi Tessellation of protein 3D structures, that are capable of explaining sequence variability equally well or better than several previously considered structural quantities, such as B factor, RSA, \ddg rate, and the traditional definitions of contact number and the weighted contact number (WCN) using $C_\alpha$ atomic coordinates (e.g., Figures \ref{fig:best_predictorER} \& \ref{fig:best_predictorSE}).
+
+\appendix{Average Side-Chain B Factors as the Best Representation of Local Fluctuations of Amino Acids in Proteins}
 
     For the measure of local flexibility in proteins (B factor) we similarly find that among all $7$ representative measures of site B factors, the average of B factor values over all heavy atoms of each individual side chain results in the best correlations with other structural and sequence properties. Specifically, the average side chain B factor outperforms the commonly used $C_\alpha$ B factor in predicting RSA, \ddg rate, sequence entropy and evolutionary rates by a median Spearman correlation difference of $0.11$, $0.12$, $0.08$ \& $0.09$, respectively (Figure \ref{fig:best_bf}). \\
 
@@ -277,53 +307,24 @@
 
     Although averaging B factor over the entire amino acid atoms would reduce the noise further than averaging over side-chain atoms, the functionally important conformational fluctuations that are better captured by the side-chain atomic B factors would compensate for the increase in the noise, such that overall, the B factors averaged over side-chain atoms results in slightly better correlations with sequence variability and other relevant structural characteristics depicted in Figure \ref{fig:best_bf}. \\
 
-    \subsection*{Effects of Long-Range Amino Acid Interactions on Sequence Variability}
+    \appendix{Average Side-Chain Coordinates as the Best Representation of Protein 3D Structure}
+    \label{app:best_crd}
 
-    Throughout the previous sections, a variety of site-specific structural characteristics of proteins were calculated and discussed, using different sets of atomic coordinates representing individual sites in proteins. These include the weighted contact number, the Voronoi cell characteristics, and representative site-specific B factor. To make comprehensive comparison of all site-specific structural properties of proteins, we also calculate the Relative Solvent Accessibility (RSA) and \ddg rate \citep[e.g.,][]{echave_relationship_2014} of individual amino acids in their sites in proteins. \\
+    Depending on the choice of the Cartesian coordinates used, there exist degeneracy in the definition of some site-specific structural variables. For example, the quantity WCN is generally calculated from the coordinates of $C_\alpha$ atoms in the 3-dimensional structure of protein. The choice of $C_\alpha$ coordinates is however mainly driven by convenience in WCN calculation and there is no reason to believe this set of atomic coordinates is the best representative of individual sites in proteins. Indeed, some earlier works have already suggested the use of center-of-mass of side chain coordinates to represent the 3D structure of protein \cite{soyer_voronoi_2000}. More recently, Marcos \& Echave (2015) \cite{marcos_too_2015} have also shown that WCN calculated from side-chain center-of-mass coordinates generally result in significantly better correlations of WCN with sequence variability measures. \\
 
-    Figure \ref{fig:best_predictorER} \& \ref{fig:best_predictorSE} compare the predictive power of each of site-specific structural quantities about sequence variability as measured by evolutionary rates ({\it r4sJC}) and sequence entropy. It is notable that once WCN is recalculated using the geometric center of the side chains as the representative coordinates of individual sites, the quantity WCN still outperforms all other structural quantities, including those derived from Voronoi tessellation, in explaining site-specific sequence variability. The better performance of WCN compared to local packing density as measured from Voronoi cell volume and area may not be surprising, since WCN by its definition takes into account the potential long-range interactions among amino acids in different regions of protein. Indeed, the fractal dimension of proteins very much resembles that of lattice percolation models \cite{stauffer_introduction_1994} and similarly the random packing of hard spheres near percolation threshold \cite{lorenz_universality_1993, liang_are_2001}. To expand on this, define the average maximum extent of a protein as,
+    Despite the highly popular choice of $C_\alpha$ atomic B factor as a proxy measure of residue flexibility \cite{halle_flexibility_2002}, same definition degeneracy also exists on choice of atomic B factors that are used to represent site-specific flexibility. In addition to WCN and B factor, there is also ambiguity as to which set of residue atomic coordinates best represent individual sites in proteins for the generation of Voronoi polyhedra. \\
 
-    % Figure goes here
-
-    % Figure goes here
-
-    \begin{equation}
-        \label{eqn:max_extent}
-        R_m = \frac{1}{2d}\sum_{i=1}^d \big( x_{i,max} - x_{i,min} \big),
-    \end{equation}
-
-    \noindent in which $d=3$ is the dimension of the Euclidean space $x_{i,max} - x_{i,min}$ is the maximum physical extent of the protein, as represented by the geometric center of the side-chain coordinates, in each of the three spatial dimensions. Alternatively, the radius of gyration of a protein of length $N$ can be defined as (similar to that of a finite size cluster: Egn. 45a, Sec. 3.2, in \cite{stauffer_introduction_1994}),
-
-    \begin{equation}
-        \label{eqn:rg}
-        R_g = \sqrt{\sum_{i=1}^N \frac{|\vec r_i-\vec r_0|^2}{N}},
-    \end{equation}
-
-    \noindent where,
-
-    \begin{equation}
-        \label{eqn:com}
-        \vec r_0 = \sum_{i=1}^N \frac{\vec r_i}{N},
-    \end{equation}
-
-    \noindent is the geometric center of the protein, and $r_i$ is the position of the geometric center of the side-chain of the $i^{th}$ amino acid in protein. This definition is such that the kinetic energy and the angular momentum of the protein about the $\vec r_0$ is equivalent to the kinetic energy and the angular momentum of all amino acids residing on a ring of radius $R_g$ centered at $\vec r_0$. Figure \ref{fig:maxextent} \& \ref{fig:rg} depict the behavior of the maximum extent ($R_m$) versus protein volume ($V$) and the radius of gyration ($R_g$) versus the protein length ($N$), respectively. \\
+    Here in this work, all possible choices of the representative set of atomic coordinates are considered in order to identify which set of atomic coordinates best represents individual sites for the calculation of WCN, B factor, and Voronoi cells. Depending on the set of atomic coordinates that represent the protein structure, there are at least $7$ different measures of each individual site-specific structural properties, such as the Weighted Contact Number, B factor and Voronoi cell properties. These include the set of coordinates of all backbone atoms ($N$, $C$, $C_\alpha$, $O$) and the first heavy atom in the amino acid side chains ($C_\beta$). In addition, representative coordinates for each site in protein are calculated by averaging over the coordinates of all heavy atoms in the side chains. Also calculated is a representative coordinate for each site by averaging over all heavy atom coordinates in the side chain and the backbone of the amino acid together. In rare cases where the side chain $C_\beta$ atom had not been resolved in the PDB file or the amino acid lacked $C_\beta$ (e.g., Glycine), the $C_\beta$ coordinate for the specific amino acid were replaced with the coordinate of the corresponding $C_\alpha$ atom in the same amino acid. The resulting Spearman's correlation strengths of site-specific evolutionary rates, sequence entropy, \ddg rate, Relative Solvent Accessibility (RSA), amino acid hydrophobicity, and Hydrogen bond energy with different measures of WCN, B factor, and Voronoi cell area are depicted in the plots of Figures \ref{fig:best_wcn}, \ref{fig:best_bf}, and \ref{fig:best_voronoi} respectively, for different sets of atomic coordinates used in the calculations. The hydrophobicity scales of amino acids residing in individual sites in proteins were taken from \cite{hessa_recognition_2005}. Other hydropobicity scales were also considered \cite{wimley_experimentally_1996, kyte_simple_1982}, however similar results are obtained for all. \\
 
     % Figure goes here xx
 
     % Figure goes here xx
 
-    The protein volumes and surface areas calculated using {\it 3V} software \cite{voss_3v:_2010}. A symmetric linear fit (i.e., Deming regression) to the plot of $\log R_m$ vs. $\log V$ and $\log R_g$ vs. $\log N$ results in regression slopes of $D\simeq2.47\pm0.06$ \& $D\simeq2.60\pm0.08$ respectively. The observed exponents are very similar to those of the scaling relation,
+    For the measure of local packing density in proteins (the Weighted Contact Number) we find that among all possible set of coordinates, the average over coordinates of all heavy atoms of each individual side chain results in WCN values that show the strongest correlation strength with other structural and sequence properties, such as RSA, Voronoi cell properties, sequence entropy, and evolutionary rates. Specifically, WCN from average side chain coordinates outperforms WCN based on $C_\alpha$ coordinates in predicting RSA, \ddg rate, sequence entropy and evolutionary rates with median Spearman correlation differences of $0.09$, $0.10$, $0.07$ \& $0.08$, respectively (Figure \ref{fig:best_wcn}). \\
 
-    \begin{equation}
-        V \propto R^{D}, ~~~~~ (p\simeq p_c)
-    \end {equation}
+    Similar to WCN, the Voronoi cell properties, most importantly the cell surface area, volume, edge length, eccentricity and the cell sphericity also correlate best with other structure and sequence properties, only if the geometric average of side chain coordinates are used as the seeds of Voronoi cells. Specifically, cell area from average side chain coordinates outperforms cell area based on $C_\alpha$ coordinates in predicting RSA, \ddg rate, sequence entropy and evolutionary rates with median Spearman correlation differences of $0.04$, $0.06$, $0.04$ \& $0.04$, respectively (Figure \ref{fig:best_voronoi}). \\
 
-    \noindent with $D\simeq2.51\pm0.01$ in numerical simulations of hard-sphere packing \cite{lorenz_universality_1993} in three dimensions near percolation threshold ($p\simeq p_c$) or the exponents derived from lattice models $D\simeq2.54\pm0.05$ \cite{adler_series_1990} \& $D\simeq2.5$ \cite{stauffer_introduction_1994}. It is notable that far from percolation threshold (i.e., $p\rightarrow 0$) in three dimensions, $D=2$ \cite{parisi_critical_1981}, while above the threshold ($p>p_c$), $D=d=3$, in 3D space.
-
-\section{Discussion}
-\label{sec:discussion}
-
-    Throughout the previous sections,  a comprehensive analysis and comparison of the main structural determinants of sequence variability was carried out, using a dataset of $209$ monomeric enzymes. Examples of sequence--structure relations include the correlations of measures of evolutionary rates such as {\it r4sJC} used in this work and sequence entropy, with measures of residue Contact Number, Relative Solvent Accessibility (RSA), and \ddg rate as defined in Chapter \ref{chap:sschar} (see also Echave et al. (2014) \cite{echave_relationship_2014}), which is essentially a proxy measure of the stability of protein's native conformation upon substitution of amino acids in individual sites in proteins. In addition, we have derived new site-specific characteristics from the Voronoi Tessellation of protein 3D structures, that are capable of explaining sequence variability equally well or better than several previously considered structural quantities, such as B factor, RSA, \ddg rate, and the traditional definitions of contact number and the weighted contact number (WCN) using $C_\alpha$ atomic coordinates (e.g., Figures \ref{fig:best_predictorER} \& \ref{fig:best_predictorSE}).
+    It is notable that the standard deviations of the difference distributions for both quantities: WCN, and Voronoi cell area, are an order of magnitude smaller than the observed differences, implying that the correlation coefficients for all proteins in dataset uniformly translate to higher values by moving from C$_\alpha$ atomic coordinates to the geometric centers of the side chains, regardless of the strength of the correlation coefficients. \\
 
 \Acknowledgements
 
