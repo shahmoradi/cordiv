@@ -92,7 +92,7 @@
 \section{Introduction}
 \label{sec:intro}
 
-    A variety of site-specific structural characteristics have been proposed over the past decade to predict protein sequence evolution from structural properties. Among the most important and widely discussed are the Relative Solvent Accessibility (RSA) \citep[e.g.,][]{goldman_assessing_1998, bustamante_solvent_2000, conant_solvent_2009, franzosa_structural_2009, ramsey_relationship_2011, scherrer_modeling_2012, meyer_integrating_2013, meyer_cross-species_2013, yeh_local_2014, yeh_site-specific_2014, shahmoradi_predicting_2014, sikosek_biophysics_2014, meyer_geometric_2015}, Contact Number \citep[e.g.,][]{rodionov_sequence_1998, hamelryck_amino_2005, liao_protein_2005, bloom_structural_2006, huang_mechanistic_2014, marcos_too_2014, yeh_site-specific_2014, yeh_local_2014, shahmoradi_predicting_2014, meyer_geometric_2015}, measures of thermodynamic stability changes due to mutations at individual sites in proteins \citep[e.g.,][]{wilke_predicting_2005, echave_relationship_2014}, and measures of local flexibility, such as the Debye-Waller factor (hereafter B factor) \citep[e.g.,][]{liao_protein_2005, shih_evolutionary_2012, shahmoradi_predicting_2014} or flexibility measures based on elastic network models \citep[e.g.,][]{liu_sequence_2012} and Molecular Dynamics (MD) simulations \citep[e.g.,][]{shahmoradi_predicting_2014}. \\
+    A variety of site-specific structural characteristics have been proposed over the past decade to predict protein sequence evolution from structural properties. Among the most important and widely discussed are the Relative Solvent Accessibility (RSA) \citep[e.g.,][]{goldman_assessing_1998, bustamante_solvent_2000, conant_solvent_2009, franzosa_structural_2009, ramsey_relationship_2011, scherrer_modeling_2012, meyer_integrating_2013, meyer_cross-species_2013, yeh_local_2014, yeh_site-specific_2014, shahmoradi_predicting_2014, sikosek_biophysics_2014, meyer_geometric_2015}, Contact Number \citep[e.g.,][]{rodionov_sequence_1998, hamelryck_amino_2005, liao_protein_2005, bloom_structural_2006, huang_mechanistic_2014, marcos_too_2015, yeh_site-specific_2014, yeh_local_2014, shahmoradi_predicting_2014, meyer_geometric_2015}, measures of thermodynamic stability changes due to mutations at individual sites in proteins \citep[e.g.,][]{wilke_predicting_2005, echave_relationship_2014}, and measures of local flexibility, such as the Debye-Waller factor (hereafter B factor) \citep[e.g.,][]{liao_protein_2005, shih_evolutionary_2012, shahmoradi_predicting_2014} or flexibility measures based on elastic network models \citep[e.g.,][]{liu_sequence_2012} and Molecular Dynamics (MD) simulations \citep[e.g.,][]{shahmoradi_predicting_2014}. \\
 
     Although these structural characteristics have been individually extensively studied and explored with regards to their association with sequence evolution, it is yet unknown whether these seemingly independent quantities are merely different manifestations of a more fundamental underlying characteristics of individual sites in proteins or each influence the sequence evolution independently. It is perceivable that quantities such as B factor and RSA, all serve as proxy measures of local packing density of individual sites in proteins, or the local flexibility of individual amino acids. \citet{franzosa_structural_2009} used a variety of local packing density measures to show that RSA is the key determinant of sequence evolution with packing density having only peripheral influence. Recently however, \citet{huang_mechanistic_2014} have argued, through an extensive mathematical formulation within the framework of Elastic Network Models, for the local packing density as the dominant factor in shaping the observed sequence variability patterns of enzymatic proteins in contrast to RSA and local flexibility measures. \\
 
@@ -116,7 +116,7 @@
 
     \begin{equation}
         \label{eqn:wcn_pwrl}
-        \text{WCN}_{i} = \sum^N_{j\neq i} \frac{1}{{r_{ij}}^{\alpha=2}}.
+        \text{WCN}_{i} = \sum^N_{j\neq i} {r_{ij}^{\alpha=-2}}.
     \end{equation}
 
     Although WCN is in general a better predictor of $C_\alpha$ atomic B factor and site-specific sequence variability, the proposed definition of WCN still involves an adjustable free parameter, the exponent of the power-law kernel. The value of the exponent that results in the best predictions of B factors appears to be in the range $-3\lesssim\alpha\lesssim-2$ and is typically fixed to $\alpha=-2$ as shown in Eqn \ref{eqn:wcn_pwrl} \citep[e.g.,][]{yang_protein_2009}.  A similar exponent value was also used by \citet{huang_mechanistic_2014} to argue for the {\it local} packing density of sites as the dominant factor in shaping protein sequence variability. The specific value of $\alpha=-2$ however, implies that the long-range amino acid interactions also play a non-negligible role in sequence evolution, in addition to local packing density. Similarly, the best performing cutoff values in the definition of Contact Number are in the range of $10\AA\lesssim\alpha\lesssim15\AA$, also indicative of the significant influence of the long-range amino acid interactions on B factor and sequence variability, aside from local packing density. In this regard, the two commonly-used proxy measures of packing density may not be considered {\it local}. An important question therefore remains unanswered as to what extent the local packing density and long-range interactions influence sequence variability, separately from each other. \\
@@ -139,11 +139,11 @@
         H_i = -\sum_j P_{ij}\ln P_{ij}
     \end{equation}
 
-    where $P_{ij}$ is the relative frequency of amino acid $j$ at position $i$ in the alignment. We use DSSP software \citep[][]{kabsch_dictionary_1983} for the calculation of the Accessible Surface Area (ASA) for each site normalized by the theoretical maximum solvent accessibility values of \citet{tien_maximum_2013} to obtain the Relative Solvent Accessibility (RSA) for all individual sites in all proteins.
+    where $P_{ij}$ is the relative frequency of amino acid $j$ at position $i$ in the alignment. We use DSSP software \citep[][]{kabsch_dictionary_1983} for the calculation of the Accessible Surface Area (ASA) for each site normalized by the theoretical maximum solvent accessibility values of \citet{tien_maximum_2013} to obtain the Relative Solvent Accessibility (RSA) for all individual sites in all proteins. \\
 
     A measure of thermodynamic stability changes due to amino acid substitutions at individual sites in proteins was also defined and obtained following the stability threshold model of Bloom et al. (2006) \cite{bloom_structural_2006}, which was also recently further studied by Echave et al. (2014) \cite{echave_relationship_2014}. Based upon this model, the \ddg {\it rate} estimates for all structures in the dataset were calculated using FoldX program \citep[c.f.,][ for details of the methodology employed]{echave_relationship_2014}. In brief, the site-specific quantity, \ddg rate (also denoted by {\it ddG rate} hereafter in figures), is a proxy measure of the stability of the entire structure of protein upon substituting an amino acid in a given site with all other $19$ amino acids. Therefore, a low \ddg rate for a given site would indicate a high chance of structure perturbation upon substitution and therefore high conservation of the specific amino acid in the site on evolutionary timescales. \\
 		
-    As a measure of local flexibility or fluctuation in different parts of the protein structure, the temperature factor ({\it B factor}) for all atoms in PDB files were extracted. Although, B factor is an atomic measure of flexibility and fluctuation in proteins, the backbone C$_\alpha$ B factor has become a very popular proxy measure of amino acid flexibility in the studies of protein dynamics and benchmarking of different Elastic Network Models of proteins. Alternatively, the site-specific fluctuation could be calculated from MD simulations. This was however impossible for this study for the large dataset of $209$ proteins considered in this work. \\
+    As a measure of local flexibility or fluctuation in different parts of the protein structure, the temperature factor ({\it B factor}) for all atoms in PDB files were extracted. Alternatively, the site-specific fluctuation could be calculated from MD simulations. This was however impossible for this study for the large dataset of $209$ proteins considered in this work. Although, B factor is an atomic measure of flexibility and fluctuation in proteins, the backbone C$_\alpha$ B factor has become a very popular proxy measure of amino acid flexibility in the studies of protein dynamics and benchmarking of different Elastic Network Models of proteins. Here, we use instead the average over all B factors of the side chain atoms if individual amino acids. We show in Appendix \ref{app:best_bf} that the average side chain B factor is the best representation of site-specific flexibility among all possible atomic B factors in an amino acid. \\
 
     All data including a list of $209$ proteins and their properties together with Python, R and Fortran codes written for data reduction and analysis are publicly available to view and download at \url{https://github.com/shahmoradi/cordiv}.
 
@@ -153,9 +153,9 @@
     \subsection*{Packing Density Definitions and Long-Range Amino Acid Interactions}
     \label{sec:cnwcn}
 
-    In order to determine the extent to which long-range amino acid interactions influence the general patterns of sequence variability and local flexibility measures, first we investigate the behavior of Contact Number and the Weighted Contact Number in predicting site-specific evolutionary rates (r4sJC) and the average B factor of the amino acid side-chains, for a wide range of the free parameters of the two packing density measures (i.e., $r_0\in[0\AA,50\AA]$ \& $\alpha\in[-30\AA,30\AA]$ as in Eqns. \ref{eqn:cn} \& \ref{eqn:wcn_pwrl}).
+    In order to determine the extent to which long-range amino acid interactions influence the general patterns of sequence variability and local flexibility measures, first we investigate the behavior of Contact Number and the Weighted Contact Number in predicting site-specific evolutionary rates (r4sJC) and the average B factor of the amino acid side-chains, for a wide range of the free parameters of the two packing density measures (i.e., $r_0\in[0\AA,50\AA]$ \& $\alpha\in[-30\AA,30\AA]$ as in Eqns. \ref{eqn:cn} \& \ref{eqn:wcn_pwrl}). \\
 
-    The results for the dataset of $209$ monomeric enzymes are plotted in Figures \ref{fig:cn} \& \ref{fig:wcn}. The values of the free parameters of CN and WCN that result in the strongest correlations are tabulated in Table \ref{tab:cnwcn}. Evidently, the best-performing free parameters of both model indicate the non-negligible contributions of long-range amino acid interactions in the strengths of the observed correlations. The extent and significance of the influences however, cannot be deciphered solely based on the two common definitions of packing density: CN \& WCN. In the following section we present a methodology to segregate and quantify the role of local packing density from long-range interactions in on site-specific sequence variability and flexibility.
+    The results for the dataset of $209$ monomeric enzymes are plotted in Figures \ref{fig:cn} \& \ref{fig:wcnp}. The values of the free parameters of CN and WCN that result in the strongest correlations are tabulated in Table \ref{tab:cnwcn}. Evidently, the best-performing free parameters of both model indicate the non-negligible contributions of long-range amino acid interactions in the strengths of the observed correlations. The extent and significance of the influences however, cannot be deciphered solely based on the two common definitions of packing density: CN \& WCN. In the following section we present a methodology to segregate and quantify the role of local packing density from long-range interactions in on site-specific sequence variability and flexibility.
 
 
     \subsection*{Voronoi Partitioning of Protein's Structure}
@@ -176,14 +176,14 @@
 
     \noindent in which $V$ \& $A$ stand for the volume \& area of the cell respectively. For a perfectly spherical cell, $\Psi=1$, while it becomes zero for a 2-dimensional object that has no volume but only surface area.
 
-    \subsection*{Voronoi Cell Volume as Proxy Measure of Local Packing Density and Flexibility in Proteins}
+    \subsection*{Voronoi Cell Volume as a Proxy Measure of Local Packing Density and Flexibility in Proteins}
 
     % Figure goes here xx
 
     % Figure goes here xx
 
-    In order to assess the prediction power of site-specific variables derived from Voronoi tessellation, first the geometric centers of all side-chains for each of the proteins in dataset were calculated and used as the seeds of Voronoi polyhedra. We show in Appendix \ref{app:xx} that the choice of the geometric center of side chains as Voronoi seeds -- in contrast to other sets of atomic coordinates representative of individual sites in protein -- results in the strongest correlations of Voronoi cell properties with other site-specific structural and evolutionary characteristics of proteins.  \\
-    
+    In order to assess the prediction power of site-specific variables derived from Voronoi tessellation, first the geometric centers of all side-chains for each of the proteins in dataset were calculated and used as the seeds of Voronoi polyhedra. We show in Appendix \ref{app:best_voronoi} that the choice of the geometric center of side chains as Voronoi seeds -- in contrast to other sets of atomic coordinates representative of individual sites in protein -- results in the strongest correlations of Voronoi cell properties with other site-specific structural and evolutionary characteristics of proteins.  \\
+
     Figure \ref{fig:voronoi_ER} depicts the distributions of the Spearman's correlation coefficients of five most important Voronoi cell characteristics with site-specific evolutionary rates (ER). It is notable that all cell characteristics in the plot correlate positively with ER, except the cell sphericity which is always negatively correlated with ER and other Voronoi cell properties. In general, it is observed that the cell surface volume and area have the best prediction power compared to other cell characteristics, followed by the cell eccentricity as defined in previous section, cell's total edge length, and the cell sphericitiy. \\
 
     The Voronoi cell characteristics are also strongly associated with each other. Although the Voronoi cell volume and area are the best correlating variables with ER, none of the two exhibit any significant independent correlation with ER once the other is controlled for control for the cell area, with the median of its distribution centered at $\sim0.0$, as illustrated in Figure \ref{fig:voronoi_ER_cond}. Conversely, the cell sphericity and eccentricity both exhibit median partial correlations of $\sim-0.1$ \& $\sim0.07$ with ER respectively, when the contribution from the Voronoi cell area is controlled. In conclusion, the cell area, volume, and edge length appear to almost represent the same property of the Voronoi cell. Other Voronoi cell characteristics, such as the number of vertices, faces and edges of the cell also tend to correlate weakly with sequence evolutionary rates. These cell characteristics are however, discrete (integer) quantities and in general have a limited range. \\
@@ -201,7 +201,7 @@
     \subsection*{Average Side-Chain Coordinates as the Best Representation of Protein 3D Structure}
     \label{sec:voronoi_SC}
 
-    Depending on the choice of the Cartesian coordinates used, there exist degeneracy in the definition of some site-specific structural variables. For example, the quantity WCN is generally calculated from the coordinates of $C_\alpha$ atoms in the 3-dimensional structure of protein. The choice of $C_\alpha$ coordinates is however mainly driven by convenience in WCN calculation and there is no reason to believe this set of atomic coordinates is the best representative of individual sites in proteins. Indeed, some earlier works have already suggested the use of center-of-mass of side chain coordinates to represent the 3D structure of protein \cite{soyer_voronoi_2000}. More recently, Marcos \& Echave (2014)\cite{marcos_too_2014} have also shown that WCN calculated from side-chain center-of-mass coordinates generally result in significantly better correlations of WCN with sequence variability measures. \\
+    Depending on the choice of the Cartesian coordinates used, there exist degeneracy in the definition of some site-specific structural variables. For example, the quantity WCN is generally calculated from the coordinates of $C_\alpha$ atoms in the 3-dimensional structure of protein. The choice of $C_\alpha$ coordinates is however mainly driven by convenience in WCN calculation and there is no reason to believe this set of atomic coordinates is the best representative of individual sites in proteins. Indeed, some earlier works have already suggested the use of center-of-mass of side chain coordinates to represent the 3D structure of protein \cite{soyer_voronoi_2000}. More recently, Marcos \& Echave (2015) \cite{marcos_too_2015} have also shown that WCN calculated from side-chain center-of-mass coordinates generally result in significantly better correlations of WCN with sequence variability measures. \\
 
     Despite the highly popular choice of $C_\alpha$ atomic B factor as a proxy measure of residue flexibility \cite{halle_flexibility_2002}, same definition degeneracy also exists on choice of atomic B factors that are used to represent site-specific flexibility. In addition to WCN and B factor, there is also ambiguity as to which set of residue atomic coordinates best represent individual sites in proteins for the generation of Voronoi polyhedra. \\
 
@@ -338,20 +338,20 @@ We thank Austin G. Meyer, Stephanie Spielman and Eleisha Jackson at UT Austin fo
     \begin{figure}
         \begin{center}
         \begin{tabular}{cc}
-            \includegraphics[width=3.5in]{../../wcn_best_definition/analysis/figures/get_quantiles/screen_plots/spcor_cnhSC_r4sJC.pdf} & \includegraphics[width=3.5in]{../../wcn_best_definition/analysis/figures/get_quantiles/screen_plots/spcor_cnhSC_bfSC.pdf}
+            \includegraphics[width=3.3in]{../../wcn_best_definition/analysis/figures/get_quantiles/screen_plots/spcor_cnSC_r4sJC.pdf} & \includegraphics[width=3.3in]{../../wcn_best_definition/analysis/figures/get_quantiles/screen_plots/spcor_cnSC_bfSC.pdf}
         \end{tabular}
         \end{center}
-        \caption{}
-        \label{fig:wcnh}
+        \caption{Average absolute Spearman's correlation strengths of Contact Number (CN) -- as defined by Eqn. \ref{eqn:wcnh} using Heaviside kernel -- with site-specific evolutionary rates ({\it left plot}) and average side-chain B factor ({\it right plot}), for different values of the free parameter of the kernel $r_0$. The solid black line represents the mean correlation strength in the entire dataset of 209 proteins at each value of $r_0$, and the dashed black line indicates the median of the distribution. The green-shaded region together with the two red-dashed lines represent the $25\%$ \& $75\%$ quartiles of the correlation strength distribution.  The parameter values at which the Spearman's correlation coefficient reaches the maximum over the entire dataset are given in Table \ref{tab:best_params}.}
+        \label{fig:cn}
     \end{figure}
 
     \begin{figure}
         \begin{center}
         \begin{tabular}{cc}
-            \includegraphics[width=3.5in]{../../wcn_best_definition/analysis/figures/get_quantiles/screen_plots/spcor_wcnpSC_r4sJC.pdf} & \includegraphics[width=3.5in]{../../wcn_best_definition/analysis/figures/get_quantiles/screen_plots/spcor_wcnpSC_bfSC.pdf}
+            \includegraphics[width=3.3in]{../../wcn_best_definition/analysis/figures/get_quantiles/screen_plots/spcor_wcnpSC_r4sJC.pdf} & \includegraphics[width=3.3in]{../../wcn_best_definition/analysis/figures/get_quantiles/screen_plots/spcor_wcnpSC_bfSC.pdf}
         \end{tabular}
         \end{center}
-        \caption{Average absolute Spearman's correlation strengths of Weighted Contact Number (WCN$_\operatorname{P}$) with power-law kernel as given by Eqn. \ref{eqn:wcn_pwrl}, with site-specific evolutionary rates ({\it left plot}) and average side-chain B factor ({\it right plot}), for different values of the free parameter of the kernel $\alpha$. The solid black line represents the mean correlation strength in the entire dataset of 209 proteins at each value of $\alpha$, and the dashed black line indicates the median of the distribution. The green-shaded region together with the two red-dashed lines represent the $25\%$ \& $75\%$ quartiles of the correlation strength distribution.  Note that for $\alpha>0$ the sign of the correlation strength $\rho$ is the opposite of the sign of $\rho$ for $\alpha<0$. In addition $\rho$ is undefined at $\alpha=0$ and not shown in this plot. The parameter values at which the Spearman's correlation coefficient reaches the maximum over the entire dataset are given in Table \ref{tab:best_params}.}
+        \caption{Average absolute Spearman's correlation strengths of Weighted Contact Number (WCN) -- as defined by Eqn. \ref{eqn:wcn_pwrl} using a power-law kernel -- with site-specific evolutionary rates ({\it left plot}) and average side-chain B factor ({\it right plot}), for different values of the free parameter of the kernel $\alpha$. The solid black line represents the mean correlation strength in the entire dataset of 209 proteins at each value of $\alpha$, and the dashed black line indicates the median of the distribution. The green-shaded region together with the two red-dashed lines represent the $25\%$ \& $75\%$ quartiles of the correlation strength distribution.  Note that for $\alpha>0$ the sign of the correlation strength $\rho$ is the opposite of the sign of $\rho$ for $\alpha<0$. In addition $\rho$ is undefined at $\alpha=0$ and not shown in this plot. The parameter values at which the Spearman's correlation coefficient reaches the maximum over the entire dataset are given in Table \ref{tab:xx}.}
         \label{fig:wcnp}
     \end{figure}
 
@@ -459,6 +459,27 @@ We thank Austin G. Meyer, Stephanie Spielman and Eleisha Jackson at UT Austin fo
 %        \label{fig:rg}
 %    \end{figure}
 
+
+\newpage
+
+% Tables
+
+    \begin{table}[htbp]
+    \caption{Best free parameter values of the Contact Number (CN) and the Weighted Contact Number with power-law kernel (WCN) that result in the strongest median Spearman's correlation ($\rho$) of WCN with four site-specific quantities (average side-chain B factor, evolutionary rates (r4sJC), sequence entropy, and \ddg rate) for the entire dataset of 209 proteins. The corresponding median correlation coefficients ($\rho$) are reported  inside parenthesis next to each parameter value in the table. \label{tab:best_params}}
+    \bigskip
+    \centerline{
+    \begin{tabular}{|l|c|c|c|c|}
+      \hline
+      \multirow{3}{*}{Correlation} & \multicolumn{4}{|c|}{Best Performing Free Parameter of the Kernel} \\ \cline{2-5}
+                        & Power-law & Exponential & Gaussian & Cutoff \\
+                        & $\alpha$ & $\lambda~[\AA]$ & $\sigma~[\AA]$ & $r~[\AA]$ \\ \hline
+      WCN--B factor     & -2.2 ($0.70$) & 3.8 ($0.70$) & 9.6 ($0.70$) & 13.0 ($0.69$) \\
+      WCN--r4sJC        & -2.3 ($0.64$) & 3.4 ($0.64$) & 9.8 ($0.63$) & 14.8 ($0.62$) \\
+      WCN--Seq. Entropy & -2.2 ($0.54$) & 3.4 ($0.53$) & 8.0 ($0.53$) & 15.2 ($0.52$) \\
+      WCN--\ddg Rate    & -3.4 ($0.76$) & 2.0 ($0.78$) & 5.4 ($0.79$) & 9.8 ($0.75$) \\
+      \hline
+    \end{tabular}}
+    \end{table}
 
 \end{document}
 

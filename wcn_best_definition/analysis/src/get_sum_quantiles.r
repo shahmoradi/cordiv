@@ -1,49 +1,51 @@
-# This R script generates the quantile tables and the corresponding plots for the free parameters of different models of WCN
-# Amir Shahmoradi, Sunday 9:57 PM, March 29, 2015, Wilke Lab, iCMB, UT Austin
+# This R script generates the quartiles of the best free parameters of different models of WCN from the summary files.
+# What this means is this: Each pdb file has a set of best performing free parameters of the specific WCN model, for which WCN correlates the strongest with a given structure or sequence variable (e.g., B factor, r4sJC, or sequence entropy). This code finds the 0%, 5%, 25%, 50%, 75%, 95% best free parameters among the 209 best free parameter values in the summary files.
+
+# Amir Shahmoradi, Tuesday 6:30 PM, May 19, 2015, Wilke Lab, iCMB, UT Austin
 # Note that R script input_data.r must be first sourced in order to use this script.
 
 setwd('C:/Users/Amir/Documents/GitHub/cordiv/wcn_best_definition/analysis/src')
 
-dflist = list( wcneSC_bfSC     = exp_wcneSC_bfSC  
-             , wcneSC_r4sJC    = exp_wcneSC_r4sJC 
-             , wcneSC_seqent   = exp_wcneSC_seqent
-             , wcneSC_ddgent   = exp_wcneSC_ddgent
-             , wcneSC_distance = exp_wcneSC_distance
-             , wcngSC_bfSC     = exp_wcngSC_bfSC  
-             , wcngSC_r4sJC    = exp_wcngSC_r4sJC 
-             , wcngSC_seqent   = exp_wcngSC_seqent
-             , wcngSC_ddgent   = exp_wcngSC_ddgent
-             , wcngSC_distance = exp_wcngSC_distance
-             , wcnhSC_bfSC     = exp_wcnhSC_bfSC  
-             , wcnhSC_r4sJC    = exp_wcnhSC_r4sJC 
-             , wcnhSC_seqent   = exp_wcnhSC_seqent
-             , wcnhSC_ddgent   = exp_wcnhSC_ddgent
-             , wcnhSC_distance = exp_wcnhSC_distance
-             , wcnpSC_bfSC     = exp_wcnpSC_bfSC  
-             , wcnpSC_r4sJC    = exp_wcnpSC_r4sJC 
-             , wcnpSC_seqent   = exp_wcnpSC_seqent
-             , wcnpSC_ddgent   = exp_wcnpSC_ddgent
-             , wcnpSC_distance = exp_wcnpSC_distance
-             , wcneCA_bfSC     = exp_wcneCA_bfCA  
-             , wcneCA_r4sJC    = exp_wcneCA_r4sJC 
-             , wcneCA_seqent   = exp_wcneCA_seqent
-             , wcneCA_ddgent   = exp_wcneCA_ddgent
-             , wcngCA_bfSC     = exp_wcngCA_bfCA
-             , wcngCA_r4sJC    = exp_wcngCA_r4sJC 
-             , wcngCA_seqent   = exp_wcngCA_seqent
-             , wcngCA_ddgent   = exp_wcngCA_ddgent
-             , wcnhCA_bfSC     = exp_wcnhCA_bfCA  
-             , wcnhCA_r4sJC    = exp_wcnhCA_r4sJC 
-             , wcnhCA_seqent   = exp_wcnhCA_seqent
-             , wcnhCA_ddgent   = exp_wcnhCA_ddgent
-             , wcnpCA_bfSC     = exp_wcnpCA_bfCA  
-             , wcnpCA_r4sJC    = exp_wcnpCA_r4sJC 
-             , wcnpCA_seqent   = exp_wcnpCA_seqent
-             , wcnpCA_ddgent   = exp_wcnpCA_ddgent
+dflist = list( wcneSC_bfSC     = sum_wcneSC_bfSC  
+             , wcneSC_r4sJC    = sum_wcneSC_r4sJC 
+             , wcneSC_seqent   = sum_wcneSC_seqent
+             , wcneSC_ddgent   = sum_wcneSC_ddgent
+             , wcneSC_distance = sum_wcneSC_distance
+             , wcngSC_bfSC     = sum_wcngSC_bfSC  
+             , wcngSC_r4sJC    = sum_wcngSC_r4sJC 
+             , wcngSC_seqent   = sum_wcngSC_seqent
+             , wcngSC_ddgent   = sum_wcngSC_ddgent
+             , wcngSC_distance = sum_wcngSC_distance
+             , wcnhSC_bfSC     = sum_wcnhSC_bfSC  
+             , wcnhSC_r4sJC    = sum_wcnhSC_r4sJC 
+             , wcnhSC_seqent   = sum_wcnhSC_seqent
+             , wcnhSC_ddgent   = sum_wcnhSC_ddgent
+             , wcnhSC_distance = sum_wcnhSC_distance
+             , wcnpSC_bfSC     = sum_wcnpSC_bfSC  
+             , wcnpSC_r4sJC    = sum_wcnpSC_r4sJC 
+             , wcnpSC_seqent   = sum_wcnpSC_seqent
+             , wcnpSC_ddgent   = sum_wcnpSC_ddgent
+             , wcnpSC_distance = sum_wcnpSC_distance
+             , wcneCA_bfSC     = sum_wcneCA_bfCA  
+             , wcneCA_r4sJC    = sum_wcneCA_r4sJC 
+             , wcneCA_seqent   = sum_wcneCA_seqent
+             , wcneCA_ddgent   = sum_wcneCA_ddgent
+             , wcngCA_bfSC     = sum_wcngCA_bfCA
+             , wcngCA_r4sJC    = sum_wcngCA_r4sJC 
+             , wcngCA_seqent   = sum_wcngCA_seqent
+             , wcngCA_ddgent   = sum_wcngCA_ddgent
+             , wcnhCA_bfSC     = sum_wcnhCA_bfCA  
+             , wcnhCA_r4sJC    = sum_wcnhCA_r4sJC 
+             , wcnhCA_seqent   = sum_wcnhCA_seqent
+             , wcnhCA_ddgent   = sum_wcnhCA_ddgent
+             , wcnpCA_bfSC     = sum_wcnpCA_bfCA  
+             , wcnpCA_r4sJC    = sum_wcnpCA_r4sJC 
+             , wcnpCA_seqent   = sum_wcnpCA_seqent
+             , wcnpCA_ddgent   = sum_wcnpCA_ddgent
              )
 
 counter = 0
-best_params = data.frame()
+quantiles = data.frame()
 for (dataframe in dflist)
 {
   counter = counter + 1
@@ -51,21 +53,21 @@ for (dataframe in dflist)
   ###############################################################################
   ###############################################################################  
   # First write out the quantiles for the raw values of Spearman correlation strengths:
-  quantiles = data.frame()
-  for (i in names(dataframe[,-1])){
-     row = data.frame(parameter     = dataframe[[i]][1],
-                      mean_sp       = mean(dataframe[[i]][-1]),
-                      median_sp     = quantile(as.vector(dataframe[[i]][-1]), probs = 0.50),
-                      quantile05_sp = quantile(as.vector(dataframe[[i]][-1]), probs = 0.05),
-                      quantile25_sp = quantile(as.vector(dataframe[[i]][-1]), probs = 0.25),
-                      quantile75_sp = quantile(as.vector(dataframe[[i]][-1]), probs = 0.75),
-                      quantile95_sp = quantile(as.vector(dataframe[[i]][-1]), probs = 0.95),
-                      stdev_sp      = sd(as.vector(dataframe[[i]][-1]))
-                      )
-     quantiles = rbind(quantiles,row)
-  }
-  rownames(quantiles) = NULL
-  write.csv( quantiles, file = paste0('../tables/get_quantiles/sp_raw/',names(dflist)[[counter]],'_quantiles.csv'), row.names=F)
+   row = data.frame(model                 = names(dflist)[[counter]],
+                    mean_best_param       = mean(dataframe$free_param_best),
+                    median_best_param     = quantile(as.vector(dataframe$free_param_best), probs = 0.50),
+                    min_best_param        = min(as.vector(dataframe$free_param_best)),
+                    quantile05_best_param = quantile(as.vector(dataframe$free_param_best), probs = 0.05),
+                    quantile25_best_param = quantile(as.vector(dataframe$free_param_best), probs = 0.25),
+                    quantile75_best_param = quantile(as.vector(dataframe$free_param_best), probs = 0.75),
+                    quantile95_best_param = quantile(as.vector(dataframe$free_param_best), probs = 0.95),
+                    stdev_best_param      = sd(as.vector(dataframe$free_param_best)),
+                    max_best_param        = max(as.vector(dataframe$free_param_best))
+                    )
+  quantiles = rbind(quantiles,row)
+}
+rownames(quantiles) = NULL
+write.csv( quantiles, file = paste0('../tables/get_quantiles/SPbest_quantiles.csv'), row.names=F)
 
   # Now generate the plot:
   model = substr(names(dflist)[[counter]],start=4,stop=4)
