@@ -1,4 +1,4 @@
-# This code is aimed at finding which structural property best predicts the Evolutionary Rates.
+# This R script is very similar to best_structural_predictors_of_ER.r , with the exception that here the PARTIAL correlations are measured while controlling for Voronoi cell volume.
 
 # Last updated by Amir Shahmoradi, Friday 4:25 PM, February 13 2015, Wilke Lab, ICMB, UT Austin
 

@@ -51,8 +51,20 @@ for(pdb in levels(res_prop_elj$pdb))
   #pcor.test( pdb_temp$zr4s_JC, pdb_temp$VSCeccentricity, pdb_temp$VSCsphericity, method='sp')
   #row = data.frame( pdb = pdb, rsa = r.rsa.r4sJC, wcn = r.wcn.r4sJC, vareaSC = r.vareaSC.r4sJC, ddgent = r.ddgent.r4sJC )
   #row = data.frame( pdb, r.nvertices.r4sJC, r.nedges.r4sJC, r.nfaces.r4sJC, r.edgelength.r4sJC, r.area.r4sJC , r.volume.r4sJC, r.eccentricity.r4sJC, r.sphericity.r4sJC )
+  
+  # You know what? Also test for partial correlation of cell variables with ER, controlling for cell volume (needed for the manuscript):
+  x = pcor.test( pdb_temp$zr4s_JC, pdb_temp$VSCedge, pdb_temp$VSCvolume, method='sp')
+  r.edg_given_volume = x$estimate
+  x = pcor.test( pdb_temp$zr4s_JC, pdb_temp$VSCarea, pdb_temp$VSCvolume, method='sp')
+  r.area_given_volume = x$estimate
+  x = pcor.test( pdb_temp$zr4s_JC, pdb_temp$VSCeccentricity, pdb_temp$VSCvolume, method='sp')
+  r.ecc_given_volume = x$estimate
+  x = pcor.test( pdb_temp$zr4s_JC, pdb_temp$VSCsphericity, pdb_temp$VSCvolume, method='sp')
+  r.sph_given_volume = x$estimate
+  
   row = data.frame( pdb, edge, area , volume, eccentricity, sphericity
-                  , r.edg_given_area, r.vol_given_area, r.ecc_given_area, r.sph_given_area )
+                  , r.edg_given_area, r.vol_given_area, r.ecc_given_area, r.sph_given_area
+                  , r.edg_given_volume, r.area_given_volume, r.ecc_given_volume, r.sph_given_volume )
   best_voronoi_predictors_of_ER = rbind( best_voronoi_predictors_of_ER, row )
 }
 
@@ -85,6 +97,10 @@ hist.r.edg_given_area = density(best_voronoi_predictors_of_ER$r.edg_given_area)
 hist.r.vol_given_area = density(best_voronoi_predictors_of_ER$r.vol_given_area)
 hist.r.ecc_given_area = density(best_voronoi_predictors_of_ER$r.ecc_given_area)
 hist.r.sph_given_area = density(best_voronoi_predictors_of_ER$r.sph_given_area)
+hist.r.edg_given_volume  = density(best_voronoi_predictors_of_ER$r.edg_given_volume)
+hist.r.area_given_volume = density(best_voronoi_predictors_of_ER$r.area_given_volume)
+hist.r.ecc_given_volume  = density(best_voronoi_predictors_of_ER$r.ecc_given_volume)
+hist.r.sph_given_volume  = density(best_voronoi_predictors_of_ER$r.sph_given_volume)
 
 # Now plot histograms in a single plot
 #colors = c('green', 'blue', 'red', 'black', 'gray', 'cyan2')
@@ -104,8 +120,8 @@ plot(  hist.edge$x
     ,   lwd  = 2 
     #,   main = 'Correlations with Evolutionary Rates'
     #,   xlab = expression(paste('Absolute Spearman Cor. with Evolutionary Rates ',rho))
-    ,   xlab = 'Spearman Cor. with Evolutionary Rates'
-    ,   ylab = 'frequency'
+    ,   xlab = expression( paste('Correlation with Evolutionary Rates: Spearman ', rho ) )
+    ,   ylab = 'Relative Frequency'
     )
 lines( abs(hist.area$x)
      , abs(hist.area$y)
@@ -162,8 +178,8 @@ plot(  hist.r.edg_given_area$x
     ,   lwd  = 2 
     #,   main = 'Correlations with Evolutionary Rates'
     #,   xlab = expression(paste('Absolute Spearman Cor. with Evolutionary Rates ',rho))
-    ,   xlab = 'Spearman Cor. with Evolutionary Rates'
-    ,   ylab = 'frequency'
+    ,   xlab = expression( paste('Correlation with Evolutionary Rates: Spearman ', rho ) )
+    ,   ylab = 'Relative Frequency'
     )
 lines( hist.r.vol_given_area$x
      , hist.r.vol_given_area$y
@@ -187,6 +203,63 @@ lines( hist.r.ecc_given_area$x
      )
 legend( 'topleft'
       , c("cell edge length", "cell volume", "1 / cell sphericity", "cell eccentricity")
+      #, col = c('red','black','green','blue')
+      , col = cbbPalette
+      , lty = c(1,1,1)
+      , lwd = 2
+      , bty = 'n'
+      , cex = 0.9
+      )
+
+graphics.off()
+
+
+
+
+
+# Now plot histograms of correlations with ER, while controlling for cell volume:
+#colors = c('green', 'blue', 'red', 'black', 'gray', 'cyan2')
+pdf( "../figures/best_voronoi_predictors_of_ER_given_volume.pdf", width=4.5, height=4, useDingbats=FALSE )
+par( mai=c(0.65, 0.65, 0.05, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+plot(  hist.r.edg_given_volume$x
+    ,  hist.r.edg_given_volume$y
+    #, col = 'blue'
+    ,  col = cbbPalette[[1]]
+    ,   xlim = c(-0.4,0.3)
+    ,   ylim = c(0,7.5)
+    #,   col=colors[1]
+    #,   ylim=c(0,7)
+    #,   border = colors[1]
+    #,   lty = 0
+    ,   type = 'l'
+    ,   lwd  = 2 
+    #,   main = 'Correlations with Evolutionary Rates'
+    #,   xlab = expression(paste('Absolute Spearman Cor. with Evolutionary Rates ',rho))
+    ,   xlab = expression( paste('Correlation with Evolutionary Rates: Spearman ', rho ) )
+    ,   ylab = 'Relative Frequency'
+    )
+lines( hist.r.area_given_volume$x
+     , hist.r.area_given_volume$y
+     #, col = 'red'
+     , col = cbbPalette[[2]]
+     , lwd  = 2
+     )
+lines( -hist.r.sph_given_volume$x
+       , hist.r.sph_given_volume$y
+       #, col = 'black'
+       , col = cbbPalette[[3]]
+       , lwd = 2
+       #, lty = 2
+     )
+lines( hist.r.ecc_given_volume$x
+     , hist.r.ecc_given_volume$y
+     #, col = 'black'
+     , col = cbbPalette[[4]]
+     , lwd = 2
+     #, lty = 2
+     )
+legend( 'topleft'
+      , c("cell edge length", "cell area", "1 / cell sphericity", "cell eccentricity")
       #, col = c('red','black','green','blue')
       , col = cbbPalette
       , lty = c(1,1,1)
@@ -232,8 +305,8 @@ split.screen(c(1,2))
     ,   lwd  = 2 
     #,   main = 'Correlations with Evolutionary Rates'
     #,   xlab = expression(paste('Absolute Spearman Cor. with Evolutionary Rates ',rho))
-    ,   xlab = 'Spearman Cor. with Evolutionary Rates'
-    ,   ylab = 'frequency'
+    ,   xlab = expression( paste('Correlation with Evolutionary Rates: Spearman ', rho ) )
+    ,   ylab = 'Relative Frequency'
     )
   mtext('A', side = 3, at=-0.03, font=2, cex=1.2)
   lines( abs(hist.area$x)
@@ -273,7 +346,8 @@ split.screen(c(1,2))
 
 
 screen(2)
-
+  
+  cbbPalette <- c("#009E73", "#CC79A7", "#D55E00", "#0072B2", "#000000", "#F0E442", "#E69F00") #, "#56B4E9")
   par( mai=c(0.65, 0.65, 0.2, 0.2), mgp=c(2, 0.5, 0), tck=-0.03 )
   plot(  hist.r.edg_given_area$x
        ,  hist.r.edg_given_area$y
@@ -289,15 +363,17 @@ screen(2)
        ,   lwd  = 2 
        #,   main = 'Correlations with Evolutionary Rates'
        #,   xlab = expression(paste('Spearman Cor. with Evolutionary Rates ',rho))
-       ,   xlab = 'Spearman Cor. with Evolutionary Rates'
-       ,   ylab = 'frequency'
+       ,   xlab = expression( paste('Correlation with Evolutionary Rates: Spearman ', rho ) )
+       ,   ylab = 'Relative Frequency'
        )
   mtext('B', side = 3, at=-0.52, font=2, cex=1.2)
-  lines( hist.r.vol_given_area$x
-       , hist.r.vol_given_area$y
-       #, col = 'red'
+  
+  lines( -hist.r.sph_given_area$x
+       , hist.r.sph_given_area$y
+       #, col = 'black'
        , col = cbbPalette[[2]]
-       , lwd  = 2
+       , lwd = 2
+       #, lty = 2
        )
   lines( hist.r.ecc_given_area$x
        , hist.r.ecc_given_area$y
@@ -306,15 +382,14 @@ screen(2)
        , lwd = 2
        #, lty = 2
        )
-  lines( hist.r.sph_given_area$x
-       , hist.r.sph_given_area$y
-       #, col = 'black'
+  lines( hist.r.vol_given_area$x
+       , hist.r.vol_given_area$y
+       #, col = 'red'
        , col = cbbPalette[[4]]
-       , lwd = 2
-       #, lty = 2
+       , lwd  = 2
        )
   legend( 'topleft'
-        , c("cell edge length", "cell volume", "cell eccentricity", "cell sphericity")
+        , c("cell edge length", "1 / cell sphericity", "cell eccentricity", "cell volume")
         #, col = c('red','black','green','blue')
         , col = cbbPalette
         , lty = c(1,1,1)

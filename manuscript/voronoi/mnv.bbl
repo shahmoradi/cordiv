@@ -1,11 +1,5 @@
-\begin{thebibliography}{55}
+\begin{thebibliography}{49}
 \providecommand{\natexlab}[1]{#1}
-
-\bibitem[{Adler et~al.(1990)Adler, Meir, Aharony, and
-  Harris}]{adler_series_1990}
-Adler J, Meir Y, Aharony A, Harris AB. 1990.
-\newblock Series study of percolation moments in general dimension.
-\newblock \emph{Physical Review B}. 41:9183--9206.
 
 \bibitem[{Ashkenazy et~al.(2010)Ashkenazy, Erez, Martz, Pupko, and
   Ben-Tal}]{ashkenazy_consurf_2010}
@@ -120,11 +114,6 @@ Kyte J, Doolittle RF. 1982.
   protein.
 \newblock \emph{Journal of Molecular Biology}. 157:105--132.
 
-\bibitem[{Liang and Dill(2001)}]{liang_are_2001}
-Liang J, Dill KA. 2001.
-\newblock Are {Proteins} {Well}-{Packed}?
-\newblock \emph{Biophysical Journal}. 81:751--766.
-
 \bibitem[{Liao et~al.(2005)Liao, Yeh, Chiang, Jernigan, and
   Lustig}]{liao_protein_2005}
 Liao H, Yeh W, Chiang D, Jernigan R, Lustig B. 2005.
@@ -145,18 +134,11 @@ Liu Y, Bahar I. 2012.
 \newblock Sequence {Evolution} {Correlates} with {Structural} {Dynamics}.
 \newblock \emph{Molecular Biology and Evolution}. 29:2253--2263.
 
-\bibitem[{Lorenz et~al.(1993)Lorenz, Orgzall, and
-  Heuer}]{lorenz_universality_1993}
-Lorenz B, Orgzall I, Heuer HO. 1993.
-\newblock Universality and cluster structures in continuum models of
-  percolation with two different radius distributions.
-\newblock \emph{Journal of Physics A: Mathematical and General}. 26:4711.
-
-\bibitem[{Marcos and Echave(2014)}]{marcos_too_2014}
-Marcos ML, Echave J. 2014.
-\newblock Too packed to change: site-specific substitution rates and side-chain
-  packing in protein evolution.
-\newblock \emph{bioRxiv}. p. 013359.
+\bibitem[{Marcos and Echave(2015)}]{marcos_too_2015}
+Marcos ML, Echave J. 2015.
+\newblock Too packed to change: side-chain packing and site-specific
+  substitution rates in protein evolution.
+\newblock \emph{PeerJ}. 3:e911.
 
 \bibitem[{Mayrose et~al.(2004)Mayrose, Graur, Ben-Tal, and
   Pupko}]{mayrose_comparison_2004}
@@ -191,12 +173,6 @@ Murzin AG, Brenner SE, Hubbard T, Chothia C. 1995.
 \newblock {SCOP}: {A} structural classification of proteins database for the
   investigation of sequences and structures.
 \newblock \emph{Journal of Molecular Biology}. 247:536--540.
-
-\bibitem[{Parisi and Sourlas(1981)}]{parisi_critical_1981}
-Parisi G, Sourlas N. 1981.
-\newblock Critical {Behavior} of {Branched} {Polymers} and the {Lee}-{Yang}
-  {Edge} {Singularity}.
-\newblock \emph{Physical Review Letters}. 46:871--874.
 
 \bibitem[{Porter et~al.(2004)Porter, Bartlett, and
   Thornton}]{porter_catalytic_2004}
@@ -277,22 +253,12 @@ Soyer A, Chomilier J, Mornon JP, Jullien R, Sadoc JF. 2000.
   {Condensed} {Matter} {Character} of {Folded} {Proteins}.
 \newblock \emph{Physical Review Letters}. 85:3532--3535.
 
-\bibitem[{Stauffer and Aharony(1994)}]{stauffer_introduction_1994}
-Stauffer D, Aharony A. 1994.
-\newblock Introduction {To} {Percolation} {Theory}.
-\newblock CRC Press.
-
 \bibitem[{Tien et~al.(2013)Tien, Meyer, Sydykova, Spielman, and
   Wilke}]{tien_maximum_2013}
 Tien MZ, Meyer AG, Sydykova DK, Spielman SJ, Wilke CO. 2013.
 \newblock Maximum {Allowed} {Solvent} {Accessibilites} of {Residues} in
   {Proteins}.
 \newblock \emph{PLoS ONE}. 8:e80635.
-
-\bibitem[{Voss and Gerstein(2010)}]{voss_3v:_2010}
-Voss NR, Gerstein M. 2010.
-\newblock 3v: cavity, channel and cleft volume calculator and extractor.
-\newblock \emph{Nucleic Acids Research}. 38:W555--W562.
 
 \bibitem[{Webb(1992)}]{webb_enzyme_1992}
 Webb EC. 1992.
