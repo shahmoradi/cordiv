@@ -46,6 +46,7 @@ dflist = list( wcneSC_bfSC     = sum_wcneSC_bfSC
 
 counter = 0
 quantiles = data.frame()
+quantiles_rho = data.frame()
 for (dataframe in dflist)
 {
   counter = counter + 1
@@ -65,9 +66,24 @@ for (dataframe in dflist)
                     max_best_param        = max(as.vector(dataframe$free_param_best))
                     )
   quantiles = rbind(quantiles,row)
+  # Now get the quantiles for the correlation coefficients corresponding to the best parametr values
+  row_rho = data.frame(model      = names(dflist)[[counter]],
+                   mean_rho       = mean(abs(dataframe$sp_cor_best)),
+                   median_rho     = quantile(as.vector(abs(dataframe$sp_cor_best)), probs = 0.50),
+                   min_rho        = min(as.vector(abs(dataframe$sp_cor_best))),
+                   quantile05_rho = quantile(as.vector(abs(dataframe$sp_cor_best)), probs = 0.05),
+                   quantile25_rho = quantile(as.vector(abs(dataframe$sp_cor_best)), probs = 0.25),
+                   quantile75_rho = quantile(as.vector(abs(dataframe$sp_cor_best)), probs = 0.75),
+                   quantile95_rho = quantile(as.vector(abs(dataframe$sp_cor_best)), probs = 0.95),
+                   stdev_rho      = sd(as.vector(dataframe$sp_cor_best)),
+                   max_rho        = max(as.vector(dataframe$sp_cor_best))
+                   )
+  quantiles_rho = rbind(quantiles_rho,row_rho)
 }
 rownames(quantiles) = NULL
-write.csv( quantiles, file = paste0('../tables/get_quantiles/SPbest_quantiles.csv'), row.names=F)
+rownames(quantiles_rho) = NULL
+write.csv( quantiles, file = paste0('../tables/get_quantiles/SPbest_param_quantiles.csv'), row.names=F)
+write.csv( quantiles_rho, file = paste0('../tables/get_quantiles/SPbest_rho_quantiles.csv'), row.names=F)
 
   # Now generate the plot:
   model = substr(names(dflist)[[counter]],start=4,stop=4)

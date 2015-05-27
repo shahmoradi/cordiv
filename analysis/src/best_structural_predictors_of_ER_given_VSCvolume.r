@@ -154,8 +154,28 @@ legend( 'topleft'
 graphics.off()
 
 
+# Now summarize the partial correlations data over the entire dataset:
 
+best_structural_predictors_of_ER_given_VSCvolume = read.csv(file = "../tables/best_structural_predictors_of_ER_given_VSCvolume.csv", header=TRUE )
 
+data_subset = best_structural_predictors_of_ER_given_VSCvolume[,-1]  # remove pdb column from the data set to loop over the columns below
+best_structural_predictors_of_ER_given_VSCvol_summary = data.frame()
+for (correlation in names(data_subset))
+{
+  row = data.frame( correlation = correlation
+                  , mean = mean(best_structural_predictors_of_ER_given_VSCvolume[[correlation]])
+                  , median = median(best_structural_predictors_of_ER_given_VSCvolume[[correlation]])
+                  , min = min(best_structural_predictors_of_ER_given_VSCvolume[[correlation]])
+                  , quantile05 = quantile(best_structural_predictors_of_ER_given_VSCvolume[[correlation]], probs=0.05)
+                  , quantile25 = quantile(best_structural_predictors_of_ER_given_VSCvolume[[correlation]], probs=0.25)
+                  , quantile75 = quantile(best_structural_predictors_of_ER_given_VSCvolume[[correlation]], probs=0.75)
+                  , quantile95 = quantile(best_structural_predictors_of_ER_given_VSCvolume[[correlation]], probs=0.95)
+                  , max = max(best_structural_predictors_of_ER_given_VSCvolume[[correlation]])
+                  , sd = sd(best_structural_predictors_of_ER_given_VSCvolume[[correlation]])
+                  )
+  best_structural_predictors_of_ER_given_VSCvol_summary = rbind(best_structural_predictors_of_ER_given_VSCvol_summary,row)  
+}
+write.csv(best_structural_predictors_of_ER_given_VSCvol_summary, file = "../tables/best_structural_predictors_of_ER_given_VSCvol_summary.csv", row.names=F )
 
 max(best_structural_predictors_of_ER_given_VSCvolume$r.wcnSC.r4sJC)-min(best_structural_predictors_of_ER_given_VSCvolume$r.wcnSC.r4sJC)
 max(best_structural_predictors_of_ER_given_VSCvolume$r.vareaSC.r4sJC)-min(best_structural_predictors_of_ER_given_VSCvolume$r.vareaSC.r4sJC)
