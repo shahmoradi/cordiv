@@ -182,6 +182,59 @@ max(best_structural_predictors_of_ER_given_VSCvolume$r.vareaSC.r4sJC)-min(best_s
 sd(best_structural_predictors_of_ER_given_VSCvolume$r.vareaSC.r4sJC)
 sd(best_structural_predictors_of_ER_given_VSCvolume$r.wcnSC.r4sJC)
 
+
+
+### The following plot is specifically generated for the manuscript:
+
+# Now plot histograms in a single plot
+#colors = c('green', 'blue', 'red', 'black', 'gray', 'cyan2')
+pdf( "../figures/best_structural_predictors_of_ER_given_vol.pdf", width=4.5, height=4, useDingbats=FALSE )
+par( mai=c(0.65, 0.65, 0.05, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+plot(  -5
+       ,  -5
+       ,   col = 'red'
+       #,   xlim = c(-0.5,0.85)
+       ,   xlim = c(-0.3,0.7)
+       ,   ylim = c(0,4.)
+       #,   col=colors[1]
+       #,   ylim=c(0,7)
+       #,   border = colors[1]
+       #,   lty = 0
+       ,   type = 'l'
+       ,   lwd  = 2 
+       #,   main = 'Correlations with Evolutionary Rates'
+       #,   xlab = expression(paste('Spearman Cor. with Evolutionary Rates ',rho))
+       ,   xlab = expression( paste('Correlation with Evolutionary Rates: Spearman ', rho ) )
+       ,   ylab = 'Relative Frequency'
+)
+lines( -hist.wcnSC$x
+       , hist.wcnSC$y
+       , col = 'black'
+       , lwd = 2
+)
+lines( -hist.wcnCA$x
+       , hist.wcnCA$y
+       , col = 'black'
+       , lwd = 2
+       , lty = 2
+)
+lines( hist.rsa$x
+       , hist.rsa$y
+       , col = 'blue'
+       , lwd  = 2
+)
+
+legend( 'topleft'
+        , c("1 / WCN (SC)", "1 / WCN (CA)", "RSA")
+        , col = c('black','black','blue')
+        , lty = c(1,2,1)
+        , lwd = 2
+        , bty = 'n'
+        , cex = 0.9
+)
+
+graphics.off()
+
 # Now do some paired t-tests:
 
 #temp1 = data.frame(var = 'wcnSC', r = best_structural_predictors_of_ER_given_VSCvolume$r.wcnSC.r4sJC)
