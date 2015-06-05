@@ -205,6 +205,28 @@ legend( 'topleft'
 graphics.off()
 
 
+# Now summarize the partial data over the entire dataset:
+
+best_structural_predictors_of_ER = read.csv(file = "../tables/best_structural_predictors_of_ER.csv", header=TRUE )
+
+data_subset = best_structural_predictors_of_ER[,-1]  # remove pdb column from the data set to loop over the columns below
+best_structural_predictors_of_ER_summary = data.frame()
+for (correlation in names(data_subset))
+{
+  row = data.frame( correlation = correlation
+                    , mean = mean(best_structural_predictors_of_ER[[correlation]])
+                    , median = median(best_structural_predictors_of_ER[[correlation]])
+                    , min = min(best_structural_predictors_of_ER[[correlation]])
+                    , quantile05 = quantile(best_structural_predictors_of_ER[[correlation]], probs=0.05)
+                    , quantile25 = quantile(best_structural_predictors_of_ER[[correlation]], probs=0.25)
+                    , quantile75 = quantile(best_structural_predictors_of_ER[[correlation]], probs=0.75)
+                    , quantile95 = quantile(best_structural_predictors_of_ER[[correlation]], probs=0.95)
+                    , max = max(best_structural_predictors_of_ER[[correlation]])
+                    , sd = sd(best_structural_predictors_of_ER[[correlation]])
+  )
+  best_structural_predictors_of_ER_summary = rbind(best_structural_predictors_of_ER_summary,row)  
+}
+write.csv(best_structural_predictors_of_ER_summary, file = "../tables/best_structural_predictors_of_ER_summary.csv", row.names=F )
 
 
 
