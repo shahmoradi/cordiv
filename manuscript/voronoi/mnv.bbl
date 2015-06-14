@@ -1,4 +1,4 @@
-\begin{thebibliography}{49}
+\begin{thebibliography}{46}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Ashkenazy et~al.(2010)Ashkenazy, Erez, Martz, Pupko, and
@@ -40,13 +40,6 @@ Franzosa EA, Xia Y. 2009.
 \newblock Structural {Determinants} of {Protein} {Evolution} {Are}
   {Context}-{Sensitive} at the {Residue} {Level}.
 \newblock \emph{Molecular Biology and Evolution}. 26:2387--2395.
-
-\bibitem[{Frauenfelder et~al.(1979)Frauenfelder, Petsko, and
-  Tsernoglou}]{frauenfelder_temperature-dependent_1979}
-Frauenfelder H, Petsko GA, Tsernoglou D. 1979.
-\newblock Temperature-dependent {X}-ray diffraction as a probe of protein
-  structural dynamics.
-\newblock \emph{Nature}. 280:558--563.
 
 \bibitem[{Gerstein et~al.(1994)Gerstein, Sonnhammer, and
   Chothia}]{gerstein_volume_1994}
@@ -188,12 +181,6 @@ Ramsey DC, Scherrer MP, Zhou T, Wilke CO. 2011.
   {Evolutionary} {Rate} in {Protein} {Evolution}.
 \newblock \emph{Genetics}. 188:479--488.
 
-\bibitem[{Read(1990)}]{read_structure-factor_1990}
-Read RJ. 1990.
-\newblock Structure-factor probabilities for related structures.
-\newblock \emph{Acta Crystallographica Section A Foundations of
-  Crystallography}. 46:900--912.
-
 \bibitem[{Richards(1974)}]{richards_interpretation_1974}
 Richards FM. 1974.
 \newblock The interpretation of protein structures: {Total} volume, group
@@ -273,13 +260,6 @@ Weng J, Wang W. 2014.
 \newblock In: Han Kl, Zhang X, Yang Mj, editors, Protein {Conformational}
   {Dynamics}, Springer International Publishing, number 805 in Advances in
   {Experimental} {Medicine} and {Biology}, pp. 305--329.
-
-\bibitem[{Wilke et~al.(2005)Wilke, Bloom, Drummond, and
-  Raval}]{wilke_predicting_2005}
-Wilke CO, Bloom JD, Drummond DA, Raval A. 2005.
-\newblock Predicting the {Tolerance} of {Proteins} to {Random} {Amino} {Acid}
-  {Substitution}.
-\newblock \emph{Biophysical Journal}. 89:3714--3720.
 
 \bibitem[{Wimley and White(1996)}]{wimley_experimentally_1996}
 Wimley WC, White SH. 1996.
