@@ -3,8 +3,10 @@
 # Last updated by Amir Shahmoradi, Thursday 9:38 AM, February 26 2015, Wilke Lab, ICMB, UT Austin
 
 # setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
+setwd('E:/Git/cordiv/analysis/src')
 
 # excluded_pdbs = c('1BBS_A','1BS0_A','1DIN_A','1HPL_A')   # These are the 4 PDBs that did not have complete r4s evolutionary rates and are omitted from the dataset to avoid NA values.
+install.packages('ppcor')
 library(ppcor)
 pdb_temp = data.frame()
 best_voronoi_predictors_of_ER = data.frame()  # This data frame will contain correlations of select structural variables with r4sJC evolutionary rates, for each pdb file on eaxch row
@@ -401,4 +403,27 @@ screen(2)
 close.screen(all = TRUE)
 
 graphics.off()
+
+###############################
+###############################
+###############################
+# Now do some paired t-tests:
+
+#temp1 = data.frame(var = 'wcnSC', r = best_voronoi_predictors_of_ER$r.wcnSC.r4sJC)
+#temp2 = data.frame(var = 'vareaSC', r = best_voronoi_predictors_of_ER$r.vareaSC.r4sJC)
+#temp = rbind(temp1,temp2)
+#temp$var = factor(temp$var)
+#ttest = pairwise.t.test(temp$r,temp$var)
+
+install.packages('reshape')
+library('reshape')
+best_voronoi_predictors_of_ER_select = subset(best_voronoi_predictors_of_ER, select=c(pdb,edge,area,volume,eccentricity,sphericity))
+best_voronoi_predictors_of_ER_long = reshape(best_voronoi_predictors_of_ER_select, direction='long', varying=colnames(best_voronoi_predictors_of_ER_select)[2:ncol(best_voronoi_predictors_of_ER_select)], idvar=c('pdb'), v.names='value', timevar='variable', times=colnames(best_voronoi_predictors_of_ER_select)[2:ncol(best_voronoi_predictors_of_ER_select)])
+best_voronoi_predictors_of_ER_long$variable = factor(best_voronoi_predictors_of_ER_long$variable)
+
+ttest = pairwise.t.test(best_voronoi_predictors_of_ER_long$value,best_voronoi_predictors_of_ER_long$variable)
+
+pvalues = as.data.frame(ttest$p.value)
+
+write.csv(pvalues, file='../tables/pairwise_t_test_best_Voro_predictors.csv')
 
