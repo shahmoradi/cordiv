@@ -107,7 +107,7 @@ hist.r.sph_given_volume  = density(best_voronoi_predictors_of_ER$r.sph_given_vol
 # Now plot histograms in a single plot
 #colors = c('green', 'blue', 'red', 'black', 'gray', 'cyan2')
 pdf( "../figures/best_voronoi_predictors_of_ER.pdf", width=4.5, height=4, useDingbats=FALSE )
-par( mai=c(0.65, 0.65, 0.05, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+par( mai=c(0.65, 0.65, 0.2, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
 plot(  hist.edge$x
     ,  hist.edge$y
     #, col = 'blue'
@@ -151,7 +151,7 @@ lines( abs(hist.sphericity$x)
      #, lty = 2
      )
 legend( 'topleft'
-        , c("cell edge length", "cell area", "cell volume", "cell eccentricity", "1 / cell sphericity")
+        , c("cell edge length", "cell area", "cell volume", "cell eccentricity", " - cell sphericity")
         #, col = c('red','black','black','green','blue')
         , col = cbbPalette
         , lty = c(1,1,1,1)
@@ -159,7 +159,8 @@ legend( 'topleft'
         , bty = 'n'
         , cex = 0.9
       )
-
+mtext('A', side = 3, at=0.0, font=2, cex=1.2)
+graphics.off()
 
 # Now plot histograms of correlations with ER, while controlling for cell area:
 # Now plot histograms in a single plot
@@ -204,7 +205,7 @@ lines( hist.r.ecc_given_area$x
      #, lty = 2
      )
 legend( 'topleft'
-      , c("cell edge length", "cell volume", "1 / cell sphericity", "cell eccentricity")
+      , c("cell edge length", "cell volume", " - cell sphericity", "cell eccentricity")
       #, col = c('red','black','green','blue')
       , col = cbbPalette
       , lty = c(1,1,1)
@@ -212,7 +213,7 @@ legend( 'topleft'
       , bty = 'n'
       , cex = 0.9
       )
-
+mtext('B', side = 3, at=-0.55, font=2, cex=1.2)
 graphics.off()
 
 
@@ -261,7 +262,7 @@ lines( hist.r.ecc_given_volume$x
      #, lty = 2
      )
 legend( 'topleft'
-      , c("cell edge length", "cell area", "1 / cell sphericity", "cell eccentricity")
+      , c("cell edge length", "cell area", " - cell sphericity", "cell eccentricity")
       #, col = c('red','black','green','blue')
       , col = cbbPalette
       , lty = c(1,1,1)
@@ -307,7 +308,8 @@ split.screen(c(1,2))
     ,   lwd  = 2 
     #,   main = 'Correlations with Evolutionary Rates'
     #,   xlab = expression(paste('Absolute Spearman Cor. with Evolutionary Rates ',rho))
-    ,   xlab = expression( paste('Correlation with Evolutionary Rates: Spearman ', rho ) )
+    #,   xlab = expression( paste('Correlation with Evolutionary Rates: Spearman ', rho ) )
+    ,   xlab = 'Correlation with ER'
     ,   ylab = 'Relative Frequency'
     )
   mtext('A', side = 3, at=-0.03, font=2, cex=1.2)
@@ -337,7 +339,7 @@ split.screen(c(1,2))
        #, lty = 2
        )
   legend( 'topleft'
-        , c("cell edge length", "cell area", "cell volume", "cell eccentricity", "1 / cell sphericity")
+        , c("cell edge length", "cell area", "cell volume", "cell eccentricity", "- cell sphericity")
         #, col = c('red','black','black','green','blue')
         , col = cbbPalette
         , lty = c(1,1,1,1)
@@ -365,7 +367,8 @@ screen(2)
        ,   lwd  = 2 
        #,   main = 'Correlations with Evolutionary Rates'
        #,   xlab = expression(paste('Spearman Cor. with Evolutionary Rates ',rho))
-       ,   xlab = expression( paste('Correlation with Evolutionary Rates: Spearman ', rho ) )
+       #,   xlab = expression( paste('Correlation with Evolutionary Rates: Spearman ', rho ) )
+       ,   xlab = 'Correlation with ER'
        ,   ylab = 'Relative Frequency'
        )
   mtext('B', side = 3, at=-0.52, font=2, cex=1.2)
@@ -391,7 +394,7 @@ screen(2)
        , lwd  = 2
        )
   legend( 'topleft'
-        , c("cell edge length", "1 / cell sphericity", "cell eccentricity", "cell volume")
+        , c("cell edge length", " - cell sphericity", "cell eccentricity", "cell volume")
         #, col = c('red','black','green','blue')
         , col = cbbPalette
         , lty = c(1,1,1)
@@ -418,6 +421,7 @@ graphics.off()
 install.packages('reshape')
 library('reshape')
 best_voronoi_predictors_of_ER_select = subset(best_voronoi_predictors_of_ER, select=c(pdb,edge,area,volume,eccentricity,sphericity))
+best_voronoi_predictors_of_ER_select$sphericity = -best_voronoi_predictors_of_ER_select$sphericity
 best_voronoi_predictors_of_ER_long = reshape(best_voronoi_predictors_of_ER_select, direction='long', varying=colnames(best_voronoi_predictors_of_ER_select)[2:ncol(best_voronoi_predictors_of_ER_select)], idvar=c('pdb'), v.names='value', timevar='variable', times=colnames(best_voronoi_predictors_of_ER_select)[2:ncol(best_voronoi_predictors_of_ER_select)])
 best_voronoi_predictors_of_ER_long$variable = factor(best_voronoi_predictors_of_ER_long$variable)
 

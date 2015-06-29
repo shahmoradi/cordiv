@@ -3,6 +3,7 @@
 # Note that R script input_data.r must be first sourced in order to use this script.
 
 setwd('C:/Users/Amir/Documents/GitHub/cordiv/wcn_best_definition/analysis/src')
+setwd('E:/Git/cordiv/wcn_best_definition/analysis/src')
 
 dflist = list( wcneSC_bfSC     = exp_wcneSC_bfSC  
              , wcneSC_r4sJC    = exp_wcneSC_r4sJC 
@@ -279,8 +280,8 @@ lines(predict(lspl,quantiles$parameter),lty=2,lwd=2,col='red')
 lines(predict(uspl,quantiles$parameter),lty=2,lwd=2,col='red')
 graphics.off()
 
-# first for r4sJC
-dataframe = dflist$wcnhSC_bfSC
+# second for r4sJC
+dataframe = dflist$wcnhSC_r4sJC
 quantiles = data.frame()
 for (i in names(dataframe[,-1])){
   row = data.frame(parameter     = dataframe[[i]][1],
@@ -297,13 +298,13 @@ for (i in names(dataframe[,-1])){
 rownames(quantiles) = NULL
 
 pdf( paste0("../figures/get_quantiles/screen_plots/spcor_cnSC_r4sJC.pdf"), width=4.5, height=4, useDingbats=FALSE )
-par( mai=c(0.65, 0.65, 0.1, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+par( mai=c(0.65, 0.65, 0.2, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
 plot( quantiles$parameter
       , quantiles$mean_sp
       , type = 'l'
-      , ylim = c(0.0,1.0)
+      , ylim = c(0.0,0.8)
       , xlab = expression( paste( 'Cutoff Distance: ', r[0], ' [ Angstroms ]') )
-      , ylab = expression( paste( "Absolute Spearman ", rho ," : CN - r4sJC" ) )
+      , ylab = expression( paste( "Absolute Spearman ", rho ," : CN - ER" ) )
 )
 polygon(c(quantiles$parameter,rev(quantiles$parameter)),c(quantiles$quantile25_sp,rev(quantiles$quantile75_sp)),col = "green", border = FALSE)
 lspl = smooth.spline(quantiles$parameter,quantiles$quantile25_sp)
@@ -312,4 +313,43 @@ lines(quantiles$parameter,quantiles$mean_sp,lwd=2)
 lines(quantiles$parameter,quantiles$median_sp,lwd=2,lty=2)
 lines(predict(lspl,quantiles$parameter),lty=2,lwd=2,col='red')
 lines(predict(uspl,quantiles$parameter),lty=2,lwd=2,col='red')
+mtext('A', side = 3, at=-9, font=2, cex=1.2)
+graphics.off()
+
+# Now for power-law
+
+dataframe = dflist$wcnpSC_r4sJC
+quantiles = data.frame()
+for (i in names(dataframe[,-1])){
+  row = data.frame(parameter     = dataframe[[i]][1],
+                   mean_sp       = mean(abs(dataframe[[i]][-1])),
+                   median_sp     = quantile(abs(as.vector(dataframe[[i]][-1])), probs = 0.50),
+                   quantile05_sp = quantile(abs(as.vector(dataframe[[i]][-1])), probs = 0.05),
+                   quantile25_sp = quantile(abs(as.vector(dataframe[[i]][-1])), probs = 0.25),
+                   quantile75_sp = quantile(abs(as.vector(dataframe[[i]][-1])), probs = 0.75),
+                   quantile95_sp = quantile(abs(as.vector(dataframe[[i]][-1])), probs = 0.95),
+                   stdev_sp      = sd(as.vector(dataframe[[i]][-1]))
+  )
+  quantiles = rbind(quantiles,row)
+}
+quantiles = quantiles[!quantiles$parameter==0.0,]
+rownames(quantiles) = NULL
+
+pdf( paste0("../figures/get_quantiles/screen_plots/spcor_cnwSC_r4sJC.pdf"), width=4.5, height=4, useDingbats=FALSE )
+par( mai=c(0.65, 0.65, 0.2, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+plot( quantiles$parameter
+      , quantiles$mean_sp
+      , type = 'l'
+      , ylim = c(0.0,0.8)
+      , xlab = expression( paste( 'Power-law Exponent: ', alpha ) )
+      , ylab = expression( paste( "Absolute Spearman ", rho ," : WCN - ER" ) )
+)
+polygon(c(quantiles$parameter,rev(quantiles$parameter)),c(quantiles$quantile25_sp,rev(quantiles$quantile75_sp)),col = "green", border = FALSE)
+lspl = smooth.spline(quantiles$parameter,quantiles$quantile25_sp)
+uspl = smooth.spline(quantiles$parameter,quantiles$quantile75_sp)
+lines(quantiles$parameter,quantiles$mean_sp,lwd=2)
+lines(quantiles$parameter,quantiles$median_sp,lwd=2,lty=2)
+lines(predict(lspl,quantiles$parameter),lty=2,lwd=2,col='red')
+lines(predict(uspl,quantiles$parameter),lty=2,lwd=2,col='red')
+mtext('B', side = 3, at=-41, font=2, cex=1.2)
 graphics.off()
