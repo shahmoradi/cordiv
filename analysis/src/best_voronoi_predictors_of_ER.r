@@ -2,8 +2,8 @@
 
 # Last updated by Amir Shahmoradi, Thursday 9:38 AM, February 26 2015, Wilke Lab, ICMB, UT Austin
 
-# setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
-setwd('E:/Git/cordiv/analysis/src')
+setwd('C:/Users/Amir/Documents/GitHub/cordiv/analysis/src')
+#setwd('E:/Git/cordiv/analysis/src')
 
 # excluded_pdbs = c('1BBS_A','1BS0_A','1DIN_A','1HPL_A')   # These are the 4 PDBs that did not have complete r4s evolutionary rates and are omitted from the dataset to avoid NA values.
 install.packages('ppcor')
@@ -25,12 +25,15 @@ for(pdb in levels(res_prop_elj$pdb))
   pdb_voroSC = res_prop_voroSC[res_prop_voroSC$pdb==pdb, ]
   #pdb_voroCA = res_prop_voroCA[res_prop_voroCA$pdb==pdb, ]
   
+  pdb_voroSC$VSCvolume_modified = pdb_voroSC$VSCvolume
+  pdb_voroSC$VSCvolume_modified[pdb_voroSC$VSCvolume_change_ratio != 1] = max(pdb_voroSC$VSCvolume) * pdb_voroSC$VSCvolume_change_ratio[pdb_voroSC$VSCvolume_change_ratio != 1]
+  
   pdb_temp = cbind( subset(pdb_jec, select = c(zr4s_JC))
                   #, subset(pdb_elj, select = c(pdb,seqent,ddgent))
                   #, subset(pdb_hps, select = c(hpshh))
                   #, subset(pdb_dssp, select = c(rsa,hbe))
                   #, subset(pdb_wcn_bf, select = c(wcnSC,bfSC))
-                  , subset(pdb_voroSC, select = c(VSCsphericity,VSCeccentricity,VSCvolume,VSCarea,VSCedge_length_total,VSCnfaces,VSCnedges,VSCnvertices))
+                  , subset(pdb_voroSC, select = c(VSCsphericity,VSCeccentricity,VSCvolume,VSCarea,VSCedge_length_total,VSCnfaces,VSCnedges,VSCnvertices,VSCvolume_modified,VSCmodified_sphericity))
                   )
   #nvertices = cor(pdb_temp$zr4s_JC,pdb_temp$VSCnvertices,method='sp') # This is identical to the two folloing variables and is therfore dropped from the list
   #nedges = cor(pdb_temp$zr4s_JC,pdb_temp$VSCnedges,method='sp')
@@ -40,6 +43,8 @@ for(pdb in levels(res_prop_elj$pdb))
   volume = cor(pdb_temp$zr4s_JC,pdb_temp$VSCvolume,method='sp')
   eccentricity = cor(pdb_temp$zr4s_JC,pdb_temp$VSCeccentricity,method='sp')
   sphericity = cor(pdb_temp$zr4s_JC,pdb_temp$VSCsphericity,method='sp')
+  sphericity_modified = cor(pdb_temp$zr4s_JC,pdb_temp$VSCmodified_sphericity,method='sp')
+  volume_modified = cor(pdb_temp$zr4s_JC,pdb_temp$VSCvolume_modified,method='sp')
   
   # out of curiosity: test for partial correlation of cell variables with ER, controlling for cell area:
   x = pcor.test( pdb_temp$zr4s_JC, pdb_temp$VSCedge, pdb_temp$VSCarea, method='sp')
@@ -64,13 +69,47 @@ for(pdb in levels(res_prop_elj$pdb))
   x = pcor.test( pdb_temp$zr4s_JC, pdb_temp$VSCsphericity, pdb_temp$VSCvolume, method='sp')
   r.sph_given_volume = x$estimate
   
-  row = data.frame( pdb, edge, area , volume, eccentricity, sphericity
+  row = data.frame( pdb, edge, area , volume, volume_modified, eccentricity, sphericity, sphericity_modified
                   , r.edg_given_area, r.vol_given_area, r.ecc_given_area, r.sph_given_area
                   , r.edg_given_volume, r.area_given_volume, r.ecc_given_volume, r.sph_given_volume )
   best_voronoi_predictors_of_ER = rbind( best_voronoi_predictors_of_ER, row )
 }
 
 write.csv(best_voronoi_predictors_of_ER, file = "../tables/best_voronoi_predictors_of_ER.csv", row.names=F )
+best_voronoi_predictors_of_ER = read.csv( file = "../tables/best_voronoi_predictors_of_ER.csv" )
+
+### NOW DO A PAIRWISE T-TEST TO SEE IF THERE IS ANY SIGNIFICANT DIFFERENCE BETWEEN USING THE MODIFIED VOLUME AND THE ORIGINAL CELL VOLUMES FOR EVOLUTIONARY RATES PREDICTION:
+ttest = t.test(best_voronoi_predictors_of_ER$volume,best_voronoi_predictors_of_ER$volume_modified, paired=TRUE, p.adjust.method="hochberg")
+ttest$p.value
+hist(best_voronoi_predictors_of_ER$volume-best_voronoi_predictors_of_ER$volume_modified)
+qqnorm(best_voronoi_predictors_of_ER$volume-best_voronoi_predictors_of_ER$volume_modified)
+qqline(best_voronoi_predictors_of_ER$volume-best_voronoi_predictors_of_ER$volume_modified)
+mean(best_voronoi_predictors_of_ER$volume-best_voronoi_predictors_of_ER$volume_modified)
+quantile(best_voronoi_predictors_of_ER$volume-best_voronoi_predictors_of_ER$volume_modified, probs = c(0.25, 0.5, 0.75))
+shapiro.test(best_voronoi_predictors_of_ER$volume-best_voronoi_predictors_of_ER$volume_modified)
+wilcox.test(best_voronoi_predictors_of_ER$volume,best_voronoi_predictors_of_ER$volume_modified, paired=TRUE)
+# The t-test statistic is NOT normal, therefore the above p-vaue for the t-test is not valid.
+library('reshape')
+ttdata = data.frame(pdb = best_voronoi_predictors_of_ER$pdb,volume=best_voronoi_predictors_of_ER$volume,volume_modified=best_voronoi_predictors_of_ER$volume_modified)
+best_voronoi_predictors_of_ER_long = reshape(ttdata, direction='long', varying=colnames(ttdata[,2:3]), idvar=c('pdb'), v.names='value', timevar='variable', times=colnames(ttdata[,2:3]))
+best_voronoi_predictors_of_ER_long$variable = factor(best_voronoi_predictors_of_ER_long$variable)
+vttest = pairwise.t.test(best_voronoi_predictors_of_ER_long$value
+                        ,best_voronoi_predictors_of_ER_long$variable
+                        ,p.adjust.method = "hochberg"
+                        ,paired=TRUE
+)
+
+vpvalues = as.data.frame(vttest$p.value)
+### NOW DO A PAIRWISE T-TEST TO SEE IF THERE IS ANY SIGNIFICANT DIFFERENCE BETWEEN USING THE MODIFIED SPHERICITY AND THE ORIGINAL CELL SPHERICITY FOR EVOLUTIONARY RATES PREDICTION:
+hist(best_voronoi_predictors_of_ER$sphericity-best_voronoi_predictors_of_ER$sphericity_modified)
+mean(best_voronoi_predictors_of_ER$sphericity-best_voronoi_predictors_of_ER$sphericity_modified)
+median(best_voronoi_predictors_of_ER$sphericity-best_voronoi_predictors_of_ER$sphericity_modified)
+shapiro.test(best_voronoi_predictors_of_ER$sphericity-best_voronoi_predictors_of_ER$sphericity_modified)
+
+
+median(best_voronoi_predictors_of_ER$r.area_given_volume)
+median(best_voronoi_predictors_of_ER$r.sph_given_volume)
+median(best_voronoi_predictors_of_ER$r.ecc_given_volume)
 
 #GGPLOT is a waste of time!
 ### library(reshape2)
@@ -286,6 +325,8 @@ graphics.off()
 
 # Now combine both histograms in one screen figure:
 
+cbbPalette <- c("#009E73", "#0072B2", "#D55E00", "#CC79A7", "#F0E442", "#000000", "#E69F00")
+
 # Now plot histograms in a single plot
 #colors = c('green', 'blue', 'red', 'black', 'gray', 'cyan2')
 pdf( "../figures/best_voronoi_predictors_of_ER_screen.pdf", width=9, height=4, useDingbats=FALSE )
@@ -294,8 +335,8 @@ split.screen(c(1,2))
 
   screen(1)
   par( mai=c(0.65, 0.65, 0.2, 0.2), mgp=c(2, 0.5, 0), tck=-0.03 )
-  plot( hist.edge$x
-    , hist.edge$y
+  plot( hist.sphericity$x
+    , hist.sphericity$y
     #, col = 'blue'
     ,  col = cbbPalette[[1]]
     ,   xlim = c(0.1,0.85)
@@ -313,33 +354,33 @@ split.screen(c(1,2))
     ,   ylab = 'Relative Frequency'
     )
   mtext('A', side = 3, at=-0.03, font=2, cex=1.2)
-  lines( abs(hist.area$x)
-       , abs(hist.area$y)
+  lines( abs(hist.eccentricity$x)
+       , abs(hist.eccentricity$y)
        #, col = 'green'
        ,  col = cbbPalette[[2]]
        , lwd  = 2
       )
-  lines( abs(hist.volume$x)
-       , abs(hist.volume$y)
+  lines( abs(hist.edge$x)
+       , abs(hist.edge$y)
        #, col = 'red'
        , col = cbbPalette[[3]]
        , lwd  = 2
        )
-  lines( abs(hist.eccentricity$x)
-       , abs(hist.eccentricity$y)
+  lines( abs(hist.volume$x)
+       , abs(hist.volume$y)
        #, col = 'black'
        , col = cbbPalette[[4]]
        , lwd = 2
        )
-  lines( abs(hist.sphericity$x)
-       , abs(hist.sphericity$y)
+  lines( abs(hist.area$x)
+       , abs(hist.area$y)
        #, col = 'black'
        , col = cbbPalette[[5]]
        , lwd = 2
        #, lty = 2
        )
   legend( 'topleft'
-        , c("cell edge length", "cell area", "cell volume", "cell eccentricity", "- cell sphericity")
+        , c( "(-1) x cell sphericity", "cell eccentricity", "cell edge length", "cell volume", "cell area")
         #, col = c('red','black','black','green','blue')
         , col = cbbPalette
         , lty = c(1,1,1,1)
@@ -368,7 +409,7 @@ screen(2)
        #,   main = 'Correlations with Evolutionary Rates'
        #,   xlab = expression(paste('Spearman Cor. with Evolutionary Rates ',rho))
        #,   xlab = expression( paste('Correlation with Evolutionary Rates: Spearman ', rho ) )
-       ,   xlab = 'Correlation with ER'
+       ,   xlab = 'Partial Correlation with ER given Cell Area'
        ,   ylab = 'Relative Frequency'
        )
   mtext('B', side = 3, at=-0.52, font=2, cex=1.2)
@@ -407,6 +448,112 @@ close.screen(all = TRUE)
 
 graphics.off()
 
+
+
+
+#####################################################
+#####################################################
+#####################################################
+#####################################################
+#####################################################
+
+# Now combine the two histograms of best_voronoi_predictors_of_ER_given_volume and best_voronoi_predictors_of_ER into one screen figure:
+
+cbbPalette <- c("#009E73", "#0072B2", "#D55E00", "#000000", "#CC79A7")   # , "#F0E442", "#E69F00")
+#cbbPalette <- c("#009E73", "#0072B2", "#D55E00", "#CC79A7", "#F0E442", "#000000", "#E69F00")
+
+pdf( "../figures/best_voronoi_predictors_of_ER_screen_V.pdf", width=9, height=4, useDingbats=FALSE )
+
+split.screen(c(1,2))
+
+  screen(1)
+  par( mai=c(0.65, 0.65, 0.2, 0.2), mgp=c(2, 0.5, 0), tck=-0.03 )
+  plot( -hist.sphericity$x
+      , hist.sphericity$y
+      ,  col = cbbPalette[[1]]
+      ,   xlim = c(0.1,0.85)
+      ,   ylim = c(0,5.5)
+      ,   type = 'l'
+      ,   lwd  = 2
+      ,   xlab = 'Correlation with ER'
+      ,   ylab = 'Relative Frequency'
+      )
+  mtext('A', side = 3, at=-0.03, font=2, cex=1.2)
+  lines( hist.edge$x
+       , hist.edge$y
+       , col = cbbPalette[[2]]
+       , lwd  = 2
+       )
+
+  lines( hist.eccentricity$x
+       , hist.eccentricity$y
+       ,  col = cbbPalette[[3]]
+       , lwd  = 2
+       )
+  lines( hist.volume$x
+       , hist.volume$y
+       , col = cbbPalette[[4]]
+       , lwd = 2
+       )
+  lines( hist.area$x
+       , hist.area$y
+       , col = cbbPalette[[5]]
+       , lwd = 2
+       )
+  legend( 'topleft'
+        , c( "(-1) x cell sphericity", "cell edge length", "cell eccentricity", "cell volume", "cell area")
+        , col = cbbPalette
+        , lty = c(1,1,1,1,1)
+        , lwd = 2
+        , bty = 'n'
+        , cex = 0.9
+        )
+
+
+screen(2)
+
+  par( mai=c(0.65, 0.65, 0.2, 0.2), mgp=c(2, 0.5, 0), tck=-0.03 )
+  plot(  -hist.r.sph_given_volume$x
+       ,  hist.r.sph_given_volume$y
+       ,  col = cbbPalette[[1]]
+       ,   xlim = c(-0.4,0.4)
+       ,   ylim = c(0,8.5)
+       ,   type = 'l'
+       ,   lwd  = 2 
+       ,   xlab = 'Partial Correlation with ER given Cell Volume'
+       ,   ylab = 'Relative Frequency'
+       )
+  mtext('B', side = 3, at=-0.52, font=2, cex=1.2)
+  
+  lines( hist.r.edg_given_volume$x
+       , hist.r.edg_given_volume$y
+       , col = cbbPalette[[2]]
+       , lwd = 2
+       )
+  lines( hist.r.ecc_given_volume$x
+       , hist.r.ecc_given_volume$y
+       , col = cbbPalette[[3]]
+       , lwd = 2
+       )
+  lines( hist.r.area_given_volume$x
+       , hist.r.area_given_volume$y
+       , col = cbbPalette[[5]]
+       , lwd  = 2
+       )
+  legend( 'topleft'
+        , c( "(-1) x cell sphericity", "cell edge length", "cell eccentricity", "cell area")
+        , col = c(cbbPalette[1:3],cbbPalette[[5]])
+        , lty = c(1,1,1,1)
+        , lwd = 2
+        , bty = 'n'
+        , cex = 0.9
+        )
+
+close.screen(all = TRUE)
+
+graphics.off()
+
+
 ###############################
 ###############################
 ###############################
@@ -425,7 +572,10 @@ best_voronoi_predictors_of_ER_select$sphericity = -best_voronoi_predictors_of_ER
 best_voronoi_predictors_of_ER_long = reshape(best_voronoi_predictors_of_ER_select, direction='long', varying=colnames(best_voronoi_predictors_of_ER_select)[2:ncol(best_voronoi_predictors_of_ER_select)], idvar=c('pdb'), v.names='value', timevar='variable', times=colnames(best_voronoi_predictors_of_ER_select)[2:ncol(best_voronoi_predictors_of_ER_select)])
 best_voronoi_predictors_of_ER_long$variable = factor(best_voronoi_predictors_of_ER_long$variable)
 
-ttest = pairwise.t.test(best_voronoi_predictors_of_ER_long$value,best_voronoi_predictors_of_ER_long$variable)
+ttest = pairwise.t.test(best_voronoi_predictors_of_ER_long$value
+                       ,best_voronoi_predictors_of_ER_long$variable
+                       ,p.adjust.method = "hochberg"
+                       ,paired=TRUE)
 
 pvalues = as.data.frame(ttest$p.value)
 

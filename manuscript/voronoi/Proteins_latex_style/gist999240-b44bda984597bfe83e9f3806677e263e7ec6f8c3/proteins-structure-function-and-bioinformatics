@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" page-range-format="expanded" default-locale="en-US">
+  <info>
+    <title>Proteins: Structure, Function, and Bioinformatics</title>
+    <id>http://www.zotero.org/styles/proteins-structure-function-and-bioinformatics</id>
+    <link href="http://www.zotero.org/styles/proteins-structure-function-and-bioinformatics" rel="self"/>
+    <author>
+      <name>Ian Grant</name>
+      <email>Ian.Grant@bristolalumni.org.uk</email>
+    </author>
+    <rights>This work is licensed under a Creative Commons Attribution-Share Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/</rights>
+    <category citation-format="numeric"/>
+    <category field="biology"/>
+    <category field="generic-base"/>
+    <updated>2011-05-30T20:09:00+00:00</updated>
+    <summary>A style for the Wiley-Liss publication "Proteins: Structure, Function, and Bioinformatics", based on the EndNote style, designed for use with Mendeley.</summary>
+    <issn>1097-0134</issn>
+    <link href="http://onlinelibrary.wiley.com/journal/10.1002/%28ISSN%291097-0134/homepage/ForAuthors.html" rel="documentation"/>
+  </info>
+  
+  <macro name="author">
+    <names variable="author">
+	  <!--
+	   /* Add, e.g. et-al-min="10" et-al-use-first="9" as attributes to the
+	    * following <name> element to truncate author lists.
+	    * I think the official Proteins form is not to truncate, but I have seen
+	    * some long lists truncated with 'and others'.
+	    */
+	   -->
+      <name name-as-sort-order="all"  sort-separator=" " initialize-with="" delimiter=", " delimiter-precedes-last="always"/>
+      <label form="long" prefix=", " suffix="" text-case="lowercase" strip-periods="true"/>
+      <et-al term="and others" prefix=" "/>
+      <substitute>
+      <!--
+       /*
+        * For edited books, which have an editor but not an author, we can
+        * substitute editor for author.
+        */
+       -->
+        <names variable="editor"/> 
+      </substitute>
+    </names>
+  </macro>
+  
+  <macro name="container-author">
+    <names variable="container-author">
+	  <!--
+	   /* Add, e.g. et-al-min="10" et-al-use-first="9" as attributes to the
+	    * following <name> element to truncate author lists.
+	    * I think the official Proteins form is not to truncate, but I have seen
+	    * some long lists truncated with 'and others'.
+	    */
+	   -->
+      <name name-as-sort-order="all"  sort-separator=" " initialize-with="" delimiter=", " delimiter-precedes-last="always"/>
+      <label form="long" prefix=", " suffix="" text-case="lowercase" strip-periods="true"/>
+      <et-al term="and others" prefix=" "/>
+    </names>
+  </macro>
+   
+  <macro name="translator">
+    <names variable="translator">
+      <name name-as-sort-order="all"  sort-separator=" " initialize-with="" delimiter=", " delimiter-precedes-last="always"/>
+      <label form="long" prefix=", " suffix="" text-case="lowercase" strip-periods="true"/>
+      <et-al term="and others" prefix=" "/>
+    </names>
+  </macro>
+  
+  <macro name="editor">
+    <names variable="editor">
+      <name name-as-sort-order="all"  sort-separator=" " initialize-with="" delimiter=", " delimiter-precedes-last="always"/>
+      <label form="long" prefix=", " suffix="" text-case="lowercase" strip-periods="true"/>
+      <et-al term="and others" prefix=" "/>
+    </names>
+  </macro>
+  
+  <macro name="editor-as-assignee">
+    <!-- Note this always appends only the singular form of the 'custom label', 'assignee' -->
+    <names variable="editor" suffix=", assignee">
+      <name name-as-sort-order="all"  sort-separator=" " initialize-with="" delimiter=", " delimiter-precedes-last="always"/>
+      <et-al term="and others" prefix=" "/>
+    </names>
+  </macro>
+    
+  <macro name="series-editor">
+    <names variable="collection-editor">
+      <name name-as-sort-order="all"  sort-separator=" " initialize-with="" delimiter=", " delimiter-precedes-last="always"/>
+      <label form="long" prefix=", " suffix="" text-case="lowercase" strip-periods="true"/>
+      <et-al term="and others" prefix=" "/>
+			<substitute>
+      <!-- 
+       /*
+        * Mendeley doesn't seem to map Series Editor to collection-editor (or to anything else),
+        * so use Editor instead if available.
+        */
+       -->
+        <names variable="editor"/>
+      </substitute>
+    </names>
+  </macro>
+  
+  <citation collapse="citation-number">
+    <sort>
+      <key variable="citation-number"/>
+    </sort>
+    <layout vertical-align="sup" delimiter=", ">
+      <text variable="citation-number"/>
+    </layout>
+  </citation>
+  
+  <bibliography second-field-align="flush" entry-spacing="0">
+    <layout suffix=".">
+      <text variable="citation-number" suffix=". "/>
+      <choose>
+      <!--
+      /*
+       * Mendeley to CSL type mappings:
+       * 
+       *	Bill					=>	bill
+       *	Book					=>	book
+       *	BookSection				=>	chapter
+       *	Case					=>	article
+       *	ComputerProgram			=>	article
+       *	ConferenceProceedings	=>	paper-conference
+       *	EncyclopediaArticle		=>	entry-encyclopedia
+       *	Film					=>	motion_picture
+       *	Hearing					=>	speech
+       *	JournalArticle			=>	article-journal
+       *	MagazineArticle			=>	article-magazine
+       *	NewspaperArticle		=>	article-newspaper
+       *	Patent					=>	patent
+       *	Report					=>	report
+       *	Statue					=>	legislation
+       *	Thesis					=>	thesis
+       *	TelevisionBroadcast		=>	broadcast
+       *	WebPage					=>	webpage
+       *	WorkingPaper			=>	article
+       *
+       * (From: http://www.mendeley.com/blog/research-tutorials/howto-edit-citation-styles-for-use-in-mendeley/#comment-289462)
+       *
+       */
+       -->
+       
+        <!-- JournalArticle -->
+        <if type="article-journal">        
+		  <text macro="author" suffix=". "/>
+		  <text variable="title" suffix=". "/>
+		  <text variable="container-title" form="short" strip-periods="true"/>
+		  <date variable="issued" prefix=" ">
+			<date-part name="year"/>
+		  </date>
+		  <text variable="volume" prefix=";"/>
+		  <text variable="issue" prefix="(" suffix=")"/>
+		  <text variable="page" prefix=":"/>
+        </if>
+        
+        <!-- Book -->
+        <!--
+         /*
+          * Since there's no type in Mendeley for 'Edited Book', let's assume all
+          * regular books have an Author, but Edited Books don't; they only have
+          * and Editor. 
+          */
+        -->
+        <else-if type="book">
+          <!-- For edited books with no author, this macro substitutes editor -->
+          <text macro="author" suffix=". "/>
+          <text variable="title" suffix=". "/>
+          <choose>
+            <if variable="author">
+            </if>
+            <!--
+             /* 
+              * If there's no author, it's an edited book, so the edition and
+              * volume fields apply (to mimic the EndNote Edited Book type),
+              * otherwise don't use them.
+              */
+             --> 
+            <else>
+              <text variable="edition" suffix=" ed. "/>
+		      <text variable="volume" prefix="Volume " suffix=". "/>  
+            </else>
+          </choose>        
+          <text macro="translator" suffix=". "/>
+          <choose>
+            <!--
+             /* 
+              * If there's no author, it's an edited book, so don't repeat the
+              * series editor here, because it can substitute editor for
+              * collection-editor, leading to duplication.
+              */
+             --> 
+            <if variable="author">
+              <text macro="series-editor" suffix=". "/>
+            </if>
+          </choose>
+          <text variable="publisher-place"/>
+          <text variable="publisher" prefix=": "/>
+          <date variable="issued" prefix="; ">
+            <date-part name="year"/>
+          </date>
+          <!-- This should really be 'number-of-pages' but Mendeley just uses the normal Pages field -->
+          <text variable="page" prefix=". " suffix=" p"/>
+        </else-if>
+
+		<!-- Thesis -->
+        <else-if type="thesis">
+          <text macro="author" suffix=". "/>
+		  <text variable="title"/>
+		  <!--
+		    /*
+		     * Mendeley doesn't map Thesis Type to anything, 
+		     * so this doesn't do anything at the moment.
+		     * Also, disabled since 'thesis-type' is invalid
+		     * and thus makes for bad XML and unhappy parsers :(
+		     * Maybe there's hope for the future...
+		     */
+		  <text variable="thesis-type" prefix=" [" suffix="]"/>
+		    -->
+		  <text variable="publisher-place" prefix=". "/>
+		  <text variable="publisher" prefix=": "/>
+		  <date variable="issued" prefix="; ">
+			<date-part name="year"/>
+		  </date>
+		  <!-- This should really be 'number-of-pages' but Mendeley just uses the normal Pages field -->
+		  <text variable="page" prefix=". " suffix=" p"/>
+        </else-if>
+
+		<!-- ConferenceProceedings -->
+        <else-if type="paper-conference">        
+          <text macro="author" suffix=". "/>
+          <text variable="title" suffix=". "/>
+          <group prefix="In: ">
+            <text macro="editor" suffix=". "/>
+            <text variable="container-title"/>
+            <group prefix="; " suffix="; ">
+              <date variable="issued">
+                <date-part name="year"/>
+              </date>
+              <group prefix=" ">
+           		<date variable="issued">
+                  <date-part name="month"/>
+                  <date-part name="day" prefix=" "/>
+                </date>            
+              </group>
+            </group>  
+          </group>       
+          <!-- 'publisher-place' is just the city, not sure how to get anything else, like country, in -->
+          <text variable="publisher-place"/>
+          <text variable="publisher" prefix=". "/>
+          <text variable="page" prefix=". p "/>
+          <!-- Don't know why this is repeated, but that's what the EndNote style looks like -->
+          <text variable="container-title" prefix=". (" suffix=")"/>
+        </else-if>
+
+		<!-- NewspaperArticle -->
+		<else-if type="article-newspaper">
+		  <text macro="author" suffix=". "/>
+		  <text variable="title" suffix=". "/>
+		  <text variable="container-title"/>
+		  <date variable="issued" prefix=" ">
+			<date-part name="year"/>
+		  </date>
+          <date variable="issued" prefix=" ">
+            <date-part name="month" suffix=" "/>
+            <date-part name="day"/>
+          </date>
+		  <text variable="page" prefix=";"/>
+		</else-if>
+
+		<!-- ComputerProgram or WorkingPaper -->
+		<!--
+		  /*
+		   * Mendeley maps both these types to the CSL type 'article', and since
+		   * it also doesn't appear to map the field 'Version' to the CSL variable
+		   * 'version', there doesn't appear to be a way to distinguish them.
+		   * Hence this format blends the Computer Program and Generic formats from EndNote
+		   */
+		-->
+		<else-if type="article">
+		  <text macro="author" suffix=". "/>
+		  <group suffix=". ">
+		    <text variable="title"/>
+		    <!--
+		     /* 'type' will just display 'article' (i.e. the type of record in
+		      * Mendeley) for a computer program, and it's also not a valid
+		      * CSL variable, so disabled for now.
+		      */
+		    <text variable="type" prefix=" [" suffix="]"/>
+		    -->
+		  </group>
+		  <text variable="version" suffix=". "/>
+		  <group prefix="In: ">
+            <text macro="editor" suffix=". "/>
+            <text variable="container-title" suffix=". "/>
+          </group>
+		  <text variable="edition" suffix=" ed. "/>
+		  <text variable="volume" prefix="Volume " suffix=". "/>
+		  <text variable="publisher-place" suffix=": "/>
+		  <text variable="publisher" suffix="; "/>
+		  <date variable="issued">
+			<date-part name="year"/>
+		  </date>
+          <text variable="page" prefix=". p "/>
+        </else-if>
+
+		<!-- BookSection -->
+		<else-if type="chapter">
+		  <text macro="author" suffix=". "/>
+		  <text variable="title" suffix=". "/>
+		  <group prefix="In: ">
+            <text macro="editor" suffix=". "/>
+            <text variable="container-title" suffix=". "/>
+          </group>
+          <text variable="edition" suffix=" ed. "/>
+          <group suffix=". ">
+            <!-- Perhaps Series Number could/should be used here...? -->
+            <text variable="volume" prefix="Volume "/>
+            <!--
+             /*
+              * Mendeley doesn't seem to map anything (such as Series Title...)
+              * to the CSL variable, 'collection-title', so this won't appear
+              */
+            -->
+            <text variable="collection-title" prefix=", "/>
+          </group>
+		  <text variable="publisher-place" suffix=": "/>
+		  <text variable="publisher" suffix="; "/>
+		  <date variable="issued">
+			<date-part name="year"/>
+		  </date>
+          <text variable="page" prefix=". p "/>
+		</else-if>
+		
+		<!-- MagazineArticle -->
+		<else-if type="article-magazine">
+		  <text macro="author" suffix=". "/>
+		  <text variable="title" suffix=". "/>
+		  <text variable="container-title"/>
+		  <date variable="issued" prefix=" ">
+			<date-part name="year"/>
+		  </date>
+          <date variable="issued" prefix=" ">
+            <date-part name="month" suffix=" "/>
+            <date-part name="day"/>
+          </date>
+		  <text variable="page" prefix=":"/>
+		</else-if>
+
+		<!-- Report -->
+		<else-if type="report">
+		  <text macro="author" suffix=". "/>
+		  <text variable="title" suffix=". "/>
+		  <text variable="publisher-place" suffix=": "/>
+		  <!--
+		   /* 
+		    * Mendeley doesn't seem to map its Institution field to any CSL 
+		    * variable. Also, 'institution' is not a valid CSL variable and
+		    * would technically give invalid XML again.
+		    * Given this, I have used 'publisher' here in lieu of a proper
+		    * 'institution'. Sigh.
+		    */
+		   -->		
+		  <text variable="publisher" suffix="; "/>   
+		  <date variable="issued">
+			<date-part name="year"/>
+		  </date>
+		  <date variable="issued" prefix=" ">
+            <date-part name="month" suffix=" "/>
+            <date-part name="day"/>
+          </date>
+          <!--
+           /*
+            * The closest thing to 'Report Number' in Mendeley is just 'Number',
+            * but—again—it doesn't seem to be mapped to any CSL variable (the most
+            * logical of which would be 'number'...
+            */
+           --> 
+          <text variable="number" prefix=". Report nr "/>
+          <!-- This should really be 'number-of-pages' but Mendeley just uses the normal Pages field -->
+          <text variable="page" prefix=". " suffix=" p"/>		
+		</else-if>
+
+		<!-- Film or TelevisionBroadcast -->
+		<!--
+		  /*
+		   * These are the closest thing to the EndNote type 'Audovisual Material'
+		   * given in the Proteins style in EndNote.
+		   */
+		  --> 
+		<else-if type="motion_picture broadcast">
+		  <group suffix=". ">
+		    <text variable="title"/>
+		    <!--
+		      /*
+		       * The EndNote style uses the 'Type' field here, but 'type' is
+		       * not a valid CSL variable.
+		       * Mendeley does seem to output 'type' as the type of record.
+		       * However, 'medium' is probably a suitable replacement here.
+		       */
+		     -->
+		    <text variable="medium" prefix=" [" suffix="]"/>
+		  </group>
+		  <text macro="author" suffix=". "/>		  		
+		  <text variable="publisher-place" suffix=": "/>
+		  <text variable="publisher" suffix="; "/>
+		  <date variable="issued">
+			<date-part name="year"/>
+		  </date>
+		</else-if>
+
+		<!-- Patent -->
+		<else-if type="patent">
+		  <text macro="author" suffix="; "/>
+		  <!--
+		    /*
+		     * Besides not mapping the Assignee field to any CSL variable,
+		     * 'assignee' isn't a valid CSL variable (see a pattern here?),
+		     * so I have substituted the Editor field here, with the
+		     * assignee suffix instead of the usual 'editor(s)'.
+		     */
+		   -->
+		  <text macro="editor-as-assignee" suffix=". "/>
+		  <text variable="title"/>
+		  <!-- 
+		   /* 
+		    * I don't think Mendeley maps the Country field to any CSL variable,
+		    * nor does there appear to be an appropriate one ('publisher-place' is
+		    * usually just city, what if you want them separate?).
+		    * And, of course, 'country' is not a valid CSL variable, so this is
+		    * also disabled for now.
+		    */
+		  <text variable="country" prefix=". "/>
+		  -->
+		  <!--
+           /*
+            * Again, the closest thing to 'Patent Number' in Mendeley is just 'Number',
+            * but—again—it doesn't seem to be mapped to any CSL variable (the most
+            * logical of which would be 'number'...
+            */
+           --> 
+          <text variable="number" prefix=" patent "/>
+		  <date variable="issued" prefix=". ">
+			<date-part name="year"/>
+		  </date>       
+		  <date variable="issued" prefix=" ">
+            <date-part name="month" suffix=" "/>
+            <date-part name="day"/>
+          </date>   
+		</else-if>
+		
+		<!-- Generic / all others -->
+        <else>
+		  <text macro="author" suffix=". "/>
+		  <text variable="title" suffix=". "/>
+		  <group prefix="In: ">
+		    <!-- 'secondary author' -->
+		    <text macro="container-author" suffix=", "/>
+            <text macro="editor" suffix=". "/>
+            <!-- 'secondary title' -->
+            <text variable="container-title" suffix=". "/>
+          </group>
+		  <text variable="edition" suffix=" ed. "/>
+		  <group suffix=". ">
+		    <text variable="volume" prefix="Volume "/>
+		    <!-- tertiary title -->
+		    <text variable="collection-title" prefix=", "/>
+		  </group>
+		  <text variable="publisher-place" suffix=": "/>
+		  <text variable="publisher" suffix="; "/>
+		  <date variable="issued">
+			<date-part name="year"/>
+		  </date>
+          <text variable="page" prefix=". p "/>
+		</else>
+		
+      </choose>
+    </layout>
+  </bibliography>
+</style>

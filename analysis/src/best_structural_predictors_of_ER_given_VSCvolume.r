@@ -62,14 +62,14 @@ for(pdb in levels(res_prop_elj$pdb))
 write.csv(best_structural_predictors_of_ER_given_VSCvolume, file = "../tables/best_structural_predictors_of_ER_given_VSCvolume.csv", row.names=F )
 
 # NOW GENERATE CORRELATIONS HISTOGRAM DATA:
-hist.rsa = density(best_structural_predictors_of_ER_given_VSCvolume$r.rsa.r4sJC)
-hist.wcnSC = density(best_structural_predictors_of_ER_given_VSCvolume$r.wcnSC.r4sJC)
-hist.wcnCA = density(best_structural_predictors_of_ER_given_VSCvolume$r.wcnCA.r4sJC)
-hist.vareaSC = density(best_structural_predictors_of_ER_given_VSCvolume$r.vareaSC.r4sJC)
-hist.ddgent = density(best_structural_predictors_of_ER_given_VSCvolume$r.ddgent.r4sJC)
-hist.bfSC = density(best_structural_predictors_of_ER_given_VSCvolume$r.bfSC.r4sJC)
-hist.hbe = density(best_structural_predictors_of_ER_given_VSCvolume$r.hbe.r4sJC)
-hist.dist = density(best_structural_predictors_of_ER_given_VSCvolume$r.distance.r4sJC)
+hist.Vrsa = density(best_structural_predictors_of_ER_given_VSCvolume$r.rsa.r4sJC)
+hist.VwcnSC = density(best_structural_predictors_of_ER_given_VSCvolume$r.wcnSC.r4sJC)
+hist.VwcnCA = density(best_structural_predictors_of_ER_given_VSCvolume$r.wcnCA.r4sJC)
+hist.VvareaSC = density(best_structural_predictors_of_ER_given_VSCvolume$r.vareaSC.r4sJC)
+hist.Vddgent = density(best_structural_predictors_of_ER_given_VSCvolume$r.ddgent.r4sJC)
+hist.VbfSC = density(best_structural_predictors_of_ER_given_VSCvolume$r.bfSC.r4sJC)
+hist.Vhbe = density(best_structural_predictors_of_ER_given_VSCvolume$r.hbe.r4sJC)
+hist.Vdist = density(best_structural_predictors_of_ER_given_VSCvolume$r.distance.r4sJC)
 
 # Now plot histograms in a single plot
 #colors = c('green', 'blue', 'red', 'black', 'gray', 'cyan2')
@@ -92,40 +92,40 @@ plot(  -5
     ,   xlab = expression( paste('Correlation with Evolutionary Rates: Spearman ', rho ) )
     ,   ylab = 'Relative Frequency'
     )
-lines( -hist.wcnSC$x
-     , hist.wcnSC$y
+lines( -hist.VwcnSC$x
+     , hist.VwcnSC$y
      , col = 'black'
      , lwd = 2
      )
-lines( -hist.wcnCA$x
-       , hist.wcnCA$y
+lines( -hist.VwcnCA$x
+       , hist.VwcnCA$y
        , col = 'black'
        , lwd = 2
        , lty = 2
      )
-lines( hist.bfSC$x
-       , hist.bfSC$y
+lines( hist.VbfSC$x
+       , hist.VbfSC$y
        , col = 'cyan2'
        , lwd = 2
      )
-lines( hist.ddgent$x
-       , hist.ddgent$y
+lines( hist.Vddgent$x
+       , hist.Vddgent$y
        , col = 'green'
        , lwd  = 2
      )
-lines( hist.rsa$x
-       , hist.rsa$y
+lines( hist.Vrsa$x
+       , hist.Vrsa$y
        , col = 'blue'
        , lwd  = 2
      )
-#lines( hist.dist$x
-#       , hist.dist$y
+#lines( hist.Vdist$x
+#       , hist.Vdist$y
 #       , col = 'grey'
 #       , lwd  = 2
 #     )
 
-#lines( -hist.hbe$x
-#     , hist.hbe$y
+#lines( -hist.Vhbe$x
+#     , hist.Vhbe$y
 #     , col = 'grey'
 #     , lwd = 2
 #     )
@@ -133,8 +133,8 @@ lines( hist.rsa$x
 #legend( 'topleft'
 #      , c("Voronoi Cell Area","H-bond strength", "WCN (SC)", "WCN (CA)", "ddG Rate", "Bfactor", "RSA")
 #      , col = c('red','grey','black','black','green','cyan2','blue')
-#lines( -hist.hbe$x
-#     , hist.hbe$y
+#lines( -hist.Vhbe$x
+#     , hist.Vhbe$y
 #     , col = 'grey'
 #     , lwd = 2
 #     )
@@ -207,19 +207,19 @@ plot(  -5
        ,   xlab = expression( paste('Correlation with Evolutionary Rates: Spearman ', rho ) )
        ,   ylab = 'Relative Frequency'
 )
-lines( -hist.wcnSC$x
-       , hist.wcnSC$y
+lines( -hist.VwcnSC$x
+       , hist.VwcnSC$y
        , col = 'black'
        , lwd = 2
 )
-lines( -hist.wcnCA$x
-       , hist.wcnCA$y
+lines( -hist.VwcnCA$x
+       , hist.VwcnCA$y
        , col = 'black'
        , lwd = 2
        , lty = 2
 )
-lines( hist.rsa$x
-       , hist.rsa$y
+lines( hist.Vrsa$x
+       , hist.Vrsa$y
        , col = 'blue'
        , lwd  = 2
 )

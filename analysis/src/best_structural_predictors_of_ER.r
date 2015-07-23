@@ -205,6 +205,113 @@ legend( 'topleft'
 graphics.off()
 
 
+# Generate screen plots for the manuscript:
+source("best_structural_predictors_of_ER_given_VSCvolume.r")
+
+pdf( "../figures/best_structural_predictors_of_ER_screen.pdf", width=9, height=4, useDingbats=FALSE )
+split.screen(c(1,2))
+
+screen(1)
+
+par( mai=c(0.65, 0.65, 0.2, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+plot(  hist.vvolumeSC$x
+       ,  hist.vvolumeSC$y
+       ,   col = 'red'
+       ,   xlim = c(0.1,0.9)
+       ,   ylim = c(0,5.5)
+       ,   type = 'l'
+       ,   lwd  = 2 
+       ,   xlab = "Correlation with ER"
+       ,   ylab = 'Relative Frequency'
+)
+lines( -hist.wcnSC$x
+       , hist.wcnSC$y
+       , col = 'black'
+       , lwd = 2
+)
+lines( -hist.wcnCA$x
+       , hist.wcnCA$y
+       , col = 'black'
+       , lwd = 2
+       , lty = 2
+)
+lines( hist.rsa$x
+       , hist.rsa$y
+       , col = 'blue'
+       , lwd  = 2
+)
+legend( 'topleft'
+        , c("Voronoi Cell Volume (SC)","(-1) x WCN (SC)", "(-1) x WCN (CA)", "RSA")
+        , col = c('red','black','black','blue')
+        , lty = c(1,1,2,1)
+        , lwd = 2
+        , bty = 'n'
+        , cex = 0.9
+)
+mtext('A', side = 3, at=-0.04, font=2, cex=1.2)
+
+screen(2)
+
+par( mai=c(0.65, 0.65, 0.2, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+plot(  -5
+       ,  -5
+       ,   col = 'red'
+       #,   xlim = c(-0.5,0.85)
+       ,   xlim = c(-0.3,0.7)
+       ,   ylim = c(0,4.)
+       #,   col=colors[1]
+       #,   ylim=c(0,7)
+       #,   border = colors[1]
+       #,   lty = 0
+       ,   type = 'l'
+       ,   lwd  = 2 
+       #,   main = 'Correlations with Evolutionary Rates'
+       #,   xlab = expression(paste('Spearman Cor. with Evolutionary Rates ',rho))
+       ,   xlab = "Partial Correlation with ER given Cell Volume"
+       ,   ylab = 'Relative Frequency'
+)
+lines( -hist.VwcnSC$x
+       , hist.VwcnSC$y
+       , col = 'black'
+       , lwd = 2
+)
+lines( -hist.VwcnCA$x
+       , hist.VwcnCA$y
+       , col = 'black'
+       , lwd = 2
+       , lty = 2
+)
+lines( hist.Vrsa$x
+       , hist.Vrsa$y
+       , col = 'blue'
+       , lwd  = 2
+)
+
+legend( 'topleft'
+        , c("(-1) x WCN (SC)", "(-1) x WCN (CA)", "RSA")
+        , col = c('black','black','blue')
+        , lty = c(1,2,1)
+        , lwd = 2
+        , bty = 'n'
+        , cex = 0.9
+)
+mtext('B', side = 3, at=-0.475, font=2, cex=1.2)
+
+close.screen(all = TRUE)
+
+graphics.off()
+
+
+
+
+
+
+
+
+
+
+
+
 # Now summarize the partial data over the entire dataset:
 
 best_structural_predictors_of_ER = read.csv(file = "../tables/best_structural_predictors_of_ER.csv", header=TRUE )
@@ -250,9 +357,16 @@ install.packages('reshape')
 library('reshape')
 best_structural_predictors_of_ER_long = reshape(best_structural_predictors_of_ER, direction='long', varying=colnames(best_structural_predictors_of_ER)[2:ncol(best_structural_predictors_of_ER)], idvar=c('pdb'), v.names='value', timevar='variable', times=colnames(best_structural_predictors_of_ER)[2:ncol(best_structural_predictors_of_ER)])
 best_structural_predictors_of_ER_long$variable = factor(best_structural_predictors_of_ER_long$variable)
+best_structural_predictors_of_ER_long$value[best_structural_predictors_of_ER_long$variable=='r.wcnCA.r4sJC'] = -best_structural_predictors_of_ER_long$value[best_structural_predictors_of_ER_long$variable=='r.wcnCA.r4sJC']
+best_structural_predictors_of_ER_long$value[best_structural_predictors_of_ER_long$variable=='r.wcnSC.r4sJC'] = -best_structural_predictors_of_ER_long$value[best_structural_predictors_of_ER_long$variable=='r.wcnSC.r4sJC']
 
-ttest = pairwise.t.test(best_structural_predictors_of_ER_long$value,best_structural_predictors_of_ER_long$variable)
+ttest = pairwise.t.test(best_structural_predictors_of_ER_long$value
+                       ,best_structural_predictors_of_ER_long$variable
+                       ,p.adjust.method = "hochberg"
+                       ,paired=TRUE
+                       )
 
 pvalues = as.data.frame(ttest$p.value)
 
 write.csv(pvalues, file='../tables/pairwise_t_test.csv')
+
