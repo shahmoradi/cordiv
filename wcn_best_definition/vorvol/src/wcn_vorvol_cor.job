@@ -1,32 +1,32 @@
 cd /home/amir/git/cordiv/wcn_best_definition/vorvol/src/
-ifort wcn_vorvol_cor.f90 -o wcn_vorvol_cor.exe
+ifort -O2 wcn_vorvol_cor.f90 -o wcn_vorvol_cor.exe
 
 for heavy-side weighting function of WCN, using center of mass of side chain coordinates:
-./wcn_vorvol_cor.exe h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../res_prop_voronoiSC.out ../exp_wcnhSC_vorvol.out ../sum_wcnhSC_vorvol.out >& wcnhSC_vorvol.bash_screen &
+./wcn_vorvol_cor.exe h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../properties/res_prop_voronoiSC.out ../exp_wcnhSC_vorvol.out ../sum_wcnhSC_vorvol.out >& wcnhSC_vorvol.bash_screen &
 
 for heavy-side weighting function of WCN, using CA coordinates:
-./wcn_vorvol_cor.exe h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../res_prop_voronoiSC.out ../exp_wcnhCA_vorvol.out ../sum_wcnhCA_vorvol.out >& wcnhCA_vorvol.bash_screen &
+./wcn_vorvol_cor.exe h ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../properties/res_prop_voronoiSC.out ../exp_wcnhCA_vorvol.out ../sum_wcnhCA_vorvol.out >& wcnhCA_vorvol.bash_screen &
 
 
 
 for power-law weighting function of WCN, using center of mass of side chain coordinates:
-./wcn_vorvol_cor.exe p ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../res_prop_voronoiSC.out ../exp_wcnpSC_vorvol.out ../sum_wcnpSC_vorvol.out >& wcnpSC_vorvol.bash_screen &
+./wcn_vorvol_cor.exe p ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../properties/res_prop_voronoiSC.out ../exp_wcnpSC_vorvol.out ../sum_wcnpSC_vorvol.out >& wcnpSC_vorvol.bash_screen &
 
 for power-law weighting function of WCN, using CA coordinates:
-./wcn_vorvol_cor.exe p ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../res_prop_voronoiSC.out ../exp_wcnpCA_vorvol.out ../sum_wcnpCA_vorvol.out >& wcnpCA_vorvol.bash_screen &
+./wcn_vorvol_cor.exe p ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../properties/res_prop_voronoiSC.out ../exp_wcnpCA_vorvol.out ../sum_wcnpCA_vorvol.out >& wcnpCA_vorvol.bash_screen &
 
 
 
 for exponential weighting function of WCN, using center of mass of side chain coordinates:
-./wcn_vorvol_cor.exe e ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../res_prop_voronoiSC.out ../exp_wcneSC_vorvol.out ../sum_wcneSC_vorvol.out >& wcneSC_vorvol.bash_screen &
+./wcn_vorvol_cor.exe e ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../properties/res_prop_voronoiSC.out ../exp_wcneSC_vorvol.out ../sum_wcneSC_vorvol.out >& wcneSC_vorvol.bash_screen &
 
 for exponential weighting function of WCN, using CA coordinates:
-./wcn_vorvol_cor.exe e ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../res_prop_voronoiSC.out ../exp_wcneCA_vorvol.out ../sum_wcneCA_vorvol.out >& wcneCA_vorvol.bash_screen &
+./wcn_vorvol_cor.exe e ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../properties/res_prop_voronoiSC.out ../exp_wcneCA_vorvol.out ../sum_wcneCA_vorvol.out >& wcneCA_vorvol.bash_screen &
 
 
 
 for Gaussian weighting function of WCN, using center of mass of side chain coordinates:
-./wcn_vorvol_cor.exe g ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../res_prop_voronoiSC.out ../exp_wcngSC_vorvol.out ../sum_wcngSC_vorvol.out >& wcngSC_vorvol.bash_screen &
+./wcn_vorvol_cor.exe g ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../properties/res_prop_voronoiSC.out ../exp_wcngSC_vorvol.out ../sum_wcngSC_vorvol.out >& wcngSC_vorvol.bash_screen &
 
 for Gaussian weighting function of WCN, using CA coordinates:
-./wcn_vorvol_cor.exe g ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../res_prop_voronoiSC.out ../exp_wcngCA_vorvol.out ../sum_wcngCA_vorvol.out >& wcngCA_vorvol.bash_screen &
+./wcn_vorvol_cor.exe g ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../properties/res_prop_voronoiSC.out ../exp_wcngCA_vorvol.out ../sum_wcngCA_vorvol.out >& wcngCA_vorvol.bash_screen &
