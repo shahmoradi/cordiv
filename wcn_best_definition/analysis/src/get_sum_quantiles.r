@@ -21,11 +21,13 @@ dflist = list( wcneSC_bfSC     = sum_wcneSC_bfSC
              , wcnhSC_seqent   = sum_wcnhSC_seqent
              , wcnhSC_ddgent   = sum_wcnhSC_ddgent
              , wcnhSC_distance = sum_wcnhSC_distance
+             , wcnhSC_vorvol   = sum_wcnhSC_vorvol
              , wcnpSC_bfSC     = sum_wcnpSC_bfSC  
              , wcnpSC_r4sJC    = sum_wcnpSC_r4sJC 
              , wcnpSC_seqent   = sum_wcnpSC_seqent
              , wcnpSC_ddgent   = sum_wcnpSC_ddgent
              , wcnpSC_distance = sum_wcnpSC_distance
+             , wcnpSC_vorvol   = sum_wcnpSC_vorvol
              , wcneCA_bfSC     = sum_wcneCA_bfCA  
              , wcneCA_r4sJC    = sum_wcneCA_r4sJC 
              , wcneCA_seqent   = sum_wcneCA_seqent
@@ -98,6 +100,7 @@ write.csv( quantiles_rho, file = paste0('../tables/get_quantiles/SPbest_rho_quan
   if (var == "r4") ylab = expression( paste( "Spearman ", rho ," : WCN - r4sJC" ) )
   if (var == "se") ylab = expression( paste( "Spearman ", rho ," : WCN - Seq. Entropy" ) )
   if (var == "di") ylab = expression( paste( "Spearman ", rho ," : WCN - Distance" ) )
+  if (var == "vo") ylab = expression( paste( "Spearman ", rho ," : WCN - Voronoi Vol." ) )
   
   #Plot Average raw Spearman correlation vs. value of free parameter
   pdf( paste0("../figures/get_quantiles/sp_raw/spcor_",names(dflist)[[counter]],".pdf"), width=4.5, height=4, useDingbats=FALSE )
@@ -112,11 +115,11 @@ write.csv( quantiles_rho, file = paste0('../tables/get_quantiles/SPbest_rho_quan
   #lines(predict(uspl,quantiles$parameter),lty=2,lwd=2,col='red')
   graphics.off()
 
-  #counter = 0
-  #best_params = data.frame()
-  #for (dataframe in dflist)
-  #{
-  #  counter = counter + 1
+counter = 0
+best_params = data.frame()
+for (dataframe in dflist)
+{
+  counter = counter + 1
   ###############################################################################
   ###############################################################################
   # Now write out the quantiles for the absolute values of Spearman correlation strengths:

@@ -1,3 +1,7 @@
+! Last update: Amir Shahmoradi, Monday 11:33 PM, January 18 2015, ICES, UT Austin
+
+! Upon reviewer's request I am also adding the option in which the WCN power-law exponent is fixed to alpha=-2, however, I add a cutoff to this.
+
 ! This Fortran program attempts to find the best performing definition and free parameters of the definition of Contact Number as used in my previous work "structural prediction of ER" that results in the highest Spearman correlation between the B-factors of the representative residue atoms in pdb files (on Echave pdb data set) and CN.
 ! GOALS:
 !       -- To see if all structures have approximately the best performing free parameters of the CN definition or not.
