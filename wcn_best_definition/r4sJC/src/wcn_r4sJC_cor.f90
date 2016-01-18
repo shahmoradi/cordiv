@@ -58,6 +58,7 @@ implicit none
   !character(len=100):: wcn_output_format,res_output_format,resnum_output_format
 ! other variables:
   integer                                 :: i,ii,j
+  real*8 :: avg_contribution            ! for model "r": This is the fraction of residues in the whole protein that must be present in the calculation of WCN in order to obtain the best correlations with evolutionary rates. For other models it's zero.
   real*8 :: tstart,tend
 
 ! First get the command line arguments
@@ -121,7 +122,11 @@ implicit none
   open(unit=exp_out_unit,file=trim(adjustl(exp_out)),status='replace')
   write(exp_out_unit,exp_output_format) 'free_parameter',(free_param(i),i=1,nstride)
   open(unit=sum_out_unit,file=trim(adjustl(sum_out)),status='replace')
-  write(sum_out_unit,'(4A20)') 'pdb','free_param_best','sp_cor_best','nres'
+  if (model == "r") then
+    write(sum_out_unit,'(5A20)') 'pdb','free_param_best','avg_contribution','sp_cor_best','nres'
+  else
+    write(sum_out_unit,'(4A20)') 'pdb','free_param_best','sp_cor_best','nres'
+  end if
   
 call cpu_time(tstart)
 do ii = 1,npdb
@@ -142,7 +147,7 @@ do ii = 1,npdb
   end do
   ! now calculate WCN for all values of parameters:
   do i = 1,nstride
-    call wcn_finder(model,free_param(i),nres,crd,wcn)
+    call wcn_finder(model,free_param(i),nres,crd,wcn,avg_contribution)
     ! Now calculate the spearman correlation between wcn and the quantity of interest:
     sp_cor(i) = spear(nres,wcn,r4sJC)
     if (isnan(sp_cor(i)) .or. abs(sp_cor(i)) > 1.d0) sp_cor(i) = 0.d0     ! replace NAN values with zero.
@@ -152,7 +157,11 @@ do ii = 1,npdb
   ! NOW WRITE OUT THE FIRST FOUR LINES OF THE OUTPUT WCN FILE
   write(exp_out_unit,exp_output_format) pdb,(sp_cor(i),i=1,nstride)
   abs_sp_cor = abs(sp_cor)
-  write(sum_out_unit,'(1A20,2F20.3,1I20)') pdb,free_param(maxloc(abs_sp_cor)),sp_cor(maxloc(abs_sp_cor)),nres
+  if (model == "r") then
+    write(sum_out_unit,'(1A20,3F20.3,1I20)') pdb,free_param(maxloc(abs_sp_cor)),avg_contribution,sp_cor(maxloc(abs_sp_cor)),nres
+  else
+    write(sum_out_unit,'(1A20,2F20.3,1I20)') pdb,free_param(maxloc(abs_sp_cor)),sp_cor(maxloc(abs_sp_cor)),nres
+  end if
 
 end do
 call cpu_time(tend)
@@ -171,17 +180,19 @@ end program wcn_r4sJC_cor
 ! This Fortran subroutine takes in the 3D coordinates of a set of atoms. On the output it gives the WCN of all the atoms that were given in the input.
 ! Also in the input variables are the number of residues (nres) and the input model for wcn: h, p, e, g
 
-subroutine wcn_finder(model,free_param,nres,crd,wcn)
+subroutine wcn_finder(model,free_param,nres,crd,wcn,avg_contribution)
   implicit none
   character(len=1), intent(in) :: model
   integer, intent(in)          :: nres
   real*8, intent(in)           :: free_param,crd(3,nres)
   real*8, intent(out)          :: wcn(nres)
+  real*8                       :: contribution(nres),avg_contribution
   integer                      :: i,j
   real*8                       :: distance,free_param_sq
   wcn = 0.d0
   free_param_sq = free_param*free_param
   do i=1,nres
+    contribution(i) = 0.d0
     do j=1,nres
       if (i /= j) then
         distance = sqrt( (crd(1,i)-crd(1,j))**2 + (crd(2,i)-crd(2,j))**2 + (crd(3,i)-crd(3,j))**2 )
@@ -194,11 +205,19 @@ subroutine wcn_finder(model,free_param,nres,crd,wcn)
         elseif (model == 'g') then
           wcn(i) = wcn(i) + exp( -distance*distance/free_param_sq )
         elseif (model == 'r') then
-          if (distance <= free_param) wcn(i) = wcn(i) + 1.d0/(distance*distance)
+          if (distance <= free_param) then
+            wcn(i) = wcn(i) + 1.d0/(distance*distance)
+            contribution(i) = contribution(i) + 1
+          end if
         end if
       end if
     end do
   end do
+  if (model == 'r') then
+    avg_contribution = sum(contribution)/dble(nres*nres)
+  else
+    avg_contribution = 0.d0
+  end if
 end subroutine wcn_finder
 
 !~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
