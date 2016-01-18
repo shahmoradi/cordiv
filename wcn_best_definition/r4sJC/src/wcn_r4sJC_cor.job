@@ -30,3 +30,11 @@ for Gaussian weighting function of WCN, using center of mass of side chain coord
 
 for Gaussian weighting function of WCN, using CA coordinates:
 ./wcn_r4sJC_cor.exe g ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../seq_var_data.in ../exp_wcngCA_r4sJC.out ../sum_wcngCA_r4sJC.out >& wcngCA_r4sJC.bash_screen &
+
+
+
+for power-law weighting function of WCN with cutoff (as requested by the referee), using center of mass of side chain coordinates:
+./wcn_r4sJC_cor.exe r ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_SC.out ../../../seq_var_data.in ../exp_wcnrSC_r4sJC.out ../sum_wcnrSC_r4sJC.out >& wcnrSC_r4sJC.bash_screen &
+
+for power-law weighting function of WCN, using CA coordinates:
+./wcn_r4sJC_cor.exe r ../../../properties/pdb_prop_CO.out ../../../properties/res_crd_bf/crd_bf_CA.out ../../../seq_var_data.in ../exp_wcnrCA_r4sJC.out ../sum_wcnrCA_r4sJC.out >& wcnrCA_r4sJC.bash_screen &

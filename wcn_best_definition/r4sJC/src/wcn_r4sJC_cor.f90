@@ -1,12 +1,13 @@
 ! Last update: Amir Shahmoradi, Monday 11:33 PM, January 18 2015, ICES, UT Austin
 
-! Upon reviewer's request I am also adding the option in which the WCN power-law exponent is fixed to alpha=-2, however, I add a cutoff to this.
+! Upon reviewer's request I am also adding the option in which the WCN power-law exponent is fixed to alpha=-2, however, the weighting is done only for the prescribed cutoff radius. This is sort of similar to Heavise step function weighting, but with power-law weighting for those residues that are included as the neighbors.
+! In honor of the somewhat-anonymous Reviewer, I am naming this contact-number model "r".
 
 ! This Fortran program attempts to find the best performing definition and free parameters of the definition of Contact Number as used in my previous work "structural prediction of ER" that results in the highest Spearman correlation between the B-factors of the representative residue atoms in pdb files (on Echave pdb data set) and CN.
 ! GOALS:
 !       -- To see if all structures have approximately the best performing free parameters of the CN definition or not.
 ! INPUT:
-!       -- CN definition to be used, with weighting options: h (Heaviside step function), p (power-law), e (exponential), g (Gaussian)
+!       -- CN definition to be used, with weighting options: h (Heaviside step function), p (power-law), e (exponential), g  (Gaussian), and r standing or the reviewer's model.
 !       -- Path to the input file pdb_prop_CO.out containing pdb names and number of residues
 !       -- Path to the input representative atomic coordinates and Bfactors (../../../properties/res_crd_bf)
 !       -- Path to the input r4sJC Evolutionary Rates estimates (../../../seq_var_data.in)
@@ -87,6 +88,10 @@ implicit none
     free_param_max = 50.d0
     stride = 0.2d0
   elseif ( model == 'g' ) then
+    free_param_min = 0.d0
+    free_param_max = 50.d0
+    stride = 0.2d0
+  elseif ( model == 'r' ) then
     free_param_min = 0.d0
     free_param_max = 50.d0
     stride = 0.2d0
@@ -188,6 +193,8 @@ subroutine wcn_finder(model,free_param,nres,crd,wcn)
           wcn(i) = wcn(i) + exp( -distance/free_param )
         elseif (model == 'g') then
           wcn(i) = wcn(i) + exp( -distance*distance/free_param_sq )
+        elseif (model == 'r') then
+          if (distance <= free_param) wcn(i) = wcn(i) + 1.d0/(distance*distance)
         end if
       end if
     end do
