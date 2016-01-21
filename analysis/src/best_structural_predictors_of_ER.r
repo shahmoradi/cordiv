@@ -61,6 +61,8 @@ for(pdb in levels(res_prop_elj$pdb))
 
 write.csv(best_structural_predictors_of_ER, file = "../tables/best_structural_predictors_of_ER.csv", row.names=F )
 
+best_structural_predictors_of_ER = read.csv(file = "../tables/best_structural_predictors_of_ER.csv",header=T)
+
 # NOW GENERATE CORRELATIONS HISTOGRAM DATA:
 hist.rsa = density(best_structural_predictors_of_ER$r.rsa.r4sJC)
 hist.wcnSC = density(best_structural_predictors_of_ER$r.wcnSC.r4sJC)
@@ -206,7 +208,18 @@ graphics.off()
 
 
 # Generate screen plots for the manuscript:
-source("best_structural_predictors_of_ER_given_VSCvolume.r")
+#source("best_structural_predictors_of_ER_given_VSCvolume.r")
+# Instead of sourcing, do the following:
+write.csv(best_structural_predictors_of_ER_given_VSCvolume, file = "../tables/best_structural_predictors_of_ER_given_VSCvolume.csv", row.names=F )
+hist.Vrsa = density(best_structural_predictors_of_ER_given_VSCvolume$r.rsa.r4sJC)
+hist.VwcnSC = density(best_structural_predictors_of_ER_given_VSCvolume$r.wcnSC.r4sJC)
+hist.VwcnCA = density(best_structural_predictors_of_ER_given_VSCvolume$r.wcnCA.r4sJC)
+hist.VvareaSC = density(best_structural_predictors_of_ER_given_VSCvolume$r.vareaSC.r4sJC)
+hist.Vddgent = density(best_structural_predictors_of_ER_given_VSCvolume$r.ddgent.r4sJC)
+hist.VbfSC = density(best_structural_predictors_of_ER_given_VSCvolume$r.bfSC.r4sJC)
+hist.Vhbe = density(best_structural_predictors_of_ER_given_VSCvolume$r.hbe.r4sJC)
+hist.Vdist = density(best_structural_predictors_of_ER_given_VSCvolume$r.distance.r4sJC)
+
 
 pdf( "../figures/best_structural_predictors_of_ER_screen.pdf", width=9, height=4, useDingbats=FALSE )
 split.screen(c(1,2))
@@ -216,7 +229,7 @@ screen(1)
 par( mai=c(0.65, 0.65, 0.2, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
 plot(  hist.vvolumeSC$x
        ,  hist.vvolumeSC$y
-       ,   col = 'red'
+       ,   col = 'black'
        ,   xlim = c(0.1,0.9)
        ,   ylim = c(0,5.5)
        ,   type = 'l'
@@ -226,12 +239,12 @@ plot(  hist.vvolumeSC$x
 )
 lines( -hist.wcnSC$x
        , hist.wcnSC$y
-       , col = 'black'
+       , col = 'red'
        , lwd = 2
 )
 lines( -hist.wcnCA$x
        , hist.wcnCA$y
-       , col = 'black'
+       , col = 'red'
        , lwd = 2
        , lty = 2
 )
@@ -242,7 +255,7 @@ lines( hist.rsa$x
 )
 legend( 'topleft'
         , c("Voronoi Cell Volume (SC)","(-1) x WCN (SC)", "(-1) x WCN (CA)", "RSA")
-        , col = c('red','black','black','blue')
+        , col = c('black','red','red','blue')
         , lty = c(1,1,2,1)
         , lwd = 2
         , bty = 'n'
@@ -255,7 +268,7 @@ screen(2)
 par( mai=c(0.65, 0.65, 0.2, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
 plot(  -5
        ,  -5
-       ,   col = 'red'
+       ,   col = 'black'
        #,   xlim = c(-0.5,0.85)
        ,   xlim = c(-0.3,0.7)
        ,   ylim = c(0,4.)
@@ -272,12 +285,12 @@ plot(  -5
 )
 lines( -hist.VwcnSC$x
        , hist.VwcnSC$y
-       , col = 'black'
+       , col = 'red'
        , lwd = 2
 )
 lines( -hist.VwcnCA$x
        , hist.VwcnCA$y
-       , col = 'black'
+       , col = 'red'
        , lwd = 2
        , lty = 2
 )
@@ -289,7 +302,7 @@ lines( hist.Vrsa$x
 
 legend( 'topleft'
         , c("(-1) x WCN (SC)", "(-1) x WCN (CA)", "RSA")
-        , col = c('black','black','blue')
+        , col = c('red','red','blue')
         , lty = c(1,2,1)
         , lwd = 2
         , bty = 'n'

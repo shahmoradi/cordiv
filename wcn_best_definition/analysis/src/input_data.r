@@ -141,6 +141,19 @@ sum_wcnpSC_distance$pdb  = factor(sum_wcnpSC_distance$pdb)
 sum_wcnpSC_vorvol = sum_wcnpSC_vorvol[!(sum_wcnpSC_vorvol$pdb %in% excluded_pdbs),]
 sum_wcnpSC_vorvol$pdb  = factor(sum_wcnpSC_vorvol$pdb)
 
+# Now read data for the new model of WCN suggested by the reviewer:
+sum_wcnrSC_r4sJC   = read.table('../../r4sJC/sum_wcnrSC_r4sJC.out',header=T)
+hist( sum_wcnrSC_r4sJC$free_param_best
+    )
+
+pdf("../figures/WCN_fraction_of_residues_included.pdf", width=4.5, height=4, useDingbats=FALSE )
+hist( sum_wcnrSC_r4sJC$avg_contribution
+    , xlab = "Fraction of Residues Included in WCN Calculation"
+    , ylab = "Number of Proteins"
+    , main = ""
+)
+graphics.off()
+
 ###  plot(test$parameter,abs(test$mean_sp),type='l', col='black', ylim=c(0.,0.9))
 ###  lines(test$parameter,abs(test$median_sp),col='red')
 ###  lines(test$parameter,abs(test$quantile05_sp),col='green')

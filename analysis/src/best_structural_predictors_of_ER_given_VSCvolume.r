@@ -94,25 +94,25 @@ plot(  -5
     )
 lines( -hist.VwcnSC$x
      , hist.VwcnSC$y
-     , col = 'black'
+     , col = 'red'
      , lwd = 2
      )
 lines( -hist.VwcnCA$x
        , hist.VwcnCA$y
-       , col = 'black'
+       , col = 'red'
        , lwd = 2
        , lty = 2
      )
-lines( hist.VbfSC$x
-       , hist.VbfSC$y
-       , col = 'cyan2'
-       , lwd = 2
-     )
-lines( hist.Vddgent$x
-       , hist.Vddgent$y
-       , col = 'green'
-       , lwd  = 2
-     )
+#lines( hist.VbfSC$x
+#       , hist.VbfSC$y
+#       , col = 'cyan2'
+#       , lwd = 2
+#     )
+#lines( hist.Vddgent$x
+#       , hist.Vddgent$y
+#       , col = 'green'
+#       , lwd  = 2
+#     )
 lines( hist.Vrsa$x
        , hist.Vrsa$y
        , col = 'blue'
@@ -141,9 +141,11 @@ lines( hist.Vrsa$x
 
 legend( 'topleft'
       , c(#"Distance from Geometrical Center of Protein","Voronoi Cell Volume (SC)",
-        "1 / WCN (SC)", "1 / WCN (CA)", "B factor (SC)", "ddG Rate", "RSA")
+        #"1 / WCN (SC)", "1 / WCN (CA)", "B factor (SC)", "ddG Rate", "RSA")
+        "1 / WCN (SC)", "1 / WCN (CA)", "RSA")
       , col = c(#'grey','red',
-        'black','black','cyan2','green','blue')
+        #'red','red','cyan2','green','blue')
+        'red','red','blue')
       , lty = c(#1,1,
         1,2,1,1,1)
       , lwd = 2
@@ -152,6 +154,82 @@ legend( 'topleft'
       )
 
 graphics.off()
+
+
+# Now plot the same thing without smoothing:
+
+hist.Vrsa = hist(best_structural_predictors_of_ER_given_VSCvolume$r.rsa.r4sJC)
+hist.VwcnSC = hist(best_structural_predictors_of_ER_given_VSCvolume$r.wcnSC.r4sJC)
+hist.VwcnCA = hist(best_structural_predictors_of_ER_given_VSCvolume$r.wcnCA.r4sJC)
+hist.VvareaSC = hist(best_structural_predictors_of_ER_given_VSCvolume$r.vareaSC.r4sJC)
+hist.Vddgent = hist(best_structural_predictors_of_ER_given_VSCvolume$r.ddgent.r4sJC)
+hist.VbfSC = hist(best_structural_predictors_of_ER_given_VSCvolume$r.bfSC.r4sJC)
+hist.Vhbe = hist(best_structural_predictors_of_ER_given_VSCvolume$r.hbe.r4sJC)
+hist.Vdist = hist(best_structural_predictors_of_ER_given_VSCvolume$r.distance.r4sJC)
+
+# Now plot histograms in a single plot
+#colors = c('green', 'blue', 'red', 'black', 'gray', 'cyan2')
+pdf( "../figures/best_structural_predictors_of_ER_given_VSCvolume.pdf", width=4.5, height=4, useDingbats=FALSE )
+par( mai=c(0.65, 0.65, 0.05, 0.05), mgp=c(2, 0.5, 0), tck=-0.03 )
+plot(  -5
+       ,  -5
+       ,   col = 'red'
+       ,   xlim = c(-0.3,0.7)
+       ,   ylim = c(0,5.)
+       ,   type = 'l'
+       ,   lwd  = 2 
+       ,   xlab = expression( paste('Correlation with Evolutionary Rates: Spearman ', rho ) )
+       ,   ylab = 'Relative Frequency'
+)
+lines( -hist.VwcnSC$mids
+       , hist.VwcnSC$density
+       , col = 'red'
+       , lwd = 2
+)
+lines( -hist.VwcnCA$mids
+       , hist.VwcnCA$density
+       , col = 'red'
+       , lwd = 2
+       , lty = 2
+)
+
+lines( hist.Vrsa$mids
+       , hist.Vrsa$density
+       , col = 'blue'
+       , lwd  = 2
+)
+
+legend( 'topleft'
+        , c("1 / WCN (SC)", "1 / WCN (CA)", "RSA")
+        , col = c('red','red','blue')
+        , lty = c(#1,1,
+          1,2,1,1,1)
+        , lwd = 2
+        , bty = 'n'
+        , cex = 0.9
+        )
+graphics.off()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Now summarize the partial correlations data over the entire dataset:
