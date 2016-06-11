@@ -210,7 +210,7 @@ graphics.off()
 # Generate screen plots for the manuscript:
 #source("best_structural_predictors_of_ER_given_VSCvolume.r")
 # Instead of sourcing, do the following:
-write.csv(best_structural_predictors_of_ER_given_VSCvolume, file = "../tables/best_structural_predictors_of_ER_given_VSCvolume.csv", row.names=F )
+best_structural_predictors_of_ER_given_VSCvolume = read.csv(file = "../tables/best_structural_predictors_of_ER_given_VSCvolume.csv", header=T )
 hist.Vrsa = density(best_structural_predictors_of_ER_given_VSCvolume$r.rsa.r4sJC)
 hist.VwcnSC = density(best_structural_predictors_of_ER_given_VSCvolume$r.wcnSC.r4sJC)
 hist.VwcnCA = density(best_structural_predictors_of_ER_given_VSCvolume$r.wcnCA.r4sJC)

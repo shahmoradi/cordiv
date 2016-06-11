@@ -151,6 +151,7 @@ hist( sum_wcnrSC_r4sJC$avg_contribution
     , xlab = "Fraction of Residues Included in WCN Calculation"
     , ylab = "Number of Proteins"
     , main = ""
+    , density=20
 )
 graphics.off()
 
