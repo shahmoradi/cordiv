@@ -1,0 +1,383 @@
+\begin{thebibliography}{10}
+
+\bibitem{Overingtonetal1992}
+J.~Overington, D.~Donnelly, M.~S. Johnson, A.~Sali, and T.~L. Blundell.
+\newblock Environment-specific amino acid substitution tables: tertiary
+  templates and prediction of protein folds.
+\newblock {\em Protein Sci.}, 1:216--226, 1992.
+
+\bibitem{goldman_assessing_1998}
+N.~Goldman, J.~L. Thorne, and D.~T. Jones.
+\newblock Assessing the impact of secondary structure and solvent accessibility
+  on protein evolution.
+\newblock {\em Genetics}, 149(1):445--458, May 1998.
+
+\bibitem{MirnyShakhnovich1999}
+L.~A. Mirny and E.~I. Shakhnovich.
+\newblock Universally conserved positions in protein folds: reading
+  evolutionary signals about stability, folding kinetics and function.
+\newblock {\em J. Mol. Biol.}, 291:177--196, 1999.
+
+\bibitem{bustamante_solvent_2000}
+C.~D. Bustamante, J.~P. Townsend, and D.~L. Hartl.
+\newblock Solvent accessibility and purifying selection within proteins of
+  escherichia coli and salmonella enterica.
+\newblock {\em Molecular Biology and Evolution}, 17(2):301--308, February 2000.
+
+\bibitem{conant_solvent_2009}
+G.~C. Conant and P.~F. Stadler.
+\newblock Solvent exposure imparts similar selective pressures across a range
+  of yeast proteins.
+\newblock {\em Molecular Biology and Evolution}, 26(5):1155--1161, May 2009.
+
+\bibitem{franzosa_structural_2009}
+E.~A. Franzosa and Y.~Xia.
+\newblock Structural determinants of protein evolution are context-sensitive at
+  the residue level.
+\newblock {\em Molecular Biology and Evolution}, 26(10):2387--2395, October
+  2009.
+
+\bibitem{ramsey_relationship_2011}
+D.~C. Ramsey, M.~P. Scherrer, T.~Zhou, and C.~O. Wilke.
+\newblock The relationship between relative solvent accessibility and
+  evolutionary rate in protein evolution.
+\newblock {\em Genetics}, 188(2):479--488, June 2011.
+
+\bibitem{scherrer_modeling_2012}
+M.~P. Scherrer, A.~G. Meyer, and C.~O. Wilke.
+\newblock Modeling coding-sequence evolution within the context of residue
+  solvent accessibility.
+\newblock {\em BMC Evolutionary Biology}, 12(1):179, September 2012.
+
+\bibitem{meyer_integrating_2013}
+A.~G. Meyer and C.~O. Wilke.
+\newblock Integrating sequence variation and protein structure to identify
+  sites under selection.
+\newblock {\em Molecular Biology and Evolution}, 30(1):36--44, January 2013.
+
+\bibitem{meyer_cross_species_2013}
+A.~G. Meyer, E.~T. Dawson, and C.~O. Wilke.
+\newblock Cross-species comparison of site-specific evolutionary-rate variation
+  in influenza haemagglutinin.
+\newblock {\em Philosophical Transactions of the Royal Society of London B:
+  Biological Sciences}, 368(1614):20120334, March 2013.
+
+\bibitem{yeh_site-specific_2014}
+S.~W. Yeh, J.~W. Liu, S.~H. Yu, C.~H. Shih, J.~K. Hwang, and J.~Echave.
+\newblock Site-specific structural constraints on protein sequence evolutionary
+  divergence: local packing density versus solvent exposure.
+\newblock {\em Molecular Biology and Evolution}, 31(1):135--139, January 2014.
+
+\bibitem{yeh_local_2014}
+S.~W. Yeh, T.~T. Huang, J.~W. Liu, S.~H. Yu, C.~H. Shih, J.~K. Hwang, and
+  J.~Echave.
+\newblock Local packing density is the main structural determinant of the rate
+  of protein sequence evolution at site level.
+\newblock {\em BioMed Research International}, 2014:e572409, July 2014.
+
+\bibitem{shahmoradi_predicting_2014}
+A.~Shahmoradi, D.~K. Sydykova, S.~J. Spielman, E.~L. Jackson, E.~T. Dawson,
+  A.~G. Meyer, and C.~O. Wilke.
+\newblock Predicting evolutionary site variability from structure in viral
+  proteins: buriedness, packing, flexibility, and design.
+\newblock {\em Journal of Molecular Evolution}, 79(3-4):130--142, September
+  2014.
+
+\bibitem{sikosek_biophysics_2014}
+T.~Sikosek and H.~S. Chan.
+\newblock Biophysics of protein evolution and evolutionary protein biophysics.
+\newblock {\em Journal of The Royal Society Interface}, 11(100):20140419,
+  November 2014.
+
+\bibitem{meyer_geometric_2015}
+A.~G. Meyer and C.~O. Wilke.
+\newblock Geometric constraints dominate the antigenic evolution of influenza
+  h3n2 hemagglutinin.
+\newblock {\em PLOS Pathogens}, 11:e1004940, 2015.
+
+\bibitem{rodionov_sequence_1998}
+M.~A. Rodionov and T.~L. Blundell.
+\newblock Sequence and structure conservation in a protein core.
+\newblock {\em Proteins: Structure, Function, and Bioinformatics},
+  33(3):358--366, November 1998.
+
+\bibitem{hamelryck_amino_2005}
+T.~Hamelryck.
+\newblock An amino acid has two sides: A new 2d measure provides a different
+  view of solvent exposure.
+\newblock {\em Proteins: Structure, Function, and Bioinformatics},
+  59(1):38--48, April 2005.
+
+\bibitem{liao_protein_2005}
+H.~Liao, W.~Yeh, D.~Chiang, R.~L. Jernigan, and B.~Lustig.
+\newblock Protein sequence entropy is closely related to packing density and
+  hydrophobicity.
+\newblock {\em Protein engineering, design \& selection : PEDS}, 18(2):59--64,
+  February 2005.
+
+\bibitem{bloom_structural_2006}
+J.~D. Bloom, D.~A. Drummond, F.~H. Arnold, and C.~O. Wilke.
+\newblock Structural determinants of the rate of protein evolution in yeast.
+\newblock {\em Molecular Biology and Evolution}, 23(9):1751--1761, September
+  2006.
+
+\bibitem{huang_mechanistic_2014}
+T.~T. Huang, M.~L. Marcos, J.~K. Hwang, and J.~Echave.
+\newblock A mechanistic stress model of protein evolution accounts for
+  site-specific evolutionary rates and their relationship with packing density
+  and flexibility.
+\newblock {\em BMC Evolutionary Biology}, 14(1):78, April 2014.
+
+\bibitem{marcos_too_2015}
+M.~L. Marcos and J.~Echave.
+\newblock Too packed to change: side-chain packing and site-specific
+  substitution rates in protein evolution.
+\newblock {\em PeerJ}, 3:e911, April 2015.
+
+\bibitem{DokholyanShakhnovich2001}
+N.~V. Dokholyan and E.~I. Shakhnovich.
+\newblock Understanding hierarchical protein evolution from first principles.
+\newblock {\em J. Mol. Biol.}, 312:289--307, 2001.
+
+\bibitem{Liberlesetal2012}
+D.~A. Liberles, S.~A. Teichmann, I.~Bahar, U.~Bastolla, J.~Bloom,
+  E.~{Bornberg‐Bauer}, L.~J. Colwell, A.~P.~J. {de Koning}, N.~V. Dokholyan,
+  J.~Echave, A.~Elofsson, D.~L. Gerloff, R.~A. Goldstein, J.~A. Grahnen, M.~T.
+  Holder, C.~Lakner, N.~Lartillot, S.~C. Lovell, G.~Naylor, T.~Perica, D.~D.
+  Pollock, T.~Pupko, L.~Regan, A.~Roger, N.~Rubinstein, E.~Shakhnovich,
+  K.~Sj\"o{}lander, S.~Sunyaev, A.~I. Teufel, J.~L. Thorne, J.~W. Thornton,
+  D.~M. Weinreich, and S.~Whelan.
+\newblock The interface of protein structure, protein biophysics, and molecular
+  evolution.
+\newblock {\em Protein Sci.}, 21:769--785, 2012.
+
+\bibitem{echave_relationship_2014}
+J.~Echave, E.~L. Jackson, and C.~O. Wilke.
+\newblock Relationship between protein thermodynamic constraints and variation
+  of evolutionary rates among sites.
+\newblock {\em Phys. Biol.}, 12:025002, 2015.
+
+\bibitem{Dasmehetal2014}
+P.~Dasmeh, A.~W.~R. Serohijos, K.~P. Kepp, and E.~I. Shakhnovich.
+\newblock The influence of selection for protein stability on {$dN/dS$}
+  estimations.
+\newblock {\em Genome Biol. Evol.}, 6:2956--2967, 2014.
+
+\bibitem{england_structural_2003}
+J.~L. England and E.~I. Shakhnovich.
+\newblock Structural determinant of protein designability.
+\newblock {\em Physical Review Letters}, 90(21):218101, May 2003.
+
+\bibitem{Jacksonetal2013}
+E.~L. Jackson, N.~Ollikainen, A.~W. Covert~III, T.~Kortemme, and C.~O. Wilke.
+\newblock Amino-acid site variability among natural and designed proteins.
+\newblock {\em PeerJ}, 1:e211, 2013.
+
+\bibitem{shih_evolutionary_2012}
+C.~H. Shih, C.~M. Chang, Y.~S. Lin, W.~C. Lo, and J.~K. Hwang.
+\newblock Evolutionary information hidden in a single protein structure.
+\newblock {\em Proteins: Structure, Function, and Bioinformatics},
+  80(6):1647--1657, June 2012.
+
+\bibitem{liu_sequence_2012}
+Y.~Liu and I.~Bahar.
+\newblock Sequence evolution correlates with structural dynamics.
+\newblock {\em Molecular Biology and Evolution}, 29(9):2253--2263, September
+  2012.
+
+\bibitem{fuglebakk_measuring_2012}
+E.~Fuglebakk, J.~Echave, and N.~Reuter.
+\newblock Measuring and comparing structural fluctuation patterns in large
+  protein datasets.
+\newblock {\em Bioinformatics}, 28(19):2431--2440, October 2012.
+
+\bibitem{carvalho_comparison_2015}
+H.~F. Carvalho, A.~C.~A. Roque, O.~Iranzo, and R.~J.~F. Branco.
+\newblock Comparison of the internal dynamics of metalloproteases provides new
+  insights on their function and evolution.
+\newblock {\em PLoS ONE}, 10(9):e0138118, September 2015.
+
+\bibitem{echave_causes_2016}
+J.~Echave, S.~J. Spielman, and C.~O. Wilke.
+\newblock Causes of evolutionary rate variation among protein sites.
+\newblock {\em Nature Reviews Genetics}, 17:109--121, 2016.
+
+\bibitem{plaxco_contact_1998}
+K.~W. Plaxco, K.~T. Simons, and D.~Baker.
+\newblock Contact order, transition state placement and the refolding rates of
+  single domain proteins.
+\newblock {\em Journal of Molecular Biology}, 277(4):985--994, April 1998.
+
+\bibitem{lai_sequence_2015}
+J.~K. Lai, G.~S. Kubelka, and J.~Kubelka.
+\newblock Sequence, structure, and cooperativity in folding of elementary
+  protein structural motifs.
+\newblock {\em Proceedings of the National Academy of Sciences},
+  112(32):9890--9895, August 2015.
+
+\bibitem{porter_catalytic_2004}
+C.~T. Porter, G.~J. Bartlett, and J.~M. Thornton.
+\newblock The catalytic site atlas: a resource of catalytic sites and residues
+  identified in enzymes using structural data.
+\newblock {\em Nucleic Acids Research}, 32(suppl 1):D129--D133, January 2004.
+
+\bibitem{webb_enzyme_1992}
+E.~C. Webb.
+\newblock Enzyme nomenclature 1992. recommendations of the nomenclature
+  committee of the international union of biochemistry and molecular biology on
+  the nomenclature and classification of enzymess.
+\newblock (Ed. 6):xiii + 863 pp., 1992.
+
+\bibitem{murzin_scop:_1995}
+A.~G. Murzin, S.~E. Brenner, T.~Hubbard, and C.~Chothia.
+\newblock Scop: A structural classification of proteins database for the
+  investigation of sequences and structures.
+\newblock {\em Journal of Molecular Biology}, 247(4):536--540, April 1995.
+
+\bibitem{mayrose_comparison_2004}
+I.~Mayrose, D.~Graur, N.~Ben-Tal, and T.~Pupko.
+\newblock Comparison of site-specific rate-inference methods for protein
+  sequences: empirical bayesian methods are superior.
+\newblock {\em Molecular Biology and Evolution}, 21(9):1781--1791, September
+  2004.
+
+\bibitem{kabsch_dictionary_1983}
+W.~Kabsch and C.~Sander.
+\newblock Dictionary of protein secondary structure: Pattern recognition of
+  hydrogen-bonded and geometrical features.
+\newblock {\em Biopolymers}, 22(12):2577--2637, December 1983.
+
+\bibitem{tien_maximum_2013}
+M.~Z. Tien, A.~G. Meyer, D.~K. Sydykova, S.~J. Spielman, and C.~O. Wilke.
+\newblock Maximum allowed solvent accessibilites of residues in proteins.
+\newblock {\em PLoS ONE}, 8(11):e80635, November 2013.
+
+\bibitem{rycroft_voro++:_2009}
+C.~H. Rycroft.
+\newblock Voro++: A three-dimensional voronoi cell library in c++.
+\newblock {\em Chaos: An Interdisciplinary Journal of Nonlinear Science},
+  19(4):041111, December 2009.
+
+\bibitem{ihaka1998r}
+Ross Ihaka.
+\newblock R: Past and future history.
+\newblock {\em Technical Report}, 1998.
+
+\bibitem{kim_understanding_2006}
+S.~H. Kim and S.~V. Yi.
+\newblock Understanding relationship between sequence and functional evolution
+  in yeast proteins.
+\newblock {\em Genetica}, 131(2):151--156, December 2006.
+
+\bibitem{lin_deriving_2008}
+C.~P. Lin, S.~W. Huang, Y.~L. Lai, S.~C. Yen, C.~H. Shih, C.~H. Lu, C.~C.
+  Huang, and J.~K. Hwang.
+\newblock Deriving protein dynamical properties from weighted protein contact
+  number.
+\newblock {\em Proteins: Structure, Function, and Bioinformatics},
+  72(3):929--935, August 2008.
+
+\bibitem{weng_molecular_2014}
+Molecular dynamics simulation of membrane proteins.
+\newblock Advances in {Experimental Medicine} and {Biology}.
+
+\bibitem{yang_protein_2009}
+L.~Yang, G.~Song, and R.~L. Jernigan.
+\newblock Protein elastic network models and the ranges of cooperativity.
+\newblock {\em Proceedings of the National Academy of Sciences},
+  106(30):12347--12352, July 2009.
+
+\bibitem{richards_interpretation_1974}
+F.~M. Richards.
+\newblock The interpretation of protein structures: Total volume, group volume
+  distributions and packing density.
+\newblock {\em Journal of Molecular Biology}, 82(1):1--14, January 1974.
+
+\bibitem{gerstein_volume_1994}
+M.~Gerstein, E.~L.~L. Sonnhammer, and C.~Chothia.
+\newblock Volume changes in protein evolution.
+\newblock {\em Journal of Molecular Biology}, 236(4):1067--1078, March 1994.
+
+\bibitem{zomorodian_geometric_2006}
+A.~Zomorodian, L.~Guibas, and P.~Koehl.
+\newblock Geometric filtering of pairwise atomic interactions applied to the
+  design of efficient statistical potentials.
+\newblock {\em Computer Aided Geometric Design}, 23(6):531--544, August 2006.
+
+\bibitem{zhou_alpha_2014}
+W.~Zhou and H.~Yan.
+\newblock Alpha shape and delaunay triangulation in studies of protein-related
+  interactions.
+\newblock {\em Briefings in Bioinformatics}, 15(1):54--64, January 2014.
+
+\bibitem{xia_identifying_2014}
+F.~Xia, D.~Tong, L.~Yang, D.~Wang, S.~C.~H. Hoi, P.~Koehl, and L.~Lu.
+\newblock Identifying essential pairwise interactions in elastic network model
+  using the alpha shape theory.
+\newblock {\em Journal of Computational Chemistry}, 35(15):1111--1121, May
+  2014.
+
+\bibitem{jones_rapid_1992}
+D.~T. Jones, W.~R. Taylor, and J.~M. Thornton.
+\newblock The rapid generation of mutation data matrices from protein
+  sequences.
+\newblock {\em Computer applications in the biosciences : CABIOS},
+  8(3):275--282, June 1992.
+
+\bibitem{WhelanGoldman2001}
+S.~Whelan and N.~Goldman.
+\newblock A general empirical model of protein evolution derived from multiple
+  protein families using a maximum-likelihood approach.
+\newblock {\em Mol. Biol. Evol.}, 18:691--699, 2001.
+
+\bibitem{LeGascuel2008}
+S.~Q. Le and O.~Gascuel.
+\newblock An improved general amino acid replacement matrix.
+\newblock {\em Mol. Biol. Evol.}, 25:1307--1320, 2008.
+
+\bibitem{Deanetal2002}
+A.~M. Dean, C.~Neuhauser, E.~Grenier, and G.~B. Golding.
+\newblock The pattern of amino acid replacements in $\alpha$/$\beta$-barrels.
+\newblock {\em Mol. Biol. Evol.}, 19:1846--1864, 2002.
+
+\bibitem{Abriataetal2015}
+L.~A Abriata, T.~Palzkill, and M.~Dal~Peraro.
+\newblock How structural and physicochemical determinants shape sequence
+  constraints in a functional enzyme.
+\newblock {\em PLOS ONE}, 10:e0118684, 2015.
+
+\bibitem{dehouck_effective_2013}
+Y.~Dehouck and A.~S. Mikhailov.
+\newblock Effective harmonic potentials: Insights into the internal
+  cooperativity and sequence-specificity of protein dynamics.
+\newblock {\em PLoS Computational Biology}, 9:3209, August 2013.
+
+\bibitem{xia_correlation_2015}
+K.~Xia, K.~Opron, and G.~W. Wei.
+\newblock Correlation function based gaussian network models.
+\newblock {\em arXiv:1503.05927 [q-bio]}, March 2015.
+\newblock arXiv: 1503.05927.
+
+\bibitem{xia_multiscale_2015}
+K.~Xia, K.~Opron, and G.~W. Wei.
+\newblock Multiscale gaussian network model (mgnm) and multiscale anisotropic
+  network model (manm).
+\newblock {\em The Journal of Chemical Physics}, 143(20):204106, November 2015.
+
+\bibitem{Halabietal2009}
+N.~Halabi, O.~Rivoire, S.~Leibler, and R.~Ranganathan.
+\newblock Protein sectors: Evolutionary units of three-dimensional structure.
+\newblock {\em Cell}, 138:774--786, 2009.
+
+\bibitem{soyer_voronoi_2000}
+A.~Soyer, J.~Chomilier, J.~P. Mornon, R.~Jullien, and J.~F. Sadoc.
+\newblock Voronoi tessellation reveals the condensed matter character of folded
+  proteins.
+\newblock {\em Physical Review Letters}, 85(16):3532--3535, October 2000.
+
+\bibitem{hochberg_sharper_1988}
+Y.~Hochberg.
+\newblock A sharper bonferroni procedure for multiple tests of significance.
+\newblock {\em Biometrika}, 75(4):800--802, December 1988.
+
+\end{thebibliography}
