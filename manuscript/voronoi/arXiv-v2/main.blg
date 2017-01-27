@@ -1,0 +1,15 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: main.aux
+The style file: unsrt.bst
+Database file #1: main.bib
+I was expecting a `,' or a `}'---line 511 of file main.bib
+ :  
+ :  pages = {e0138118}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--empty journal in webb_enzyme_1992
+Warning--there's a number but no volume in webb_enzyme_1992
+Warning--empty author in weng_molecular_2014
+Warning--empty booktitle in weng_molecular_2014
+Warning--empty publisher in weng_molecular_2014
+Warning--empty year in weng_molecular_2014
+(There was 1 error message)
